@@ -29,6 +29,7 @@ export default function Test() {
   }, []);
 
   return (
+    <div>
     <PageWrapper title="Testside">
       <div className="mt-3">
         <h2>Database Test</h2>
@@ -56,5 +57,6 @@ export default function Test() {
         )}
       </div>
     </PageWrapper>
+    </div>
   );
 }
