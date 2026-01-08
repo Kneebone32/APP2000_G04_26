@@ -24,6 +24,7 @@ export default function App() {
             <Route path="/fellesturer" element={<Fellesturer />} />
             <Route path="/annonser" element={<Annonser />} />
             <Route path="/profil" element={<Profil />} />
+            <Route path="/test-db" element={<Test />} />
           </Routes>
         </main>
       </div>
