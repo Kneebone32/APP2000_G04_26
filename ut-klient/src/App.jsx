@@ -8,6 +8,7 @@ import Kart from "./pages/Kart";
 import Fellesturer from "./pages/Fellesturer";
 import Annonser from "./pages/Annonser";
 import Profil from "./pages/Profil";
+import Test from "./pages/Test";
 
 export default function App() {
   return (
