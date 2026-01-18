@@ -4,10 +4,12 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Turer from "./pages/Turer";
 import Hytter from "./pages/Hytter";
+import HytteDetaljer from "./pages/HytteDetaljer";
 import Kart from "./pages/Kart";
 import Fellesturer from "./pages/Fellesturer";
 import Annonser from "./pages/Annonser";
 import Profil from "./pages/Profil";
+import Feilside from "./pages/Feilside";
 import Test from "./pages/Test";
 
 export default function App() {
@@ -21,10 +23,12 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/turer" element={<Turer />} />
             <Route path="/hytter" element={<Hytter />} />
+            <Route path="/hytter/:hytteId" element={<HytteDetaljer />} />
             <Route path="/kart" element={<Kart />} />
             <Route path="/fellesturer" element={<Fellesturer />} />
             <Route path="/annonser" element={<Annonser />} />
             <Route path="/profil" element={<Profil />} />
+            <Route path="*" element={<Feilside />} />
             <Route path="/api/test-db" element={<Test />} />
           </Routes>
         </main>

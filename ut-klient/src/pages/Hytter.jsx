@@ -1,5 +1,63 @@
 import PageWrapper from "../components/PageWrapper";
+import HytteKort from "../components/HytteKort";
+import { useState, useEffect } from "react";
 
 export default function Hytter() {
-  return <PageWrapper title="Nettside for hytter" />;
+  const [hytter, setHytter]  = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+    useEffect(() => {
+    const fetchHytter = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter`);
+
+        if(!response.ok) {
+          setError(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setHytter(data);
+        
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHytter();
+  }, []);
+  
+  
+  return (
+    <PageWrapper title="Hytter">
+      <div className="mt-3">
+        <h2>Hytter</h2>
+
+        {loading && <p>Laster hytter...</p>}
+
+        {error && (
+          console.log(`Error: ${error}`)
+        )}
+
+        {!loading && !error && hytter.length === 0 && (
+          <p>Ingen hytter funnet.</p>
+        )}
+
+        {!loading && !error && hytter.length > 0 && (
+          <div className="row">
+            {hytter.map((hytte) =>(
+              <HytteKort
+                key={hytte.hytteId}
+                hytteId={hytte.hytteId}
+                hytteNavn={hytte.hytteNavn}
+                antRom={hytte.antRom}
+                />
+            ))}
+      </div>
+        )}
+      </div>
+    </PageWrapper>
+  )
 }
