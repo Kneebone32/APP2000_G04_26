@@ -49,10 +49,10 @@ export default function Hytter() {
           <div className="row">
             {hytter.map((hytte) =>(
               <HytteKort
-                key={hytte.hytteid}
-                hytteId={hytte.hytteid}
-                hytteNavn={hytte.hyttenavn}
-                antRom={hytte.antrom}
+                key={hytte.id}
+                hytteId={hytte.id}
+                hytteNavn={hytte.navn}
+                sengeplasser={hytte.sengeplasser}
                 />
             ))}
       </div>

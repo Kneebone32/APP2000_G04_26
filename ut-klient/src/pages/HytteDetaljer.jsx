@@ -19,6 +19,7 @@ export default function HytteDetaljer() {
         }
 
         const data = await response.json();
+        console.log(data);
         setHytte(data);
         
       } catch (err) {
@@ -32,7 +33,7 @@ export default function HytteDetaljer() {
   }, [hytteId]);
 
   return (
-    <PageWrapper title={hytte ? hytte.hytteNavn : "Hyttedetaljer"}>
+    <PageWrapper title={hytte ? hytte.navn : "Hyttedetaljer"}>
       <div className="mt-3">
         <button 
           className="btn btn-secondary mb-3" 
@@ -49,9 +50,35 @@ export default function HytteDetaljer() {
 
         {!loading && !error && hytte && (
           <div>
-            <h2>{hytte.hytteNavn}</h2>
-            <p><strong>Antall rom:</strong> {hytte.antRom}</p>
-            <p><strong>Lokasjon:</strong> {hytte.lokasjon}</p>
+            <h2>{hytte.navn}</h2>
+            <p><strong>Antall sengeplasser:</strong> {hytte.sengeplasser}</p>
+            <p><strong>Lokasjon:</strong> {hytte.område}</p>
+            <p><strong>Betjeningsgrad:</strong> {hytte.betjeningsgrad}</p>
+            
+            <p><strong>Adkomst: </strong>
+              {hytte.adkomst?.map((item, index) => (
+                <span key={index} className="badge bg-success me-2">{item}</span>
+              ))}
+            </p> 
+
+            <p><strong>Passer for: </strong>
+              {hytte.passerfor?.map((item, index) => (
+                <span key={index} className="badge bg-success me-2">{item}</span>
+              ))}
+                </p>
+
+            <p><strong>Tilgjengelighet: </strong>
+              {hytte.tilgjengelighet?.map((item, index) => (
+                <span key={index} className="badge bg-success me-2">{item}</span>
+              ))}
+            </p> 
+
+            <p><strong>Flere filter: </strong>
+              {hytte.flerefilter?.map((item, index) => (
+                <span key={index} className="badge bg-success me-2">{item}</span>
+              ))}
+            </p> 
+
           </div>
         )}
 
