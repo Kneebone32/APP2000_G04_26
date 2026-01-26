@@ -6,11 +6,12 @@ export default function Profil() {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className="profil-container">
       <PageWrapper title="Nettside for profil" />
       <button 
-      className="AdminKnapp"
-      onClick={() => navigate('/admin')}>
+        className="AdminKnapp"
+        onClick={() => navigate('/admin')}
+      >
         Gå til Admin Panel
       </button>
     </div>
