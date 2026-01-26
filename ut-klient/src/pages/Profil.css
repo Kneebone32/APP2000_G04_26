@@ -1,4 +1,8 @@
-.AdminKnapp {
+.profil-container {
+    padding: 20px;
+}
+
+.profil-container .AdminKnapp {
     border-radius: 10px;
     border: 0.25px solid black;
     box-shadow: 5px 5px 5px hsla(0, 0%, 0%, 0.1);
@@ -7,9 +11,12 @@
     background-color: rgb(251, 250, 250);
     text-align: center;
     font-weight: bold;
+    cursor: pointer;
+    margin-top: 80px;
+    margin-left: 10px;
 }
 
-.AdminKnapp:hover {
+.profil-container .AdminKnapp:hover {
     box-shadow: 8px 8px 15px hsla(0, 0%, 0%, 0.2);
     border: 2px solid rgb(123, 157, 123);
 }

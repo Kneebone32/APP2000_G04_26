@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useFetchHytter } from "../hooks/useFetchHytter";
+import './Admin.css';
 
 export default function Admin() {
     const { hytter, loading, refetch } = useFetchHytter(true);
@@ -92,7 +93,7 @@ export default function Admin() {
     );
 
     return (
-        <div>
+        <div className="AdminPanel">
             <h1>Admin Panel</h1>
             
             <div>
