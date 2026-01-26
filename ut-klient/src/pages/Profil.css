@@ -12,6 +12,7 @@
     text-align: center;
     font-weight: bold;
     cursor: pointer;
+    top: 70px;
 }
 
 .profil-container .AdminKnapp:hover {
