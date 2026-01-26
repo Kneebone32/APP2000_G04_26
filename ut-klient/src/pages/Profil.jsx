@@ -1,5 +1,6 @@
 import PageWrapper from "../components/PageWrapper";
 import { useNavigate } from "react-router-dom";
+import '/.Profil.css';
 
 export default function Profil() {
   const navigate = useNavigate();
@@ -7,7 +8,9 @@ export default function Profil() {
   return (
     <div>
       <PageWrapper title="Nettside for profil" />
-      <button onClick={() => navigate('/admin')}>
+      <button 
+      className="AdminKnapp"
+      onClick={() => navigate('/admin')}>
         Gå til Admin Panel
       </button>
     </div>

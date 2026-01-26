@@ -1,0 +1,10 @@
+.AdminKnapp {
+    border-radius: 10px;
+    border: 0.25px solid black;
+    box-shadow: 5px 5px 5px hsla(0, 0%, 0%, 0.1);
+    padding: 10px;
+    margin: 5px;
+    background-color: rgb(251, 250, 250);
+    text-align: center;
+    font-weight: bold;
+}
