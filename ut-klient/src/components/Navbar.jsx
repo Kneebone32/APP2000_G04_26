@@ -1,22 +1,21 @@
 import { Link } from "react-router-dom";
+import './Navbar.css'
 
 export default function Navbar() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-success">
-      <div className="container-fluid">
-        <Link to="/" className="navbar-brand fw-bold">UT.ut</Link>
+    <header className="header">
+        <Link to="/" className="logo">UT.ut</Link>
         
         
-          <div className="navbar-nav ms-auto">
-            <Link to="/turer" className="nav-link text-white">Turer</Link>
-            <Link to="/hytter" className="nav-link text-white">Hytter</Link>
-            <Link to="/kart" className="nav-link text-white">Kart</Link>
-            <Link to="/fellesturer" className="nav-link text-white">Fellesturer</Link>
-            <Link to="/annonser" className="nav-link text-white">Annonser</Link>
-            <Link to="/profil" className="nav-link text-white">Profil</Link>
-          </div>
+          <nav className="navbar">
+            <Link to="/turer" className="Turer">Turer</Link>
+            <Link to="/hytter" className="Hytter">Hytter</Link>
+            <Link to="/kart" className="Kart">Kart</Link>
+            <Link to="/fellesturer" className="Fellesturer">Fellesturer</Link>
+            <Link to="/annonser" className="Annonser">Annonser</Link>
+            <Link to="/profil" className="Profil">Profil</Link>
+          </nav>
         
-      </div>
-    </nav>
+    </header>
   );
 }

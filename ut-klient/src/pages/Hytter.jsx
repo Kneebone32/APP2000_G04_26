@@ -1,6 +1,7 @@
 import PageWrapper from "../components/PageWrapper";
 import HytteKort from "../components/HytteKort";
 import { useState, useEffect } from "react";
+import './Hytter.css';
 
 export default function Hytter() {
   const [hytter, setHytter]  = useState([]);
@@ -46,7 +47,7 @@ export default function Hytter() {
         )}
 
         {!loading && !error && hytter.length > 0 && (
-          <div className="row">
+          <div className="HyttekortContainer">
             {hytter.map((hytte) =>(
               <HytteKort
                 key={hytte.id}

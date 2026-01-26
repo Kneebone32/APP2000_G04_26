@@ -16,10 +16,10 @@ import Test from "./pages/Test";
 export default function App() {
   return (
     <Router>
-      <div className="min-vh-100">
+      <div className="App">
         <Navbar />
 
-        <main className="container-fluid">
+        <main className="MainContent">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/turer" element={<Turer />} />

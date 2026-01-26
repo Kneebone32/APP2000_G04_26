@@ -1,6 +1,7 @@
 import PageWrapper from "../components/PageWrapper";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import  './HytteDetaljer.css';
 
 export default function HytteDetaljer() {
   const { hytteId } = useParams();
@@ -33,10 +34,10 @@ export default function HytteDetaljer() {
   }, [hytteId]);
 
   return (
-    <PageWrapper title={hytte ? hytte.navn : "Hyttedetaljer"}>
-      <div className="mt-3">
+    <PageWrapper>
+      <div className="Hytter">
         <button 
-          className="btn btn-secondary mb-3" 
+          className="TilbakeKnapp" 
           onClick={() => navigate("/hytter")}
         >
           Tilbake til hytter
@@ -57,25 +58,25 @@ export default function HytteDetaljer() {
             
             <p><strong>Adkomst: </strong>
               {hytte.adkomst?.map((item, index) => (
-                <span key={index} className="badge bg-success me-2">{item}</span>
+                <span key={index} className="Adkomst">{item}</span>
               ))}
             </p> 
 
             <p><strong>Passer for: </strong>
               {hytte.passerfor?.map((item, index) => (
-                <span key={index} className="badge bg-success me-2">{item}</span>
+                <span key={index} className="Passerfor">{item}</span>
               ))}
                 </p>
 
             <p><strong>Tilgjengelighet: </strong>
               {hytte.tilgjengelighet?.map((item, index) => (
-                <span key={index} className="badge bg-success me-2">{item}</span>
+                <span key={index} className="Tilgjengelighet">{item}</span>
               ))}
             </p> 
 
             <p><strong>Flere filter: </strong>
               {hytte.flerefilter?.map((item, index) => (
-                <span key={index} className="badge bg-success me-2">{item}</span>
+                <span key={index} className="Flerefilter">{item}</span>
               ))}
             </p> 
 

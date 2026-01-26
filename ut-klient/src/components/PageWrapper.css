@@ -1,0 +1,16 @@
+.Page {
+    padding: 20px;
+    margin: auto;
+    align-content: center;
+    position: relative;
+    top: 80px;
+}
+
+.Wrapper {
+    font-size: 60px;
+    font-weight: bold;
+}
+
+* {
+    font-family: poppins, sans-serif;
+}
