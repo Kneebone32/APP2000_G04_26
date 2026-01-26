@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export function FetchHytter(autoFetch = true) {
+export function useFetchHytter(autoFetch = true) {
   const [hytter, setHytter] = useState([]);
   const [loading, setLoading] = useState(autoFetch);
   const [error, setError] = useState(null);

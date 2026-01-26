@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { FetchHytter } from "../hooks/FetchHytter";
+import { useFetchHytter } from "../hooks/useFetchHytter";
 
 export default function SlettHytte() {
-    const { hytter, deleteHytte } = FetchHytter(true);
+    const { hytter, deleteHytte } = useFetchHytter(true);
     const [selectedId, setSelectedId] = useState(null);
 
     const handleSlettHytte = async () => {

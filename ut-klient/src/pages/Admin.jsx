@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { FetchHytter } from "../hooks/FetchHytter";
+import { useFetchHytter } from "../hooks/useFetchHytter";
 
 export default function Admin() {
-    const { hytter, loading, refetch } = FetchHytter(true);
+    const { hytter, loading, refetch } = useFetchHytter(true);
     
     // State for legg til hytte
     const [hytteId, setHytteId] = useState("");
@@ -163,7 +163,7 @@ export default function Admin() {
                     />
                     <datalist id="hytter-list">
                         {filteredHytter.map((hytte) => (
-                            <option key={hytte.hytteid} value={`ID: ${hytte.hytteid} - ${hytte.navn}`} />
+                            <option key={hytte.hytte_id} value={`ID: ${hytte.hytte_id} - ${hytte.navn}`} />
                         ))}
                     </datalist>
                 </div>
@@ -189,8 +189,8 @@ export default function Admin() {
                         </thead>
                         <tbody>
                             {hytter.map((hytte) => (
-                                <tr key={hytte.hytteid}>
-                                    <td>{hytte.hytteid}</td>
+                                <tr key={hytte.hytte_id}>
+                                    <td>{hytte.hytte_id}</td>
                                     <td>{hytte.navn}</td>
                                     <td>{hytte.sengeplasser}</td>
                                 </tr>
