@@ -9,6 +9,7 @@ import Kart from "./pages/Kart";
 import Fellesturer from "./pages/Fellesturer";
 import Annonser from "./pages/Annonser";
 import Profil from "./pages/Profil";
+import Admin from "./pages/Admin";
 import Feilside from "./pages/Feilside";
 import Test from "./pages/Test";
 
@@ -28,6 +29,7 @@ export default function App() {
             <Route path="/fellesturer" element={<Fellesturer />} />
             <Route path="/annonser" element={<Annonser />} />
             <Route path="/profil" element={<Profil />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<Feilside />} />
             <Route path="/api/test-db" element={<Test />} />
           </Routes>
