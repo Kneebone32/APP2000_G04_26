@@ -1,6 +1,6 @@
 import PageWrapper from "../components/PageWrapper";
 import { useNavigate } from "react-router-dom";
-import '/.Profil.css';
+import './Profil.css';
 
 export default function Profil() {
   const navigate = useNavigate();
