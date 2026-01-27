@@ -11,7 +11,6 @@ import Annonser from "./pages/Annonser";
 import Profil from "./pages/Profil";
 import Admin from "./pages/Admin";
 import Feilside from "./pages/Feilside";
-import Test from "./pages/Test";
 
 export default function App() {
   return (
@@ -31,7 +30,6 @@ export default function App() {
             <Route path="/profil" element={<Profil />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<Feilside />} />
-            <Route path="/api/test-db" element={<Test />} />
           </Routes>
         </main>
       </div>
