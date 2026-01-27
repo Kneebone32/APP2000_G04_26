@@ -11,7 +11,7 @@ export default function SlettHytte() {
             return;
         }
 
-        const selectedHytte = hytter.find(h => h.id === parseInt(selectedId)); 
+        const selectedHytte = hytter.find(h => h.hytte_id === parseInt(selectedId)); 
 
         if (window.confirm(`Er du sikker på at du vil slette hytten: ${selectedHytte.navn}?`)) {
             try {
@@ -37,7 +37,7 @@ export default function SlettHytte() {
                 >
                     <option value="">-- Velg en hytte --</option>
                     {hytter.map((hytte) => (
-                        <option key={hytte.hytteid} value={hytte.hytteid}>
+                        <option key={hytte.hytte_id} value={hytte.hytte_id}>
                             {hytte.navn}
                         </option>
                     ))}

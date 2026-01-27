@@ -63,7 +63,7 @@ export default function Admin() {
             return;
         }
 
-        const selectedHytte = hytter.find(h => h.hytteid === parseInt(selectedId));
+        const selectedHytte = hytter.find(h => h.hytte_id === parseInt(selectedId));
 
         if (window.confirm(`Er du sikker på at du vil slette hytten: ${selectedHytte?.navn}?`)) {
             try {
@@ -88,7 +88,7 @@ export default function Admin() {
 
     // Filtrer hytter basert på søkeord
     const filteredHytter = hytter.filter(hytte => 
-        hytte.hytteid?.toString().includes(searchTerm) ||
+        hytte.hytte_id?.toString().includes(searchTerm) ||
         hytte.navn?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -151,11 +151,11 @@ export default function Admin() {
                             setSearchTerm(e.target.value);
                             // Finn hytte basert på input
                             const matchedHytte = hytter.find(h => 
-                                `ID: ${h.hytteid} - ${h.navn}` === e.target.value ||
-                                h.hytteid?.toString() === e.target.value
+                                `ID: ${h.hytte_id} - ${h.navn}` === e.target.value ||
+                                h.hytte_id?.toString() === e.target.value
                             );
                             if (matchedHytte) {
-                                setSelectedId(matchedHytte.hytteid.toString());
+                                setSelectedId(matchedHytte.hytte_id.toString());
                             } else {
                                 setSelectedId("");
                             }

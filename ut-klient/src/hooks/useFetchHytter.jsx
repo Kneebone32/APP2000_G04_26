@@ -41,7 +41,7 @@ export function useFetchHytter(autoFetch = true) {
         throw new Error(`Error ved sletting: ${response.status}`);
       }
 
-      setHytter(prevHytte => prevHytte.filter(hytte => hytte.id !== id));
+      setHytter(prevHytte => prevHytte.filter(hytte => hytte.hytte_id !== id));
       
       return await response.json();
     } catch (err) {

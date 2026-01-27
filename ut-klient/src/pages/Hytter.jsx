@@ -50,8 +50,8 @@ export default function Hytter() {
           <div className="HyttekortContainer">
             {hytter.map((hytte) =>(
               <HytteKort
-                key={hytte.id}
-                hytteId={hytte.id}
+                key={hytte.hytte_id}
+                hytteId={hytte.hytte_id}
                 hytteNavn={hytte.navn}
                 sengeplasser={hytte.sengeplasser}
                 />
