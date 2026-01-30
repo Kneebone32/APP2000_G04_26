@@ -34,7 +34,7 @@ export default function Hytter() {
   return (
     <PageWrapper title="Hytter">
       <div className="mt-3">
-        <h2>Hytter</h2>
+        <h2>Olai, husk inputvalidering på "Legg til ny hytte". Som du ser så er dette veldig viktig. - Kay</h2>
 
         {loading && <p>Laster hytter...</p>}
 

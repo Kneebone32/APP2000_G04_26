@@ -2,6 +2,7 @@ import { Marker, Popup } from "react-leaflet";
 import Kart_basic, { hytteIcon } from "../components/KartBasic";
 import "../App.css";
 
+//"Utforsker-kart" (Laget av Kay)
 export default function Kart(){
   //simulere hytter
   const hytter_lokasjon = [
@@ -18,6 +19,7 @@ export default function Kart(){
       popUp: "Hytte 3"
     },
   ];
+
 
   return(
     <Kart_basic center={[59.4087, 9.0593]} zoom={13}>

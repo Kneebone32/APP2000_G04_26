@@ -1,4 +1,10 @@
 /*Global CSS for kart */
 .leaflet-container{
-    height: 100vh;
+    height: calc(100vh - 80px); /*minus navbar*/
+    width: 100%;
+}
+
+.kart-wrapper {
+    margin-top: 80px;
+    height: calc(100vh - 80px);
 }
