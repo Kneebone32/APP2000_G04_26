@@ -27,14 +27,14 @@ export default function kart_Basic(){
 
   const hytteIcon = new Icon({
     iconUrl: hytteMarker,
-    iconSize: [36, 36]
+    iconSize: [46, 46]
   })
 
     return(
         <MapContainer center={[59.4087, 9.0593]} zoom={13}>
         <TileLayer 
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="https://www.norgeskartverk.no/">Norgeskartverkt</a>'
+        url="https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png"
         />
         {hytter_lokasjon.map((hytte) => (
           <Marker position={hytte.geocode} icon={hytteIcon}>
