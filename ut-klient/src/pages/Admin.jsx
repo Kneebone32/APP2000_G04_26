@@ -6,7 +6,6 @@ export default function Admin() {
     const { hytter, loading, refetch } = useFetchHytter(true);
     
     // State for legg til hytte
-    const [hytteId, setHytteId] = useState("");
     const [navn, setNavn] = useState("");
     const [sengeplasser, setSengeplasser] = useState("");
     const [addLoading, setAddLoading] = useState(false);
@@ -19,7 +18,7 @@ export default function Admin() {
     const handleLeggTilHytte = async (e) => {
         e.preventDefault();
 
-        if (!hytteId.trim() || !navn.trim() || !sengeplasser) {
+        if (!navn.trim() || !sengeplasser) {
             alert("Vennligst fyll ut alle feltene.");
             return;
         }
@@ -33,7 +32,6 @@ export default function Admin() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    hytteid: parseInt(hytteId),
                     navn: navn,
                     sengeplasser: parseInt(sengeplasser)
                 })
@@ -100,22 +98,13 @@ export default function Admin() {
                 <h2>Legg til ny hytte</h2>
                 <form onSubmit={handleLeggTilHytte}>
                     <div>
-                        <label htmlFor="hytteid">Hytte ID:</label>
-                        <input
-                            type="number"
-                            id="hytteid"
-                            value={hytteId}
-                            onChange={(e) => setHytteId(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div>
                         <label htmlFor="navn">Navn:</label>
                         <input
                             type="text"
                             id="navn"
                             value={navn}
                             onChange={(e) => setNavn(e.target.value)}
+                            pattern="^[A-Za-zØÆÅøæå\s]{3,20}$"
                             required
                         />
                     </div>
@@ -127,6 +116,7 @@ export default function Admin() {
                             value={sengeplasser}
                             onChange={(e) => setSengeplasser(e.target.value)}
                             min="1"
+                            max="25"
                             required
                         />
                     </div>

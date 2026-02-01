@@ -9,7 +9,7 @@ export default function LeggTilHytte() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!navn.trim() || !sengeplasser) {
+        if (!navn.trim() || !sengeplasser || sengeplasser < 1 || sengeplasser > 25) {
             alert("Vennligst fyll ut alle feltene.");
             return;
         }
@@ -55,6 +55,7 @@ export default function LeggTilHytte() {
                         id="navn"
                         value={navn}
                         onChange={(e) => setNavn(e.target.value)}
+                        pattern="^[A-Za-zØÆÅøæå\s]{3,20}$"
                         required
                     />
                 </div>
@@ -66,6 +67,7 @@ export default function LeggTilHytte() {
                         value={sengeplasser}
                         onChange={(e) => setSengeplasser(e.target.value)}
                         min="1"
+                        max="25"
                         required
                     />
                 </div>
