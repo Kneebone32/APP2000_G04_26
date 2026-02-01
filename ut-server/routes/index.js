@@ -10,7 +10,7 @@ router.get('/hytter', async (req, res) => {
     res.json(result.rows);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Database connection failed' });
+    res.status(500).json({error: 'Kunne ikke koble til databasen'});
   }
 });
 
@@ -22,15 +22,16 @@ router.get('/hytter/:id', async (req, res) => {
     const result = await pool.query('SELECT * FROM hytter WHERE hytte_id = $1', [id]);
 
     if(result.rows.length === 0) {
-        return res.status(404).json({ error: 'Hytte ikke funnet' });
+        return res.status(404).json({error: 'Hytte ikke funnet'});
     }
 
     res.json(result.rows[0]); //bugfix. Trenger bare første index
-  } catch (err) {
+  } catch (error) {
     console.error(err);
-    res.status(500).json({ error: 'Database connection failed' });
+    res.status(500).json({error: 'Kunne ikke koble til databasen'});
   }
 });
+
 
 // Legger til ny hytte (Laget av Kristoffer)
 router.post('/hytter', async (req, res) => {

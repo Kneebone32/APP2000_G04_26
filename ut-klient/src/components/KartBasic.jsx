@@ -1,5 +1,5 @@
 import PageWrapper from "../components/PageWrapper";
-import {MapContainer, TileLayer} from "react-leaflet";
+import {MapContainer, TileLayer, ZoomControl} from "react-leaflet";
 import { Icon } from "leaflet";
 import hytteMarker from "../assets/kart/hytte.png";
 import "leaflet/dist/leaflet.css";
@@ -27,11 +27,12 @@ export const turMålIcon = new Icon({
 export default function Kart_basic({ center = [59.4087, 9.0593], zoom = 13, children }) {
     return(
         <div className="kart-wrapper">
-            <MapContainer center={center} zoom={zoom}>
+            <MapContainer center={center} zoom={zoom} zoomControl={false}>
                 <TileLayer 
                     attribution='&copy; <a href="https://www.kartverket.no/">Kartverket</a>'
                     url="https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png"
                 />
+                <ZoomControl position="bottomright"/>
                 {children}
             </MapContainer>
         </div>
