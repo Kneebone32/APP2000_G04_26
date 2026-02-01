@@ -8,21 +8,33 @@ import "../App.css";
 //"Utforsker-kart" (Laget av Kay)
 export default function Kart(){
   const { hytter, loading, error } = useFetchHytter(true);
-  const [filters, setFilters] = useState({});
+  const [filter, setFilter] = useState({});
 
   //filter til hytter
   const filteredHytter = hytter.filter(hytte => {
     
     //fjerner hytter baset på null-check
-    if (!hytte.koordinater || hytte.koordinater === null) {
+    if (!hytte.koordinater || hytte.koordinater === null ||
+        !hytte.betjeningsgrad || hytte.betjeningsgrad === null
+    ) {
       return false;
     }
 
     //hyttefilter - søk
-    if (filters.søkeord && 
-        !hytte.navn?.toLowerCase().includes(filters.søkeord.toLowerCase())) {
+    if (filter.søkeord && 
+        !hytte.navn?.toLowerCase().includes(filter.søkeord.toLowerCase())) {
       return false;
     }
+
+    //Filter - betjeningsgrad
+    if (filter.betjeningsgrad?.length > 0 && 
+        !filter.betjeningsgrad.includes(hytte.betjeningsgrad)) {
+      return false;
+        }
+
+    //Filter - prisnivå
+    //Filter - fasiliteter
+
     return true;
   });
   
@@ -31,7 +43,7 @@ export default function Kart(){
 
   return(
     <div>
-      <KartFilter onFilterChange={setFilters} />
+      <KartFilter onFilterChange={setFilter} />
       
       <Kart_basic center={[59.4087, 9.0593]} zoom={12}>
         {filteredHytter.map((hytte) => (
