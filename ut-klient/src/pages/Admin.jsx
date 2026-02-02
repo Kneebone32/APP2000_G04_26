@@ -42,7 +42,6 @@ export default function Admin() {
             }
 
             alert("Hytte er blitt lagt til.");
-            setHytteId("");
             setNavn("");
             setSengeplasser("");
             refetch(); // Oppdater listen
