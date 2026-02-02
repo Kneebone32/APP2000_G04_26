@@ -163,32 +163,6 @@ export default function Admin() {
             </div>
 
             <hr />
-
-            <div>
-                <h2>Alle hytter ({hytter.length})</h2>
-                {loading ? (
-                    <p>Laster...</p>
-                ) : (
-                    <table border="1">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Navn</th>
-                                <th>Sengeplasser</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {hytter.map((hytte) => (
-                                <tr key={hytte.hytte_id}>
-                                    <td>{hytte.hytte_id}</td>
-                                    <td>{hytte.navn}</td>
-                                    <td>{hytte.sengeplasser}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                )}
-            </div>
         </div>
     );
 }
