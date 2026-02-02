@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import AnnouncementBar from "./components/AnnouncementBar";
+import "./components/AnnouncementBar.css";
 
 import Home from "./pages/Home";
 import Turer from "./pages/Turer";
@@ -17,6 +19,7 @@ export default function App() {
     <Router>
       <div className="App">
         <Navbar />
+        <AnnouncementBar />
 
         <main className="MainContent">
           <Routes>
