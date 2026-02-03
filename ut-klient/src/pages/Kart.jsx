@@ -26,14 +26,14 @@ export default function Kart(){
       return false;
     }
 
-    //Filter - betjeningsgrad
+    //hyttefilter - betjeningsgrad
     if (filter.betjeningsgrad?.length > 0 && 
         !filter.betjeningsgrad.includes(hytte.betjeningsgrad)) {
       return false;
         }
 
-    //Filter - prisnivå
-    //Filter - fasiliteter
+    //hyttefilter - prisnivå
+    //hyttefilter - fasiliteter
 
     return true;
   });

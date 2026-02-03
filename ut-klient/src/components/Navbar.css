@@ -2,9 +2,15 @@
     font-family: poppins, sans-serif;
 }
 
+:root {
+    --navbar-content-height: 34px; /*Obs. Dette er et "magic number". Kan endre seg etter størrelse på logo + nav links*/
+    --navbar-padding: 40px;
+    --navbar-height: calc(var(--announcement-bar-height) + var(--navbar-padding) + var(--navbar-content-height));
+}
+
 .header {
     position: fixed;
-    top: 46px;
+    top: var(--announcement-bar-height);;
     left: 0;
     width: 100%;
     padding: 20px 10%;

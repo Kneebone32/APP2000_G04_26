@@ -3,7 +3,7 @@
     margin: auto;
     align-content: center;
     position: relative;
-    top: 120px;
+    top: var(--navbar-height);
 }
 
 .Wrapper {
