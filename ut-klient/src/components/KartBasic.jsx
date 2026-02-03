@@ -2,6 +2,7 @@ import PageWrapper from "../components/PageWrapper";
 import {MapContainer, TileLayer, ZoomControl} from "react-leaflet";
 import { Icon } from "leaflet";
 import hytteMarker from "../assets/kart/hytte.png";
+import turStartMarker from "../assets/kart/marker.png";
 import "leaflet/dist/leaflet.css";
 import "./KartBasic.css";
 
@@ -13,7 +14,7 @@ export const hytteIcon = new Icon({
 
 //kartikon for turstart
 export const turStartIcon = new Icon({
-    iconUrl: null, 
+    iconUrl: turStartMarker, 
     iconSize: [42, 42]
 });
 
