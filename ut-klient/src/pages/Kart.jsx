@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Marker, Polyline, Popup } from "react-leaflet";
-import Kart_basic, { hytteIcon } from "../components/KartBasic";
+import Kart_basic, { hytteIcon, turStartIcon } from "../components/KartBasic";
 import KartFilter from "../components/KartFilter";
 import { useFetchHytter } from "../hooks/useFetchHytter";
 import {tur} from "../assets/tur"
@@ -64,7 +64,8 @@ export default function Kart() {
             }}
           />
             <Marker
-              position={[59.40864296800349,9.059776739367221]}
+              position={[59.40913199711592, 9.059338489488056]}
+              icon={turStartIcon}
               >
               <Popup>
                 <strong>Tur til Meny</strong>
