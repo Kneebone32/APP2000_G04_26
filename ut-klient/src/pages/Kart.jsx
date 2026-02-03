@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Marker, Popup } from "react-leaflet";
+import { Marker, Polyline, Popup } from "react-leaflet";
 import Kart_basic, { hytteIcon } from "../components/KartBasic";
 import KartFilter from "../components/KartFilter";
 import { useFetchHytter } from "../hooks/useFetchHytter";
+import {tur} from "../assets/tur"
 import "../App.css";
 
 //"Utforsker-kart" (Laget av Kay)
@@ -51,7 +52,29 @@ export default function Kart() {
     <div>
       <KartFilter onFilterChange={setFilter} />
 
-      <Kart_basic center={[59.4087, 9.0593]} zoom={12}>
+      <Kart_basic center={[59.4087, 9.0593]} zoom={13}>
+        {filter.visFellesturer !== false && (
+          <>
+          <Polyline 
+            positions={tur}
+            pathOptions={{
+              color: '#0dbbcb',
+              weight: 10,
+              opacity: 0.8
+            }}
+          />
+            <Marker
+              position={[59.40864296800349,9.059776739367221]}
+              >
+              <Popup>
+                <strong>Tur til Meny</strong>
+                <br />
+                Hva har de i varmdisken i dag?
+              </Popup>
+            </Marker>
+            </>
+        )}
+
         {filter.visHytter &&
           filteredHytter.map((hytte) => (
             <Marker
