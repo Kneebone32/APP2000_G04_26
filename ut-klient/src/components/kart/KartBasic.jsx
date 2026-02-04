@@ -1,8 +1,8 @@
-import PageWrapper from "../components/PageWrapper";
+import PageWrapper from "../PageWrapper";
 import {MapContainer, TileLayer, ZoomControl} from "react-leaflet";
 import { Icon } from "leaflet";
-import hytteMarker from "../assets/kart/hytte.png";
-import turStartMarker from "../assets/kart/marker.png";
+import hytteMarker from "../../assets/kart/hytte.png";
+import turStartMarker from "../../assets/kart/marker.png";
 import "leaflet/dist/leaflet.css";
 import "./KartBasic.css";
 

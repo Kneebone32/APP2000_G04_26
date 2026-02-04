@@ -1,4 +1,4 @@
-/*Global CSS for kart */
+/*Global CSS for kart. Laget av Kay */
 .leaflet-container{
     height: calc(100vh - var(--navbar-height)); /*minus navbar*/
     width: 100%;

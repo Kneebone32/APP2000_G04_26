@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Marker, Polyline, Popup } from "react-leaflet";
-import Kart_basic, { hytteIcon, turStartIcon } from "../components/KartBasic";
-import KartFilter from "../components/KartFilter";
+import Kart_basic, { hytteIcon, turStartIcon } from "../components/kart/KartBasic";
+import KartFilter from "../components/kart/KartFilter";
 import { useFetchHytter } from "../hooks/useFetchHytter";
 import {tur} from "../assets/tur"
 import "../App.css";
