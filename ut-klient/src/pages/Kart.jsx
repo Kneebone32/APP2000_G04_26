@@ -3,6 +3,7 @@ import { Marker, Polyline, Popup } from "react-leaflet";
 import Kart_basic, { hytteIcon, turStartIcon } from "../components/kart/KartBasic";
 import KartFilter from "../components/kart/KartFilter";
 import { useFetchHytter } from "../hooks/useFetchHytter";
+import { filterHytter } from "../utils/filterUtforskerKart";
 import {tur} from "../assets/tur"
 import "../App.css";
 
@@ -12,38 +13,7 @@ export default function Kart() {
   const [filter, setFilter] = useState({});
 
   //filter til hytter
-  const filteredHytter = hytter.filter((hytte) => {
-    //fjerner hytter baset på null-check
-    if (
-      !hytte.koordinater ||
-      hytte.koordinater === null ||
-      !hytte.betjeningsgrad ||
-      hytte.betjeningsgrad === null
-    ) {
-      return false;
-    }
-
-    //hyttefilter - søk
-    if (
-      filter.søkeord &&
-      !hytte.navn?.toLowerCase().includes(filter.søkeord.toLowerCase())
-    ) {
-      return false;
-    }
-
-    //hyttefilter - betjeningsgrad
-    if (
-      filter.betjeningsgrad?.length > 0 &&
-      !filter.betjeningsgrad.includes(hytte.betjeningsgrad)
-    ) {
-      return false;
-    }
-
-    //hyttefilter - prisnivå
-    //hyttefilter - fasiliteter
-
-    return true;
-  });
+  const filteredHytter = filterHytter(hytter, filter);
 
   if (loading) return <p>Laster kart</p>;
   if (error) return <p>Feil ved lasting: {error}</p>;

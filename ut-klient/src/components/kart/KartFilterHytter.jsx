@@ -4,6 +4,28 @@ import { useState } from "react";
 export default function KartFilterHytter({ filter, setFilter, handleCheckboxChange }) {
   const [hytterFilterUtvidet, setHytterFilterUtvidet] = useState(false);
 
+  //Laget av AI
+  const handleMinChange = (e) => {
+    const newMin = parseInt(e.target.value);
+    if (newMin <= filter.prisnivå[1]) {
+      setFilter({ 
+        ...filter, 
+        prisnivå: [newMin, filter.prisnivå[1]] 
+      });
+    }
+  };
+
+  //Laget av AI
+  const handleMaxChange = (e) => {
+    const newMax = parseInt(e.target.value);
+    if (newMax >= filter.prisnivå[0]) {
+      setFilter({ 
+        ...filter, 
+        prisnivå: [filter.prisnivå[0], newMax] 
+      });
+    }
+  };
+
   return (
     <div className="kart-filter-section">
       <button
@@ -42,6 +64,29 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
             />
           </div>
 
+          {/*Hytte - prisnivå*/}
+          <div className="filter-section">
+            <label>Prisnivå: {filter.prisnivå[0]} kr - {filter.prisnivå[1]} kr</label>
+            <div className="range-slider-container">
+              <input
+                type="range"
+                min="0"
+                max="1000"
+                value={filter.prisnivå[0]}
+                onChange={handleMinChange}
+                className="range-slider range-slider-min"
+              />
+              <input
+                type="range"
+                min="0"
+                max="1000"
+                value={filter.prisnivå[1]}
+                onChange={handleMaxChange}
+                className="range-slider range-slider-max"
+              />
+            </div>
+          </div>
+
           {/*Hytte - betjeningsgrad*/}
           <div className="filter-section">
             <label>Betjeningsgrad:</label>
@@ -67,7 +112,7 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
                 />{" "}
                 Selvbetjent
               </label>
-
+              
               <label>
                 <input
                   type="checkbox"
@@ -80,6 +125,23 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
               </label>
             </div>
           </div>
+
+          {/*Hytte - fasiliteter*/}
+          <div className="filter-section">
+            <label className="filter-label-overskrift">Fasiliteter:</label>
+            <div className="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  //checked={filter.fasiliteter.includes("WIFI")}
+                  //onChange={() =>
+                  //  handleCheckboxChange("fasiliteter", "WIFI")
+                  //}
+                />{" "} WIFI
+              </label>
+            </div>
+          </div>
+
         </>
       )}
     </div>

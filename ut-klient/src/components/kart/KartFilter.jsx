@@ -3,15 +3,18 @@ import { useState, useEffect } from "react";
 import KartFilterHytter from "./KartFilterHytter";
 import KartFilterFellesturer from "./KartFilterFellesturer";
 import KartFilterTurmål from "./KartFilterTurmål";
+import KartFilterTurer from "./KartFilterTurer";
 
 //Håndterer alle kartfilter. Laget av Kay
 export default function KartFilter({ onFilterChange }) {
   const [filter, setFilter] = useState({
     søkeord: "",
     betjeningsgrad: [],
+    prisnivå: [0, 1000],
     visHytter: true,
     visFellesturer: true,
-    visTurmål:true
+    visTurmål: true,
+    visTurer: true
   });
 
   //Oppdaterer når filter endrer seg
@@ -34,9 +37,11 @@ export default function KartFilter({ onFilterChange }) {
     setFilter({
       søkeord: "",
       betjeningsgrad: [],
+      prisnivå: [0, 1000],
       visHytter: true,
       visFellesturer: true,
-      visTurmål: true
+      visTurmål: true,
+      visTurer: true
     });
   };
 
@@ -47,6 +52,12 @@ export default function KartFilter({ onFilterChange }) {
         filter={filter}
         setFilter={setFilter}
         handleCheckboxChange={handleCheckboxChange}
+      />
+
+      {/*Filter til fellesturer*/}
+      <KartFilterTurer 
+        filter={filter}
+        setFilter={setFilter}
       />
 
       {/*Filter til fellesturer*/}

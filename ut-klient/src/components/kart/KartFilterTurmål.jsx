@@ -2,20 +2,20 @@ import { useState } from "react";
 
 //Alle kartfilter til turmål.
 export default function KartFilterTurmål({ filter, setFilter }) {
-  const [turmålrFilterUtvidet, setTurmålFilterUtvidet] = useState(false);
+  const [turmålFilterUtvidet, setTurmålFilterUtvidet] = useState(false);
 
   return (
     <div className="kart-filter-section">
       <button
         className="filter-toggle-button"
         onClick={() =>
-          setTurmålFilterUtvidet(!turmålrFilterUtvidet)
+          setTurmålFilterUtvidet(!turmålFilterUtvidet)
         }
       >
-        {turmålrFilterUtvidet ? "✕" : "☰"} Turmål
+        {turmålFilterUtvidet ? "✕" : "☰"} Turmål
       </button>
 
-      {turmålrFilterUtvidet && (
+      {turmålFilterUtvidet && (
         <>
           {/*Turmål - vis turmål*/}
           <div className="turmål-kart-toggle">
@@ -30,8 +30,6 @@ export default function KartFilterTurmål({ filter, setFilter }) {
                Vis turmål
             </label>
           </div>
-
-          {/*Turmål - vanskelighetsgrad?*/}
         </>
       )}
     </div>
