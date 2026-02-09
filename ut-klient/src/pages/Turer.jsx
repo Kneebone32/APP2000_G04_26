@@ -1,5 +1,7 @@
 import PageWrapper from "../components/PageWrapper";
+import { useTranslation } from "react-i18next";
 
 export default function Turer() {
-  return <PageWrapper title="Nettside for turer" />;
+  const { t } = useTranslation();
+  return <PageWrapper title={t("sider.turer")} />;
 }

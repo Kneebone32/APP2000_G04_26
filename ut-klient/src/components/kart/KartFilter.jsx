@@ -1,5 +1,6 @@
 import "./KartFilter.css";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import KartFilterHytter from "./KartFilterHytter";
 import KartFilterFellesturer from "./KartFilterFellesturer";
 import KartFilterTurmål from "./KartFilterTurmål";
@@ -7,6 +8,7 @@ import KartFilterTurer from "./KartFilterTurer";
 
 //Håndterer alle kartfilter. Laget av Kay
 export default function KartFilter({ onFilterChange }) {
+  const { t } = useTranslation();
   const [filter, setFilter] = useState({
     søkeord: "",
     betjeningsgrad: [],
@@ -74,7 +76,7 @@ export default function KartFilter({ onFilterChange }) {
 
       {/*Reset filter*/}
       <button className="reset-button" onClick={handleReset}>
-        Nullstill
+        {t("felles.nullstill")}
       </button>
     </div>
   );

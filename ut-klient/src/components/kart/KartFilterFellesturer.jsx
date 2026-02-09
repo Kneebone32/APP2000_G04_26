@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 //Alle kartfilter til fellesturer. Laget av Kay
 export default function KartFilterFellesturer({ filter, setFilter }) {
   const [fellesturerFilterUtvidet, setFellesturerFilterUtvidet] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <div className="kart-filter-section">
@@ -12,7 +14,7 @@ export default function KartFilterFellesturer({ filter, setFilter }) {
           setFellesturerFilterUtvidet(!fellesturerFilterUtvidet)
         }
       >
-        {fellesturerFilterUtvidet ? "✕" : "☰"} Fellesturer
+        {fellesturerFilterUtvidet ? "✕" : "☰"} {t("filter.fellesturer")}
       </button>
 
       {fellesturerFilterUtvidet && (
@@ -27,7 +29,7 @@ export default function KartFilterFellesturer({ filter, setFilter }) {
                   setFilter({ ...filter, visFellesturer: e.target.checked })
                 }
               />
-              Vis fellesturer
+              {t("filter.vis_fellesturer")}
             </label>
           </div>
 

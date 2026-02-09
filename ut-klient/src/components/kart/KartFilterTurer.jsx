@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 //Alle kartfilter til Turer.
 export default function KartFilterTurer({ filter, setFilter, handleCheckboxChange }) {
   const [turerFilterUtvidet, setTurerFilterUtvidet] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <div className="kart-filter-section">
@@ -12,7 +14,7 @@ export default function KartFilterTurer({ filter, setFilter, handleCheckboxChang
           setTurerFilterUtvidet(!turerFilterUtvidet)
         }
       >
-        {turerFilterUtvidet ? "✕" : "☰"} Turer
+        {turerFilterUtvidet ? "✕" : "☰"} {t("filter.turer")}
       </button>
 
       {turerFilterUtvidet && (
@@ -27,20 +29,20 @@ export default function KartFilterTurer({ filter, setFilter, handleCheckboxChang
                   setFilter({ ...filter, visTurer: e.target.checked })
                 }
               />{" "}
-               Vis turer
+               {t("filter.vis_turer")}
             </label>
           </div>
 
           {/*Turer - vanskelighetsgrad - TODO*/}
           <div className="filter-section">
-          <label>Vanskelighetsgrad:</label>
+          <label>{t("filter.vanskelighetsgrad")}:</label>
           <select
           //value={filters.vanskelighetsgrad}                                             TODO: venter på testdata
           //onChange={(e) => setFilters({...filters, vanskelighetsgrad: e.target.value})} TODO: venter på testdata
           >
-          <option value="">Lett</option>
-          <option value="5">Middels</option>
-          <option value="10">Vanskelig</option>
+          <option value="">{t("filter.lett")}</option>
+          <option value="5">{t("filter.middels")}</option>
+          <option value="10">{t("filter.vanskelig")}</option>
           </select>
           </div>
 
@@ -49,7 +51,7 @@ export default function KartFilterTurer({ filter, setFilter, handleCheckboxChang
           {/*Turer - Varighet - TODO: venter på testdata*/}
           {/*Turer - Turtype*/}
           <div className="filter-section">
-            <label>Type:</label>
+            <label>{t("filter.type")}:</label>
             <div className="checkbox-group">
               <label>
                 <input
@@ -59,7 +61,7 @@ export default function KartFilterTurer({ filter, setFilter, handleCheckboxChang
                     handleCheckboxChange("turtype", "Fottur")
                   }
                 />{" "}
-                Fottur
+                {t("filter.fottur")}
               </label>
 
               <label>
@@ -70,7 +72,7 @@ export default function KartFilterTurer({ filter, setFilter, handleCheckboxChang
                     handleCheckboxChange("turtype", "Sykkeltur")
                   }
                 />{" "}
-                Sykkeltur
+                {t("filter.sykkeltur")}
               </label>
               
               <label>
@@ -81,7 +83,7 @@ export default function KartFilterTurer({ filter, setFilter, handleCheckboxChang
                     handleCheckboxChange("turtype", "Skitur")
                   }
                 />{" "}
-                Skitur
+                {t("filter.skitur")}
               </label>
             </div>
           </div>

@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useFetchHytter } from "../hooks/useFetchHytter";
+import { useTranslation } from "react-i18next";
 import './Admin.css';
 
 export default function Admin() {
     const { hytter, loading, refetch } = useFetchHytter(true);
+    const { t } = useTranslation();
     
     // State for legg til hytte
     const [navn, setNavn] = useState("");
@@ -36,7 +38,7 @@ export default function Admin() {
         e.preventDefault();
 
         if (!navn.trim() || !sengeplasser) {
-            alert("Vennligst fyll ut alle feltene.");
+            alert(t("admin.fyll_ut_felt"));
             return;
         }
 
@@ -56,17 +58,17 @@ export default function Admin() {
             });
 
             if (!response.ok) {
-                throw new Error(`Feil med opprettelse: ${response.status}`);
+                throw new Error(`${t("admin.feil_opprettelse")}: ${response.status}`);
             }
 
-            alert("Hytte er blitt lagt til.");
+            alert(t("admin.hytte_lagt_til"));
             setNavn("");
             setSengeplasser("");
             setBildeUrl("");
             refetch(); // Oppdater listen
         } catch (err) {
             console.error('Error: ', err);
-            alert("Noe gikk galt ved opprettelse av hytten.");
+            alert(t("admin.feil_opprettelse_melding"));
         } finally {
             setAddLoading(false);
         }
@@ -75,29 +77,29 @@ export default function Admin() {
     // Slett hytte funksjon
     const handleSlettHytte = async () => {
         if (!selectedId) {
-            alert("Velg en hytte for sletting.");
+            alert(t("admin.velg_hytte"));
             return;
         }
 
         const selectedHytte = hytter.find(h => h.hytte_id === parseInt(selectedId));
 
-        if (window.confirm(`Er du sikker på at du vil slette hytten: ${selectedHytte?.navn}?`)) {
+        if (window.confirm(`${t("admin.bekreft_sletting")}: ${selectedHytte?.navn}?`)) {
             try {
                 const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/${selectedId}`, {
                     method: 'DELETE'
                 });
 
                 if (!response.ok) {
-                    throw new Error(`Error ved sletting: ${response.status}`);
+                    throw new Error(`${t("admin.feil_sletting")}: ${response.status}`);
                 }
 
-                alert("Hytte er blitt slettet.");
+                alert(t("admin.hytte_slettet"));
                 setSelectedId("");
                 setSearchTerm("");
                 refetch(); // Oppdater listen
             } catch (err) {
                 console.error('Error: ', err);
-                alert("Noe gikk galt ved sletting av hytten.");
+                alert(t("admin.feil_sletting_melding"));
             }
         }
     };
@@ -110,13 +112,13 @@ export default function Admin() {
 
     return (
         <div className="AdminPanel">
-            <h1>Admin Panel</h1>
+            <h1>{t("admin.tittel")}</h1>
             
             <div>
-                <h2>Legg til ny hytte</h2>
+                <h2>{t("admin.legg_til_hytte")}</h2>
                 <form onSubmit={handleLeggTilHytte}>
                     <div>
-                        <label htmlFor="navn">Navn:</label>
+                        <label htmlFor="navn">{t("felles.navn")}:</label>
                         <input
                             type="text"
                             id="navn"
@@ -127,7 +129,7 @@ export default function Admin() {
                         />
                     </div>
                     <div>
-                        <label htmlFor="sengeplasser">Sengeplasser:</label>
+                        <label htmlFor="sengeplasser">{t("admin.antall_sengeplasser")}:</label>
                         <input
                             type="number"
                             id="sengeplasser"
@@ -139,7 +141,7 @@ export default function Admin() {
                         />
                     </div>
                     <div>
-                        <label>Last opp bilde:</label>
+                        <label>{t("admin.last_opp_bilde")}:</label>
                         <simple-file-upload
                             accept="image/*"
                             max-file-size="5242880"
@@ -149,7 +151,7 @@ export default function Admin() {
                         ></simple-file-upload>
                         {bildeUrl && (
                             <div style={{ marginTop: '10px' }}>
-                                <p>Bilde lastet opp!</p>
+                                <p>{t("admin.bilde_lastet_opp")}</p>
                                 <img 
                                     src={`${bildeUrl}?w=200&h=200&fit=fit`} 
                                     alt="Preview" 
@@ -158,7 +160,7 @@ export default function Admin() {
                         )}
                     </div>
                     <button type="submit" disabled={addLoading}>
-                        {addLoading ? 'Legger til...' : 'Legg til hytte'}
+                        {addLoading ? t("admin.legger_til") : t("admin.legg_til_knapp")}
                     </button>
                 </form>
             </div>
@@ -166,9 +168,9 @@ export default function Admin() {
             <hr />
 
             <div>
-                <h2>Slett hytte</h2>
+                <h2>{t("admin.slett_hytte")}</h2>
                 <div>
-                    <label htmlFor="hytte-search">Søk og velg hytte (ID eller navn):</label>
+                    <label htmlFor="hytte-search">{t("admin.søk_og_velg")}:</label>
                     <input
                         type="text"
                         id="hytte-search"
@@ -187,7 +189,7 @@ export default function Admin() {
                                 setSelectedId("");
                             }
                         }}
-                        placeholder="Søk etter hytte..."
+                        placeholder={t("admin.søk_placeholder")}
                     />
                     <datalist id="hytter-list">
                         {filteredHytter.map((hytte) => (
@@ -196,7 +198,7 @@ export default function Admin() {
                     </datalist>
                 </div>
                 <button onClick={handleSlettHytte} disabled={!selectedId}>
-                    Slett hytte
+                    {t("admin.slett_knapp")}
                 </button>
             </div>
 

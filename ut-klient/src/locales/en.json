@@ -1,15 +1,124 @@
 {
-    "velkommen": "Welcome to UT.ut",
+  "velkommen": "Welcome to UT.ut",
+  
+  "nav": {
+    "hjem": "Home",
+    "turer": "Trips",
+    "hytter": "Cabins",
+    "kart": "Map",
+    "fellesturer": "Group Trips",
+    "annonser": "Announcements",
+    "profil": "Profile",
+    "bytt_språk": "Switch to Norwegian"
+  },
 
-    "nav": {
-        "bytt_språk": "Switch to Norwegian"
-    },
+  "felles": {
+    "koordinater": "Coordinates",
+    "sengeplasser": "Beds",
+    "antall_sengeplasser": "Number of beds",
+    "lokasjon": "Location",
+    "betjeningsgrad": "Service Level",
+    "adkomst": "Access",
+    "passer_for": "Suitable for",
+    "tilgjengelighet": "Accessibility",
+    "flere_filter": "More filters",
+    "søk": "Search",
+    "nullstill": "Reset",
+    "tilbake": "Back",
+    "navn": "Name",
+    "send_inn": "Submit",
+    "slett": "Delete",
+    "avbryt": "Cancel"
+  },
 
-    "hytter": {
-        "hytter": "Cabins"
-    },
+  "sider": {
+    "turer": "Website for trips",
+    "fellesturer": "Website for group trips",
+    "profil": "Website for profile",
+    "annonser": "Website for announcements"
+  },
 
-    "kart": {
-        "koordinater": "Coordinates"
-    }
+  "hytter": {
+    "tittel": "Cabins",
+    "laster": "Loading cabins...",
+    "ingen_hytter": "No cabins found.",
+    "ikke_funnet": "Cabin not found",
+    "laster_detaljer": "Loading cabin information...",
+    "tilbake_til_hytter": "Back to cabins"
+  },
+
+  "profil": {
+    "gå_til_admin": "Go to Admin Panel"
+  },
+
+  "admin": {
+    "tittel": "Admin Panel",
+    "legg_til_hytte": "Add new cabin",
+    "slett_hytte": "Delete cabin",
+    "hytte_navn": "Name",
+    "antall_sengeplasser": "Beds",
+    "last_opp_bilde": "Upload photo",
+    "bilde_lastet_opp": "Image uploaded!",
+    "legger_til": "Adding...",
+    "legg_til_knapp": "Add cabin",
+    "søk_og_velg": "Search and select cabin (ID or name)",
+    "søk_placeholder": "Search for cabin...",
+    "slett_knapp": "Delete cabin",
+    "bekreft_sletting": "Are you sure you want to delete the cabin",
+    "velg_hytte": "Select a cabin for deletion.",
+    "fyll_ut_felt": "Please fill out all fields.",
+    "hytte_lagt_til": "Cabin has been added.",
+    "hytte_slettet": "Cabin has been deleted.",
+    "feil_opprettelse_melding": "Something went wrong while creating the cabin.",
+    "feil_sletting_melding": "Something went wrong while deleting the cabin.",
+    "feil_opprettelse": "Error with creation",
+    "feil_sletting": "Error with deletion"
+  },
+
+  "kart": {
+    "laster": "Loading map",
+    "feil_lasting": "Error loading",
+    "tur_til_meny": "Trip to Meny",
+    "varmdisk": "What's in the hot food section today?"
+  },
+
+  "filter": {
+    "hytter": "Cabins",
+    "vis_hytter": "Show cabins",
+    "søk_hytte": "Search for cabin",
+    "prisnivå": "Price Level",
+    "betjeningsgrad": "Service Level",
+    "ubetjent": "Unserviced",
+    "selvbetjent": "Self-service",
+    "betjent": "Serviced",
+    "fasiliteter": "Facilities",
+    "wifi": "WIFI",
+    
+    "fellesturer": "Group Trips",
+    "vis_fellesturer": "Show group trips",
+    
+    "turmål": "Destinations",
+    "vis_turmål": "Show destinations",
+    
+    "turer": "Trips",
+    "vis_turer": "Show trips",
+    "vanskelighetsgrad": "Difficulty",
+    "lett": "Easy",
+    "middels": "Medium",
+    "vanskelig": "Hard",
+    "type": "Type",
+    "fottur": "Hiking",
+    "sykkeltur": "Cycling",
+    "skitur": "Skiing"
+  },
+
+  "feil": {
+    "404": "404",
+    "side_finnes_ikke": "Page does not exist",
+    "gå_til_forsiden": "Go to home page"
+  },
+
+  "varsling": {
+    "skoleprosjekt": "This is a school project!"
+  }
 }

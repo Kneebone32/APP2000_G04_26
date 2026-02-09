@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 //Alle kartfilter til turmål.
 export default function KartFilterTurmål({ filter, setFilter }) {
   const [turmålFilterUtvidet, setTurmålFilterUtvidet] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <div className="kart-filter-section">
@@ -12,7 +14,7 @@ export default function KartFilterTurmål({ filter, setFilter }) {
           setTurmålFilterUtvidet(!turmålFilterUtvidet)
         }
       >
-        {turmålFilterUtvidet ? "✕" : "☰"} Turmål
+        {turmålFilterUtvidet ? "✕" : "☰"} {t("filter.turmål")}
       </button>
 
       {turmålFilterUtvidet && (
@@ -27,7 +29,7 @@ export default function KartFilterTurmål({ filter, setFilter }) {
                   setFilter({ ...filter, visTurmål: e.target.checked })
                 }
               />{" "}
-               Vis turmål
+               {t("filter.vis_turmål")}
             </label>
           </div>
         </>

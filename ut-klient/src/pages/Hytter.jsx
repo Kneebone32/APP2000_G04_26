@@ -32,14 +32,14 @@ export default function Hytter() {
   }, []);
 
   return (
-    <PageWrapper title={t("hytter.hytter")}>
+    <PageWrapper title={t("hytter.tittel")}>
       <div className="mt-3">
-        {loading && <p>Laster hytter...</p>}
+        {loading && <p>{t("hytter.laster")}</p>}
 
         {error && console.log(`Error: ${error}`)}
 
         {!loading && !error && hytter.length === 0 && (
-          <p>Ingen hytter funnet.</p>
+          <p>{t("hytter.ingen_hytter")}</p>
         )}
 
         {!loading && !error && hytter.length > 0 && (

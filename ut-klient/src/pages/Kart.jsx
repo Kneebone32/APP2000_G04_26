@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Marker, Polyline, Popup, useMapEvents } from "react-leaflet";
+import { useTranslation } from "react-i18next";
 import Kart_basic, {
   hytteIcon,
   turStartIcon,
@@ -24,14 +25,15 @@ function ZoomLevel({onZoomChange}){
 //"Utforsker-kart" (Laget av Kay)
 export default function Kart() {
   const { hytter, loading, error } = useFetchHytter(true);
+  const { t } = useTranslation();
   const [filter, setFilter] = useState({});
   const [zoom, setZoom] = useState(13);
 
   //filter til hytter
   const filteredHytter = filterHytter(hytter, filter);
 
-  if (loading) return <p>Laster kart</p>;
-  if (error) return <p>Feil ved lasting: {error}</p>;
+  if (loading) return <p>{t("kart.laster")}</p>;
+  if (error) return <p>{t("kart.feil_lasting")}: {error}</p>;
 
   const visMarker = zoom >= 8;
 
@@ -56,9 +58,9 @@ export default function Kart() {
               icon={turStartIcon}
             >
               <Popup>
-                <strong>Tur til Meny</strong>
+                <strong>{t("kart.tur_til_meny")}</strong>
                 <br />
-                Hva har de i varmdisken i dag?
+                {t("kart.varmdisk")}
               </Popup>
             </Marker>
           </>
@@ -74,7 +76,7 @@ export default function Kart() {
               <Popup>
                 <strong>{hytte.hytte_navn}</strong>
                 <br />
-                Sengeplasser: {hytte.hytte_sengeplasser}
+                {t("felles.sengeplasser")}: {hytte.hytte_sengeplasser}
                 <br />
                 {hytte.hytte_betjeningsgrad}
               </Popup>

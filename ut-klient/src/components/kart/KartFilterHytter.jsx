@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 //Alle kartfilter til hytter. Laget av Kay
 export default function KartFilterHytter({ filter, setFilter, handleCheckboxChange }) {
   const [hytterFilterUtvidet, setHytterFilterUtvidet] = useState(false);
+  const { t } = useTranslation();
 
   //Laget av AI
   const handleMinChange = (e) => {
@@ -32,7 +34,7 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
         className="filter-toggle-button"
         onClick={() => setHytterFilterUtvidet(!hytterFilterUtvidet)}
       >
-        {hytterFilterUtvidet ? "✕" : "☰"} Hytter
+        {hytterFilterUtvidet ? "✕" : "☰"} {t("filter.hytter")}
       </button>
 
       {hytterFilterUtvidet && (
@@ -47,16 +49,16 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
                   setFilter({ ...filter, visHytter: e.target.checked })
                 }
               />{" "}
-              Vis hytter
+              {t("filter.vis_hytter")}
             </label>
           </div>
 
           {/*Hytte - søkefelt*/}
           <div className="filter-section">
-            <label>Søk:</label>
+            <label>{t("felles.søk")}:</label>
             <input
               type="text"
-              placeholder="Søk etter hytte"
+              placeholder={t("filter.søk_hytte")}
               value={filter.søkeord}
               onChange={(e) =>
                 setFilter({ ...filter, søkeord: e.target.value })
@@ -66,7 +68,7 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
 
           {/*Hytte - prisnivå*/}
           <div className="filter-section">
-            <label>Prisnivå: {filter.prisnivå[0]} kr - {filter.prisnivå[1]} kr</label>
+            <label>{t("filter.prisnivå")}: {filter.prisnivå[0]} kr - {filter.prisnivå[1]} kr</label>
             <div className="range-slider-container">
               <input
                 type="range"
@@ -89,7 +91,7 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
 
           {/*Hytte - betjeningsgrad*/}
           <div className="filter-section">
-            <label>Betjeningsgrad:</label>
+            <label>{t("filter.betjeningsgrad")}:</label>
             <div className="checkbox-group">
               <label>
                 <input
@@ -99,7 +101,7 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
                     handleCheckboxChange("betjeningsgrad", "Ubetjent")
                   }
                 />{" "}
-                Ubetjent
+                {t("filter.ubetjent")}
               </label>
 
               <label>
@@ -110,7 +112,7 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
                     handleCheckboxChange("betjeningsgrad", "Selvbetjent")
                   }
                 />{" "}
-                Selvbetjent
+                {t("filter.selvbetjent")}
               </label>
               
               <label>
@@ -121,14 +123,14 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
                     handleCheckboxChange("betjeningsgrad", "Betjent")
                   }
                 />{" "}
-                Betjent
+                {t("filter.betjent")}
               </label>
             </div>
           </div>
 
           {/*Hytte - fasiliteter*/}
           <div className="filter-section">
-            <label className="filter-label-overskrift">Fasiliteter:</label>
+            <label className="filter-label-overskrift">{t("filter.fasiliteter")}:</label>
             <div className="checkbox-group">
               <label>
                 <input
@@ -137,7 +139,7 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
                   //onChange={() =>
                   //  handleCheckboxChange("fasiliteter", "WIFI")
                   //}
-                />{" "} WIFI
+                />{" "} {t("filter.wifi")}
               </label>
             </div>
           </div>

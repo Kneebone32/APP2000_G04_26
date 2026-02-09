@@ -1,16 +1,124 @@
 {
-    "velkommen": "Velkommen til UT.ut",
+  "velkommen": "Velkommen til UT.ut",
+  
+  "nav": {
+    "hjem": "Hjem",
+    "turer": "Turer",
+    "hytter": "Hytter",
+    "kart": "Kart",
+    "fellesturer": "Fellesturer",
+    "annonser": "Annonser",
+    "profil": "Profil",
+    "bytt_språk": "Bytt til engelsk"
+  },
 
-    "nav": {
-        "bytt_språk": "Bytt til engelsk"
-    },
+  "felles": {
+    "koordinater": "Koordinater",
+    "sengeplasser": "Sengeplasser",
+    "antall_sengeplasser": "Antall sengeplasser",
+    "lokasjon": "Lokasjon",
+    "betjeningsgrad": "Betjeningsgrad",
+    "adkomst": "Adkomst",
+    "passer_for": "Passer for",
+    "tilgjengelighet": "Tilgjengelighet",
+    "flere_filter": "Flere filter",
+    "søk": "Søk",
+    "nullstill": "Nullstill",
+    "tilbake": "Tilbake",
+    "navn": "Navn",
+    "send_inn": "Send inn",
+    "slett": "Slett",
+    "avbryt": "Avbryt"
+  },
 
-    "hytter": {
-        "hytter": "Hytter"
-    },
+  "sider": {
+    "turer": "Nettside for turer",
+    "fellesturer": "Nettside for fellesturer",
+    "profil": "Nettside for profil",
+    "annonser": "Nettside for annonser"
+  },
 
+  "hytter": {
+    "tittel": "Hytter",
+    "laster": "Laster hytter...",
+    "ingen_hytter": "Ingen hytter funnet.",
+    "ikke_funnet": "Hytte ikke funnet",
+    "laster_detaljer": "Laster hytteinformasjon...",
+    "tilbake_til_hytter": "Tilbake til hytter"
+  },
 
-    "kart": {
-        "koordinater": "Koordinater"
-    }
+  "profil": {
+    "gå_til_admin": "Gå til Admin Panel"
+  },
+
+  "admin": {
+    "tittel": "Admin Panel",
+    "legg_til_hytte": "Legg til ny hytte",
+    "slett_hytte": "Slett hytte",
+    "hytte_navn": "Navn",
+    "antall_sengeplasser": "Sengeplasser",
+    "last_opp_bilde": "Last opp bilde",
+    "bilde_lastet_opp": "Bilde lastet opp!",
+    "legger_til": "Legger til...",
+    "legg_til_knapp": "Legg til hytte",
+    "søk_og_velg": "Søk og velg hytte (ID eller navn)",
+    "søk_placeholder": "Søk etter hytte...",
+    "slett_knapp": "Slett hytte",
+    "bekreft_sletting": "Er du sikker på at du vil slette hytten",
+    "velg_hytte": "Velg en hytte for sletting.",
+    "fyll_ut_felt": "Vennligst fyll ut alle feltene.",
+    "hytte_lagt_til": "Hytte er blitt lagt til.",
+    "hytte_slettet": "Hytte er blitt slettet.",
+    "feil_opprettelse_melding": "Noe gikk galt ved opprettelse av hytten.",
+    "feil_sletting_melding": "Noe gikk galt ved sletting av hytten.",
+    "feil_opprettelse": "Feil med opprettelse",
+    "feil_sletting": "Error ved sletting"
+  },
+
+  "kart": {
+    "laster": "Laster kart",
+    "feil_lasting": "Feil ved lasting",
+    "tur_til_meny": "Tur til Meny",
+    "varmdisk": "Hva har de i varmdisken i dag?"
+  },
+
+  "filter": {
+    "hytter": "Hytter",
+    "vis_hytter": "Vis hytter",
+    "søk_hytte": "Søk etter hytte",
+    "prisnivå": "Prisnivå",
+    "betjeningsgrad": "Betjeningsgrad",
+    "ubetjent": "Ubetjent",
+    "selvbetjent": "Selvbetjent",
+    "betjent": "Betjent",
+    "fasiliteter": "Fasiliteter",
+    "wifi": "WIFI",
+    
+    "fellesturer": "Fellesturer",
+    "vis_fellesturer": "Vis fellesturer",
+    
+    "turmål": "Turmål",
+    "vis_turmål": "Vis turmål",
+    
+    "turer": "Turer",
+    "vis_turer": "Vis turer",
+    "vanskelighetsgrad": "Vanskelighetsgrad",
+    "lett": "Lett",
+    "middels": "Middels",
+    "vanskelig": "Vanskelig",
+    "type": "Type",
+    "fottur": "Fottur",
+    "sykkeltur": "Sykkeltur",
+    "skitur": "Skitur"
+  },
+
+  "feil": {
+    "404": "404",
+    "side_finnes_ikke": "Siden finnes ikke",
+    "gå_til_forsiden": "Gå til forsiden"
+  },
+
+  "varsling": {
+    "skoleprosjekt": "Dette er et skoleprosjekt!"
+  }
 }
