@@ -1,12 +1,14 @@
 import PageWrapper from "../components/PageWrapper";
 import HytteKort from "../components/HytteKort";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import "./Hytter.css";
 
 export default function Hytter() {
   const [hytter, setHytter] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchHytter = async () => {
@@ -30,7 +32,7 @@ export default function Hytter() {
   }, []);
 
   return (
-    <PageWrapper title="Hytter">
+    <PageWrapper title={t("hytter.hytter")}>
       <div className="mt-3">
         {loading && <p>Laster hytter...</p>}
 

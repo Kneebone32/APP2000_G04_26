@@ -1,8 +1,15 @@
 {
     "velkommen": "Velkommen til UT.ut",
+
     "nav": {
         "bytt_språk": "Bytt til engelsk"
     },
+
+    "hytter": {
+        "hytter": "Hytter"
+    },
+
+
     "kart": {
         "koordinater": "Koordinater"
     }

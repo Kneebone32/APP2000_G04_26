@@ -13,3 +13,9 @@
     height: calc(100vh - var(--navbar-height));
     z-index: 1;
 }
+
+.no-scale-marker {
+    transform-origin: center;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
