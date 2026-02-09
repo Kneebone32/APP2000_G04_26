@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Marker, Polyline, Popup } from "react-leaflet";
-import Kart_basic, { hytteIcon, turStartIcon } from "../components/kart/KartBasic";
+import Kart_basic, {
+  hytteIcon,
+  turStartIcon,
+} from "../components/kart/KartBasic";
 import KartFilter from "../components/kart/KartFilter";
 import { useFetchHytter } from "../hooks/useFetchHytter";
 import { filterHytter } from "../utils/filterUtforskerKart";
-import {tur} from "../assets/tur"
+import { tur } from "../assets/tur";
 import "../App.css";
 
 //"Utforsker-kart" (Laget av Kay)
@@ -14,6 +17,7 @@ export default function Kart() {
 
   //filter til hytter
   const filteredHytter = filterHytter(hytter, filter);
+  console.log(hytter);
 
   if (loading) return <p>Laster kart</p>;
   if (error) return <p>Feil ved lasting: {error}</p>;
@@ -22,43 +26,43 @@ export default function Kart() {
     <div>
       <KartFilter onFilterChange={setFilter} />
 
-      <Kart_basic center={[59.4087, 9.0593]} zoom={13}>
+      <Kart_basic center={[66.351, 15.37]} zoom={13}>
         {filter.visFellesturer !== false && (
           <>
-          <Polyline 
-            positions={tur}
-            pathOptions={{
-              color: '#0dbbcb',
-              weight: 10,
-              opacity: 0.8
-            }}
-          />
+            <Polyline
+              positions={tur}
+              pathOptions={{
+                color: "#0dbbcb",
+                weight: 10,
+                opacity: 0.8,
+              }}
+            />
             <Marker
               position={[59.40913199711592, 9.059338489488056]}
               icon={turStartIcon}
-              >
+            >
               <Popup>
                 <strong>Tur til Meny</strong>
                 <br />
                 Hva har de i varmdisken i dag?
               </Popup>
             </Marker>
-            </>
+          </>
         )}
 
         {filter.visHytter &&
           filteredHytter.map((hytte) => (
             <Marker
               key={hytte.hytte_id}
-              position={hytte.koordinater}
+              position={[hytte.hytte_breddegrad, hytte.hytte_lengdegrad]}
               icon={hytteIcon}
             >
               <Popup>
-                <strong>{hytte.navn}</strong>
+                <strong>{hytte.hytte_navn}</strong>
                 <br />
-                Sengeplasser: {hytte.sengeplasser}
+                Sengeplasser: {hytte.hytte_sengeplasser}
                 <br />
-                {hytte.betjeningsgrad}
+                {hytte.hytte_betjeningsgrad}
               </Popup>
             </Marker>
           ))}

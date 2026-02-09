@@ -2,23 +2,26 @@
 //Filterfunksjon til hytter
 export function filterHytter(hytter, filter) {
   return hytter.filter((hytte) => {
-    
     //Null checks
-    if (!hytte.koordinater || !hytte.betjeningsgrad) {
+    if (
+      !hytte.hytte_breddegrad ||
+      !hytte.hytte_lengdegrad ||
+      !hytte.hytte_betjeningsgrad
+    ) {
       return false;
     }
 
     //Søk filter
     if (filter.søkeord) {
       const søkeordLower = filter.søkeord.toLowerCase();
-      if (!hytte.navn?.toLowerCase().includes(søkeordLower)) {
+      if (!hytte.hytte_navn?.toLowerCase().includes(søkeordLower)) {
         return false;
       }
     }
 
     //Betjeningsgrad filter
     if (filter.betjeningsgrad?.length > 0) {
-      if (!filter.betjeningsgrad.includes(hytte.betjeningsgrad)) {
+      if (!filter.betjeningsgrad.includes(hytte.hytte_betjeningsgrad)) {
         return false;
       }
     }
@@ -27,55 +30,50 @@ export function filterHytter(hytter, filter) {
     if (filter.prisnivå && hytte.pris) {
       const [minPris, maxPris] = filter.prisnivå;
       if (hytte.pris < minPris || hytte.pris > maxPris) {
+        //TODO: bytt til hytte_pris
         return false;
       }
     }
 
     //Fasiliteter filter
     //TODO: venter på testdata
-    
+
     return true;
   });
 }
 
 //Filterfunksjon til Turer
-export function filterTurer(turer, filter){
-    return turer.filter((tur) => {
-        
-        //Null check
-        if(!tur.koordinater) {
-            return false;
-        }
+export function filterTurer(turer, filter) {
+  return turer.filter((tur) => {
+    //Null check
+    if (!tur.koordinater) {
+      return false;
+    }
 
-        //TODO
-
-    });
+    //TODO
+  });
 }
 
 //Filterfunksjon til Fellesturer
-export function filterFellesturer(fellesturer, filter){
-    return fellesturer.filter((fellestur) => {
-        
-        //Null check
-        if(!fellestur.koordinater) {
-            return false;
-        }
+export function filterFellesturer(fellesturer, filter) {
+  return fellesturer.filter((fellestur) => {
+    //Null check
+    if (!fellestur.koordinater) {
+      return false;
+    }
 
-        //TODO
-
-    });
+    //TODO
+  });
 }
 
 //Filterfunksjon til TurMål
-export function filterTurMål(turmål, filter){
-    return turmål.filter((mål) => {
-        
-        //Null check
-        if(!mål.koordinater) {
-            return false;
-        }
+export function filterTurMål(turmål, filter) {
+  return turmål.filter((mål) => {
+    //Null check
+    if (!mål.koordinater) {
+      return false;
+    }
 
-        //TODO
-
-    });
+    //TODO
+  });
 }
