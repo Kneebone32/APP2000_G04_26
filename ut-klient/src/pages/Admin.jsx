@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useFetchHytter } from "../hooks/useFetchHytter";
 import './Admin.css';
 
@@ -8,7 +8,24 @@ export default function Admin() {
     // State for legg til hytte
     const [navn, setNavn] = useState("");
     const [sengeplasser, setSengeplasser] = useState("");
+    const [bildeUrl, setBildeUrl] = useState("");
     const [addLoading, setAddLoading] = useState(false);
+    const uploaderRef = useRef(null);
+
+    useEffect(() => {
+        const uploader = document.querySelector('simple-file-upload');
+        if (uploader) {
+            const handleUpload = (event) => {
+                const files = event.detail.allFiles;
+                if (files && files.length > 0) {
+                    const uploadedUrl = files[0].cdnUrl || files[0].url;
+                    setBildeUrl(uploadedUrl);
+                }
+            };
+            uploader.addEventListener('change', handleUpload);
+            return () => uploader.removeEventListener('change', handleUpload);
+        }
+    }, []);
 
     // State for slett hytte
     const [selectedId, setSelectedId] = useState("");
@@ -33,7 +50,8 @@ export default function Admin() {
                 },
                 body: JSON.stringify({
                     navn: navn,
-                    sengeplasser: parseInt(sengeplasser)
+                    sengeplasser: parseInt(sengeplasser),
+                    hyttebilde_url: bildeUrl || null
                 })
             });
 
@@ -44,6 +62,7 @@ export default function Admin() {
             alert("Hytte er blitt lagt til.");
             setNavn("");
             setSengeplasser("");
+            setBildeUrl("");
             refetch(); // Oppdater listen
         } catch (err) {
             console.error('Error: ', err);
@@ -118,6 +137,25 @@ export default function Admin() {
                             max="25"
                             required
                         />
+                    </div>
+                    <div>
+                        <label>Last opp bilde:</label>
+                        <simple-file-upload
+                            accept="image/*"
+                            max-file-size="5242880"
+                            max-files="5"
+                            ref={uploaderRef}
+                            public-key={import.meta.env.VITE_SFU_PUBLIC_KEY}
+                        ></simple-file-upload>
+                        {bildeUrl && (
+                            <div style={{ marginTop: '10px' }}>
+                                <p>Bilde lastet opp!</p>
+                                <img 
+                                    src={`${bildeUrl}?w=200&h=200&fit=fit`} 
+                                    alt="Preview" 
+                                />
+                            </div>
+                        )}
                     </div>
                     <button type="submit" disabled={addLoading}>
                         {addLoading ? 'Legger til...' : 'Legg til hytte'}

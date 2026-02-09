@@ -53,6 +53,7 @@ export default function Hytter() {
                 hytteId={hytte.hytte_id}
                 hytteNavn={hytte.navn}
                 sengeplasser={hytte.sengeplasser}
+                bildeUrl={hytte.hyttebilde_url}
                 />
             ))}
       </div>
