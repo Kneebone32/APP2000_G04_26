@@ -1,10 +1,12 @@
 import PageWrapper from "../components/PageWrapper";
-import './Home.css';
+import { useTranslation } from "react-i18next";
+import "./Home.css";
 
 export default function Home() {
+  const { t } = useTranslation();
   return (
     <div className="Home">
-      <PageWrapper title="Velkommen til UT.ut" />
+      <PageWrapper title={t("velkommen")} />
     </div>
   );
 }
