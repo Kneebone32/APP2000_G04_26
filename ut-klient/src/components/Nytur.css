@@ -1,0 +1,44 @@
+.rute-kontroller {
+  position: fixed;
+  top: calc(var(--navbar-height) + 20px);
+  left: 20px;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  max-width: 300px;
+}
+
+.rute-kontroller h3 {
+  margin-top: 0;
+}
+
+.rute-kontroller-info {
+  font-size: 14px;
+  color: #666;
+}
+
+.rute-kontroller-stats {
+  margin-bottom: 10px;
+}
+
+.rute-knapp {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.rute-knapp-tøm {
+  background: #f44336;
+  color: white;
+}
+
+.rute-knapp-log {
+  background: #4CAF50;
+  color: white;
+}

@@ -1,0 +1,156 @@
+/*Hele denne filen er generert av AI*/
+
+/* Modal Backdrop */
+.custom-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1040;
+    animation: fadeIn 0.15s ease-in;
+}
+
+/* Modal Container */
+.custom-modal-container {
+    position: fixed;
+    top: 0px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    overflow-y: auto;
+    animation: fadeIn 0.15s ease-in;
+}
+
+/* Modal Dialog */
+.custom-modal-dialog {
+    position: relative;
+    width: 100%;
+    margin: auto;
+    animation: slideDown 0.3s ease-out;
+}
+
+/* Size variants */
+.custom-modal-sm {
+    max-width: 400px;
+}
+
+.custom-modal-md {
+    max-width: 600px;
+}
+
+.custom-modal-lg {
+    max-width: 800px;
+}
+
+.custom-modal-xl {
+    max-width: 1140px;
+}
+
+/* Modal Content */
+.custom-modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    max-height: calc(100vh - 2rem);
+    overflow: hidden;
+}
+
+/* Modal Header */
+.custom-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.custom-modal-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #212529;
+}
+
+.custom-modal-close {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: #000;
+    opacity: 0.5;
+    cursor: pointer;
+    padding: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+}
+
+.custom-modal-close:hover {
+    opacity: 0.75;
+}
+
+/* Modal Body */
+.custom-modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+/* Modal Footer */
+.custom-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #dee2e6;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .custom-modal-dialog {
+        margin: 0.5rem;
+    }
+    
+    .custom-modal-sm,
+    .custom-modal-md,
+    .custom-modal-lg,
+    .custom-modal-xl {
+        max-width: 100%;
+    }
+}
