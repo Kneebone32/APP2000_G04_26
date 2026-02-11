@@ -1,0 +1,20 @@
+/* Container for GPX upload and button */
+.tur-opprettelse-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+/* Button and message container */
+.kart-knapp-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Success message when coordinates are saved */
+.koordinater-lagret-melding {
+    color: #4CAF50;
+    font-weight: 500;
+}

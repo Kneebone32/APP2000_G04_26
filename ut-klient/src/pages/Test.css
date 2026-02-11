@@ -1,0 +1,82 @@
+/*Overstyrer størrelsen til kartet*/
+.modal-map-container {
+    height: 70vh;
+    position: relative;
+}
+
+.modal-map-container .leaflet-container {
+    height: 100% !important;
+    width: 100%;
+}
+
+.modal-map-container .kart-wrapper {
+    position: relative;
+    margin-top: 0 !important;
+    height: 100% !important;
+    min-height: 400px;
+}
+
+/*Alt nedenfor er laget av AI */
+/* Override Nytur styles when used in modal */
+.modal-map-container {
+    padding: 0 !important;
+    height: 75vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.modal-map-container > div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.modal-map-container .rute-kontroller {
+    position: relative;
+    top: auto;
+    left: auto;
+    margin: 0;
+    max-width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    border-bottom: 1px solid #ddd;
+    z-index: auto;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
+}
+
+/* Make buttons display horizontally */
+.modal-map-container .rute-kontroller-knapp-container {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+}
+
+/* Override button width for horizontal layout */
+.modal-map-container .rute-knapp {
+    width: auto;
+    margin-bottom: 0;
+    padding: 8px 16px;
+    white-space: nowrap;
+}
+
+.modal-map-container .rute-kontroller-punkter {
+    margin: 0;
+}
+
+/* Button and message container */
+.kart-knapp-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+/* Success message when coordinates are saved */
+.koordinater-lagret-melding {
+    color: #4CAF50;
+    font-weight: 500;
+}

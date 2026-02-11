@@ -42,3 +42,9 @@
   background: #4CAF50;
   color: white;
 }
+
+.koordinater-hentet {
+  color: '#4CAF50'; 
+  font-Weight: '500';
+  margin-Left: '10px';
+}

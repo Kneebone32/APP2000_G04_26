@@ -1,23 +1,22 @@
-import { useState } from "react";
 import KartLagTur from "./kart/KartLagTur";
 import "./Nytur.css";
 
-export default function Nytur() {
-  const [rutePunkter, setRutePunkter] = useState([]);
+//For å opprette en ny turrute. Laget av Kay
+export default function Nytur({rutePunkter, setRutePunkter, onLagreKoordinater}) {
+
+  const handleLagre = () => {
+    onLagreKoordinater?.(rutePunkter);
+  };
 
   return (
     <div>
       {/*Håndterer turlaging*/}
       <div className="rute-kontroller">
-        <h3>Lag turrute</h3>
-        <p className="rute-kontroller-info">
-          Klikk på kartet for å legge til punkter på ruten
-        </p>
-        
         <div className="rute-kontroller-punkter">
           <strong>Antall punkter:</strong> {rutePunkter.length}
         </div>
-        
+        <div className="rute-kontroller-knapp-container">
+
         {/*Fjerner alle punkter*/}
         <button onClick={() => setRutePunkter([])} className="rute-knapp rute-knapp-tøm">
           Tøm rute
@@ -33,18 +32,16 @@ export default function Nytur() {
           </button>
         )}
 
-        {/*Logger alle punkter til konsollen. Senere blir disse brukt for å legge til ny tur*/}
+        {/*Lagrer alle punkter*/}
         {rutePunkter.length > 0 && (
           <button 
-            onClick={() => {
-              console.log("Rute-koordinater:");
-              console.log(JSON.stringify(rutePunkter, null, 2));
-            }}
+            onClick={handleLagre}
             className="rute-knapp rute-knapp-log"
           >
-            Logg koordinater
+            Lagre koordinater
           </button>
         )}
+        </div>
       </div>
       
       <KartLagTur 

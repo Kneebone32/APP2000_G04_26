@@ -16,8 +16,8 @@ function MapSizeInvalidator() {
 }
 
 
-//
-function RuteKontroller({ setRutePunkter }) {
+//Holder styr på rutepunktene. Laget av Kay
+function RuteKontroller({setRutePunkter}) {
   useMapEvents({
     click(e) {
       const nyttPunkt = [e.latlng.lat, e.latlng.lng];
@@ -27,7 +27,7 @@ function RuteKontroller({ setRutePunkter }) {
   return null;
 }
 
-//Brukes til å hente punktkoordinater og tegne ruten på kartet
+//Brukes til å hente punktkoordinater og tegne ruten på kartet. Laget av Kay
 export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4087, 9.0593], zoom = 12 }) {
   return (
     <Kart_basic center={center} zoom={zoom}>

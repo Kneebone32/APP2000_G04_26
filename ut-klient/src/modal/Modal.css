@@ -106,19 +106,10 @@
 .custom-modal-body {
     position: relative;
     flex: 1 1 auto;
-    padding: 1.5rem;
+    padding: 0;
     overflow-y: auto;
 }
 
-/* Modal Footer */
-.custom-modal-footer {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    padding: 1rem 1.5rem;
-    border-top: 1px solid #dee2e6;
-}
 
 /* Animations */
 @keyframes fadeIn {

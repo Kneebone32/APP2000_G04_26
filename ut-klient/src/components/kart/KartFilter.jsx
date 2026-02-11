@@ -8,6 +8,7 @@ import KartFilterTurer from "./KartFilterTurer";
 
 //Håndterer alle kartfilter. Laget av Kay
 export default function KartFilter({ onFilterChange }) {
+  const [filterÅpen, setFilterÅpen] = useState(false);
   const { t } = useTranslation();
   const [filter, setFilter] = useState({
     søkeord: "",
@@ -48,7 +49,16 @@ export default function KartFilter({ onFilterChange }) {
   };
 
   return (
-    <div className="kart-filter-wrapper">
+    <>
+      {/*Knapp for å åpne/lukke filter*/}
+      <button 
+        className="filter-main-toggle"
+        onClick={() => setFilterÅpen(!filterÅpen)}
+      >
+        {filterÅpen ? "✕" : "☰"}
+      </button>
+
+    <div className={`kart-filter-wrapper ${filterÅpen ? 'filter-åpen' : ''}`}>
       {/*Filter til hytter*/}
       <KartFilterHytter 
         filter={filter}
@@ -79,5 +89,6 @@ export default function KartFilter({ onFilterChange }) {
         {t("felles.nullstill")}
       </button>
     </div>
+    </>
   );
 }

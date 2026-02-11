@@ -5,7 +5,7 @@
 }
 
 .kart-wrapper {
-    position: fixed;
+    position: relative;
     margin-top: var(--navbar-height);
     left: 0;
     right: 0;
