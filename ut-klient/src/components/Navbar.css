@@ -8,9 +8,9 @@
     --navbar-height: calc(var(--announcement-bar-height) + var(--navbar-padding) + var(--navbar-content-height));
 }
 
-.header {
+header {
     position: fixed;
-    top: var(--announcement-bar-height);;
+    top: var(--announcement-bar-height);
     left: 0;
     width: 100%;
     padding: 20px 10%;
@@ -27,7 +27,7 @@
     text-decoration: none;
 }
 
-.navbar a {
+nav a {
     position: relative;
     font-size: 20x;
     color: black;
@@ -36,7 +36,7 @@
     text-decoration: none;
 }
 
-.navbar a::before {
+nav a::before {
     content: '';
     position: absolute;
     top: 100%;
@@ -47,25 +47,71 @@
     transition: .3s;
 }
 
-.navbar a:hover::before {
+nav a:hover::before {
     width: 100%;
 }
 
-.språk-toggle {
-  font-size: 24px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-left: 40px;
-  transition: transform 0.2s;
-  padding: 5px;
+header .nav-btn {
+    display: none;
+    opacity: 0;
+    color: black;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    font-size: 24px;
 }
 
-.språk-toggle:hover {
-  transform: scale(1.2);
+nav .nav-close-btn {
+    display: none;
+    opacity: 0;
 }
 
-.språk-toggle .fi {
-  font-size: 24px;
-  border-radius: 4px;
+@media only screen and (max-width: 1120px) {
+    header .nav-btn {
+        display: block;
+        opacity: 1;
+    }
+
+    nav.navbar {
+        top: var(--announcement-bar-height);
+        position: fixed;
+        right: 0;
+        height: 100%;
+        width: 300px;
+        background: rgb(240, 240, 240);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding-top: 80px;
+        padding-right: 40px;
+        gap: 30px;
+        transition: transform .3s ease-in-out;
+        transform: translateX(100%);
+        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    nav.navbar.responsive_nav {
+        transform: translateX(0);
+    }
+
+    nav.navbar .nav-close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        display: block;
+        opacity: 1;
+        color: black;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 24px;
+    }
+
+    nav.navbar a {
+        font-size: 18px;
+        margin-left: 0;
+    }
 }
