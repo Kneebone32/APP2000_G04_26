@@ -12,10 +12,11 @@ export const GpxParser = ({onKoordinaterLastet}) => {
       try {
         const gpxText = event.target.result;
         const gpx = parseGPX(gpxText);
-        console.log(gpx);
+        const waypoints = gpx[0]?.waypoints || [];
 
-        if (gpx[0].waypoints.length > 0) {
-          const koords = gpx[0].waypoints.map(p => [p.latitude, p.longitude]);
+        if (waypoints.length > 0) {
+          const koords = waypoints.map(p => [p.latitude, p.longitude]);
+
           onKoordinaterLastet(koords);
         } 
         } catch (err) {
