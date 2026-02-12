@@ -14,6 +14,7 @@ import Profil from "./pages/Profil";
 import Admin from "./pages/Admin";
 import Feilside from "./pages/Feilside";
 import Test from "./pages/Test";
+import Test2 from "./pages/Test2";
 
 export default function App() {
   return (
@@ -34,6 +35,7 @@ export default function App() {
             <Route path="/profil" element={<Profil />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/test" element={<Test />} />
+            <Route path="/test2" element={<Test2 />} />
             <Route path="*" element={<Feilside />} />
           </Routes>
         </main>
