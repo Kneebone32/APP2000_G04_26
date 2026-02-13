@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-export default function LeggTilHytte() {
+export default function LeggTilHytte({ onSuccess }) {
     const { t } = useTranslation();
     const [navn, setNavn] = useState("");
     const [sengeplasser, setSengeplasser] = useState(0);
@@ -57,6 +57,10 @@ export default function LeggTilHytte() {
         setNavn("");
         setSengeplasser(0);
         setBildeUrl("");
+
+        if (onSuccess) {
+            onSuccess();
+        }
     } catch (err) {
         console.error('Error: ', err);
         setError(err.message);
