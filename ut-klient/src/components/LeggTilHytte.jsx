@@ -1,11 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { useModal } from "../hooks/useModal";
+import Modal from "../modal/Modal";
+import NyttKoordinat from "./NyttKoordinat";
 
 export default function LeggTilHytte({ onSuccess }) {
     const { t } = useTranslation();
+    const { isOpen, open, close } = useModal();
     const [navn, setNavn] = useState("");
     const [sengeplasser, setSengeplasser] = useState(0);
     const [bildeUrl, setBildeUrl] = useState("");
+    const [koordinat, setKoordinat] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const uploaderRef = useRef(null);
@@ -24,6 +29,11 @@ export default function LeggTilHytte({ onSuccess }) {
             return () => uploader.removeEventListener('change', handleUpload);
         }
     }, []);
+
+    const handleLagreKoordinat = (koord) => {
+        setKoordinat(koord);
+        close();
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -45,7 +55,9 @@ export default function LeggTilHytte({ onSuccess }) {
                 body: JSON.stringify({
                     navn: navn,
                     sengeplasser: parseInt(sengeplasser),
-                    hyttebilde_url: bildeUrl || null
+                    hyttebilde_url: bildeUrl || null,
+                    latitude: koordinat ? koordinat[0] : null,
+                    longitude: koordinat ? koordinat[1] : null
                 })
             });
 
@@ -57,6 +69,7 @@ export default function LeggTilHytte({ onSuccess }) {
         setNavn("");
         setSengeplasser(0);
         setBildeUrl("");
+        setKoordinat(null);
 
         if (onSuccess) {
             onSuccess();
@@ -115,11 +128,28 @@ export default function LeggTilHytte({ onSuccess }) {
                         </div>
                     )}
                 </div>
+                <div>
+                    <label>Koordinater:</label>
+                    <button type="button" onClick={open}>
+                        {koordinat ? "Endre koordinater" : "Velg koordinater"}
+                    </button>
+                    {koordinat && (
+                        <p style={{ marginTop: '10px' }}>
+                            ✓ Koordinater valgt: {koordinat[0].toFixed(5)}, {koordinat[1].toFixed(5)}
+                        </p>
+                    )}
+                </div>
                 <button type="submit" disabled={loading}>
                     {loading ? t("admin.legger_til") : t("admin.legg_til_knapp")}
                 </button>
                 {error && <p style={{color: 'red'}}>{error}</p>}
             </form>
+
+            <Modal show={isOpen} onClose={close} size="lg">
+                <div style={{ width: '100%', height: '500px' }}>
+                    <NyttKoordinat onLagreKoordinat={handleLagreKoordinat} />
+                </div>
+            </Modal>
         </div>
     );
 }
