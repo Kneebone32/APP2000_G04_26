@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useModal } from "../hooks/useModal";
 import Modal from "../modal/Modal";
 import NyttKoordinat from "./NyttKoordinat";
+import { GpxParser } from "./GpxParser";
 
 export default function LeggTilHytte({ onSuccess }) {
     const { t } = useTranslation();
@@ -30,9 +31,31 @@ export default function LeggTilHytte({ onSuccess }) {
         }
     }, []);
 
+    // Sjekker at koordinatene er innenfor Norge 57.5°N til 71°N, og 4°E til 31°E, ikke en perfekt løsning, 
+    // kan sette hytter midt i havet
+    const erGyldigKoordinat = (koord) => {
+        if (!koord || koord.length !== 2) return false;
+        const [lat, lng] = koord;
+        return lat >= 57.5 && lat <= 71 && lng >= 4 && lng <= 31;
+    };
+
     const handleLagreKoordinat = (koord) => {
-        setKoordinat(koord);
-        close();
+        if (erGyldigKoordinat(koord)) {
+            setKoordinat(koord);
+            close();
+        } else {
+            alert("Koordinatene er utenfor Norge. Vennligst velg koordinater innenfor Norge.");
+        }
+    };
+
+    const handleGpxKoordinater = (koords) => {
+        if (koords && koords.length > 0) {
+            if (erGyldigKoordinat(koords[0])) {
+                setKoordinat(koords[0]);
+            } else {
+                alert("Koordinatene fra GPX-filen er utenfor Norge. Vennligst velg koordinater innenfor Norge.");
+            }
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -130,9 +153,14 @@ export default function LeggTilHytte({ onSuccess }) {
                 </div>
                 <div>
                     <label>Koordinater:</label>
-                    <button type="button" onClick={open}>
-                        {koordinat ? "Endre koordinater" : "Velg koordinater"}
-                    </button>
+                    <div>
+                        {!koordinat && (
+                            <GpxParser onKoordinaterLastet={handleGpxKoordinater} />
+                        )}
+                        <button type="button" onClick={open}>
+                            {koordinat ? "Endre koordinater" : "Velg koordinater"}
+                        </button>
+                    </div>
                     {koordinat && (
                         <p style={{ marginTop: '10px' }}>
                             ✓ Koordinater valgt: {koordinat[0].toFixed(5)}, {koordinat[1].toFixed(5)}
