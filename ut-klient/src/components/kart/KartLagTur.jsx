@@ -41,7 +41,7 @@ export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4
           positions={rutePunkter}
           pathOptions={{ 
             color: '#2196F3', 
-            weight: 4,
+            weight: 6,
             opacity: 0.8
           }}
         />

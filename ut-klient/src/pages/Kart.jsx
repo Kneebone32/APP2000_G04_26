@@ -3,7 +3,7 @@ import { Marker, Polyline, Popup, useMapEvents } from "react-leaflet";
 import { useTranslation } from "react-i18next";
 import Kart_basic, {
   hytteIcon,
-  turStartIcon,
+  turIcon,
 } from "../components/kart/KartBasic";
 import KartFilter from "../components/kart/KartFilter";
 import { useFetchHytter } from "../hooks/useFetchHytter";
@@ -55,7 +55,7 @@ export default function Kart() {
             />
             <Marker
               position={[59.40913199711592, 9.059338489488056]}
-              icon={turStartIcon}
+              icon={turIcon}
             >
               <Popup>
                 <strong>{t("kart.tur_til_meny")}</strong>

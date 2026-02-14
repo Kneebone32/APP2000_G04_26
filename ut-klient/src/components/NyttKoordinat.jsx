@@ -1,8 +1,8 @@
 import KartHentEttPunkt from "./kart/KartHentEttPunkt";
 import { useState } from "react";
 
-
-export default function NyttKoordinat({onLagreKoordinat}){
+//Komponent til å lagre koordinater til ett punkt. Hele filen laget av Kay med mindre annet er spesifisert
+export default function NyttKoordinat({onLagreKoordinat, ikon}){
   const [koordinat, setKoordinat] = useState(null);
 
   const handleLagre = () => {
@@ -20,6 +20,8 @@ export default function NyttKoordinat({onLagreKoordinat}){
       <KartHentEttPunkt 
         punkt={koordinat}
         setPunkt={setKoordinat}
+        markerIcon={ikon}
+
       />
     </div>
   );
