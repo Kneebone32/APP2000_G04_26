@@ -1,0 +1,27 @@
+* {
+    font-family: poppins, sans-serif;
+}
+
+.Turkort {
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px hsla(0, 0%, 0%, 0.1);
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+    background-color: rgb(251, 250, 250);
+    width: 400px;
+}
+
+.Turkort:hover {
+    box-shadow: 8px 8px 15px hsla(0, 0%, 0%, 0.2);
+    border: 2px solid green;
+}
+
+.Turkort .korttitle {
+    font-size: 30px;
+}
+
+.Turlink {
+    text-decoration: none;
+    color: black;
+}

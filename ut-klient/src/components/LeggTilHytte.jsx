@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useModal } from "../hooks/useModal";
+import { useFileUpload } from "../hooks/useFileUpload";
 import Modal from "../modal/Modal";
 import NyttKoordinat from "./NyttKoordinat";
 import { GpxParser } from "./GpxParser";
@@ -16,20 +17,7 @@ export default function LeggTilHytte({ onSuccess }) {
     const [error, setError] = useState(null);
     const uploaderRef = useRef(null);
 
-    useEffect(() => {
-        const uploader = document.querySelector('simple-file-upload');
-        if (uploader) {
-            const handleUpload = (event) => {
-                const files = event.detail.allFiles;
-                if (files && files.length > 0) {
-                    const uploadedUrl = files[0].cdnUrl || files[0].url;
-                    setBildeUrl(uploadedUrl);
-                }
-            };
-            uploader.addEventListener('change', handleUpload);
-            return () => uploader.removeEventListener('change', handleUpload);
-        }
-    }, []);
+    useFileUpload(setBildeUrl);
 
     // Sjekker at koordinatene er innenfor Norge 57.5°N til 71°N, og 4°E til 31°E, ikke en perfekt løsning, 
     // kan sette hytter midt i havet

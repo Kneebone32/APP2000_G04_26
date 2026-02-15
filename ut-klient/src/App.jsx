@@ -12,6 +12,8 @@ import Fellesturer from "./pages/Fellesturer";
 import Annonser from "./pages/Annonser";
 import Profil from "./pages/Profil";
 import Admin from "./pages/Admin";
+import HytteModerator from "./pages/HytteModerator";
+import TurModerator from "./pages/TurModerator";
 import Feilside from "./pages/Feilside";
 import Test from "./pages/Test";
 import Test2 from "./pages/Test2";
@@ -34,6 +36,8 @@ export default function App() {
             <Route path="/annonser" element={<Annonser />} />
             <Route path="/profil" element={<Profil />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/hytter" element={<HytteModerator />} />
+            <Route path="/admin/turer" element={<TurModerator />} />
             <Route path="/test" element={<Test />} />
             <Route path="/test2" element={<Test2 />} />
             <Route path="*" element={<Feilside />} />

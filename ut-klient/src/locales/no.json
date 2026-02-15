@@ -18,6 +18,7 @@
     "antall_sengeplasser": "Antall sengeplasser",
     "lokasjon": "Lokasjon",
     "betjeningsgrad": "Betjeningsgrad",
+    "vanskelighetsgrad": "Vanskelighetsgrad",
     "adkomst": "Adkomst",
     "passer_for": "Passer for",
     "tilgjengelighet": "Tilgjengelighet",
@@ -35,7 +36,8 @@
     "turer": "Nettside for turer",
     "fellesturer": "Nettside for fellesturer",
     "profil": "Nettside for profil",
-    "annonser": "Nettside for annonser"
+    "annonser": "Nettside for annonser",
+    "admin": "Admin Nettside"
   },
 
   "hytter": {
@@ -55,16 +57,18 @@
     "tittel": "Admin Panel",
     "legg_til_hytte": "Legg til ny hytte",
     "slett_hytte": "Slett hytte",
+    "legg_til_tur": "Legg til ny tur",
+    "slett_tur": "Slett tur",
     "hytte_navn": "Navn",
     "antall_sengeplasser": "Sengeplasser",
     "last_opp_bilde": "Last opp bilde",
     "bilde_lastet_opp": "Bilde lastet opp!",
     "legger_til": "Legger til...",
     "legg_til_knapp": "Legg til hytte",
-    "søk_og_velg": "Søk og velg hytte (ID eller navn)",
-    "søk_placeholder": "Søk etter hytte...",
-    "slett_knapp": "Slett hytte",
-    "bekreft_sletting": "Er du sikker på at du vil slette hytten",
+    "søk_og_velg": "Søk og velg (ID eller navn)",
+    "søk_placeholder": "Søk...",
+    "slett_knapp": "Slett",
+    "bekreft_sletting": "Er du sikker på at du vil slette",
     "velg_hytte": "Velg en hytte for sletting.",
     "fyll_ut_felt": "Vennligst fyll ut alle feltene.",
     "hytte_lagt_til": "Hytte er blitt lagt til.",
@@ -72,7 +76,9 @@
     "feil_opprettelse_melding": "Noe gikk galt ved opprettelse av hytten.",
     "feil_sletting_melding": "Noe gikk galt ved sletting av hytten.",
     "feil_opprettelse": "Feil med opprettelse",
-    "feil_sletting": "Error ved sletting"
+    "feil_sletting": "Error ved sletting",
+    "gå_til_hytte": "Gå til Admin Hytter",
+    "gå_til_tur": "Gå til Admin Turer"
   },
 
   "kart": {
@@ -120,5 +126,45 @@
 
   "varsling": {
     "skoleprosjekt": "Dette er et skoleprosjekt!"
+  },
+  
+  "tur": {
+    "tittel": "Turer",
+    "legg_til_tur": "Legg til ny tur",
+    "vanskelighetsgrad": "Vanskelighetsgrad",
+    "vanskelighetsgrad_1": "Lett",
+    "vanskelighetsgrad_2": "Middels",
+    "vanskelighetsgrad_3": "Vanskelig",
+    "koordinater_start_slutt": "Koordinater (start og slutt)",
+    "endre_rute": "Endre rute",
+    "lag_rute": "Lag rute",
+    "rute_lagret": "Rute lagret med",
+    "punkter": "punkt(er)",
+    "start": "Start",
+    "slutt": "Slutt",
+    "velg_minst_to_punkter": "Vennligst velg minst 2 punkter (start og slutt) for turen.",
+    "koordinater_utenfor_norge": "En eller begge koordinatene er utenfor Norge. Vennligst velg koordinater innenfor Norge.",
+    "gpx_utenfor_norge": "Koordinatene fra GPX-filen er utenfor Norge. Vennligst velg koordinater innenfor Norge.",
+    "gpx_ett_punkt": "GPX-filen inneholder bare ett punkt. Turer trenger minst 2 punkter (start og slutt).",
+    "fyll_ut_felt": "Vennligst fyll ut alle feltene.",
+    "feil_opprettelse": "Feil med opprettelse",
+    "tur_lagt_til": "Tur er blitt lagt til.",
+    "legger_til": "Legger til...",
+    "legg_til_knapp": "Legg til tur",
+    "last_opp_bilde": "Last opp bilde",
+    "bilde_lastet_opp": "Bilde lastet opp!",
+    "velg_tur": "Velg en tur for sletting.",
+    "bekreft_sletting": "Er du sikker på at du vil slette turen",
+    "tur_slettet": "Tur er blitt slettet.",
+    "feil_sletting_melding": "Noe gikk galt ved sletting av tur."
+  },
+
+  "turer": {
+    "tittel": "Turer",
+    "laster": "Laster turer...",
+    "ingen_turer": "Ingen turer funnet.",
+    "ikke_funnet": "Tur ikke funnet",
+    "laster_detaljer": "Laster turinformasjon...",
+    "tilbake_til_turer": "Tilbake til turer"
   }
 }

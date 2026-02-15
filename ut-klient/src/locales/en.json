@@ -18,6 +18,7 @@
     "antall_sengeplasser": "Number of beds",
     "lokasjon": "Location",
     "betjeningsgrad": "Service Level",
+    "vanskelighetsgrad": "Difficulty",
     "adkomst": "Access",
     "passer_for": "Suitable for",
     "tilgjengelighet": "Accessibility",
@@ -35,7 +36,8 @@
     "turer": "Website for trips",
     "fellesturer": "Website for group trips",
     "profil": "Website for profile",
-    "annonser": "Website for announcements"
+    "annonser": "Website for announcements",
+    "admin": "Admin Website"
   },
 
   "hytter": {
@@ -55,16 +57,18 @@
     "tittel": "Admin Panel",
     "legg_til_hytte": "Add new cabin",
     "slett_hytte": "Delete cabin",
+    "legg_til_tur": "Add new trip",
+    "slett_tur": "Delete trip",
     "hytte_navn": "Name",
     "antall_sengeplasser": "Beds",
     "last_opp_bilde": "Upload photo",
     "bilde_lastet_opp": "Image uploaded!",
     "legger_til": "Adding...",
     "legg_til_knapp": "Add cabin",
-    "søk_og_velg": "Search and select cabin (ID or name)",
-    "søk_placeholder": "Search for cabin...",
-    "slett_knapp": "Delete cabin",
-    "bekreft_sletting": "Are you sure you want to delete the cabin",
+    "søk_og_velg": "Search and select (ID or name)",
+    "søk_placeholder": "Search...",
+    "slett_knapp": "Delete",
+    "bekreft_sletting": "Are you sure you want to delete",
     "velg_hytte": "Select a cabin for deletion.",
     "fyll_ut_felt": "Please fill out all fields.",
     "hytte_lagt_til": "Cabin has been added.",
@@ -72,7 +76,9 @@
     "feil_opprettelse_melding": "Something went wrong while creating the cabin.",
     "feil_sletting_melding": "Something went wrong while deleting the cabin.",
     "feil_opprettelse": "Error with creation",
-    "feil_sletting": "Error with deletion"
+    "feil_sletting": "Error with deletion",
+    "gå_til_hytte": "Go to Admin Cabins",
+    "gå_til_tur": "Go to Admin Trips"
   },
 
   "kart": {
@@ -120,5 +126,45 @@
 
   "varsling": {
     "skoleprosjekt": "This is a school project!"
+  },
+
+  "tur": {
+    "tittel": "Trips",
+    "legg_til_tur": "Add new trip",
+    "vanskelighetsgrad": "Difficulty",
+    "vanskelighetsgrad_1": "Easy",
+    "vanskelighetsgrad_2": "Medium",
+    "vanskelighetsgrad_3": "Hard",
+    "koordinater_start_slutt": "Coordinates (start and end)",
+    "endre_rute": "Change route",
+    "lag_rute": "Create route",
+    "rute_lagret": "Route saved with",
+    "punkter": "point(s)",
+    "start": "Start",
+    "slutt": "End",
+    "velg_minst_to_punkter": "Please select at least 2 points (start and end) for the trip.",
+    "koordinater_utenfor_norge": "One or both coordinates are outside Norway. Please select coordinates within Norway.",
+    "gpx_utenfor_norge": "Coordinates from the GPX file are outside Norway. Please select coordinates within Norway.",
+    "gpx_ett_punkt": "The GPX file contains only one point. Trips need at least 2 points (start and end).",
+    "fyll_ut_felt": "Please fill out all fields.",
+    "feil_opprettelse": "Error with creation",
+    "tur_lagt_til": "Trip has been added.",
+    "legger_til": "Adding...",
+    "legg_til_knapp": "Add trip",
+    "last_opp_bilde": "Upload photo",
+    "bilde_lastet_opp": "Image uploaded!",
+    "velg_tur": "Select a trip for deletion.",
+    "bekreft_sletting": "Are you sure you want to delete the trip",
+    "tur_slettet": "Trip has been deleted.",
+    "feil_sletting_melding": "Something went wrong while deleting the trip."
+  },
+
+  "turer": {
+    "tittel": "Trips",
+    "laster": "Loading trips...",
+    "ingen_turer": "No trips found.",
+    "ikke_funnet": "Trip not found",
+    "laster_detaljer": "Loading trip information...",
+    "tilbake_til_turer": "Back to trips"
   }
 }
