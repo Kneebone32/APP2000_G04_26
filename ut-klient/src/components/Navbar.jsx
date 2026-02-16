@@ -1,3 +1,7 @@
+/*
+Laget av Eivind & Olai
+*/
+
 import { Link } from "react-router-dom";
 import { useRef, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
