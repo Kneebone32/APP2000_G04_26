@@ -35,11 +35,11 @@ export default function LeggTilHytte({ onSuccess }) {
         const lokalHøydeData = await hentFullHøydeData(koord[0], koord[1])
         setHøydeData(lokalHøydeData);
 
-        if (erGyldigKoordinatEttPunkt(høydeData, "hytte")) {
+        if (erGyldigKoordinatEttPunkt(lokalHøydeData, "hytte")) {
             setKoordinat(koord);
             close();
         } else {
-            alert(`Terrengtypen til koordinatene er ${høydeData.terreng}. Vennligst velg gyldige koordinater`);
+            alert(`Terrengtypen til koordinatene er ${lokalHøydeData.terreng}. Vennligst velg gyldige koordinater`);
         }
     };
 
