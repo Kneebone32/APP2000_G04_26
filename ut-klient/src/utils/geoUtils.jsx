@@ -84,5 +84,28 @@ export const hentFullHøydeData = async (lat, lon) => {
   }
 };
 
+//Henter all høydedata fra ett punkt. Laget av Kay
+export const hentKommuneData = async (lat, lon) => {
+  try {
+    const response = await fetch(
+      `https://ws.geonorge.no/kommuneinfo/v1/punkt?nord=${lat}&ost=${lon}&koordsys=4326`
+    );
+    
+    if (!response.ok){ 
+      throw new Error("Kunne ikke hente kommuneinfo");
+    }
+
+    const data = await response.json();
+    return data;
+
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+
+
+
 
 

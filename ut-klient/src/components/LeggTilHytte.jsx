@@ -5,7 +5,7 @@ import { useFileUpload } from "../hooks/useFileUpload";
 import Modal from "../modal/Modal";
 import NyttKoordinat from "./NyttKoordinat";
 import { GpxParser } from "./GpxParser";
-import { hentFullHøydeData } from "../utils/geoUtils";
+import { hentFullHøydeData, hentKommuneData } from "../utils/geoUtils";
 import { erGyldigKoordinatEttPunkt } from "../utils/erGyldigKoordinat";
 
 export default function LeggTilHytte({ onSuccess }) {
@@ -18,6 +18,7 @@ export default function LeggTilHytte({ onSuccess }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [høydeData, setHøydeData] = useState([]);
+    const [kommuneData, setKommuneData] = useState([]);
     const uploaderRef = useRef(null);
 
     useFileUpload(setBildeUrl);
@@ -32,8 +33,11 @@ export default function LeggTilHytte({ onSuccess }) {
 
 
     const handleLagreKoordinat = async (koord) => {
-        const lokalHøydeData = await hentFullHøydeData(koord[0], koord[1])
+        const lokalHøydeData = await hentFullHøydeData(koord[0], koord[1]);
+        const lokalKommuneData = await hentKommuneData(koord[0], koord[1]);
         setHøydeData(lokalHøydeData);
+        setKommuneData(lokalKommuneData);
+
 
         if (erGyldigKoordinatEttPunkt(lokalHøydeData, "hytte")) {
             setKoordinat(koord);
