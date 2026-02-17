@@ -64,5 +64,25 @@ export const hentHøydeProfil = async (koords) => {
 };
 
 
+//Henter all høydedata fra ett punkt. Laget av Kay
+export const hentFullHøydeData = async (lat, lon) => {
+  try {
+    const response = await fetch(
+      `https://ws.geonorge.no/hoydedata/v1/punkt?nord=${lat}&ost=${lon}&koordsys=4326`
+    );
+    
+    if (!response.ok){ 
+      throw new Error("Kunne ikke hente høydedata");
+    }
+
+    const data = await response.json();
+    return data.punkter[0];
+
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
 
 

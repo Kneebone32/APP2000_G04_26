@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-//Alle kartfilter til turmål.
+//Alle kartfilter til turmål. Hele filen laget av Kay med mindre annet er spesifisert
 export default function KartFilterTurmål({ filter, setFilter }) {
   const [turmålFilterUtvidet, setTurmålFilterUtvidet] = useState(false);
   const { t } = useTranslation();

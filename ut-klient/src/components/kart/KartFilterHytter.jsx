@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-//Alle kartfilter til hytter. Laget av Kay
+//Alle kartfilter til hytter. Hele filen laget av Kay med mindre annet er spesifisert
 export default function KartFilterHytter({ filter, setFilter, handleCheckboxChange }) {
   const [hytterFilterUtvidet, setHytterFilterUtvidet] = useState(false);
   const { t } = useTranslation();

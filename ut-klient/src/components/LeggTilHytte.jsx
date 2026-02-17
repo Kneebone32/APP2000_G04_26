@@ -5,6 +5,8 @@ import { useFileUpload } from "../hooks/useFileUpload";
 import Modal from "../modal/Modal";
 import NyttKoordinat from "./NyttKoordinat";
 import { GpxParser } from "./GpxParser";
+import { hentFullHøydeData } from "../utils/geoUtils";
+import { erGyldigKoordinatEttPunkt } from "../utils/erGyldigKoordinat";
 
 export default function LeggTilHytte({ onSuccess }) {
     const { t } = useTranslation();
@@ -15,6 +17,7 @@ export default function LeggTilHytte({ onSuccess }) {
     const [koordinat, setKoordinat] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [høydeData, setHøydeData] = useState([]);
     const uploaderRef = useRef(null);
 
     useFileUpload(setBildeUrl);
@@ -27,12 +30,16 @@ export default function LeggTilHytte({ onSuccess }) {
         return lat >= 57.5 && lat <= 71 && lng >= 4 && lng <= 31;
     };
 
-    const handleLagreKoordinat = (koord) => {
-        if (erGyldigKoordinat(koord)) {
+
+    const handleLagreKoordinat = async (koord) => {
+        const lokalHøydeData = await hentFullHøydeData(koord[0], koord[1])
+        setHøydeData(lokalHøydeData);
+
+        if (erGyldigKoordinatEttPunkt(høydeData, "hytte")) {
             setKoordinat(koord);
             close();
         } else {
-            alert("Koordinatene er utenfor Norge. Vennligst velg koordinater innenfor Norge.");
+            alert(`Terrengtypen til koordinatene er ${høydeData.terreng}. Vennligst velg gyldige koordinater`);
         }
     };
 
@@ -160,9 +167,9 @@ export default function LeggTilHytte({ onSuccess }) {
                 </button>
                 {error && <p style={{color: 'red'}}>{error}</p>}
             </form>
-
+                
             <Modal show={isOpen} onClose={close} size="lg">
-                <div style={{ width: '100%', height: '500px' }}>
+                <div className="modal-map-container">
                     <NyttKoordinat onLagreKoordinat={handleLagreKoordinat} />
                 </div>
             </Modal>

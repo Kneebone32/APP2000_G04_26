@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-//Alle kartfilter til Turer.
+//Alle kartfilter til Turer. Hele filen laget av Kay med mindre annet er spesifisert
 export default function KartFilterTurer({ filter, setFilter, handleCheckboxChange }) {
   const [turerFilterUtvidet, setTurerFilterUtvidet] = useState(false);
   const { t } = useTranslation();

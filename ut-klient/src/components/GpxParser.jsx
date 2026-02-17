@@ -1,6 +1,6 @@
 import { parseGPX } from '@we-gold/gpxjs';
 
-//Laster opp og Parser koordinater fra GPX-fil. Laget av Kay
+//Laster opp og Parser koordinater fra GPX-fil. Hele filen laget av Kay med mindre annet er spesifisert
 export const GpxParser = ({onKoordinaterLastet}) => {
   
   const handleFileChange = (e) => {

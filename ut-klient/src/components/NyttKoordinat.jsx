@@ -1,13 +1,12 @@
 import KartHentEttPunkt from "./kart/KartHentEttPunkt";
 import { useState } from "react";
 
-//Komponent til å lagre koordinater til ett punkt. Hele filen laget av Kay med mindre annet er spesifisert
+//Komponent til å lagre koordinater til ett punkt. Laget av Kay
 export default function NyttKoordinat({onLagreKoordinat, ikon}){
   const [koordinat, setKoordinat] = useState(null);
 
   const handleLagre = () => {
     onLagreKoordinat?.(koordinat);
-    console.log("koordinat:", koordinat); //temp løsning
   };
 
   return (

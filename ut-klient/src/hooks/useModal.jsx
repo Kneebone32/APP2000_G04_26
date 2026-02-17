@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+//Hook for Modal. Laget av Kay
 export function useModal() {
     const [isOpen, setIsOpen] = useState(false);
     const [key, setKey] = useState(0);

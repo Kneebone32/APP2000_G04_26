@@ -1,7 +1,7 @@
 import "./Modal.css";
 import { useEffect } from "react";
 
-//Laget av Kay
+//Hele filen laget av Kay med mindre annet er spesifisert
 export default function Modal({show, onClose, title, children, size = "md"}) {
 
     //Hjelper Leaflet med å regne ut den faktiske størrelsen på Modal. Laget av AI

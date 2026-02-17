@@ -11,6 +11,7 @@ import { filterHytter } from "../utils/filterUtforskerKart";
 import { tur } from "../assets/tur";
 import "../App.css";
 
+//Hele filen laget av Kay med mindre annet er spesifisert
 //Holder styr på zoom level
 function ZoomLevel({onZoomChange}){
     const mapEvents = useMapEvents({

@@ -6,7 +6,7 @@ import KartFilterFellesturer from "./KartFilterFellesturer";
 import KartFilterTurmål from "./KartFilterTurmål";
 import KartFilterTurer from "./KartFilterTurer";
 
-//Håndterer alle kartfilter. Laget av Kay
+//Håndterer alle kartfilter. Hele filen laget av Kay med mindre annet er spesifisert
 export default function KartFilter({ onFilterChange }) {
   const [filterÅpen, setFilterÅpen] = useState(false);
   const { t } = useTranslation();

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-//Alle kartfilter til fellesturer. Laget av Kay
+//Alle kartfilter til fellesturer. Hele filen laget av Kay med mindre annet er spesifisert
 export default function KartFilterFellesturer({ filter, setFilter }) {
   const [fellesturerFilterUtvidet, setFellesturerFilterUtvidet] = useState(false);
   const { t } = useTranslation();
