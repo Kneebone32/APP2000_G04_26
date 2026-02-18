@@ -46,11 +46,24 @@ export function filterHytter(hytter, filter) {
 export function filterTurer(turer, filter) {
   return turer.filter((tur) => {
     //Null check
-    if (!tur.koordinater) {
+    if (!tur.punkter || tur.punkter.length === 0) {
       return false;
     }
 
-    //TODO
+    //
+    if (filter.turtype?.length > 0) {
+      if (!filter.turtype.includes(tur.turtype)) {
+        return false;
+      }
+    }
+
+    if (filter.vanskelighetsgrad?.length > 0) {
+      if (!filter.vanskelighetsgrad.includes(tur.vanskelighetsgrad)) {
+        return false;
+      }
+    }
+
+    return true;
   });
 }
 

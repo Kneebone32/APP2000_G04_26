@@ -13,6 +13,7 @@ export default function KartFilter({ onFilterChange }) {
   const [filter, setFilter] = useState({
     søkeord: "",
     betjeningsgrad: [],
+    turtype: [],
     prisnivå: [0, 1000],
     visHytter: true,
     visFellesturer: true,
@@ -40,7 +41,9 @@ export default function KartFilter({ onFilterChange }) {
     setFilter({
       søkeord: "",
       betjeningsgrad: [],
+      turtype: [],
       prisnivå: [0, 1000],
+      vanskelighetsgrad:"",
       visHytter: true,
       visFellesturer: true,
       visTurmål: true,
@@ -70,6 +73,7 @@ export default function KartFilter({ onFilterChange }) {
       <KartFilterTurer 
         filter={filter}
         setFilter={setFilter}
+        handleCheckboxChange={handleCheckboxChange}
       />
 
       {/*Filter til fellesturer*/}

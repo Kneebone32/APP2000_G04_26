@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import './TurKort.css';
 
-export default function TurKort({turId, turNavn, vanskelighetsgrad, bildeUrl}) {
+export default function TurKort({turId, turNavn, vanskelighetsgrad, bildeUrl, turtype, varighet}) {
     const { t } = useTranslation();
     return (
         <div className="Turkort">
@@ -18,6 +18,8 @@ export default function TurKort({turId, turNavn, vanskelighetsgrad, bildeUrl}) {
                     <div className="kortbody">
                         <h3 className="korttitle">{turNavn}</h3>
                         <p className="korttext">{t("tur.vanskelighetsgrad")}: {vanskelighetsgrad}</p>
+                        <p className="korttext">Turtype: {turtype}</p>
+                        <p className="korttext">Varighet: {varighet}</p>
                     </div>
                 </div>
             </Link>

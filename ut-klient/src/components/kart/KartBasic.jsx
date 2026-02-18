@@ -2,7 +2,7 @@ import PageWrapper from "../PageWrapper";
 import {MapContainer, TileLayer, ZoomControl} from "react-leaflet";
 import { Icon } from "leaflet";
 import hytteMarker from "../../assets/kart/hytte.png";
-import turStartMarker from "../../assets/kart/marker.png";
+import turStartMarker from "../../assets/kart/tur.png";
 import "leaflet/dist/leaflet.css";
 import "./KartBasic.css";
 

@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react';
 
 export function useFetchTurer(autoFetch = true) {
   const [turer, setTurer] = useState([]);
-  const [loading, setLoading] = useState(autoFetch);
-  const [error, setError] = useState(null);
+  const [loadingTurer, setLoadingTurer] = useState(autoFetch);
+  const [errorTurer, setErrorTurer] = useState(null);
 
   const fetchTurer = async () => {
     try {
-      setLoading(true);
-      setError(null);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/turer`);
+      setLoadingTurer(true);
+      setErrorTurer(null);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter`);
       
       if (!response.ok) {
         throw new Error(`HTTP error: ${response.status}`);
@@ -18,9 +18,9 @@ export function useFetchTurer(autoFetch = true) {
       const data = await response.json();
       setTurer(data);
     } catch (err) {
-      setError(err.message);
+      setErrorTurer(err.message);
     } finally {
-      setLoading(false);
+      setLoadingTurer(false);
     }
   };
 
@@ -51,8 +51,8 @@ export function useFetchTurer(autoFetch = true) {
 
   return { 
     turer, 
-    loading, 
-    error, 
+    loadingTurer, 
+    errorTurer, 
     refetch: fetchTurer,
     deleteTur 
   };

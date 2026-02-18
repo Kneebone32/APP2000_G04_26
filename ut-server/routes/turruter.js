@@ -3,16 +3,17 @@ import pool from '../config/db.js';
 
 const router = express.Router();
 
-// Henter alle turruter
+//Henter alle turruter til kartet
 router.get('/', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM turrute');
+    const result = await pool.query('SELECT * FROM turrute_kart_hent();');
     res.json(result.rows);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Database connection failed' });
   }
 });
+
 
 // Henter turrute med gitt id
 router.get('/:id', async (req, res) => {

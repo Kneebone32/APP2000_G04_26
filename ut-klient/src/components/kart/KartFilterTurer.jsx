@@ -19,7 +19,7 @@ export default function KartFilterTurer({ filter, setFilter, handleCheckboxChang
 
       {turerFilterUtvidet && (
         <>
-          {/*Turer - vis turmål*/}
+          {/*Turer - vis turer*/}
           <div className="turer-kart-toggle">
             <label>
               <input
@@ -37,18 +37,16 @@ export default function KartFilterTurer({ filter, setFilter, handleCheckboxChang
           <div className="filter-section">
           <label>{t("filter.vanskelighetsgrad")}:</label>
           <select
-          //value={filters.vanskelighetsgrad}                                             TODO: venter på testdata
-          //onChange={(e) => setFilters({...filters, vanskelighetsgrad: e.target.value})} TODO: venter på testdata
+          value={filter.vanskelighetsgrad}                                             
+          onChange={(e) => setFilter({...filter, vanskelighetsgrad: e.target.value})}
           >
-          <option value="">{t("filter.lett")}</option>
-          <option value="5">{t("filter.middels")}</option>
-          <option value="10">{t("filter.vanskelig")}</option>
+            <option value=""disabled selected hidden></option>
+          <option value="lett">{t("filter.lett")}</option>
+          <option value="middels">{t("filter.middels")}</option>
+          <option value="vanskelig">{t("filter.vanskelig")}</option>
           </select>
           </div>
 
-
-
-          {/*Turer - Varighet - TODO: venter på testdata*/}
           {/*Turer - Turtype*/}
           <div className="filter-section">
             <label>{t("filter.type")}:</label>
@@ -56,9 +54,9 @@ export default function KartFilterTurer({ filter, setFilter, handleCheckboxChang
               <label>
                 <input
                   type="checkbox"
-                  //checked={filter.turtype.includes("Fottur")}  TODO: venter på testdata
+                  checked={filter.turtype.includes("fottur")}
                   onChange={() =>
-                    handleCheckboxChange("turtype", "Fottur")
+                    handleCheckboxChange("turtype", "fottur")
                   }
                 />{" "}
                 {t("filter.fottur")}
@@ -67,9 +65,9 @@ export default function KartFilterTurer({ filter, setFilter, handleCheckboxChang
               <label>
                 <input
                   type="checkbox"
-                  //checked={filter.turtype.includes("Sykkeltur")}  TODO: venter på testdata
+                  checked={filter.turtype.includes("sykkeltur")}
                   onChange={() =>
-                    handleCheckboxChange("turtype", "Sykkeltur")
+                    handleCheckboxChange("turtype", "sykkeltur")
                   }
                 />{" "}
                 {t("filter.sykkeltur")}
@@ -78,9 +76,9 @@ export default function KartFilterTurer({ filter, setFilter, handleCheckboxChang
               <label>
                 <input
                   type="checkbox"
-                  //checked={filter.turtype.includes("Skitur")}  TODO: venter på testdata
+                  checked={filter.turtype.includes("skitur")}
                   onChange={() =>
-                    handleCheckboxChange("turtype", "Skitur")
+                    handleCheckboxChange("turtype", "skitur")
                   }
                 />{" "}
                 {t("filter.skitur")}
