@@ -1,6 +1,6 @@
 import express from 'express';
 import hytterRoutes from './hytter.js';
-import turruterRoutes from '.turruter.js';
+import turruterRoutes from './turruter.js';
 
 const router = express.Router();
 
