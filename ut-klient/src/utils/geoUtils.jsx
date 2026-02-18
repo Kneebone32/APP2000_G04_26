@@ -84,7 +84,7 @@ export const hentFullHøydeData = async (lat, lon) => {
   }
 };
 
-//Henter all høydedata fra ett punkt. Laget av Kay
+//Henter kommune og fylke ut fra ett punkt. Laget av Kay
 export const hentKommuneData = async (lat, lon) => {
   try {
     const response = await fetch(
