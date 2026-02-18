@@ -1,0 +1,41 @@
+import { useState } from "react";
+import { useMap, useMapEvents } from "react-leaflet";
+import { FiNavigation } from "react-icons/fi";
+import "./NavigasjonFinnPosisjon.css";
+
+//Laget av Kay
+//Spør bruker om tillatelse til å bruke posisjonen og deretter "flyr" brukeren til posisjonen.
+export default function FlyTilPosisjon() {
+  const map = useMap();
+  const [erFunnet, setErFunnet] = useState(false);
+
+  useMapEvents({
+    //hvis koordinater er funnet
+    locationfound(e) {
+      map.flyTo(e.latlng, 14);
+      setErFunnet(true);
+    },
+    //hvis bruker drar på kartet
+    dragstart() {
+      setErFunnet(false);
+    }
+  });
+
+  const handleLocate = (e) => {
+    e.stopPropagation();
+    map.locate();
+  };
+
+  return (
+    <div className="leaflet-bottom leaflet-right" style={{border: 'none', marginBottom: '90px'}}>
+      <div className="leaflet-control leaflet-bar">
+        <button className="posisjons-knapp" onClick={handleLocate} title="Bruk din posisjon">
+            <FiNavigation 
+            size={22}
+            fill={erFunnet ? "#0a0a0a" : "none"}
+            />
+        </button>
+      </div>
+    </div>
+  );
+}

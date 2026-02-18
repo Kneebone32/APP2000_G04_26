@@ -40,10 +40,10 @@ export default function KartFilterTurer({ filter, setFilter, handleCheckboxChang
           value={filter.vanskelighetsgrad}                                             
           onChange={(e) => setFilter({...filter, vanskelighetsgrad: e.target.value})}
           >
-            <option value=""disabled selected hidden></option>
+          <option value=""disabled selected hidden></option>
           <option value="lett">{t("filter.lett")}</option>
           <option value="middels">{t("filter.middels")}</option>
-          <option value="vanskelig">{t("filter.vanskelig")}</option>
+          <option value="krevende">{t("filter.vanskelig")}</option>
           </select>
           </div>
 

@@ -3,6 +3,7 @@ import {MapContainer, TileLayer, ZoomControl} from "react-leaflet";
 import { Icon } from "leaflet";
 import hytteMarker from "../../assets/kart/hytte.png";
 import turStartMarker from "../../assets/kart/tur.png";
+import FlyTilPosisjon from "./NavigasjonFinnPosisjon";
 import "leaflet/dist/leaflet.css";
 import "./KartBasic.css";
 
@@ -52,6 +53,7 @@ export default function Kart_basic({ center = [59.4087, 9.0593], zoom = 13, chil
                     url="https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png"
                 />
                 <ZoomControl position="bottomright"/>
+                <FlyTilPosisjon/>
                 {children}
             </MapContainer>
         </div>

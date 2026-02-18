@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { Marker, Polyline, Popup, useMapEvents } from "react-leaflet";
 import { useTranslation } from "react-i18next";
-import Kart_basic, {
-  hytteIcon,
-  turIcon,
-} from "../components/kart/KartBasic";
+import Kart_basic, {hytteIcon, turIcon} from "../components/kart/KartBasic";
 import KartFilter from "../components/kart/KartFilter";
 import { useFetchHytter } from "../hooks/useFetchHytter";
 import { useFetchTurer } from "../hooks/useFetchTurer";
