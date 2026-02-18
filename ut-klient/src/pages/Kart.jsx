@@ -51,7 +51,7 @@ export default function Kart() {
     <div>
       <KartFilter onFilterChange={setFilter} />
 
-      <Kart_basic center={[60.4852, 5.3235]} zoom={13}>
+      <Kart_basic center={[59.41020666063333, 9.069621134032557]} zoom={13}>
         <ZoomLevel onZoomChange={setZoom} />
 
         {/*Fellesturer*/}
@@ -61,7 +61,7 @@ export default function Kart() {
               positions={tur}
               pathOptions={{
                 color: "#0dbbcb",
-                weight: 10,
+                weight: 7,
                 opacity: 0.8,
               }}
             />
@@ -86,7 +86,7 @@ export default function Kart() {
               positions={tur.punkter}
               pathOptions={{
                 color: "#0dbbcb",
-                weight: 10,
+                weight: 7,
                 opacity: 0.8,
               }}
             />
