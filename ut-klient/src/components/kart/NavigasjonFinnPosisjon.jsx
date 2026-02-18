@@ -8,12 +8,18 @@ import "./NavigasjonFinnPosisjon.css";
 export default function FlyTilPosisjon() {
   const map = useMap();
   const [erFunnet, setErFunnet] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useMapEvents({
     //hvis koordinater er funnet
     locationfound(e) {
       map.flyTo(e.latlng, 14);
       setErFunnet(true);
+      setLoading(false);
+    },
+    //error. kanskje sende melding til bruker?
+    locationerror(){
+      setLoading(false);
     },
     //hvis bruker drar på kartet
     dragstart() {
@@ -23,6 +29,7 @@ export default function FlyTilPosisjon() {
 
   const handleLocate = (e) => {
     e.stopPropagation();
+    setLoading(true);
     map.locate();
   };
 
@@ -31,8 +38,9 @@ export default function FlyTilPosisjon() {
       <div className="leaflet-control leaflet-bar">
         <button className="posisjons-knapp" onClick={handleLocate} title="Bruk din posisjon">
             <FiNavigation 
+            className={`pos-ikon ${loading ? 'puls-effekt' : ''}`}
             size={22}
-            fill={erFunnet ? "#0a0a0a" : "none"}
+            fill={erFunnet && !loading ? "#0a0a0a" : "none"}
             />
         </button>
       </div>
