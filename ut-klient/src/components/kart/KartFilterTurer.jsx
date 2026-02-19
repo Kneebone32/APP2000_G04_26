@@ -10,9 +10,8 @@ export default function KartFilterTurer({
 }) {
   const [turerFilterUtvidet, setTurerFilterUtvidet] = useState(false);
   const { t } = useTranslation();
-  const { enumData: vanskelighetsgrad, loadingEnum } = useEnums(
-    "vanskelighetsgrad_enum",
-  );
+  const { enumData: vanskelighetsgrad, loadingEnum } = useEnums("vanskelighetsgrad_enum");
+  const { enumData: varighet} = useEnums("varighet_enum");
 
   return (
     <div className="kart-filter-section">
@@ -93,7 +92,26 @@ export default function KartFilterTurer({
             </div>
           </div>
 
-          {/*Turer - varighet - TODO*/}
+          {/*Turer - turtype*/}
+          <div className="filter-section">
+            <label>Varighet:</label>
+
+            {!loadingEnum && (
+              <select
+                value={filter.varighet}
+                onChange={(e) =>
+                  setFilter({ ...filter, varighet: e.target.value })
+                }
+              >
+                <option value="" disabled selected hidden></option>
+                {varighet.map((valg) => (
+                  <option key={valg} value={valg}>
+                    {valg}
+                  </option>
+                ))}
+              </select>
+            )}
+          </div>
         </>
       )}
     </div>

@@ -13,7 +13,7 @@ export default function FlyTilPosisjon() {
   useMapEvents({
     //hvis koordinater er funnet
     locationfound(e) {
-      map.flyTo(e.latlng, 14);
+      map.flyTo(e.latlng, map.getZoom());
       setErFunnet(true);
       setLoading(false);
     },

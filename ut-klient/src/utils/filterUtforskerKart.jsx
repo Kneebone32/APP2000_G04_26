@@ -63,6 +63,12 @@ export function filterTurer(turer, filter) {
       }
     }
 
+    if (filter.varighet?.length > 0) {
+      if (!filter.varighet.includes(tur.varighet)) {
+        return false;
+      }
+    }
+
     return true;
   });
 }

@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Navbar from "./components/Navbar";
 import AnnouncementBar from "./components/AnnouncementBar";
 //import "./components/AnnouncementBar.css";
@@ -17,6 +19,7 @@ import TurModerator from "./pages/TurModerator";
 import Feilside from "./pages/Feilside";
 import Test from "./pages/Test";
 import Test2 from "./pages/Test2";
+import Navigasjon from "./pages/Navigasjon";
 
 export default function App() {
   return (
@@ -24,6 +27,7 @@ export default function App() {
       <div className="App">
         <Navbar />
         <AnnouncementBar />
+        <ToastContainer position="top-center" autoClose={5000} />
 
         <main className="MainContent">
           <Routes>
@@ -40,6 +44,7 @@ export default function App() {
             <Route path="/admin/turer" element={<TurModerator />} />
             <Route path="/test" element={<Test />} />
             <Route path="/test2" element={<Test2 />} />
+            <Route path="/navigasjon/:turId" element={<Navigasjon />} />
             <Route path="*" element={<Feilside />} />
           </Routes>
         </main>

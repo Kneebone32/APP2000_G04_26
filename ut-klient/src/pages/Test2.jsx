@@ -35,7 +35,8 @@ export default function Test2(){
                 {høydeMeter && (
                     <input type="text" placeholder="moh" value={høydeMeter} disabled={true}></input>
                 )}
-                
+
+                {lagret && lagretKoordinat}
             </div>
                      <Modal show={isOpen} onClose={close} title="Velg hyttelokasjon" size="lg">
                          <div className="modal-map-container">
