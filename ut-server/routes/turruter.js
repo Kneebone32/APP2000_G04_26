@@ -1,3 +1,5 @@
+// Skrevet av Kristoffer med mindre annet er spesifisert
+
 import express from 'express';
 import pool from '../config/db.js';
 

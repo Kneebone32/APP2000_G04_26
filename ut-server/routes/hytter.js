@@ -1,9 +1,11 @@
+// Skrevet av Kristoffer med mindre annet er spesifisert
+
 import express from 'express';
 import pool from '../config/db.js';
 
 const router = express.Router();
 
-// Henter alle hytter fra test_db
+// Henter alle hytter fra test_db (Skrevet av Kay)
 router.get('/', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM hytte');
@@ -14,7 +16,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Henter hytte med gitt id
+// Henter hytte med gitt id (Skrevet av Kay)
 router.get('/:id', async (req, res) => {
   try {
     const {id} = req.params;
@@ -32,7 +34,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Legger til ny hytte (Skrevet av Kristoffer)
+// Legger til ny hytte
 router.post('/', async (req, res) => {
   try {
     const {
@@ -81,7 +83,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Oppdaterer hytte med gitt id (Skrevet av Kristoffer)
+// Oppdaterer hytte med gitt id
 router.put('/:id', async (req, res) => {
   try {
     const {id} = req.params;
@@ -129,7 +131,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// Sletter hytte med gitt id (Skrevet av Kristoffer)
+// Sletter hytte med gitt id 
 router.delete('/:id', async (req, res) => {
   try {
     const {id} = req.params;
