@@ -25,9 +25,14 @@ export default function KartFilterFellesturer({ filter, setFilter }) {
               <input
                 type="checkbox"
                 checked={filter.visFellesturer}
-                onChange={(e) =>
-                  setFilter({ ...filter, visFellesturer: e.target.checked })
-                }
+                onChange={(e) => {
+                const checked = e.target.checked; //fjerner turer hvis fellesturer blir vist på kartet
+                setFilter((prev) => ({
+                  ...prev,
+                  visFellesturer: checked,
+                  visTurer: checked ? false : prev.visTurer,
+                }));
+              }}
               />
               {t("filter.vis_fellesturer")}
             </label>

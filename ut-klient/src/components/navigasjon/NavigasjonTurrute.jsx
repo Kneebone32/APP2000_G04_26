@@ -23,10 +23,10 @@ export default function TurNavigasjon({ turId }) {
 
     useEffect(() => {
         if (!loadingTurPunkter && turPunkter.length === 0) {
-            toast.error("Kunne ikke finne valgt turrute")
+            toast.error("Kunne ikke finne valgt turrute." + "Du blir sendt tilbake til forrige side")
             setTimeout(() => {
             redir(-1); 
-            }, 3000);
+            }, 5000);
         }
     }, [loadingTurPunkter, turPunkter.length, redir]);
 
@@ -69,6 +69,7 @@ export default function TurNavigasjon({ turId }) {
                 <div className="leaflet-control leaflet-bar">
                     <button 
                         className="posisjons-knapp"
+                        title={!brukerPos ? "Bruk posisjon" : "Sentrér"}
                         onClick={(e) => {
                             e.stopPropagation();
                             setIsFollowing(!isFollowing);

@@ -16,7 +16,7 @@ export default function KartFilter({ onFilterChange }) {
     turtype: [],
     prisnivå: [0, 1000],
     visHytter: true,
-    visFellesturer: true,
+    visFellesturer: false,
     visTurmål: true,
     visTurer: true
   });

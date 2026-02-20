@@ -1,6 +1,6 @@
-import { Polyline, useMapEvents, useMap } from "react-leaflet";
+import { Marker, Polyline, useMapEvents, useMap } from "react-leaflet";
 import { useEffect } from "react";
-import Kart_basic from "./KartBasic";
+import Kart_basic, { turIcon } from "./KartBasic";
 
 //Hjelper Leaflet med å regne ut den faktiske størrelsen på Modal. Laget av AI
 function MapSizeInvalidator() {
@@ -35,6 +35,13 @@ export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4
         rutePunkter={rutePunkter} 
         setRutePunkter={setRutePunkter} 
       />
+
+      {rutePunkter.length > 0 && (
+                <Marker 
+                  position={rutePunkter[0]}
+                  icon={turIcon}
+                />
+      )}
       
       {rutePunkter.length > 1 && (
         <Polyline 

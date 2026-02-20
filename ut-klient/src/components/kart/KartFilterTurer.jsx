@@ -30,9 +30,12 @@ export default function KartFilterTurer({
               <input
                 type="checkbox"
                 checked={filter.visTurer}
-                onChange={(e) =>
-                  setFilter({ ...filter, visTurer: e.target.checked })
-                }
+                onChange={(e) => {const checked = e.target.checked; //fjerner fellesturer hvis turer blir vist på kartet
+                    setFilter((prev) => ({
+                    ...prev,
+                    visTurer: checked,
+                    visFellesturer: checked ? false : prev.visFellesturer,
+                  }));}}
               />{" "}
               {t("filter.vis_turer")}
             </label>
@@ -59,7 +62,7 @@ export default function KartFilterTurer({
             )}
           </div>
 
-          {/*Turer - Turtype*/}
+          {/*Turer - Turtype - Ble laget før jeg la til useEnums. Fiks hvis tid*/ }
           <div className="filter-section">
             <label>{t("filter.type")}:</label>
             <div className="checkbox-group">
