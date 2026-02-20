@@ -13,9 +13,9 @@ export default function SlettTur({ onSuccess }) {
             return;
         }
 
-        const selectedTur = turer.find(t => t.tur_id === parseInt(selectedId)); 
+        const selectedTur = turer.find(t => t.turrute_id === parseInt(selectedId)); 
 
-        if (window.confirm(t("tur.bekreft_sletting", { navn: selectedTur.navn }))) {
+        if (window.confirm(t("tur.bekreft_sletting", { navn: selectedTur.turrute_navn }))) {
             try {
                 await deleteTur(selectedId);
                 alert(t("tur.tur_slettet"));
@@ -34,8 +34,8 @@ export default function SlettTur({ onSuccess }) {
     const [searchTerm, setSearchTerm] = useState("");
 
     const filteredTurer = turer.filter(tur => 
-        tur.tur_id?.toString().includes(searchTerm) ||
-        tur.navn?.toLowerCase().includes(searchTerm.toLowerCase())
+        tur.turrute_id?.toString().includes(searchTerm) ||
+        tur.turrute_navn?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
 
@@ -53,11 +53,11 @@ export default function SlettTur({ onSuccess }) {
                         onChange={(e) => {
                             setSearchTerm(e.target.value);
                             const matchedTur = filteredTurer.find(t => 
-                                `ID: ${t.tur_id} - ${t.navn}` === e.target.value ||
-                                t.tur_id?.toString() === e.target.value
+                                `ID: ${t.turrute_id} - ${t.turrute_navn}` === e.target.value ||
+                                t.turrute_id?.toString() === e.target.value
                             );
                             if (matchedTur) {
-                                setSelectedId(matchedTur.tur_id.toString());
+                                setSelectedId(matchedTur.turrute_id.toString());
                             } else {
                                 setSelectedId("");
                             }
@@ -66,7 +66,7 @@ export default function SlettTur({ onSuccess }) {
                     />
                     <datalist id="turer-list">
                         {filteredTurer.map((tur) => (
-                            <option key={tur.tur_id} value={`ID: ${tur.tur_id} - ${tur.navn}`} />
+                            <option key={tur.turrute_id} value={`ID: ${tur.turrute_id} - ${tur.turrute_navn}`} />
                         ))}
                     </datalist>
             </div>

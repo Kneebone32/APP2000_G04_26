@@ -8,8 +8,8 @@ export function useFileUpload(setBildeUrl) {
             const handleUpload = (event) => {
                 const files = event.detail.allFiles;
                 if (files && files.length > 0) {
-                    const uploadedUrl = files[0].cdnUrl || files[0].url;
-                    setBildeUrl(uploadedUrl);
+                    const uploadedUrls = files.map(file => file.cdnUrl || file.url);
+                    setBildeUrl(uploadedUrls);
                 }
             };
             uploader.addEventListener('change', handleUpload);
