@@ -28,3 +28,13 @@ Laget av Eivind
     text-decoration: none;
     color: black;
 }
+
+
+.TurBilde {
+    width: 100%;     
+    max-height: 200px;      
+    object-fit: cover;      
+    border-radius: 8px;    
+    display: block;
+    margin: 0 auto 15px;
+}
