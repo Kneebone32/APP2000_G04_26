@@ -7,6 +7,7 @@ import "./Turer.css";
 export default function Turer() {
   const { t } = useTranslation();
   const { turer, loadingTurer, errorTurer } = useFetchTurer(true);
+  if (turer)console.log(turer);
 
   return (
     <PageWrapper title={t("turer.tittel")}>
@@ -27,7 +28,7 @@ export default function Turer() {
                 turId={tur.turrute_id}
                 turNavn={tur.turrute_navn}
                 vanskelighetsgrad={tur.vanskelighetsgrad}
-                bildeUrl={tur.turbilde_url}
+                bildeUrl={tur.hovedbilde_url}
                 turtype={tur.turtype}
                 varighet={tur.varighet}
               />
