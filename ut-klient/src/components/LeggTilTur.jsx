@@ -6,6 +6,7 @@ import { useFileUpload } from "../hooks/useFileUpload";
 import { hentKommuneData } from "../utils/geoUtils";
 import Modal from "../modal/Modal";
 import Nytur from "./Nytur";
+import { GpxParser } from "./GpxParser";
 
 export default function LeggTilTur({ onSuccess }) {
     const { t } = useTranslation();
@@ -57,6 +58,21 @@ export default function LeggTilTur({ onSuccess }) {
         }
     };
 
+        const handleGpxKoordinater = (koords) => {
+        if (koords && koords.length >= 2) {
+            const startKoord = koords[0];
+            const sluttKoord = koords[koords.length - 1];
+            
+            if (erGyldigKoordinat(startKoord) && erGyldigKoordinat(sluttKoord)) {
+                setLagredeKoordinater(koords);
+                setRutePunkter(koords);
+            } else {
+                alert(t("tur.gpx_utenfor_norge"));
+            }
+        } else if (koords && koords.length === 1) {
+            alert(t("tur.gpx_ett_punkt"));
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -209,6 +225,9 @@ export default function LeggTilTur({ onSuccess }) {
                 <div>
                     <label>{t("tur.koordinater_start_slutt")}:</label>
                     <div>
+                        {!lagredeKoordinater && (
+                            <GpxParser onKoordinaterLastet={handleGpxKoordinater} />
+                        )}
                         <button type="button" onClick={open}>
                             {lagredeKoordinater ? t("tur.endre_rute") : t("tur.lag_rute")}
                         </button>
