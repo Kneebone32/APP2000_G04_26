@@ -34,7 +34,7 @@ export default function KartFilter({ onFilterChange }) {
     }
   }, [filterÅpen]);
 
-  //Lytter på navbar-åpning for å lukke filter
+  //Lytter på navbar-åpning for å lukke filter - Laget av Eivind
   useEffect(() => {
     const handleNavbarOpen = () => {
       setFilterÅpen(false);
