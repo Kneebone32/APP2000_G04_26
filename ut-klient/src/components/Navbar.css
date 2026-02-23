@@ -127,4 +127,8 @@ nav .nav-close-btn {
         font-size: 18px;
         margin-left: 0;
     }
+
+    .språk-toggle {
+        right: 50px;
+    }
 }
