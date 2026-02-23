@@ -20,7 +20,13 @@ export default function Navbar() {
   const navRef = useRef();
 
   const showNavbar = () => {
+    const isOpening = !navRef.current.classList.contains("responsive_nav");
     navRef.current.classList.toggle("responsive_nav");
+    
+    if (isOpening) {
+      const event = new CustomEvent('navbarOpened');
+      document.dispatchEvent(event);
+    }
   }
 
   const closeNavbar = () => {

@@ -34,6 +34,18 @@ export default function KartFilter({ onFilterChange }) {
     }
   }, [filterÅpen]);
 
+  //Lytter på navbar-åpning for å lukke filter
+  useEffect(() => {
+    const handleNavbarOpen = () => {
+      setFilterÅpen(false);
+    };
+
+    document.addEventListener('navbarOpened', handleNavbarOpen);
+    return () => {
+      document.removeEventListener('navbarOpened', handleNavbarOpen);
+    };
+  }, []);
+
   //håndterer checkbox-endringer. Laget av AI
   const handleCheckboxChange = (filterType, value) => {
     setFilter((prev) => ({
