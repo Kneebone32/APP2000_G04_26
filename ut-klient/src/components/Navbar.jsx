@@ -35,9 +35,15 @@ export default function Navbar() {
       }
     };
 
+    const handleKartFilterOpen = () => {
+      closeNavbar();
+    };
+
     document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('kartFilterOpened', handleKartFilterOpen);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('kartFilterOpened', handleKartFilterOpen);
     };
   }, []);
 

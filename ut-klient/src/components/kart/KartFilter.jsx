@@ -26,6 +26,14 @@ export default function KartFilter({ onFilterChange }) {
     onFilterChange(filter);
   }, [filter, onFilterChange]);
 
+  //Dispatcher event når filter åpnes for å lukke navbar
+  useEffect(() => {
+    if (filterÅpen) {
+      const event = new CustomEvent('kartFilterOpened');
+      document.dispatchEvent(event);
+    }
+  }, [filterÅpen]);
+
   //håndterer checkbox-endringer. Laget av AI
   const handleCheckboxChange = (filterType, value) => {
     setFilter((prev) => ({
