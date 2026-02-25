@@ -7,6 +7,8 @@ import { useState } from "react";
 import { GpxParser } from "../components/GpxParser";
 import { regnUtTotalLengde, hentHøydeMåling } from "../utils/geoUtils";
 
+
+
 export default function Test() {
     const {isOpen, open, close} = useModal();
     const [rutePunkter, setRutePunkter] = useState([]);
@@ -35,6 +37,13 @@ export default function Test() {
         <PageWrapper>
             <div className="kart-knapp-container">
                 <div>
+                <a
+                    href="/testfiler/testrute.gpx"
+                    download="testrute.gpx"
+                    className="button-style"
+                >
+                    last ned gpx
+                </a>
                 {!lagret && (
                     <GpxParser onKoordinaterLastet={handleGpxKoordinater} />
                 )}

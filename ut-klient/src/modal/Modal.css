@@ -37,6 +37,9 @@
 }
 
 /* Size variants */
+.custom-modal-xsm {
+    max-width: 250px;
+}
 .custom-modal-sm {
     max-width: 400px;
 }
@@ -138,6 +141,7 @@
         margin: 0.5rem;
     }
     
+    .custom-modal-xsm,
     .custom-modal-sm,
     .custom-modal-md,
     .custom-modal-lg,
