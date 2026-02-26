@@ -1,4 +1,4 @@
-import LeggTilFellestur from "../../components/fellesturer/LeggTilFellestur";
+import LeggTilFellestur from "../../components/fellesturer/legg-til/LeggTilFellestur";
 //import SlettFellestur from "../components/SlettFellestur";
 //import { useFellesturer } from "../hooks/useFellesturer";
 import PageWrapper from "../../components/PageWrapper";
