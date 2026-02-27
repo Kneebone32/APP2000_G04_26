@@ -65,7 +65,7 @@ export default function KartFilter({ onFilterChange }) {
       prisnivå: [0, 1000],
       vanskelighetsgrad:"",
       visHytter: true,
-      visFellesturer: true,
+      visFellesturer: false,
       visTurmål: true,
       visTurer: true
     });

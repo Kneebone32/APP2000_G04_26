@@ -1,0 +1,44 @@
+/*Laget av Kay*/
+.confirm-modal-content {
+    padding: 10px 0;
+    align-self: center;
+
+}
+
+/*Modal-footer*/
+.modal-footer-actions {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/*Alle knapper*/
+.btn-modal {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.btn-modal:hover {
+    opacity: 0.9;
+}
+
+.btn-confirm-rød {
+    background-color: #ff4444;
+    color: white;
+}
+
+.btn-confirm{
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-avbryt {
+    background-color: #ccc;
+    color: #333;
+}

@@ -1,4 +1,5 @@
 import { parseGPX } from '@we-gold/gpxjs';
+import { toast } from 'react-toastify';
 
 //Laster opp og Parser koordinater fra GPX-fil. Hele filen laget av Kay med mindre annet er spesifisert
 export const GpxParser = ({onKoordinaterLastet}) => {
@@ -14,16 +15,20 @@ export const GpxParser = ({onKoordinaterLastet}) => {
         
         const gpx = parseGPX(gpxText);
         const tracks = gpx[0]?.tracks || [];
-        console.log(tracks)
+        
 
         if (tracks.length > 0 && tracks[0].points.length > 0) {
 
           const koords = tracks[0].points.map(p => [p.latitude, p.longitude]);
-
           onKoordinaterLastet(koords);
-        } 
+
+        } else {
+          toast.error("Kunne ikke finne koordinatene i filen");
+        }
+
         } catch (err) {
         console.error("Parsing error:", err);
+        toast.error("Noe gikk galt ved henting av koordinater fra fil");
       }
     };
     leser.readAsText(fil);

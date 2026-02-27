@@ -1,6 +1,7 @@
 /*Global CSS for kart. Laget av Kay */
 .leaflet-container{
     height: calc(100vh - var(--navbar-height)); /*minus navbar*/
+    height: calc(100dvh - var(--navbar-height)); /*minus navbar*/
     width: 100%;
 }
 
@@ -11,6 +12,7 @@
     right: 0;
     bottom: 0;
     height: calc(100vh - var(--navbar-height));
+    height: calc(100dvh - var(--navbar-height));
     z-index: 1;
 }
 

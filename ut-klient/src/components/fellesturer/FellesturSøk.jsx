@@ -1,15 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 
-// Extracted search logic from LeggTilFellestur.jsx
-export default function TurruteSøk({ turer, onSelect, initialName = "" }) {
-    const [søk, setSøk] = useState(initialName);
+//Søker etter eksisterende fellesturer. Laget av Kay
+//TODO: må oppdateres når jeg får tested sammen med backend. Feltene må endres (tur.fellestur_id)
+export default function FellesturSøk({ fellesturer, onSelect, lagretTittel = "" }) {
+    const [søk, setSøk] = useState(lagretTittel);
     const [visDropdown, setVisDropdown] = useState(false);
     const dropdownRef = useRef(null);
 
-
-    const filterTurer = turer?.filter(tur =>
-        tur.turrute_navn.toLowerCase().includes(søk.toLowerCase()) ||   //søk på tur navn
-        tur.turrute_id.toString().includes(søk)                         //søk på ID
+    const filterFellesturer = fellesturer?.filter(tur =>
+        tur.tittel.toLowerCase().includes(søk.toLowerCase()) ||   //søk på tittel
+        tur.fellestur_id.toString().includes(søk)                 //søk på ID
     ) || [];
 
     //Lukker dropdown når bruker klikker på utsiden
@@ -26,10 +26,10 @@ export default function TurruteSøk({ turer, onSelect, initialName = "" }) {
     return (
         <div className="input-container søk" ref={dropdownRef}>
             <label className="input">
-                Velg Turrute
+                Søk etter Fellestur
                 <input
                     type="text"
-                    placeholder="Søk på navn eller ID"
+                    placeholder="Søk på tittel eller ID"
                     value={søk}
                     onChange={(e) => {
                         setSøk(e.target.value);
@@ -43,21 +43,21 @@ export default function TurruteSøk({ turer, onSelect, initialName = "" }) {
 
             {visDropdown && søk && (
                 <ul className="søkeresultater">
-                    {filterTurer.length > 0 ? (
-                        filterTurer.map((tur) => (
+                    {filterFellesturer.length > 0 ? (
+                        filterFellesturer.map((tur) => (
                             <li
-                                key={tur.turrute_id}
+                                key={tur.fellestur_id}
                                 onClick={() => {
-                                    setSøk(tur.turrute_navn);
-                                    onSelect(tur.turrute_id, tur.turrute_navn);
+                                    setSøk(tur.tittel);
+                                    onSelect(tur.fellestur_id, tur.tittel);
                                     setVisDropdown(false);
                                 }}
                             >
-                                <span className="tur-id">#{tur.turrute_id}</span> {tur.turrute_navn}
+                                <span className="tur-id">#{tur.fellestur_id}</span> {tur.tittel}
                             </li>
                         ))
                     ) : (
-                        <li className="ingen-resultater">Ingen turer funnet</li>
+                        <li className="ingen-resultater">Ingen resultater</li>
                     )}
                 </ul>
             )}

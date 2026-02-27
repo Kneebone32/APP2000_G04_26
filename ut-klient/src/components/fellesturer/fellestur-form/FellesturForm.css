@@ -15,8 +15,13 @@
 }
 
 .velg-dato-btn {
+    display: flex;
     width: fit-content;
     align-self: flex-start;
+}
+
+.lagre-btn {
+    margin-top: 20px;
 }
 
 .søk {
