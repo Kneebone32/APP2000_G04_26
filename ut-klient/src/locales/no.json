@@ -29,7 +29,9 @@
     "navn": "Navn",
     "send_inn": "Send inn",
     "slett": "Slett",
-    "avbryt": "Avbryt"
+    "avbryt": "Avbryt",
+    "fylke": "Fylke",
+    "kommune": "Kommune"
   },
 
   "sider": {
@@ -46,7 +48,35 @@
     "ingen_hytter": "Ingen hytter funnet.",
     "ikke_funnet": "Hytte ikke funnet",
     "laster_detaljer": "Laster hytteinformasjon...",
-    "tilbake_til_hytter": "Tilbake til hytter"
+    "tilbake_til_hytter": "Tilbake til hytter",
+    "legg_til": "Legg til ny hytte",
+    "slett_tittel": "Slett hytte",
+    "fyll_ut_felt": "Vennligst fyll ut alle feltene.",
+    "lagt_til": "Hytte er blitt lagt til.",
+    "slettet": "Hytte er blitt slettet.",
+    "feil_opprettelse_melding": "Noe gikk galt ved opprettelse av hytten.",
+    "feil_sletting_melding": "Noe gikk galt ved sletting av hytten.",
+    "feil_opprettelse": "Feil med opprettelse",
+    "feil_sletting": "Error ved sletting",
+    "legger_til": "Legger til...",
+    "legg_til_knapp": "Legg til hytte",
+    "søk_og_velg": "Søk og velg (ID eller navn)",
+    "søk_placeholder": "Søk...",
+    "slett_knapp": "Slett",
+    "bekreft_sletting": "Er du sikker på at du vil slette",
+    "velg_hytte": "Velg en hytte for sletting.",
+    "last_opp_bilde": "Last opp bilde",
+    "bilde_lastet_opp": "Bilde lastet opp!",
+    "pris": "Pris per natt (kr)",
+    "betjeningsgrad": "Betjeningsgrad",
+    "beskrivelse": "Beskrivelse",
+    "koordinater": "Koordinater",
+    "velg_koordinater": "Velg koordinater",
+    "endre_koordinater": "Endre koordinater",
+    "koordinater_valgt": "Koordinater valgt",
+    "velg_betjeningsgrad": "Velg betjeningsgrad",
+    "fylke_automatisk": "Fylke hentes automatisk",
+    "kommune_automatisk": "Kommune hentes automatisk"
   },
 
   "profil": {
@@ -55,28 +85,8 @@
 
   "admin": {
     "tittel": "Admin Panel",
-    "legg_til_hytte": "Legg til ny hytte",
-    "slett_hytte": "Slett hytte",
-    "legg_til_tur": "Legg til ny tur",
-    "slett_tur": "Slett tur",
-    "hytte_navn": "Navn",
-    "antall_sengeplasser": "Sengeplasser",
     "last_opp_bilde": "Last opp bilde",
     "bilde_lastet_opp": "Bilde lastet opp!",
-    "legger_til": "Legger til...",
-    "legg_til_knapp": "Legg til hytte",
-    "søk_og_velg": "Søk og velg (ID eller navn)",
-    "søk_placeholder": "Søk...",
-    "slett_knapp": "Slett",
-    "bekreft_sletting": "Er du sikker på at du vil slette",
-    "velg_hytte": "Velg en hytte for sletting.",
-    "fyll_ut_felt": "Vennligst fyll ut alle feltene.",
-    "hytte_lagt_til": "Hytte er blitt lagt til.",
-    "hytte_slettet": "Hytte er blitt slettet.",
-    "feil_opprettelse_melding": "Noe gikk galt ved opprettelse av hytten.",
-    "feil_sletting_melding": "Noe gikk galt ved sletting av hytten.",
-    "feil_opprettelse": "Feil med opprettelse",
-    "feil_sletting": "Error ved sletting",
     "gå_til_hytte": "Gå til Admin Hytter",
     "gå_til_tur": "Gå til Admin Turer"
   },
@@ -131,7 +141,17 @@
   "tur": {
     "tittel": "Turer",
     "legg_til_tur": "Legg til ny tur",
+    "legg_til": "Legg til ny tur",
+    "slett_tittel": "Slett tur",
+    "søk_og_velg": "Søk og velg (ID eller navn)",
+    "søk_placeholder": "Søk...",
+    "slett_knapp": "Slett",
     "vanskelighetsgrad": "Vanskelighetsgrad",
+    "turtype": "Turtype",
+    "varighet": "Varighet",
+    "beskrivelse": "Beskrivelse",
+    "fylke_automatisk": "Fylke hentes automatisk",
+    "kommune_automatisk": "Kommune hentes automatisk",
     "vanskelighetsgrad_1": "Lett",
     "vanskelighetsgrad_2": "Middels",
     "vanskelighetsgrad_3": "Vanskelig",
@@ -167,4 +187,5 @@
     "laster_detaljer": "Laster turinformasjon...",
     "tilbake_til_turer": "Tilbake til turer"
   }
+
 }

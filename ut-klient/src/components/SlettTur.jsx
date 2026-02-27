@@ -41,9 +41,9 @@ export default function SlettTur({ onSuccess }) {
 
     return (
         <div>
-            <h2>{t("admin.slett_tur")}</h2>
+            <h2>{t("tur.slett_tittel")}</h2>
             <div>
-                <label htmlFor="tur-search">{t("admin.søk_og_velg")}:</label>
+                <label htmlFor="tur-search">{t("tur.søk_og_velg")}:</label>
                     <input
                         type="text"
                         id="tur-search"
@@ -62,7 +62,7 @@ export default function SlettTur({ onSuccess }) {
                                 setSelectedId("");
                             }
                         }}
-                        placeholder={t("admin.søk_placeholder")}
+                        placeholder={t("tur.søk_placeholder")}
                     />
                     <datalist id="turer-list">
                         {filteredTurer.map((tur) => (
@@ -71,7 +71,7 @@ export default function SlettTur({ onSuccess }) {
                     </datalist>
             </div>
             <button onClick={handleSlettTur} disabled={!selectedId}>
-                {t("admin.slett_knapp")}
+                {t("tur.slett_knapp")}
             </button>
         </div>
     );

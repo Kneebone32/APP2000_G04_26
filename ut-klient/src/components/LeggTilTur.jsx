@@ -104,7 +104,7 @@ export default function LeggTilTur({ onSuccess }) {
                     kommune_id: 2,
                     punkter: lagredeKoordinater || null,
                     info_array: null,
-                    bilder: null
+                    bilder: bildeUrl.length > 0 ? bildeUrl : null
                 })
             });
 
@@ -208,7 +208,7 @@ export default function LeggTilTur({ onSuccess }) {
                         value={fylke}
                         onChange={(e) => setFylke(e.target.value)}
                         readOnly
-                        placeholder="Fylke hentes automatisk"
+                        placeholder={t("tur.fylke_automatisk")}
                     />
                 </div>
                 <div>
@@ -219,7 +219,7 @@ export default function LeggTilTur({ onSuccess }) {
                         value={kommune}
                         onChange={(e) => setKommune(e.target.value)}
                         readOnly
-                        placeholder="Kommune hentes automatisk"
+                        placeholder={t("tur.kommune_automatisk")}
                     />
                 </div>
                 <div>

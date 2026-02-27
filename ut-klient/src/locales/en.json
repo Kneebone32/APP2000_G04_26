@@ -29,7 +29,9 @@
     "navn": "Name",
     "send_inn": "Submit",
     "slett": "Delete",
-    "avbryt": "Cancel"
+    "avbryt": "Cancel",
+    "fylke": "County",
+    "kommune": "Municipality"
   },
 
   "sider": {
@@ -46,7 +48,35 @@
     "ingen_hytter": "No cabins found.",
     "ikke_funnet": "Cabin not found",
     "laster_detaljer": "Loading cabin information...",
-    "tilbake_til_hytter": "Back to cabins"
+    "tilbake_til_hytter": "Back to cabins",
+    "legg_til": "Add new cabin",
+    "slett_tittel": "Delete cabin",
+    "fyll_ut_felt": "Please fill out all fields.",
+    "lagt_til": "Cabin has been added.",
+    "slettet": "Cabin has been deleted.",
+    "feil_opprettelse_melding": "Something went wrong while creating the cabin.",
+    "feil_sletting_melding": "Something went wrong while deleting the cabin.",
+    "feil_opprettelse": "Error with creation",
+    "feil_sletting": "Error with deletion",
+    "legger_til": "Adding...",
+    "legg_til_knapp": "Add cabin",
+    "søk_og_velg": "Search and select (ID or name)",
+    "søk_placeholder": "Search...",
+    "slett_knapp": "Delete",
+    "bekreft_sletting": "Are you sure you want to delete",
+    "velg_hytte": "Select a cabin for deletion.",
+    "last_opp_bilde": "Upload photo",
+    "bilde_lastet_opp": "Image uploaded!",
+    "pris": "Price per night (NOK)",
+    "betjeningsgrad": "Service level",
+    "beskrivelse": "Description",
+    "koordinater": "Coordinates",
+    "velg_koordinater": "Select coordinates",
+    "endre_koordinater": "Change coordinates",
+    "koordinater_valgt": "Coordinates selected",
+    "velg_betjeningsgrad": "Select service level",
+    "fylke_automatisk": "County is fetched automatically",
+    "kommune_automatisk": "Municipality is fetched automatically"
   },
 
   "profil": {
@@ -55,28 +85,8 @@
 
   "admin": {
     "tittel": "Admin Panel",
-    "legg_til_hytte": "Add new cabin",
-    "slett_hytte": "Delete cabin",
-    "legg_til_tur": "Add new trip",
-    "slett_tur": "Delete trip",
-    "hytte_navn": "Name",
-    "antall_sengeplasser": "Beds",
     "last_opp_bilde": "Upload photo",
     "bilde_lastet_opp": "Image uploaded!",
-    "legger_til": "Adding...",
-    "legg_til_knapp": "Add cabin",
-    "søk_og_velg": "Search and select (ID or name)",
-    "søk_placeholder": "Search...",
-    "slett_knapp": "Delete",
-    "bekreft_sletting": "Are you sure you want to delete",
-    "velg_hytte": "Select a cabin for deletion.",
-    "fyll_ut_felt": "Please fill out all fields.",
-    "hytte_lagt_til": "Cabin has been added.",
-    "hytte_slettet": "Cabin has been deleted.",
-    "feil_opprettelse_melding": "Something went wrong while creating the cabin.",
-    "feil_sletting_melding": "Something went wrong while deleting the cabin.",
-    "feil_opprettelse": "Error with creation",
-    "feil_sletting": "Error with deletion",
     "gå_til_hytte": "Go to Admin Cabins",
     "gå_til_tur": "Go to Admin Trips"
   },
@@ -131,7 +141,17 @@
   "tur": {
     "tittel": "Trips",
     "legg_til_tur": "Add new trip",
+    "legg_til": "Add new trip",
+    "slett_tittel": "Delete trip",
+    "søk_og_velg": "Search and select (ID or name)",
+    "søk_placeholder": "Search...",
+    "slett_knapp": "Delete",
     "vanskelighetsgrad": "Difficulty",
+    "turtype": "Trip type",
+    "varighet": "Duration",
+    "beskrivelse": "Description",
+    "fylke_automatisk": "County is fetched automatically",
+    "kommune_automatisk": "Municipality is fetched automatically",
     "vanskelighetsgrad_1": "Easy",
     "vanskelighetsgrad_2": "Medium",
     "vanskelighetsgrad_3": "Hard",
@@ -167,4 +187,5 @@
     "laster_detaljer": "Loading trip information...",
     "tilbake_til_turer": "Back to trips"
   }
+
 }

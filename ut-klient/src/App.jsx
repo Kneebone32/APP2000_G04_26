@@ -7,6 +7,7 @@ import AnnouncementBar from "./components/AnnouncementBar";
 
 import Home from "./pages/Home";
 import Turer from "./pages/Turer";
+import TurDetaljer from "./pages/TurDetaljer";
 import Hytter from "./pages/Hytter";
 import HytteDetaljer from "./pages/HytteDetaljer";
 import Kart from "./pages/Kart";
@@ -34,6 +35,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/turer" element={<Turer />} />
+            <Route path="/turer/:turId" element={<TurDetaljer />} />
             <Route path="/hytter" element={<Hytter />} />
             <Route path="/hytter/:hytteId" element={<HytteDetaljer />} />
             <Route path="/kart" element={<Kart />} />

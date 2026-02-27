@@ -9,16 +9,16 @@ export default function SlettHytte({ onSuccess }) {
 
     const handleSlettHytte = async () => {
         if (!selectedId) {
-            alert(t("admin.velg_hytte"));
+            alert(t("hytter.velg_hytte"));
             return;
         }
 
         const selectedHytte = hytter.find(h => h.hytte_id === parseInt(selectedId)); 
 
-        if (window.confirm(t("admin.bekreft_sletting", { navn: selectedHytte.navn }))) {
+        if (window.confirm(t("hytter.bekreft_sletting", { navn: selectedHytte.navn }))) {
             try {
                 await deleteHytte(selectedId);
-                alert(t("admin.hytte_slettet"));
+                alert(t("hytter.slettet"));
                 setSelectedId(null);
 
                 if (onSuccess) {
@@ -26,7 +26,7 @@ export default function SlettHytte({ onSuccess }) {
                 }
             } catch (err) {
                 console.error('Error: ', err);
-                alert(t("admin.feil_sletting_melding"));
+                alert(t("hytter.feil_sletting_melding"));
             }
         }
     };
@@ -41,9 +41,9 @@ export default function SlettHytte({ onSuccess }) {
 
     return (
         <div>
-            <h2>{t("admin.slett_hytte")}</h2>
+            <h2>{t("hytter.slett_tittel")}</h2>
             <div>
-                <label htmlFor="hytte-search">{t("admin.søk_og_velg")}:</label>
+                <label htmlFor="hytte-search">{t("hytter.søk_og_velg")}:</label>
                     <input
                         type="text"
                         id="hytte-search"
@@ -62,7 +62,7 @@ export default function SlettHytte({ onSuccess }) {
                                 setSelectedId("");
                             }
                         }}
-                        placeholder={t("admin.søk_placeholder")}
+                        placeholder={t("hytter.søk_placeholder")}
                     />
                     <datalist id="hytter-list">
                         {filteredHytter.map((hytte) => (
@@ -71,7 +71,7 @@ export default function SlettHytte({ onSuccess }) {
                     </datalist>
             </div>
             <button onClick={handleSlettHytte} disabled={!selectedId}>
-                {t("admin.slett_knapp")}
+                {t("hytter.slett_knapp")}
             </button>
         </div>
     );
