@@ -1,6 +1,7 @@
 import { useState } from "react";
 //import { useTranslation } from "react-i18next";
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale } from "react-datepicker";
+import nb from 'date-fns/locale/nb';
 import { useEnums } from "../../../hooks/useEnums";
 import { useFetchTurer } from "../../../hooks/useFetchTurer";
 import { useModal } from "../../../hooks/useModal";
@@ -13,6 +14,8 @@ import BildeOpplasting from "../../BildeOpplasting";
 import { toast } from 'react-toastify';
 import "react-datepicker/dist/react-datepicker.css";
 import "./FellesturForm.css"
+
+registerLocale('nb', nb);
 
 //all brukerinput til fellesturer. Laget av Kay
 //TODO: match feltnavn på data som kommer fra databasen. Eks. lagretData.turruteId eller lagretData.turrute_id?
