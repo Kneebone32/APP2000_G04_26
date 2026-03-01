@@ -41,7 +41,7 @@ export default function FellesturSøk({ fellesturer, onSelect, lagretTittel = ""
                 />
             </label>
 
-            {visDropdown && søk && (
+            {visDropdown && (
                 <ul className="søkeresultater">
                     {filterFellesturer.length > 0 ? (
                         filterFellesturer.map((tur) => (

@@ -54,7 +54,7 @@ export default function TurmålForm({lagretData = {}, onSubmitAction, buttonTeks
                 </label>
             </div>
             <div className="input-container">
-                <button onClick={open} className="åpne-kart-btn">Velg posisjon</button>
+                <button type="button" onClick={open} className="åpne-kart-btn">Velg posisjon</button>
             </div>
 
             {høydeMeter && (
