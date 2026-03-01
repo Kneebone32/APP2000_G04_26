@@ -1,15 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 
-//Søker etter tur for å bruke som Fellestur. Laget av Kay
-export default function TurruteSøk({ turer, onSelect, lagretNavn = "" }) {
+//Søker etter Turmål. Laget av Kay
+export default function TurmålSøk({ turmål, onSelect, lagretNavn = "" }) {
     const [søk, setSøk] = useState(lagretNavn);
     const [visDropdown, setVisDropdown] = useState(false);
     const dropdownRef = useRef(null);
 
 
-    const filterTurer = turer?.filter(tur =>
-        tur.turrute_navn.toLowerCase().includes(søk.toLowerCase()) ||   //søk på tur navn
-        tur.turrute_id.toString().includes(søk)                         //søk på ID
+    const filterTurmål = turmål?.filter(turmål =>
+        turmål.turmål_navn.toLowerCase().includes(søk.toLowerCase()) ||   //søk på turmål navn
+        turmål.turmål_id.toString().includes(søk)                         //søk på ID
     ) || [];
 
     //Lukker dropdown når bruker klikker på utsiden
@@ -26,7 +26,7 @@ export default function TurruteSøk({ turer, onSelect, lagretNavn = "" }) {
     return (
         <div className="input-container søk" ref={dropdownRef}>
             <label className="input">
-                Velg Turrute
+                Velg turmål
                 <input
                     type="text"
                     placeholder="Søk på navn eller ID"
@@ -43,17 +43,17 @@ export default function TurruteSøk({ turer, onSelect, lagretNavn = "" }) {
 
             {visDropdown && (
                 <ul className="søkeresultater">
-                    {filterTurer.length > 0 ? (
-                        filterTurer.map((tur) => (
+                    {filterTurmål.length > 0 ? (
+                        filterTurmål.map((turmål) => (
                             <li
-                                key={tur.turrute_id}
+                                key={turmål.turmål_id}
                                 onClick={() => {
-                                    setSøk(tur.turrute_navn);
-                                    onSelect(tur.turrute_id, tur.turrute_navn, tur);
+                                    setSøk(turmål.turmål_navn);
+                                    onSelect(turmål.turmål_id, turmål.turmål_navn, turmål);
                                     setVisDropdown(false);
                                 }}
                             >
-                                <span className="tur-id">#{tur.turrute_id}</span> {tur.turrute_navn}
+                                <span className="turmål-id">#{turmål.turmål_id}</span> {turmål.turmål_navn}
                             </li>
                         ))
                     ) : (

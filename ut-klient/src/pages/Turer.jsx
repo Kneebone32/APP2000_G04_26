@@ -4,10 +4,10 @@ import { useFetchTurer } from "../hooks/useFetchTurer";
 import { useTranslation } from "react-i18next";
 import "./Turer.css";
 
+//Basert på Hytter.jsx. Laget av Kay og Olai
 export default function Turer() {
   const { t } = useTranslation();
   const { turer, loadingTurer, errorTurer } = useFetchTurer(true);
-  if (turer)console.log(turer);
 
   return (
     <PageWrapper title={t("turer.tittel")}>

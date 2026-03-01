@@ -31,6 +31,21 @@ export function useFetchHytter(autoFetch = true) {
   }, [autoFetch]);
 
 
+  //Henter en fellestur basert på ID
+  const hentHytteFraId = async (id) => {
+    try{
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/${id}`);
+      if (!response.ok) throw new Error("Kunne ikke hente hytten");
+      return await response.json();
+
+    } catch (err){
+        setError(err.message);
+    } finally {
+        setLoading(false);
+    }
+  };
+
+
   const deleteHytte = async (id) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/${id}`, {
@@ -54,6 +69,7 @@ export function useFetchHytter(autoFetch = true) {
     loading, 
     error, 
     refetch: fetchHytter,
-    deleteHytte 
+    deleteHytte,
+    hentHytteFraId
   };
 }

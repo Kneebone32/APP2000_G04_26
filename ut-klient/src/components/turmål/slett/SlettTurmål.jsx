@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { useFellestur } from "../../../hooks/useFellesturer";
+import { useTurmål } from "../../../hooks/useTurmål";
 import { useModal } from "../../../hooks/useModal";
-import FellesturSøk from "../FellesturSøk";
+import TurmålSøk from "../TurmålSøk";
 import { toast } from 'react-toastify';
 import ConfirmModal from "../../ConfirmModal";
-import "../fellestur-form/FellesturForm.css";
+import "../turmål-form/TurmålForm.css";
 
-//Sletter Fellestur med valgt ID. Laget av Kay
-export default function SlettFellestur() {
+//Sletter Turmål med valgt ID. Laget av Kay.
+export default function SlettTurmål() {
     const { isOpen, open, close } = useModal();
-    const { fellestur, deleteFellestur} = useFellestur();
+    const { turmål, deleteTurmål} = useTurmål();
     const [valgtId, setValgtId] = useState(0);
     const [valgtTittel, setValgtTittel] = useState("");
 
@@ -20,28 +20,28 @@ export default function SlettFellestur() {
 
     const handleSlett = async () => {
         if (valgtId === 0) {
-            return toast.warn("Vennligst velg en fellestur først");
+            return toast.warn("Vennligst velg ett turmål først");
         }
 
         try {
-            await deleteFellestur(valgtId);
+            await deleteTurmål(valgtId);
             toast.success(`"${valgtTittel}" ble slettet`);
             setValgtId(0);
             setValgtTittel("");
 
         } catch (err) {
-            toast.error("Kunne ikke slette turen: " + err.message);
+            toast.error("Kunne ikke slette turmålet: " + err.message);
         }
     };
 
 
     return (
-        <div className="fellestur-forum-container">
-            <h2>Slett Fellestur</h2>
+        <div className="turmål-forum-container">
+            <h2>Slett Turmål</h2>
 
-            {/*Søkefelt til fellestur*/}
-            <FellesturSøk 
-                fellesturer={fellestur} 
+            {/*Søkefelt til turmål*/}
+            <TurmålSøk 
+                turmål={turmål} 
                 onSelect={handleSelect} 
                 lagretTittel={valgtTittel}
             />
@@ -52,7 +52,7 @@ export default function SlettFellestur() {
                     className="lagre-btn" 
                     disabled={false /*valgtId === 0  */} 
                 >
-                    Slett Fellestur
+                    Slett Turmål
                 </button>
             </div>
 
@@ -61,9 +61,9 @@ export default function SlettFellestur() {
                 show={isOpen} 
                 onClose={close} 
                 onConfirm={handleSlett}
-                tittel="Slett fellestur"
+                tittel="Slett turmål"
                 melding={`Er du helt sikker på at du vil slette "${valgtTittel}"?`}
-                confirmText="Slett tur"
+                confirmText="Slett turmål"
             />
         </div>
     );

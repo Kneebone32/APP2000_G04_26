@@ -27,8 +27,7 @@ export const GpxParser = ({onKoordinaterLastet}) => {
         }
 
         } catch (err) {
-        console.error("Parsing error:", err);
-        toast.error("Noe gikk galt ved henting av koordinater fra fil");
+        toast.error("Noe gikk galt ved henting av koordinater fra fil: " + err);
       }
     };
     leser.readAsText(fil);

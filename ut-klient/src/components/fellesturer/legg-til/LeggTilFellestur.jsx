@@ -10,14 +10,13 @@ export default function LeggTilFellestur() {
     
         try {
             await opprettFellestur({ ...formData, brukerId: "1" });
-            toast.success("Fellestur opprettet!");
-
-        } catch (err) {
             toast.info('Jippi! Du gjorde alt riktig, men denne er ikke koblet til backend enda... :S', {
             progress: undefined,
             theme: "dark",
             transition: Slide
             });
+
+        } catch (err) {
             console.log(err);
         }
     };

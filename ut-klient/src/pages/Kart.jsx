@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Marker, Polyline, Popup, useMapEvents } from "react-leaflet";
+import { useState, Fragment } from "react";
+import { Marker, Popup, useMapEvents } from "react-leaflet";
 import { useTranslation } from "react-i18next";
 import Kart_basic, {hytteIcon, turIcon} from "../components/kart/KartBasic";
 import KartFilter from "../components/kart/KartFilter";
@@ -7,6 +7,7 @@ import { useFetchHytter } from "../hooks/useFetchHytter";
 import { useFetchTurer } from "../hooks/useFetchTurer";
 import { filterHytter } from "../utils/filterUtforskerKart";
 import { filterTurer } from "../utils/filterUtforskerKart";
+import { HoverPolyline } from "../components/kart/HoverPolyline";
 import { tur } from "../assets/tur";
 import "../App.css";
 
@@ -42,8 +43,7 @@ export default function Kart() {
   if (loadingTurer) return <p>{t("kart.laster")}</p>;
   if (errorTurer) return <p>{t("kart.feil_lasting")}: {errorTurer}</p>;
 
-  const visMarker = zoom >= 8;
-  console.log(filteredTurer);
+  const visMarker = zoom >= 9;
   return (
     <div>
       <KartFilter onFilterChange={setFilter} />
@@ -54,14 +54,16 @@ export default function Kart() {
         {/*Fellesturer*/}
         {visMarker && filter.visFellesturer !== false && (
           <>
-            <Polyline
-              positions={tur}
-              pathOptions={{
-                color: "#0dbbcb",
-                weight: 7,
-                opacity: 0.8,
-              }}
-            />
+            <HoverPolyline 
+            key={tur.turrute_id} 
+            punkter={tur} 
+            >
+            <Popup>
+                <strong>{t("kart.tur_til_meny")}</strong>
+                <br />
+                {t("kart.varmdisk")}
+              </Popup>
+            </HoverPolyline>
             <Marker
               position={tur[0]}
               icon={turIcon}
@@ -72,6 +74,7 @@ export default function Kart() {
                 {t("kart.varmdisk")}
               </Popup>
             </Marker>
+            
           </>
         )}
 
@@ -79,29 +82,33 @@ export default function Kart() {
         {visMarker && filter.visTurer &&
           filteredTurer.map((tur) => (
             <>
-            <Polyline
-              positions={tur.punkter}
-              pathOptions={{
-                color: "#0dbbcb",
-                weight: 7,
-                opacity: 0.8,
-              }}
-            />
-            <Marker
-              key={tur.turrute_id}
-              position={tur.punkter[0]}
-              icon={turIcon}
+            <Fragment key={tur.turrute_id}>
+            <HoverPolyline 
+            punkter={tur.punkter}
             >
               <Popup>
-                <strong>{tur.turrute_navn}</strong>
-                <br />
-                Turtype: {tur.turtype}
-                <br />
-                Vanskelighetsgrad: {tur.vanskelighetsgrad}
-                <br />
-                Varighet: {tur.varighet}
-              </Popup>
-              </Marker>
+                    <strong>{tur.turrute_navn}</strong>
+                    <br />
+                    Turtype: {tur.turtype}
+                    <br />
+                    Vanskelighetsgrad: {tur.vanskelighetsgrad}
+                </Popup>
+            </HoverPolyline>
+            
+            <Marker
+                key={tur.turrute_id}
+                position={tur.punkter[0]}
+                icon={turIcon}
+            >
+              <Popup>
+                    <strong>{tur.turrute_navn}</strong>
+                    <br />
+                    Turtype: {tur.turtype}
+                    <br />
+                    Vanskelighetsgrad: {tur.vanskelighetsgrad}
+                </Popup>
+            </Marker>
+            </Fragment>
             </>
           ))}
           

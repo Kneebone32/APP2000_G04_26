@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useMap, useMapEvents, Polyline, Marker } from 'react-leaflet';
 import { useFetchTurer } from '../../hooks/useFetchTurer';
-import { FiNavigation } from "react-icons/fi";
-import { navigasjonIcon } from "../kart/KartBasic";
+import { FiNavigation } from "react-icons/fi";    
+import { navigasjonIcon } from "../kart/KartBasic"; 
+import ConfirmModal from '../ConfirmModal'; 
 import "./NavigasjonFinnPosisjon.css";
 
 //funksjon for å navigere en turrute. Laget av Kay
@@ -14,6 +15,16 @@ export default function TurNavigasjon({ turId }) {
     const { turPunkter, fetchTurRute, loadingTurPunkter} = useFetchTurer(false);
     const [brukerPos, setBrukerPos] = useState(null);
     const [isFollowing, setIsFollowing] = useState(false);
+
+    const [visVelkomst, setVisVelkomst] = useState(true);
+
+
+    const handleStartNavigasjon = () => {
+        setVisVelkomst(false);
+        setIsFollowing(true);
+        toast.success("Navigasjon startet!");
+    };
+
 
     useEffect(() => {
         if (turId) {
@@ -52,7 +63,18 @@ export default function TurNavigasjon({ turId }) {
     }, [isFollowing, map]);
 
     return (
-        <>
+        <> {turPunkter.length > 0 && (
+            <>
+            {/*Bruker Modal som en velkomstmelding*/}
+            <ConfirmModal 
+                show={visVelkomst} 
+                onClose={() => setVisVelkomst(false)} 
+                onConfirm={handleStartNavigasjon}
+                tittel="Ut på tur, aldri sur!"
+                melding="Vil du starte navigasjonen?"
+                confirmTekst="Start"
+                knappFarge="blå"
+            />
             {!loadingTurPunkter && turPunkter.length > 0 && (
                 <Polyline 
                     positions={turPunkter} 
@@ -83,6 +105,8 @@ export default function TurNavigasjon({ turId }) {
                     </button>
                 </div>
             </div>
+            </>
+            )}
         </>
     );
 }

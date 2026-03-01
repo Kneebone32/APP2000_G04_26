@@ -11,6 +11,7 @@ import TurruteSøk from "./TurruteSøk";
 import DeltakerInput from "./DeltakerInput";
 import DatoListe from "./DatoListe";
 import BildeOpplasting from "../../BildeOpplasting";
+import { VærvarslingUke } from "../../Værvarsling";
 import { toast } from 'react-toastify';
 import "react-datepicker/dist/react-datepicker.css";
 import "./FellesturForm.css"
@@ -20,11 +21,12 @@ registerLocale('nb', nb);
 //all brukerinput til fellesturer. Laget av Kay
 //TODO: match feltnavn på data som kommer fra databasen. Eks. lagretData.turruteId eller lagretData.turrute_id?
 export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonTekst }) {
-    const { isOpen, open, close } = useModal();
+
     //const { t } = useTranslation();
     const { enumData: aktivitet_status } = useEnums("aktivitet_status_enum");
     const { turer } = useFetchTurer(true);
     const [valgtTurruteId, setValgtTurruteId] = useState(lagretData.turruteId || 0);
+    const [valgtTurruteStartKoords, setValgtTurruteStartKoords] = useState(lagretData.turrute || []);
     const [tittel, setTittel] = useState(lagretData.tittel || "");
     const [beskrivelse, setBeskrivelse] = useState(lagretData.beskrivelse || "");
     const [midlertidigDato, setMidlertidigDato] = useState(new Date());
@@ -36,7 +38,19 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
         lagretData.datoer ? lagretData.datoer.map(d => new Date(d)) : []
     );
 
+    const {
+        isOpen: kalenderÅpen,
+        open: åpneKalender,
+        close: lukkKalender
+    } = useModal();
 
+    const {
+        isOpen: værvarselÅpen,
+        open: åpneVærvarsel,
+        close: lukkVærvarsel
+    } = useModal();    
+
+    
     const handleDatoChange = (dato) => {
         const erSammeDag = dato.toDateString() === midlertidigDato.toDateString();
         setMidlertidigDato(dato);
@@ -89,9 +103,16 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
             {/*Turrute som skal brukes til fellestur*/}
             <TurruteSøk 
                 turer={turer} 
-                onSelect={(id) => setValgtTurruteId(id)} 
+                onSelect={(id, navn, tur) => {
+                    setValgtTurruteId(id);
+                    if(tur && tur.punkter){
+                        setValgtTurruteStartKoords(tur.punkter[0]); 
+                    } 
+                    
+                }}
             />
-
+            {valgtTurruteStartKoords && valgtTurruteStartKoords.length > 0 ? (
+                <>
             {/*Tittel på fellestur*/}
             <div className="input-container">
                 <label className="input">Tittel
@@ -114,14 +135,21 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
                 </label>
             </div>
 
+            
+
             {/*Valg av datoer + tidspunkt*/}
             <div className="input-container">
                 <label className="input-label">Velg dato(er)</label>
-                <button type="button" className="velg-dato-btn" onClick={open}>
+                <div className="input-container-kaldender-og-vær-btn">
+                <button type="button" className="velg-dato-btn" onClick={åpneKalender}>
                     {valgteDatoer.length > 0 ? `${valgteDatoer.length} datoer valgt` : "Åpne kalender"}
                 </button>
-                <DatoListe valgteDatoer={valgteDatoer} onSlett={fjernDato} />
+                <button type="button" className="værvarsel-langtids" onClick={åpneVærvarsel}>
+                    8-dagers værvarsel</button>
+                </div>
+                <DatoListe valgteDatoer={valgteDatoer} onSlett={fjernDato} lat={valgtTurruteStartKoords[0]} lon={valgtTurruteStartKoords[1]}/>
             </div>
+            
 
             {/*Min & Maks deltakere til fellesturen*/}
             <DeltakerInput 
@@ -156,9 +184,12 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
 
             {/*Knapp til å lagre eller oppdatere fellesturen*/}
             <button type="submit" className="lagre-btn">{buttonTekst}</button>
+            </>
+            ) : (
+                <p style={{color: "#888"}}>Velg en turrute for å starte planleggingen</p>
+            )}
 
-
-            <Modal show={isOpen} onClose={close} title="Velg dato og tid" size="sm">
+            <Modal show={kalenderÅpen} onClose={lukkKalender} title="Velg dato og tid" size="sm">
                 <div className="modal-calendar-container">
                     <DatePicker
                         inline locale="nb" selected={midlertidigDato} highlightDates={valgteDatoer}
@@ -167,6 +198,16 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
                     /> 
                 </div>
             </Modal>
+            
+            <Modal show={værvarselÅpen} onClose={lukkVærvarsel} title="Værvarsel" size="lg">
+                <div className="modal-weather-container">
+                    <VærvarslingUke 
+                        latitude={valgtTurruteStartKoords[0]} 
+                        longitude={valgtTurruteStartKoords[1]} 
+                    />
+                </div>
+            </Modal>
+
         </form>
     );
 }

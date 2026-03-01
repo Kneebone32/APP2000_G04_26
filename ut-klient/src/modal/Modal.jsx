@@ -1,8 +1,10 @@
 import "./Modal.css";
-import { useEffect } from "react";
+import L from 'leaflet';
+import { useEffect, useRef } from "react";
 
 //Hele filen laget av Kay med mindre annet er spesifisert
 export default function Modal({show, onClose, title, children, size = "md"}) {
+    const containerRef = useRef(null);
 
     //Hjelper Leaflet med å regne ut den faktiske størrelsen på Modal. Laget av AI
     useEffect(() => {
@@ -12,6 +14,14 @@ export default function Modal({show, onClose, title, children, size = "md"}) {
             }, 400);
         }
     }, [show]);
+
+      //Forhindrer at knappetrykk faller igjennom til kartet. Takk stackoverflow.
+      useEffect(() => {
+        if (containerRef.current) {
+          L.DomEvent.disableClickPropagation(containerRef.current);
+          L.DomEvent.disableScrollPropagation(containerRef.current);
+        }
+      }, []);
 
     if (!show) return null;
 
@@ -24,7 +34,7 @@ export default function Modal({show, onClose, title, children, size = "md"}) {
             ></div>
 
             {/*Selve Modal*/}
-            <div className="custom-modal-container" onClick={onClose}>
+            <div className="custom-modal-container" onClick={onClose} ref={containerRef}>
                 <div className={`custom-modal-dialog custom-modal-${size}`} 
                 onClick={(e) => e.stopPropagation()}
                 >

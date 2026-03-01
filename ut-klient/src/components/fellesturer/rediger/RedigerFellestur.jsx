@@ -48,7 +48,7 @@ export default function RedigerFellestur() {
 
     return (
         <div className="fellestur-form-container">
-            <h2>Rediger fellestur</h2>
+            <h2>Rediger Fellestur</h2>
             
             {/*Søkefelt til fellestur*/}
             <FellesturSøk 

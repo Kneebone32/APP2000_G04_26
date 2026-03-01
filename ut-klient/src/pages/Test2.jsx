@@ -5,6 +5,7 @@ import { useModal } from "../hooks/useModal";
 import { useState } from "react";
 import { hytteIcon } from "../components/kart/KartBasic";
 import { hentHøydeMåling } from "../utils/geoUtils";
+import { VærvarselDagDetaljert } from "../components/Værvarsling";
 
 export default function Test2(){
     const {isOpen, open, close} = useModal();
@@ -36,7 +37,13 @@ export default function Test2(){
                     <input type="text" placeholder="moh" value={høydeMeter} disabled={true}></input>
                 )}
 
-                {lagret && lagretKoordinat}
+                {lagret && lagretKoordinat && (
+                    <VærvarselDagDetaljert 
+                     lat={lagretKoordinat[0]}
+                     lon={lagretKoordinat[1]}
+                     dato={new Date()}
+                     />
+                     )}
             </div>
                      <Modal show={isOpen} onClose={close} title="Velg hyttelokasjon" size="lg">
                          <div className="modal-map-container">
@@ -46,6 +53,9 @@ export default function Test2(){
                              />
                          </div>
                      </Modal>   
+
+
+                     
 
         </PageWrapper>
     )

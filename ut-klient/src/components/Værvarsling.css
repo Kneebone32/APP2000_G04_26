@@ -1,0 +1,10 @@
+/*Laget av Kay*/
+.værmelding-kort{
+    display: flex;
+    flex-direction: row
+}
+
+.vær-detaljer{
+    margin-left: 20px;
+    font-size: medium;
+}

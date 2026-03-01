@@ -3,6 +3,7 @@ import {MapContainer, TileLayer, ZoomControl} from "react-leaflet";
 import { Icon } from "leaflet";
 import hytteMarker from "../../assets/kart/hytte.png";
 import turStartMarker from "../../assets/kart/tur.png";
+import cameraIcon from "../../assets/kart/camera.png";
 import FlyTilPosisjon from "../navigasjon/NavigasjonFinnPosisjon";
 import "leaflet/dist/leaflet.css";
 import "./KartBasic.css";
@@ -22,8 +23,8 @@ export const turIcon = new Icon({
 });
 
 //kartikon for turmål
-export const turMålIcon = new Icon({
-    iconUrl: null, 
+export const turmålIcon = new Icon({
+    iconUrl: cameraIcon, 
     iconSize: [42, 42],
     className: 'no-scale-marker'
 });
