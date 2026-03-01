@@ -12,8 +12,8 @@ export default function NyttKoordinat({onLagreKoordinat, ikon}){
   return (
     <div>
       <div className="punkt-kontroller">
-            <button onClick={handleLagre}>Lagre koordinat</button>
-            <button onClick={() => setKoordinat(null)}>Fjern</button>
+            <button type="button" onClick={handleLagre}>Lagre koordinat</button>
+            <button type="button" onClick={() => setKoordinat(null)}>Fjern</button>
       </div>
       
       <KartHentEttPunkt 
