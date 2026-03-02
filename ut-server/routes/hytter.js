@@ -5,10 +5,10 @@ import pool from '../config/db.js';
 
 const router = express.Router();
 
-// Henter alle hytter fra test_db (Skrevet av Kay)
+// Henter alle hytter til kartet
 router.get('/', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM hytte');
+    const result = await pool.query('SELECT * FROM hytte_hent_kart()');
     res.json(result.rows);
   } catch (err) {
     console.error(err);
@@ -16,18 +16,29 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Henter hytte med gitt id (Skrevet av Kay)
+// Henter hytter til kortoversikt
+router.get('/kort', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM hytte_hent_kort()');
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Database connection failed' });
+  }
+});
+
+// Henter hytte med gitt id (detaljvisning)
 router.get('/:id', async (req, res) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
 
-    const result = await pool.query('SELECT * FROM hytte WHERE hytte_id = $1', [id]);
+    const result = await pool.query('SELECT hytte_hent_detalj($1) AS hytte', [id]);
 
-    if(result.rows.length === 0) {
-        return res.status(404).json({ error: 'Hytte ikke funnet' });
+    if (!result.rows[0].hytte) {
+      return res.status(404).json({ error: 'Hytte ikke funnet' });
     }
 
-    res.json(result.rows[0]); //bugfix. Trenger bare første index
+    res.json(result.rows[0].hytte);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Database connection failed' });
@@ -39,12 +50,11 @@ router.post('/', async (req, res) => {
   try {
     const {
       hytte_navn,
-      hytte_omrade,
       hytte_beskrivelse,
       hytte_sengeplasser,
       hytte_pris,
-      fylke_id,
-      kommune_id,
+      fylke_nummer,
+      kommune_nummer,
       hytte_breddegrad,
       hytte_lengdegrad,
       hytte_moh,
@@ -55,8 +65,8 @@ router.post('/', async (req, res) => {
 
     // Oppretter ny hytte i databasen
     const result = await pool.query(
-      'SELECT hytte_opprett($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) AS ny_hytte_id',
-      [hytte_navn, hytte_omrade, hytte_beskrivelse, hytte_sengeplasser, hytte_pris, fylke_id, kommune_id, hytte_breddegrad, hytte_lengdegrad, hytte_moh, hytte_betjeningsgrad]
+      'SELECT hytte_opprett_hel($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) AS ny_hytte_id',
+      [hytte_navn, hytte_beskrivelse, hytte_sengeplasser, hytte_pris, fylke_nummer, kommune_nummer, hytte_breddegrad, hytte_lengdegrad, hytte_moh, hytte_betjeningsgrad]
     );
 
     const nyHytteId = result.rows[0].ny_hytte_id;
@@ -89,7 +99,6 @@ router.put('/:id', async (req, res) => {
     const {id} = req.params;
     const {
       hytte_navn,
-      hytte_omrade,
       hytte_beskrivelse,
       hytte_sengeplasser,
       hytte_pris,
@@ -105,8 +114,8 @@ router.put('/:id', async (req, res) => {
 
     // Oppdaterer hytte i databasen med hytte_oppdater funksjonen
     await pool.query(
-      'SELECT hytte_oppdater($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)',
-      [id, hytte_navn, hytte_omrade, hytte_beskrivelse, hytte_sengeplasser, hytte_pris, fylke_id, kommune_id, hytte_breddegrad, hytte_lengdegrad, hytte_moh, hytte_betjeningsgrad]
+      'SELECT hytte_oppdater($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
+      [id, hytte_navn, hytte_beskrivelse, hytte_sengeplasser, hytte_pris, fylke_id, kommune_id, hytte_breddegrad, hytte_lengdegrad, hytte_moh, hytte_betjeningsgrad]
     );
 
     // Oppdaterer informasjon om hytten (fasiliteter, adkomst, passer for, osv.) hvis det finnes
