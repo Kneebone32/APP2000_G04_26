@@ -1,5 +1,5 @@
 import PageWrapper from "../components/PageWrapper";
-import TurKort from "../components/TurKort";
+import TurKort from "../components/turruter/TurKort";
 import { useFetchTurer } from "../hooks/useFetchTurer";
 import { useTranslation } from "react-i18next";
 import "./Turer.css";
@@ -31,6 +31,8 @@ export default function Turer() {
                 bildeUrl={tur.hovedbilde_url}
                 turtype={tur.turtype}
                 varighet={tur.varighet}
+                lat={tur.punkter?.[0]?.[0]}
+                lon={tur.punkter?.[0]?.[1]}
               />
               ))}
           </div>

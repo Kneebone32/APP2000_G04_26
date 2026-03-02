@@ -176,7 +176,15 @@
     "velg_tur": "Select a trip for deletion.",
     "bekreft_sletting": "Are you sure you want to delete the trip",
     "tur_slettet": "Trip has been deleted.",
-    "feil_sletting_melding": "Something went wrong while deleting the trip."
+    "feil_sletting_melding": "Something went wrong while deleting the trip.",
+    "rediger_tittel": "Edit trip",
+    "velg_tur_redigering": "Select a trip to edit.",
+    "tur_oppdatert": "Trip has been updated.",
+    "feil_oppdatering_melding": "Something went wrong while updating the trip.",
+    "feil_henting_melding": "Something went wrong while fetching the trip.",
+    "oppdaterer": "Updating...",
+    "oppdater_knapp": "Update trip",
+    "laster_turdata": "Loading trip data..."
   },
 
   "turer": {
@@ -186,6 +194,13 @@
     "ikke_funnet": "Trip not found",
     "laster_detaljer": "Loading trip information...",
     "tilbake_til_turer": "Back to trips"
+  },
+
+  "hytte": {
+    "hytte_moh": "Meters above sea level",
+    "pris": "Price per night (NOK)",
+    "hytte_betjeningsgrad": "Service level",
+    "beskrivelse": "Description"
   }
 
 }

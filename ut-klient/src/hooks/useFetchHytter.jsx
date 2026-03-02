@@ -31,7 +31,7 @@ export function useFetchHytter(autoFetch = true) {
   }, [autoFetch]);
 
 
-  //Henter en fellestur basert på ID
+  //Henter en hytte basert på ID
   const hentHytteFraId = async (id) => {
     try{
       const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/${id}`);

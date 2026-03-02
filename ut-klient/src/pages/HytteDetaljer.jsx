@@ -2,29 +2,37 @@ import PageWrapper from "../components/PageWrapper";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useFetchHytter } from "../hooks/useFetchHytter";
+import { hentKommuneData } from "../utils/geoUtils";
 import  './HytteDetaljer.css';
 
 export default function HytteDetaljer() {
   const { hytteId } = useParams();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { hentHytteFraId } = useFetchHytter(false);
   const [hytte, setHytte] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [kommunenavn, setKommunenavn] = useState("");
+  const [fylkesnavn, setFylkesnavn] = useState("");
 
   useEffect(() => {
-    const fetchHytte = async () => {
+    const hentHytte = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/${hytteId}`);
-
-        if (!response.ok) {
-          setError(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log(data);
+        const data = await hentHytteFraId(hytteId);
         setHytte(data);
-        
+
+        if (data?.hytte_breddegrad && data?.hytte_lengdegrad) {
+          try {
+            const kommuneData = await hentKommuneData(data.hytte_breddegrad, data.hytte_lengdegrad);
+            if (kommuneData) {
+              setKommunenavn(kommuneData.kommunenavn || "");
+              setFylkesnavn(kommuneData.fylkesnavn || "");
+            }
+          } catch (err) {
+          }
+        }
       } catch (err) {
         setError(err.message);
       } finally {
@@ -32,7 +40,7 @@ export default function HytteDetaljer() {
       }
     };
 
-    fetchHytte();
+    hentHytte();
   }, [hytteId]);
 
   return (
@@ -52,35 +60,49 @@ export default function HytteDetaljer() {
         )}
 
         {!loading && !error && hytte && (
-          <div>
-            <h2>{hytte.navn}</h2>
-            <p><strong>{t("felles.antall_sengeplasser")}:</strong> {hytte.sengeplasser}</p>
-            <p><strong>{t("felles.lokasjon")}:</strong> {hytte.område}</p>
-            <p><strong>{t("felles.betjeningsgrad")}:</strong> {hytte.betjeningsgrad}</p>
-            
-            <p><strong>{t("felles.adkomst")}: </strong>
-              {hytte.adkomst?.map((item, index) => (
-                <span key={index} className="Adkomst">{item}</span>
-              ))}
-            </p> 
+          <div className="hytte-detaljer">
+            <h2>{hytte.hytte_navn}</h2>
 
-            <p><strong>Passer for: </strong>
-              {hytte.passerfor?.map((item, index) => (
-                <span key={index} className="Passerfor">{item}</span>
-              ))}
-                </p>
+            {hytte.bilder && hytte.bilder.length > 0 && (
+              <div className="hytte-bilder">
+                {hytte.bilder.map((bilder, index) => (
+                  <img
+                    key={index}
+                    src={bilder}
+                    alt={`${hytte.hytte_navn} bilde ${index + 1}`}
+                    className="hytte-bilde"
+                  />
+                ))}
+              </div>
+            )}
 
-            <p><strong>Tilgjengelighet: </strong>
-              {hytte.tilgjengelighet?.map((item, index) => (
-                <span key={index} className="Tilgjengelighet">{item}</span>
-              ))}
-            </p> 
+            {hytte.hytte_omrade && (
+              <p><strong>{t("felles.lokasjon")}:</strong> {hytte.hytte_omrade}</p>
+            )}
 
-            <p><strong>Flere filter: </strong>
-              {hytte.flerefilter?.map((item, index) => (
-                <span key={index} className="Flerefilter">{item}</span>
-              ))}
-            </p> 
+            {hytte.hytte_moh && (
+              <p><strong>{t("hytte.hytte_moh")}:</strong> {hytte.hytte_moh}</p>
+            )}
+
+            {kommunenavn && (
+              <p><strong>{t("felles.kommune")}:</strong> {kommunenavn}</p>
+            )}
+
+            {fylkesnavn && (
+              <p><strong>{t("felles.fylke")}:</strong> {fylkesnavn}</p>
+            )}
+
+            {hytte.hytte_pris && (
+              <p><strong>{t("hytte.pris")}:</strong> {hytte.hytte_pris}</p>
+            )}
+
+            {hytte.hytte_betjeningsgrad && (
+              <p><strong>{t("hytte.hytte_betjeningsgrad")}:</strong> {hytte.hytte_betjeningsgrad}</p>
+            )}
+
+            {hytte.hytte_beskrivelse && (
+              <p><strong>{t("hytte.beskrivelse")}:</strong> {hytte.hytte_beskrivelse}</p>
+            )}
 
           </div>
         )}

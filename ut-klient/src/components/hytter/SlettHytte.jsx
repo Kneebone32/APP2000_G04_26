@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useFetchHytter } from "../hooks/useFetchHytter";
+import { useFetchHytter } from "../../hooks/useFetchHytter";
 import { useTranslation } from "react-i18next";
 
 export default function SlettHytte({ onSuccess }) {

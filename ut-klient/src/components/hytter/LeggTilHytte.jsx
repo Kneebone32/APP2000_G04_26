@@ -1,13 +1,13 @@
 import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useModal } from "../hooks/useModal";
-import { useEnums } from "../hooks/useEnums";
-import { useFileUpload } from "../hooks/useFileUpload";
-import { hentKommuneData, hentFullHøydeData } from "../utils/geoUtils";
-import Modal from "../modal/Modal";
-import NyttKoordinat from "./NyttKoordinat";
+import { useModal } from "../../hooks/useModal";
+import { useEnums } from "../../hooks/useEnums";
+import { useFileUpload } from "../../hooks/useFileUpload";
+import { hentKommuneData, hentFullHøydeData } from "../../utils/geoUtils";
+import Modal from "../../modal/Modal";
+import NyttKoordinat from "../NyttKoordinat";
 
-import { erGyldigKoordinatEttPunkt } from "../utils/erGyldigKoordinat";
+import { erGyldigKoordinatEttPunkt } from "../../utils/erGyldigKoordinat";
 
 export default function LeggTilHytte({ onSuccess }) {
     const { t } = useTranslation();
@@ -79,11 +79,11 @@ export default function LeggTilHytte({ onSuccess }) {
                     hytte_beskrivelse: beskrivelse,
                     hytte_sengeplasser: parseInt(sengeplasser),
                     hytte_pris: parseFloat(pris),
-                    fylke_id: fylkeId,
-                    kommune_id: kommuneId,
+                    fylke_id: 4, // midlertidig hardkodet til 4 siden backend må fikse FK constraints
+                    kommune_id: 2, // midlertidig hardkodet til 2 siden backend må fikse FK constraints
                     hytte_breddegrad: koordinat ? koordinat[0] : null,
                     hytte_lengdegrad: koordinat ? koordinat[1] : null,
-                    hytte_moh: høydeData.høyde || 0,
+                    hytte_moh: Math.round(høydeData.z) || 0,
                     hytte_betjeningsgrad: selectedBetjeningsgrad,
                     info_tab: null,
                     bilder: bildeUrl.length > 0 ? bildeUrl : null

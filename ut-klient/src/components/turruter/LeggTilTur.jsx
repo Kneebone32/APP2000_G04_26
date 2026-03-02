@@ -1,12 +1,12 @@
 import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useModal } from "../hooks/useModal";
-import { useEnums } from "../hooks/useEnums";
-import { useFileUpload } from "../hooks/useFileUpload";
-import { hentKommuneData } from "../utils/geoUtils";
-import Modal from "../modal/Modal";
-import Nytur from "./Nytur";
-import { GpxParser } from "./GpxParser";
+import { useModal } from "../../hooks/useModal";
+import { useEnums } from "../../hooks/useEnums";
+import { useFileUpload } from "../../hooks/useFileUpload";
+import { hentKommuneData } from "../../utils/geoUtils";
+import Modal from "../../modal/Modal";
+import Nytur from "../Nytur";
+import { GpxParser } from "../GpxParser";
 
 export default function LeggTilTur({ onSuccess }) {
     const { t } = useTranslation();
@@ -100,8 +100,8 @@ export default function LeggTilTur({ onSuccess }) {
                     vanskelighetsgrad: selectedVanskelighetsgrad || null,
                     varighet: selectedVarighet || null,
                     turtype: selectedTurtype || null,
-                    fylke_id: 4,
-                    kommune_id: 2,
+                    fylke_id: 4, // midlertidig hardkodet til 4 siden backend må fikse FK constraints
+                    kommune_id: 2, // midlertidig hardkodet til 2 siden backend må fikse FK constraints
                     punkter: lagredeKoordinater || null,
                     info_array: null,
                     bilder: bildeUrl.length > 0 ? bildeUrl : null

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
+// Hook til turruter. Laget av Olai med mindre annet er spesifisert
 export function useFetchTurer(autoFetch = true) {
   const [turer, setTurer] = useState([]);
   const [loadingTurer, setLoadingTurer] = useState(autoFetch);
@@ -8,6 +9,7 @@ export function useFetchTurer(autoFetch = true) {
   const [loadingTurPunkter, setLoadingTurPunkter] = useState(true);
   const [errorTurPunkter, setErrorTurPunkter] = useState(null);
 
+  // Henter alle turrutene
   const fetchTurer = async () => {
     try {
       setLoadingTurer(true);
@@ -33,7 +35,30 @@ export function useFetchTurer(autoFetch = true) {
     }
   }, [autoFetch]);
 
+  // Oppdaterer en turrute
+  const opptaterTur = async (id, data) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
 
+      if (!response.ok) {
+        throw new Error(`Feil ved oppdatering: ${response.status}`);
+      }
+
+      const result = await response.json();
+      setTurer(prevTurer =>
+        prevTurer.map(tur => tur.turrute_id === parseInt(id) ? { ...tur, ...data } : tur)
+      );
+      return result;
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  };
+
+  // Sletter en turrute
   const deleteTur = async (id) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter/${id}`, {
@@ -52,6 +77,22 @@ export function useFetchTurer(autoFetch = true) {
     }
   };
 
+  // Henter en turrute basert på ID
+  const hentTurFraId = useCallback(async (id) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter/${id}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  }, []);
+
+  // Henter GPS-punktene for en turrute basert på ID. Laget av Kay
   const fetchTurRute = useCallback(async (tur_id) => {
       try {
         setLoadingTurPunkter(true);
@@ -78,6 +119,8 @@ export function useFetchTurer(autoFetch = true) {
     errorTurPunkter,
     refetch: fetchTurer,
     deleteTur,
+    opptaterTur,
+    hentTurFraId,
     fetchTurRute
   };
 }

@@ -176,7 +176,15 @@
     "velg_tur": "Velg en tur for sletting.",
     "bekreft_sletting": "Er du sikker på at du vil slette turen",
     "tur_slettet": "Tur er blitt slettet.",
-    "feil_sletting_melding": "Noe gikk galt ved sletting av tur."
+    "feil_sletting_melding": "Noe gikk galt ved sletting av tur.",
+    "rediger_tittel": "Rediger tur",
+    "velg_tur_redigering": "Velg en tur for redigering.",
+    "tur_oppdatert": "Tur er blitt oppdatert.",
+    "feil_oppdatering_melding": "Noe gikk galt ved oppdatering av tur.",
+    "feil_henting_melding": "Noe gikk galt ved henting av tur.",
+    "oppdaterer": "Oppdaterer...",
+    "oppdater_knapp": "Oppdater tur",
+    "laster_turdata": "Laster turdata..."
   },
 
   "turer": {
@@ -186,6 +194,13 @@
     "ikke_funnet": "Tur ikke funnet",
     "laster_detaljer": "Laster turinformasjon...",
     "tilbake_til_turer": "Tilbake til turer"
+  },
+
+  "hytte": {
+    "hytte_moh": "Meter over havet",
+    "pris": "Pris per natt (kr)",
+    "hytte_betjeningsgrad": "Betjeningsgrad",
+    "beskrivelse": "Beskrivelse"
   }
 
 }

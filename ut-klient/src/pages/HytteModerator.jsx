@@ -1,5 +1,5 @@
-import LeggTilHytte from "../components/LeggTilHytte";
-import SlettHytte from "../components/SlettHytte";
+import LeggTilHytte from "../components/hytter/LeggTilHytte";
+import SlettHytte from "../components/hytter/SlettHytte";
 import { useFetchHytter } from "../hooks/useFetchHytter";
 import { useTranslation } from "react-i18next";
 import './HytteModerator.css';

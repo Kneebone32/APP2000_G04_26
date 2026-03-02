@@ -1,5 +1,6 @@
-import LeggTilTur from "../components/LeggTilTur";
-import SlettTur from "../components/SlettTur";
+import LeggTilTur from "../components/turruter/LeggTilTur";
+import SlettTur from "../components/turruter/SlettTur";
+import RedigerTur from "../components/turruter/RedigerTur";
 import { useFetchTurer } from "../hooks/useFetchTurer";
 import { useTranslation } from "react-i18next";
 import './TurModerator.css';
@@ -14,6 +15,10 @@ export default function TurModerator() {
             <h1>{t("tur.tittel")}</h1>
             
             <LeggTilTur onSuccess={refetch} />
+
+            <hr />
+
+            <RedigerTur onSuccess={refetch} />
 
             <hr />
 

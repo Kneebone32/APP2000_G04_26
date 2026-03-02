@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useFetchTurer } from "../hooks/useFetchTurer";
+import { useFetchTurer } from "../../hooks/useFetchTurer";
 import { useTranslation } from "react-i18next";
 
 export default function SlettTur({ onSuccess }) {

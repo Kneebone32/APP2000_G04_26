@@ -1,0 +1,30 @@
+/*
+Laget av Eivind
+*/
+* {
+    font-family: poppins, sans-serif;
+}
+
+.Hyttekort {
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px hsla(0, 0%, 0%, 0.1);
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+    background-color: rgb(251, 250, 250);
+    width: 400px;
+}
+
+.Hyttekort:hover {
+    box-shadow: 8px 8px 15px hsla(0, 0%, 0%, 0.2);
+    border: 2px solid green;
+}
+
+.Hyttekort .korttitle {
+    font-size: 30px;
+}
+
+.Hyttelink {
+    text-decoration: none;
+    color: black;
+}

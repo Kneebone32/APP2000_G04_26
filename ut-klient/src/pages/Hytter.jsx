@@ -1,5 +1,5 @@
 import PageWrapper from "../components/PageWrapper";
-import HytteKort from "../components/HytteKort";
+import HytteKort from "../components/hytter/HytteKort";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import "./Hytter.css";
@@ -49,8 +49,11 @@ export default function Hytter() {
                 key={hytte.hytte_id}
                 hytteId={hytte.hytte_id}
                 hytteNavn={hytte.hytte_navn}
+                pris={hytte.hytte_pris}
                 sengeplasser={hytte.hytte_sengeplasser}
-                bildeUrl={hytte.hyttebilde_url}
+                bildeUrl={hytte.hytte_bilde}
+                lat={hytte.hytte_breddegrad}
+                lon={hytte.hytte_lengdegrad}
               />
             ))}
           </div>
