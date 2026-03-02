@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
-export function useFetchHytter(autoFetch = true) {
+export function useFetchHytter({autoFetch = false, hentHytteID = null, hytteKort = false} = {}) {
   const [hytter, setHytter] = useState([]);
-  const [loading, setLoading] = useState(autoFetch);
+  const [loading, setLoading] = useState();
   const [error, setError] = useState(null);
 
-  const fetchHytter = async () => {
+  const fetchHytter = useCallback (async () => {
     try {
       setLoading(true);
       setError(null);
@@ -22,17 +22,32 @@ export function useFetchHytter(autoFetch = true) {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  useEffect(() => {
-    if (autoFetch) {
-      fetchHytter();
+
+    const fetchHytteKort = useCallback (async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/kort`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setHytter(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
-  }, [autoFetch]);
+  }, []);
+
 
 
   //Henter en hytte basert på ID
-  const hentHytteFraId = async (id) => {
+  const hentHytteFraId = useCallback (async (id) => {
     try{
       const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/${id}`);
       if (!response.ok) throw new Error("Kunne ikke hente hytten");
@@ -43,10 +58,10 @@ export function useFetchHytter(autoFetch = true) {
     } finally {
         setLoading(false);
     }
-  };
+  }, []);
 
 
-  const deleteHytte = async (id) => {
+  const deleteHytte = useCallback (async (id) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/${id}`, {
         method: 'DELETE'
@@ -62,7 +77,14 @@ export function useFetchHytter(autoFetch = true) {
     } catch (err) {
       throw new Error(err.message);
     }
-  };
+  }, []);
+
+
+    useEffect(() => {
+      if (autoFetch) fetchHytter();
+      if (hytteKort) fetchHytteKort();
+      if (hentHytteID) hentHytteFraId(hentHytteID);
+  }, [autoFetch, hentHytteID, hytteKort, fetchHytter, hentHytteFraId, fetchHytteKort]);
 
   return { 
     hytter, 
@@ -70,6 +92,7 @@ export function useFetchHytter(autoFetch = true) {
     error, 
     refetch: fetchHytter,
     deleteHytte,
-    hentHytteFraId
+    hentHytteFraId,
+    fetchHytteKort
   };
 }

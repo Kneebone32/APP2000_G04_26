@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import "./Hytter.css";
 
 export default function Hytter() {
-  const { hytter, loadingHytter, errorHytter } = useFetchHytter(true);
+  const { hytter, loadingHytter, errorHytter } = useFetchHytter({hytteKort: true});
   const { t } = useTranslation();
 
   return (
@@ -23,14 +23,14 @@ export default function Hytter() {
           <div className="HyttekortContainer">
             {hytter.map((hytte) => (
               <HytteKort
-                key={hytte.hytte_id}
-                hytteId={hytte.hytte_id}
-                hytteNavn={hytte.hytte_navn}
-                pris={hytte.hytte_pris}
-                sengeplasser={hytte.hytte_sengeplasser}
-                fylkeId={hytte.fylke_id}
-                kommuneId={hytte.kommune_id}
-                bildeUrl={hytte.hytte_bilde}
+                key={hytte.id}
+                hytteId={hytte.id}
+                hytteNavn={hytte.navn}
+                pris={hytte.pris}
+                sengeplasser={hytte.sengeplasser}
+                fylkeId={hytte.fylke_navn}
+                kommuneId={hytte.kommune_navn}
+                bildeUrl={hytte.hovedbilde_url}
               />
             ))}
           </div>

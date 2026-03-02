@@ -30,6 +30,7 @@ export default function Kart() {
   const { t } = useTranslation();
   const [filter, setFilter] = useState({});
   const [zoom, setZoom] = useState(13);
+  console.log(hytter);
 
   //filter til hytter
   const filteredHytter = filterHytter(hytter, filter);
@@ -118,15 +119,15 @@ export default function Kart() {
           filteredHytter.map((hytte) => (
             <Marker
               key={hytte.hytte_id}
-              position={[hytte.hytte_breddegrad, hytte.hytte_lengdegrad]}
+              position={[hytte.breddegrad, hytte.lengdegrad]}
               icon={hytteIcon}
             >
               <Popup>
-                <strong>{hytte.hytte_navn}</strong>
+                <strong>{hytte.navn}</strong>
                 <br />
-                {t("felles.sengeplasser")}: {hytte.hytte_sengeplasser}
+                {t("felles.sengeplasser")}: {hytte.sengeplasser}
                 <br />
-                {hytte.hytte_betjeningsgrad}
+                {hytte.betjeningsgrad}
               </Popup>
             </Marker>
           ))}

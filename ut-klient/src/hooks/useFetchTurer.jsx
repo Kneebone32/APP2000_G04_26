@@ -1,16 +1,16 @@
 import { useState, useEffect, useCallback } from 'react';
 
 // Hook til turruter. Laget av Olai med mindre annet er spesifisert
-export function useFetchTurer(autoFetch = true) {
+export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteID = null, turKort = null}  = {}) {
   const [turer, setTurer] = useState([]);
-  const [loadingTurer, setLoadingTurer] = useState(autoFetch);
+  const [loadingTurer, setLoadingTurer] = useState();
   const [errorTurer, setErrorTurer] = useState(null);
   const [turPunkter, setTurPunkter] = useState([]);
   const [loadingTurPunkter, setLoadingTurPunkter] = useState(true);
   const [errorTurPunkter, setErrorTurPunkter] = useState(null);
 
   // Henter alle turrutene
-  const fetchTurer = async () => {
+  const fetchTurer = useCallback (async () => {
     try {
       setLoadingTurer(true);
       setErrorTurer(null);
@@ -27,16 +27,31 @@ export function useFetchTurer(autoFetch = true) {
     } finally {
       setLoadingTurer(false);
     }
-  };
+  }, []);
 
-  useEffect(() => {
-    if (autoFetch) {
-      fetchTurer();
+
+    const fetchTurKort = useCallback (async () => {
+    try {
+      setLoadingTurer(true);
+      setErrorTurer(null);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter/kort`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setTurer(data);
+    } catch (err) {
+      setErrorTurer(err.message);
+    } finally {
+      setLoadingTurer(false);
     }
-  }, [autoFetch]);
+  }, []);
+
 
   // Oppdaterer en turrute
-  const opptaterTur = async (id, data) => {
+  const opptaterTur = useCallback (async (id, data) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter/${id}`, {
         method: 'PUT',
@@ -56,10 +71,10 @@ export function useFetchTurer(autoFetch = true) {
     } catch (err) {
       throw new Error(err.message);
     }
-  };
+  }, []);
 
   // Sletter en turrute
-  const deleteTur = async (id) => {
+  const deleteTur = useCallback (async (id) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter/${id}`, {
         method: 'DELETE'
@@ -75,7 +90,7 @@ export function useFetchTurer(autoFetch = true) {
     } catch (err) {
       throw new Error(err.message);
     }
-  };
+  }, []);
 
   // Henter en turrute basert på ID
   const hentTurFraId = useCallback(async (id) => {
@@ -109,6 +124,12 @@ export function useFetchTurer(autoFetch = true) {
       }
     }, []);
 
+  useEffect(() => {
+    if (autoFetch) fetchTurer();
+    if (hentTurID) hentTurFraId(hentTurID);
+    if (turKort) fetchTurKort();
+    if (hentTurRuteID) fetchTurRute(hentTurRuteID)
+  }, [autoFetch, hentTurID, hentTurRuteID, turKort, fetchTurer, hentTurFraId, fetchTurRute, fetchTurKort]);
 
   return { 
     turer, 
@@ -118,6 +139,7 @@ export function useFetchTurer(autoFetch = true) {
     loadingTurPunkter,
     errorTurPunkter,
     refetch: fetchTurer,
+    fetchTurKort,
     deleteTur,
     opptaterTur,
     hentTurFraId,

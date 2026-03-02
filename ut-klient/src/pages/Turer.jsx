@@ -7,7 +7,8 @@ import "./Turer.css";
 //Basert på Hytter.jsx. Laget av Kay og Olai
 export default function Turer() {
   const { t } = useTranslation();
-  const { turer, loadingTurer, errorTurer } = useFetchTurer(true);
+  const { turer, loadingTurer, errorTurer } = useFetchTurer({autoFetch: true}); //turKort: true
+  console.log(turer)
 
   return (
     <PageWrapper title={t("turer.tittel")}>

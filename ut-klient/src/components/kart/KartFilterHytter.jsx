@@ -96,9 +96,9 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
               <label>
                 <input
                   type="checkbox"
-                  checked={filter.betjeningsgrad.includes("Ubetjent")}
+                  checked={filter.betjeningsgrad.includes("ubetjent")}
                   onChange={() =>
-                    handleCheckboxChange("betjeningsgrad", "Ubetjent")
+                    handleCheckboxChange("betjeningsgrad", "ubetjent")
                   }
                 />{" "}
                 {t("filter.ubetjent")}
@@ -107,9 +107,9 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
               <label>
                 <input
                   type="checkbox"
-                  checked={filter.betjeningsgrad.includes("Selvbetjent")}
+                  checked={filter.betjeningsgrad.includes("selvbetjent")}
                   onChange={() =>
-                    handleCheckboxChange("betjeningsgrad", "Selvbetjent")
+                    handleCheckboxChange("betjeningsgrad", "selvbetjent")
                   }
                 />{" "}
                 {t("filter.selvbetjent")}
@@ -118,9 +118,9 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
               <label>
                 <input
                   type="checkbox"
-                  checked={filter.betjeningsgrad.includes("Betjent")}
+                  checked={filter.betjeningsgrad.includes("betjent")}
                   onChange={() =>
-                    handleCheckboxChange("betjeningsgrad", "Betjent")
+                    handleCheckboxChange("betjeningsgrad", "betjent")
                   }
                 />{" "}
                 {t("filter.betjent")}
