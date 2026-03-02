@@ -1,7 +1,6 @@
 import PageWrapper from "../components/PageWrapper";
 import HytteKort from "../components/hytter/HytteKort";
 import { useFetchHytter } from "../hooks/useFetchHytter";
-import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import "./Hytter.css";
 
