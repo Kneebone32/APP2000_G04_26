@@ -201,6 +201,194 @@
     "pris": "Price per night (NOK)",
     "hytte_betjeningsgrad": "Service level",
     "beskrivelse": "Description"
+  },
+
+  "fellesturer": {
+    "tittel": "Group Trips",
+    "legg_til": "Add group trip",
+    "rediger": "Edit Group Trip",
+    "slett": "Delete Group Trip",
+    "søk_fellestur": "Search for Group Trip",
+    "søk_placeholder": "Search by title or ID",
+    "ingen_resultater": "No results",
+    "velg_fellestur": "Select a group trip to start editing.",
+    "velg_for_sletting": "Please select a group trip first",
+    "lagre": "Save Group Trip",
+    "oppdatert": "The group trip was updated!",
+    "slettet": "\" was deleted",
+    "feil_henting": "Could not fetch group trip: ",
+    "feil_oppdatering": "Error updating: ",
+    "feil_sletting": "Could not delete the trip: ",
+    "bekreft_sletting": "Are you absolutely sure you want to delete \"",
+    "slett_tur": "Delete trip",
+    "moderator": "Group Trip",
+    "gå_til_admin": "Go to Admin Group Trips",
+    "backend_melding": "Yay! You did everything right, but this is not connected to the backend yet... :S"
+  },
+
+  "fellestur_form": {
+    "tittel": "Title",
+    "beskrivelse": "Description",
+    "velg_datoer": "Select date(s)",
+    "datoer_valgt": " dates selected",
+    "åpne_kalender": "Open calendar",
+    "værvarsel_8_dager": "8-day weather forecast",
+    "bilde_url": "Image url (for testing only. REMEMBER to remove this!)",
+    "status": "Status",
+    "velg_turrute": "Select a trip route to start planning",
+    "velg_dato_tid": "Select date and time",
+    "tid": "Time",
+    "værvarsel": "Weather Forecast",
+    "min_deltakere": "Min participants",
+    "maks_deltakere": "Max participants",
+    "feil_minst_en_dato": "Please select at least one date"
+  },
+
+  "fellestur_kobling": {
+    "tittel": "Add cabin or destination to Group Trip",
+    "velg_fellestur": "Select group trip to add cabin/destination",
+    "hytte_for_langt": "Oops, the cabin is ",
+    "km_unna": " KM away from the route. Max is ",
+    "km": " KM",
+    "turmål_for_langt": "Oops, the destination is ",
+    "feil_henting_hytte": "Could not fetch cabin: ",
+    "feil_henting_turmål": "Could not fetch destination: ",
+    "feil_henting_fellestur": "Could not fetch group trip: "
+  },
+
+  "turmål": {
+    "tittel": "Destinations",
+    "legg_til": "Add destination",
+    "rediger": "Edit Destination",
+    "slett": "Delete Destination",
+    "velg_turmål": "Select destination",
+    "søk_placeholder": "Search by name or ID",
+    "ingen_resultater": "No results",
+    "velg_for_redigering": "Select destination to start editing.",
+    "velg_for_sletting": "Please select a destination first",
+    "lagre": "Save Destination",
+    "oppdatert": "The destination was updated!",
+    "slettet": "\" was deleted",
+    "feil_henting": "Could not fetch destination: ",
+    "feil_oppdatering": "Error updating: ",
+    "feil_sletting": "Could not delete the destination: ",
+    "bekreft_sletting": "Are you absolutely sure you want to delete \"",
+    "moderator": "Destination",
+    "gå_til_admin": "Go to Admin Destinations",
+    "backend_melding": "Yay! You did everything right, but this is not connected to the backend yet... :S",
+    "velg_posisjon": "Select position",
+    "navn": " Name",
+    "koordinater": " Coordinates",
+    "høyde": " Altitude",
+    "kommune": " Municipality",
+    "fylke": " County"
+  },
+
+  "turrute_søk": {
+    "velg_turrute": "Select Trip Route",
+    "søk_placeholder": "Search by name or ID",
+    "ingen_resultater": "No results"
+  },
+
+  "hytte_søk": {
+    "velg_hytte": "Select Cabin",
+    "søk_placeholder": "Search by name or ID",
+    "ingen_resultater": "No results"
+  },
+
+  "navigasjon": {
+    "startet": "Navigation started!",
+    "feil_turrute": "Could not find selected trip route.",
+    "sendes_tilbake": "You will be sent back to the previous page",
+    "modal_tittel": "Out on a trip, never grumpy!",
+    "bekreft_start": "Do you want to start navigation?",
+    "start": "Start",
+    "bruk_posisjon": "Use position",
+    "sentrér": "Center",
+    "bruk_din_posisjon": "Use your position"
+  },
+
+  "nytur": {
+    "antall_punkter": "Number of points:",
+    "tøm_rute": "Clear route",
+    "fjern_siste": "Remove last point",
+    "lagre_koordinater": "Save coordinates"
+  },
+
+  "nytt_koordinat": {
+    "lagre": "Save coordinate",
+    "fjern": "Remove"
+  },
+
+  "gpx": {
+    "kunne_ikke_finne": "Could not find coordinates in the file",
+    "feil_henting": "Something went wrong when fetching coordinates from file: ",
+    "last_opp": "Upload GPX file"
+  },
+
+  "bekreft_modal": {
+    "tittel": "Confirm action",
+    "melding": "Are you sure you want to continue?",
+    "bekreft": "Yes, proceed",
+    "avbryt": "Cancel"
+  },
+
+  "kart_detaljer": {
+    "turtype": "Trip type: ",
+    "vanskelighetsgrad": "Difficulty: ",
+    "varighet": "Duration:"
+  },
+
+  "test": {
+    "last_ned_gpx": "download gpx",
+    "vis_tur": "Show Trip",
+    "lag_tur": "Create Trip",
+    "koordinater_hentet": "✓ Coordinates fetched",
+    "rutelengde": "Route length: ",
+    "høyde": "Altitude: ",
+    "hyttekoordinater": "Cabin coordinates",
+    "kart_knapp": "Map",
+    "moh": "masl",
+    "velg_hyttelokasjon": "Select cabin location",
+    "legg_til_bilde": "Add Image URL (testing)",
+    "lim_inn_url": "Paste URL here",
+    "legg_til": "Add"
+  },
+
+  "page_wrapper": {
+    "prototype_innhold": "Prototype content coming here..."
+  },
+
+  "enums": {
+    "aktivitet_status": {
+      "utkast": "Draft",
+      "publisert": "Published",
+      "avlyst": "Cancelled",
+      "fullfort": "Completed"
+    },
+    "betjeningsgrad": {
+      "betjent": "Serviced",
+      "selvbetjent": "Self-service",
+      "ubetjent": "Unserviced",
+      "utleiehytte": "Rental cabin"
+    },
+    "turtype": {
+      "fottur": "Hiking",
+      "sykkeltur": "Cycling",
+      "skitur": "Skiing"
+    },
+    "vanskelighetsgrad": {
+      "lett": "Easy",
+      "middels": "Medium",
+      "krevende": "Challenging"
+    },
+    "varighet": {
+      "kort tur (1-2 timer)": "Short trip (1-2 hours)",
+      "halvdagstur (3-5 timer)": "Half-day trip (3-5 hours)",
+      "dagstur": "Day trip",
+      "Helgetur (2-4 dager)": "Weekend trip (2-4 days)",
+      "Langtur (5+ dager)": "Long trip (5+ days)"
+    }
   }
 
 }

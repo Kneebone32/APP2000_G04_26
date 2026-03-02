@@ -55,7 +55,7 @@ export default function KartFilterTurer({
                 <option value="" disabled selected hidden></option>
                 {vanskelighetsgrad.map((valg) => (
                   <option key={valg} value={valg}>
-                    {valg}
+                    {t(`enums.vanskelighetsgrad.${valg}`)}
                   </option>
                 ))}
               </select>
@@ -97,7 +97,7 @@ export default function KartFilterTurer({
 
           {/*Turer - turtype*/}
           <div className="filter-section">
-            <label>Varighet:</label>
+            <label>{t("kart_detaljer.varighet")}</label>
 
             {!loadingEnum && (
               <select
@@ -109,7 +109,7 @@ export default function KartFilterTurer({
                 <option value="" disabled selected hidden></option>
                 {varighet.map((valg) => (
                   <option key={valg} value={valg}>
-                    {valg}
+                    {t(`enums.varighet.${valg}`)}
                   </option>
                 ))}
               </select>

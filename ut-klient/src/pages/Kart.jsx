@@ -89,9 +89,9 @@ export default function Kart() {
               <Popup>
                     <strong>{tur.turrute_navn}</strong>
                     <br />
-                    Turtype: {tur.turtype}
+                    {t("kart_detaljer.turtype")}{t(`enums.turtype.${tur.turtype}`)}
                     <br />
-                    Vanskelighetsgrad: {tur.vanskelighetsgrad}
+                    {t("kart_detaljer.vanskelighetsgrad")}{t(`enums.vanskelighetsgrad.${tur.vanskelighetsgrad}`)}
                 </Popup>
             </HoverPolyline>
             
@@ -103,9 +103,9 @@ export default function Kart() {
               <Popup>
                     <strong>{tur.turrute_navn}</strong>
                     <br />
-                    Turtype: {tur.turtype}
+                    {t("kart_detaljer.turtype")}{t(`enums.turtype.${tur.turtype}`)}
                     <br />
-                    Vanskelighetsgrad: {tur.vanskelighetsgrad}
+                    {t("kart_detaljer.vanskelighetsgrad")}{t(`enums.vanskelighetsgrad.${tur.vanskelighetsgrad}`)}
                 </Popup>
             </Marker>
             </Fragment>
@@ -126,7 +126,7 @@ export default function Kart() {
                 <br />
                 {t("felles.sengeplasser")}: {hytte.sengeplasser}
                 <br />
-                {hytte.betjeningsgrad}
+                {t(`enums.betjeningsgrad.${hytte.betjeningsgrad}`)}
               </Popup>
             </Marker>
           ))}

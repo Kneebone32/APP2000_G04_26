@@ -201,6 +201,194 @@
     "pris": "Pris per natt (kr)",
     "hytte_betjeningsgrad": "Betjeningsgrad",
     "beskrivelse": "Beskrivelse"
+  },
+
+  "fellesturer": {
+    "tittel": "Fellesturer",
+    "legg_til": "Legg til fellestur",
+    "rediger": "Rediger Fellestur",
+    "slett": "Slett Fellestur",
+    "søk_fellestur": "Søk etter Fellestur",
+    "søk_placeholder": "Søk på tittel eller ID",
+    "ingen_resultater": "Ingen resultater",
+    "velg_fellestur": "Velg fellestur for å begynne redigering.",
+    "velg_for_sletting": "Vennligst velg en fellestur først",
+    "lagre": "Lagre Fellestur",
+    "oppdatert": "Fellesturen ble oppdatert!",
+    "slettet": "\" ble slettet",
+    "feil_henting": "Kunne ikke hente fellestur: ",
+    "feil_oppdatering": "Feil ved oppdatering: ",
+    "feil_sletting": "Kunne ikke slette turen: ",
+    "bekreft_sletting": "Er du helt sikker på at du vil slette \"",
+    "slett_tur": "Slett tur",
+    "moderator": "Fellestur",
+    "gå_til_admin": "Gå til Admin Fellesturer",
+    "backend_melding": "Jippi! Du gjorde alt riktig, men denne er ikke koblet til backend enda... :S"
+  },
+
+  "fellestur_form": {
+    "tittel": "Tittel",
+    "beskrivelse": "Beskrivelse",
+    "velg_datoer": "Velg dato(er)",
+    "datoer_valgt": " datoer valgt",
+    "åpne_kalender": "Åpne kalender",
+    "værvarsel_8_dager": "8-dagers værvarsel",
+    "bilde_url": "Bilde url (kun til testing. HUSK å fjerne denne!)",
+    "status": "Status",
+    "velg_turrute": "Velg en turrute for å starte planleggingen",
+    "velg_dato_tid": "Velg dato og tid",
+    "tid": "Tid",
+    "værvarsel": "Værvarsel",
+    "min_deltakere": "Min deltakere",
+    "maks_deltakere": "Maks deltakere",
+    "feil_minst_en_dato": "Vennligst velg minst en dato"
+  },
+
+  "fellestur_kobling": {
+    "tittel": "Legg til hytte eller turmål i Fellestur",
+    "velg_fellestur": "Velg fellestur for å kunne legge til hytte/turmål",
+    "hytte_for_langt": "Opps, hytten er ",
+    "km_unna": " KM unna turruten. Maks er ",
+    "km": " KM",
+    "turmål_for_langt": "Opps, turmålet er ",
+    "feil_henting_hytte": "Kunne ikke hente hytte: ",
+    "feil_henting_turmål": "Kunne ikke hente Turmål: ",
+    "feil_henting_fellestur": "Kunne ikke hente fellestur: "
+  },
+
+  "turmål": {
+    "tittel": "Turmål",
+    "legg_til": "Legg til turmål",
+    "rediger": "Rediger Turmål",
+    "slett": "Slett Turmål",
+    "velg_turmål": "Velg turmål",
+    "søk_placeholder": "Søk på navn eller ID",
+    "ingen_resultater": "Ingen resultater",
+    "velg_for_redigering": "Velg turmål for å begynne redigering.",
+    "velg_for_sletting": "Vennligst velg ett turmål først",
+    "lagre": "Lagre Turmål",
+    "oppdatert": "Turmålet ble oppdatert!",
+    "slettet": "\" ble slettet",
+    "feil_henting": "Kunne ikke hente turmål: ",
+    "feil_oppdatering": "Feil ved oppdatering: ",
+    "feil_sletting": "Kunne ikke slette turmålet: ",
+    "bekreft_sletting": "Er du helt sikker på at du vil slette \"",
+    "moderator": "Turmål",
+    "gå_til_admin": "Gå til Admin Turmål",
+    "backend_melding": "Jippi! Du gjorde alt riktig, men denne er ikke koblet til backend enda... :S",
+    "velg_posisjon": "Velg posisjon",
+    "navn": " Navn",
+    "koordinater": " Koordinater",
+    "høyde": " Høyde",
+    "kommune": " Kommune",
+    "fylke": " Fylke"
+  },
+
+  "turrute_søk": {
+    "velg_turrute": "Velg Turrute",
+    "søk_placeholder": "Søk på navn eller ID",
+    "ingen_resultater": "Ingen resultater"
+  },
+
+  "hytte_søk": {
+    "velg_hytte": "Velg Hytte",
+    "søk_placeholder": "Søk på navn eller ID",
+    "ingen_resultater": "Ingen resultater"
+  },
+
+  "navigasjon": {
+    "startet": "Navigasjon startet!",
+    "feil_turrute": "Kunne ikke finne valgt turrute.",
+    "sendes_tilbake": "Du blir sendt tilbake til forrige side",
+    "modal_tittel": "Ut på tur, aldri sur!",
+    "bekreft_start": "Vil du starte navigasjonen?",
+    "start": "Start",
+    "bruk_posisjon": "Bruk posisjon",
+    "sentrér": "Sentrér",
+    "bruk_din_posisjon": "Bruk din posisjon"
+  },
+
+  "nytur": {
+    "antall_punkter": "Antall punkter:",
+    "tøm_rute": "Tøm rute",
+    "fjern_siste": "Fjern siste punkt",
+    "lagre_koordinater": "Lagre koordinater"
+  },
+
+  "nytt_koordinat": {
+    "lagre": "Lagre koordinat",
+    "fjern": "Fjern"
+  },
+
+  "gpx": {
+    "kunne_ikke_finne": "Kunne ikke finne koordinatene i filen",
+    "feil_henting": "Noe gikk galt ved henting av koordinater fra fil: ",
+    "last_opp": "Last opp GPX fil"
+  },
+
+  "bekreft_modal": {
+    "tittel": "Bekreft handling",
+    "melding": "Er du sikker på at du vil fortsette?",
+    "bekreft": "Ja, utfør",
+    "avbryt": "Avbryt"
+  },
+
+  "kart_detaljer": {
+    "turtype": "Turtype: ",
+    "vanskelighetsgrad": "Vanskelighetsgrad: ",
+    "varighet": "Varighet:"
+  },
+
+  "test": {
+    "last_ned_gpx": "last ned gpx",
+    "vis_tur": "Vis Tur",
+    "lag_tur": "Lag Tur",
+    "koordinater_hentet": "✓ Koordinater hentet",
+    "rutelengde": "Rutelengde: ",
+    "høyde": "Høyde: ",
+    "hyttekoordinater": "Hyttekoordinater",
+    "kart_knapp": "Kart",
+    "moh": "moh",
+    "velg_hyttelokasjon": "Velg hyttelokasjon",
+    "legg_til_bilde": "Legg til Bilde URL (testing)",
+    "lim_inn_url": "Lim inn URL her",
+    "legg_til": "Legg til"
+  },
+
+  "page_wrapper": {
+    "prototype_innhold": "Prototypeinnhold kommer her..."
+  },
+
+  "enums": {
+    "aktivitet_status": {
+      "utkast": "Utkast",
+      "publisert": "Publisert",
+      "avlyst": "Avlyst",
+      "fullfort": "Fullført"
+    },
+    "betjeningsgrad": {
+      "betjent": "Betjent",
+      "selvbetjent": "Selvbetjent",
+      "ubetjent": "Ubetjent",
+      "utleiehytte": "Utleiehytte"
+    },
+    "turtype": {
+      "fottur": "Fottur",
+      "sykkeltur": "Sykkeltur",
+      "skitur": "Skitur"
+    },
+    "vanskelighetsgrad": {
+      "lett": "Lett",
+      "middels": "Middels",
+      "krevende": "Krevende"
+    },
+    "varighet": {
+      "kort tur (1-2 timer)": "Kort tur (1-2 timer)",
+      "halvdagstur (3-5 timer)": "Halvdagstur (3-5 timer)",
+      "dagstur": "Dagstur",
+      "Helgetur (2-4 dager)": "Helgetur (2-4 dager)",
+      "Langtur (5+ dager)": "Langtur (5+ dager)"
+    }
   }
 
 }

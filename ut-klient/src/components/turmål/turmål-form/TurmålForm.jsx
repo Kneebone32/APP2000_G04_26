@@ -4,10 +4,12 @@ import { useModal } from "../../../hooks/useModal";
 import { useState } from "react";
 import { turmålIcon } from "../../kart/KartBasic";
 import { hentHøydeMåling, hentKommuneData } from "../../../utils/geoUtils"
+import { useTranslation } from "react-i18next";
 import "./TurmålForm.css"
 
 //Bygger opp alt som skal være med for å opprette ett Turmål. Laget av Kay
 export default function TurmålForm({lagretData = {}, onSubmitAction, buttonTekst}){
+    const { t } = useTranslation();
     const {isOpen, open, close} = useModal();
     const [lagretKoordinat, setLagretKoordinat] = useState(null);
     const [tittel, setTittel] = (lagretData.tittel || "");
@@ -51,33 +53,33 @@ export default function TurmålForm({lagretData = {}, onSubmitAction, buttonTeks
     return (
         <form onSubmit={handleFormSubmit}>
             <div className="input-container">
-                <label className="input"> Navn
+                <label className="input">{t("turmål.navn")}
                     <input type="text" value={tittel} onChange={(e) => setTittel(e.target.value)} required />
                 </label>
             </div>
             <div className="input-container">
-                <button type="button" onClick={open} className="åpne-kart-btn">Velg posisjon</button>
+                <button type="button" onClick={open} className="åpne-kart-btn">{t("turmål.velg_posisjon")}</button>
             </div>
 
             {høydeMeter && (
                 <> 
                     <div className="input-container">
-                        <label className="input"> Koordinater
+                        <label className="input">{t("turmål.koordinater")}
                             <input type="text" value={lagretKoordinat} disabled={true}></input>
                         </label>
                     </div>
                     <div className="input-container">
-                        <label className="input"> Høyde
+                        <label className="input">{t("turmål.høyde")}
                             <input type="text" value={høydeMeter} disabled={true}></input>
                         </label>
                     </div>
                     <div className="input-container">
-                        <label className="input"> Kommune
+                        <label className="input">{t("turmål.kommune")}
                             <input type="text" value={kommune} disabled={true}></input>
                         </label>
                     </div>
                     <div className="input-container">
-                        <label className="input"> Fylke
+                        <label className="input">{t("turmål.fylke")}
                             <input type="text" value={fylke} disabled={true}></input>
                         </label>
                     </div>
@@ -90,7 +92,7 @@ export default function TurmålForm({lagretData = {}, onSubmitAction, buttonTeks
                 )}
                 
 
-                     <Modal show={isOpen} onClose={close} title="Velg Turmål" size="lg">
+                     <Modal show={isOpen} onClose={close} title={t("turmål.velg_turmål")} size="lg">
                          <div className="modal-map-container">
                              <NyttKoordinat 
                                 onLagreKoordinat={handleLagreKoordinat}

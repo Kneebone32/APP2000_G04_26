@@ -1,14 +1,15 @@
-
+import { useTranslation } from "react-i18next";
 
 export default function TempBilde({ tempUrl, setTempUrl, onLeggTil }) {
+    const { t } = useTranslation();
     return (
         <div className="input-container">
             <label className="input">
-                Legg til Bilde URL (testing)
+                {t("test.legg_til_bilde")}
                 <div>
                     <input
                         type="text"
-                        placeholder="Lim inn URL her"
+                        placeholder={t("test.lim_inn_url")}
                         value={tempUrl}
                         onChange={(e) => setTempUrl(e.target.value)}
                     />
@@ -17,7 +18,7 @@ export default function TempBilde({ tempUrl, setTempUrl, onLeggTil }) {
                         onClick={onLeggTil} 
                         className="legg-til-btn"
                     >
-                        Legg til
+                        {t("test.legg_til")}
                     </button>
                 </div>
             </label>

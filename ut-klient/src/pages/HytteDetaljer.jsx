@@ -82,7 +82,7 @@ export default function HytteDetaljer() {
             )}
 
             {hytte.betjeningsgrad && (
-              <p><strong>{t("hytte.hytte_betjeningsgrad")}:</strong> {hytte.betjeningsgrad}</p>
+              <p><strong>{t("hytte.hytte_betjeningsgrad")}:</strong> {t(`enums.betjeningsgrad.${hytte.betjeningsgrad}`)}</p>
             )}
 
             {hytte.beskrivelse && (

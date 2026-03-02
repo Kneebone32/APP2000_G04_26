@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 //Søker etter tur for å bruke som Fellestur. Laget av Kay
 export default function TurruteSøk({ turer, onSelect, lagretNavn = "" }) {
+    const { t } = useTranslation();
     const [søk, setSøk] = useState(lagretNavn);
     const [visDropdown, setVisDropdown] = useState(false);
     const dropdownRef = useRef(null);
@@ -26,10 +28,10 @@ export default function TurruteSøk({ turer, onSelect, lagretNavn = "" }) {
     return (
         <div className="input-container søk" ref={dropdownRef}>
             <label className="input">
-                Velg Turrute
+                {t("turrute_søk.velg_turrute")}
                 <input
                     type="text"
-                    placeholder="Søk på navn eller ID"
+                    placeholder={t("turrute_søk.søk_placeholder")}
                     value={søk}
                     onChange={(e) => {
                         setSøk(e.target.value);
@@ -57,7 +59,7 @@ export default function TurruteSøk({ turer, onSelect, lagretNavn = "" }) {
                             </li>
                         ))
                     ) : (
-                        <li className="ingen-resultater">Ingen resultater</li>
+                        <li className="ingen-resultater">{t("turrute_søk.ingen_resultater")}</li>
                     )}
                 </ul>
             )}

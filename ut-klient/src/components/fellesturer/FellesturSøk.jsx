@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 //Søker etter eksisterende fellesturer. Laget av Kay
 //TODO: må oppdateres når jeg får tested sammen med backend. Feltene må endres (tur.fellestur_id)
 export default function FellesturSøk({ fellesturer, onSelect, lagretTittel = "" }) {
+    const { t } = useTranslation();
     const [søk, setSøk] = useState(lagretTittel);
     const [visDropdown, setVisDropdown] = useState(false);
     const dropdownRef = useRef(null);
@@ -26,10 +28,10 @@ export default function FellesturSøk({ fellesturer, onSelect, lagretTittel = ""
     return (
         <div className="input-container søk" ref={dropdownRef}>
             <label className="input">
-                Søk etter Fellestur
+                {t("fellesturer.søk_fellestur")}
                 <input
                     type="text"
-                    placeholder="Søk på tittel eller ID"
+                    placeholder={t("fellesturer.søk_placeholder")}
                     value={søk}
                     onChange={(e) => {
                         setSøk(e.target.value);
@@ -57,7 +59,7 @@ export default function FellesturSøk({ fellesturer, onSelect, lagretTittel = ""
                             </li>
                         ))
                     ) : (
-                        <li className="ingen-resultater">Ingen resultater</li>
+                        <li className="ingen-resultater">{t("fellesturer.ingen_resultater")}</li>
                     )}
                 </ul>
             )}

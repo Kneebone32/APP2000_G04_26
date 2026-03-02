@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 //Søker etter Turmål. Laget av Kay
 export default function TurmålSøk({ turmål, onSelect, lagretNavn = "" }) {
+    const { t } = useTranslation();
     const [søk, setSøk] = useState(lagretNavn);
     const [visDropdown, setVisDropdown] = useState(false);
     const dropdownRef = useRef(null);
@@ -26,10 +28,10 @@ export default function TurmålSøk({ turmål, onSelect, lagretNavn = "" }) {
     return (
         <div className="input-container søk" ref={dropdownRef}>
             <label className="input">
-                Velg turmål
+                {t("turmål.velg_turmål")}
                 <input
                     type="text"
-                    placeholder="Søk på navn eller ID"
+                    placeholder={t("turmål.søk_placeholder")}
                     value={søk}
                     onChange={(e) => {
                         setSøk(e.target.value);
@@ -57,7 +59,7 @@ export default function TurmålSøk({ turmål, onSelect, lagretNavn = "" }) {
                             </li>
                         ))
                     ) : (
-                        <li className="ingen-resultater">Ingen resultater</li>
+                        <li className="ingen-resultater">{t("turmål.ingen_resultater")}</li>
                     )}
                 </ul>
             )}

@@ -1,8 +1,10 @@
 import KartLagTur from "./kart/KartLagTur";
+import { useTranslation } from "react-i18next";
 import "./Nytur.css";
 
 //For å opprette en ny turrute. Laget av Kay
 export default function Nytur({rutePunkter, setRutePunkter, onLagreKoordinater}) {
+  const { t } = useTranslation();
 
   const handleLagre = () => {
     onLagreKoordinater?.(rutePunkter);
@@ -13,13 +15,13 @@ export default function Nytur({rutePunkter, setRutePunkter, onLagreKoordinater})
       {/*Håndterer turlaging*/}
       <div className="rute-kontroller">
         <div className="rute-kontroller-punkter">
-          <strong>Antall punkter:</strong> {rutePunkter.length}
+          <strong>{t("nytur.antall_punkter")}</strong> {rutePunkter.length}
         </div>
         <div className="rute-kontroller-knapp-container">
 
         {/*Fjerner alle punkter*/}
         <button onClick={() => setRutePunkter([])} className="rute-knapp rute-knapp-tøm">
-          Tøm rute
+          {t("nytur.tøm_rute")}
         </button>
 
         {/*Fjerner siste punkt*/}
@@ -28,7 +30,7 @@ export default function Nytur({rutePunkter, setRutePunkter, onLagreKoordinater})
             onClick={() => setRutePunkter(prev => prev.slice(0, -1))}
             className="rute-knapp rute-knapp-fjern"
           >
-            Fjern siste punkt
+            {t("nytur.fjern_siste")}
           </button>
         )}
 
@@ -38,7 +40,7 @@ export default function Nytur({rutePunkter, setRutePunkter, onLagreKoordinater})
             onClick={handleLagre}
             className="rute-knapp rute-knapp-log"
           >
-            Lagre koordinater
+            {t("nytur.lagre_koordinater")}
           </button>
         )}
         </div>

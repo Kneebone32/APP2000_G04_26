@@ -54,8 +54,8 @@ export default function TurKort({turId, turNavn, vanskelighetsgrad, bildeUrl, tu
                         <h3 className="korttitle">{turNavn}</h3>
                         {kommunenavn && <p className="kommune">{t("felles.kommune")}: {kommunenavn}</p>}
                         {fylkesnavn && <p className="fylke">{t("felles.fylke")}: {fylkesnavn}</p>}
-                        <p className="korttext">{getTurtypeIcon()} {vanskelighetsgrad}</p>
-                        <p className="korttext"><FaClock className="kortklokke" /> {varighet}</p>
+                        <p className="korttext">{getTurtypeIcon()} {t(`enums.vanskelighetsgrad.${vanskelighetsgrad}`)}</p>
+                        <p className="korttext"><FaClock className="kortklokke" /> {t(`enums.varighet.${varighet}`)}</p>
                     </div>
                 </div>
             </Link>

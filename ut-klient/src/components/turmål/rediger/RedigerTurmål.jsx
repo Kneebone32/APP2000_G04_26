@@ -3,9 +3,11 @@ import { useTurmål } from "../../../hooks/useTurmål";
 import TurmålForm from "../turmål-form/TurmålForm";
 import TurmålSøk from "../TurmålSøk";
 import { toast } from 'react-toastify';
+import { useTranslation } from "react-i18next";
 
 //Redigerer ett eksisterende Turmål ved først å søke den opp. Laget av Kay
 export default function RedigerTurmål() {
+    const { t } = useTranslation();
     const {turmål, hentTurmålFraId, redigerTurmål} = useTurmål({autoFetch: true});
     const [valgtData, setValgtData] = useState(null);
     const [lasterTurmål, setLasterTurmål] = useState(false);
@@ -24,7 +26,7 @@ export default function RedigerTurmål() {
             
             setValgtData(data);
         } catch (err) {
-            toast.error("Kunne ikke hente turmål: " + err.message);
+            toast.error(t("turmål.feil_henting") + err.message);
             setValgtData(null);
         } finally {
             setLasterTurmål(false);
@@ -34,17 +36,17 @@ export default function RedigerTurmål() {
     const handleOppdatering = async (formData) => {
         try {
             await redigerTurmål(valgtData.turmål_id, formData);
-            toast.success("Turmålet ble oppdatert!");
+            toast.success(t("turmål.oppdatert"));
             setValgtData(null); 
 
         } catch (err) {
-            toast.error("Feil ved oppdatering: " + err.message);
+            toast.error(t("turmål.feil_oppdatering") + err.message);
         }
     };
 
     return (
         <div className="turmål-form-container">
-            <h2>Rediger Turmål</h2>
+            <h2>{t("turmål.rediger")}</h2>
             
             {/*Søkefelt til turmål*/}
             <TurmålSøk 
@@ -61,7 +63,7 @@ export default function RedigerTurmål() {
                     buttonText="Lagre endringer" 
                 />
             ) : (
-                <p style={{color: "#888"}}>Velg turmål for å begynne redigering.</p>
+                <p style={{color: "#888"}}>{t("turmål.velg_for_redigering")}</p>
             )}
         </div>
     );
