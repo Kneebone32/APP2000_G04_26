@@ -102,7 +102,7 @@ export default function FellesturKobling() {
 
     return (
         <>
-        <h2>Legg hytte eller turmål i Fellestur</h2>
+        <h2>Legg til hytte eller turmål i Fellestur</h2>
         {/*Søkefelt til fellestur*/}
         <FellesturSøk 
             fellesturer={fellestur} 

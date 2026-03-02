@@ -25,7 +25,9 @@ export default function TurmålForm({lagretData = {}, onSubmitAction, buttonTeks
         setLagretKoordinat(koord[0].toFixed(5) + ", " + koord[1].toFixed(5));
         setHøydeMeter(høyde);
         setFylke(kommunedata.fylkesnavn);
+        setFylkeID(kommunedata.fylkesnummer);
         setKommune(kommunedata.kommunenavn);
+        setKommuneID(kommunedata.kommunenummer);
         setLagret(true);
         close();
     };

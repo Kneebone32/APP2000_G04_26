@@ -39,7 +39,7 @@ export function VærvarselDagDetaljert({ lat, lon, dato }) {
   const datoTime = dato.getHours();
 
   const { data, loading } = useVærvarsel(lat, lon, datoString);
-  if (!data || loading) return null;
+  if (!data || loading || !data.length > 0) return null;
   
 
   const nærmesteMatch = data.reduce((prev, curr) => {

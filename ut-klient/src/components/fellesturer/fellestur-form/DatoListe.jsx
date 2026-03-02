@@ -10,8 +10,8 @@ export default function DatoListe({ valgteDatoer, onSlett, lat, lon}) {
     return (
         <div className="valgtedatoer">
             {valgteDatoer.map((dato, index) => (
-                <div className="dato-valg-box">
-                <span key={index} className="dato-valg">
+                <div className="dato-valg-box" key={index}>
+                <span className="dato-valg">
                     {formatNorskdato(dato)}
                     <button 
                         type="button" 
@@ -22,7 +22,7 @@ export default function DatoListe({ valgteDatoer, onSlett, lat, lon}) {
                     </button>
 
                 </span>
-                <div className="værvarsel">
+                <div className="værvarsel" >
                 <VærvarselDagDetaljert
                  lat={lat}
                  lon={lon}
