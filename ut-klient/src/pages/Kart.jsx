@@ -25,12 +25,11 @@ function ZoomLevel({onZoomChange}){
 
 //"Utforsker-kart" (Laget av Kay)
 export default function Kart() {
-  const { hytter, loadingHytter, errorHytter } = useFetchHytter(true);
-  const { turer, loadingTurer, errorTurer } = useFetchTurer(true);
+  const { hytter, loadingHytter, errorHytter } = useFetchHytter({autoFetch: true});
+  const { turer, loadingTurer, errorTurer } = useFetchTurer({autoFetch: true});
   const { t } = useTranslation();
   const [filter, setFilter] = useState({});
   const [zoom, setZoom] = useState(13);
-  console.log(hytter);
 
   //filter til hytter
   const filteredHytter = filterHytter(hytter, filter);

@@ -50,11 +50,11 @@ export default function HytteDetaljer() {
 
             {hytte.bilder && hytte.bilder.length > 0 && (
               <div className="hytte-bilder">
-                {hytte.bilder.map((bilder, index) => (
+                {hytte.bilder.map((bilde, index) => (
                   <img
                     key={index}
-                    src={bilder}
-                    alt={`${hytte.hytte_navn} bilde ${index + 1}`}
+                    src={bilde.url}
+                    alt={`${hytte.navn} bilde ${index + 1}`}
                     className="hytte-bilde"
                   />
                 ))}
@@ -65,28 +65,28 @@ export default function HytteDetaljer() {
               <p><strong>{t("felles.lokasjon")}:</strong> {hytte.hytte_omrade}</p>
             )}
 
-            {hytte.hytte_moh && (
-              <p><strong>{t("hytte.hytte_moh")}:</strong> {hytte.hytte_moh}</p>
+            {hytte.koordinater.moh && (
+              <p><strong>{t("hytte.hytte_moh")}:</strong> {hytte.koordinater.moh}</p>
             )}
 
-            {hytte.fylke_id && (
-              <p><strong>{t("felles.fylke")}:</strong> {hytte.fylke_id}</p>
+            {hytte.fylke && (
+              <p><strong>{t("felles.fylke")}:</strong> {hytte.fylke}</p>
             )}
 
-            {hytte.kommune_id && (
-              <p><strong>{t("felles.kommune")}:</strong> {hytte.kommune_id}</p>
+            {hytte.kommune && (
+              <p><strong>{t("felles.kommune")}:</strong> {hytte.kommune}</p>
             )}
 
-            {hytte.hytte_pris && (
-              <p><strong>{t("hytte.pris")}:</strong> {hytte.hytte_pris}</p>
+            {hytte.hytte && (
+              <p><strong>{t("hytte.pris")}:</strong> {hytte.hytte}</p>
             )}
 
-            {hytte.hytte_betjeningsgrad && (
-              <p><strong>{t("hytte.hytte_betjeningsgrad")}:</strong> {hytte.hytte_betjeningsgrad}</p>
+            {hytte.betjeningsgrad && (
+              <p><strong>{t("hytte.hytte_betjeningsgrad")}:</strong> {hytte.betjeningsgrad}</p>
             )}
 
-            {hytte.hytte_beskrivelse && (
-              <p><strong>{t("hytte.beskrivelse")}:</strong> {hytte.hytte_beskrivelse}</p>
+            {hytte.beskrivelse && (
+              <p><strong>{t("hytte.beskrivelse")}:</strong> {hytte.beskrivelse}</p>
             )}
 
           </div>

@@ -8,7 +8,6 @@ import "./Turer.css";
 export default function Turer() {
   const { t } = useTranslation();
   const { turer, loadingTurer, errorTurer } = useFetchTurer({autoFetch: true}); //turKort: true
-  console.log(turer)
 
   return (
     <PageWrapper title={t("turer.tittel")}>

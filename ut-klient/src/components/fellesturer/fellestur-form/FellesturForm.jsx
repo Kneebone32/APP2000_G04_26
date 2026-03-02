@@ -24,7 +24,7 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
 
     //const { t } = useTranslation();
     const { enumData: aktivitet_status } = useEnums("aktivitet_status_enum");
-    const { turer } = useFetchTurer(true);
+    const { turer } = useFetchTurer({autoFetch: true});
     const [valgtTurruteId, setValgtTurruteId] = useState(lagretData.turruteId || 0);
     const [valgtTurruteStartKoords, setValgtTurruteStartKoords] = useState(lagretData.turrute || []);
     const [tittel, setTittel] = useState(lagretData.tittel || "");
@@ -202,6 +202,7 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
             
             <Modal show={værvarselÅpen} onClose={lukkVærvarsel} title="Værvarsel" size="lg">
                 <div className="modal-weather-container">
+                    {}
                     <VærvarslingUke 
                         latitude={valgtTurruteStartKoords[0]} 
                         longitude={valgtTurruteStartKoords[1]} 

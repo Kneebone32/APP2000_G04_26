@@ -8,7 +8,7 @@ export default function HytteSøk({ hytter, onSelect, lagretNavn = "" }) {
 
 
     const filterHytter = hytter?.filter(hytte =>
-        hytte.hytte_navn.toLowerCase().includes(søk.toLowerCase()) ||   //søk på hytte navn
+        hytte.navn.toLowerCase().includes(søk.toLowerCase()) ||   //søk på hytte navn
         hytte.hytte_id.toString().includes(søk)                         //søk på ID
     ) || [];
 
@@ -48,12 +48,12 @@ export default function HytteSøk({ hytter, onSelect, lagretNavn = "" }) {
                             <li
                                 key={hytte.hytte_id}
                                 onClick={() => {
-                                    setSøk(hytte.hytte_navn);
-                                    onSelect(hytte.hytte_id, hytte.hytte_navn, hytte);
+                                    setSøk(hytte.navn);
+                                    onSelect(hytte.hytte_id, hytte.navn, hytte);
                                     setVisDropdown(false);
                                 }}
                             >
-                                <span className="hytte-id">#{hytte.hytte_id}</span> {hytte.hytte_navn}
+                                <span className="hytte-id">#{hytte.hytte_id}</span> {hytte.navn}
                             </li>
                         ))
                     ) : (

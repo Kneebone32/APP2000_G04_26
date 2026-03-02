@@ -14,7 +14,7 @@ import TurmålSøk from "../../turmål/TurmålSøk";
 export default function FellesturKobling() {
     //fetch
     const {fellestur, hentFellesturFraId, redigerFellestur} = useFellestur({autoFetch: true}); //redigerFellestur? eller ny func for å sette inn hytte/turmål?
-    const { hytter, hentHytteFraId } = useFetchHytter(true);
+    const { hytter, hentHytteFraId } = useFetchHytter({autoFetch: true});
     const { turmål, hentTurmålFraId } = useTurmål({autoFetch: true});
 
     //hytter
@@ -59,7 +59,8 @@ export default function FellesturKobling() {
         setLasterHytte(true);
         try {
             const data = await hentHytteFraId(id);
-            const minDist = minDistTilTur(data.hytte_breddegrad, data.hytte_lengdegrad, testFellestur);
+            console.log(data)
+            const minDist = minDistTilTur(data.koordinater.breddegrad, data.koordinater.lengdegrad, testFellestur);
 
             if ( minDist > maksTillattAvstandKM) {
                 toast(`Opps, hytten er ${minDist.toFixed(2)} KM unna turruten. Maks er ${maksTillattAvstandKM} KM` );
@@ -116,12 +117,12 @@ export default function FellesturKobling() {
             <HytteSøk
             hytter={hytter} 
             onSelect={handleHytteSøkSelect} 
-            lagretTittel={valgtHytteData?.tittel || ""}
+            lagretTittel={valgtHytteData?.navn || ""}
             />
             
             {valgtHytteData && (
                 <>
-                    <input type="text" value={(valgtHytteData.hytte_breddegrad) + ", " + (valgtHytteData.hytte_lengdegrad)} disabled={true}></input>
+                    <input type="text" value={(valgtHytteData.koordinater.breddegrad) + ", " + (valgtHytteData.koordinater.lengdegrad)} disabled={true}></input>
                 </>
             )}
 
