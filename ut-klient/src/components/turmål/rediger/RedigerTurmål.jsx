@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 //Redigerer ett eksisterende Turmål ved først å søke den opp. Laget av Kay
 export default function RedigerTurmål() {
-    const {turmål, hentTurmålFraId, redigerTurmål} = useTurmål(true);
+    const {turmål, hentTurmålFraId, redigerTurmål} = useTurmål({autoFetch: true});
     const [valgtData, setValgtData] = useState(null);
     const [lasterTurmål, setLasterTurmål] = useState(false);
 

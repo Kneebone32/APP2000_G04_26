@@ -9,7 +9,7 @@ import "../fellestur-form/FellesturForm.css";
 //Sletter Fellestur med valgt ID. Laget av Kay
 export default function SlettFellestur() {
     const { isOpen, open, close } = useModal();
-    const { fellestur, deleteFellestur} = useFellestur();
+    const { fellestur, deleteFellestur} = useFellestur({autoFetch: true});
     const [valgtId, setValgtId] = useState(0);
     const [valgtTittel, setValgtTittel] = useState("");
 

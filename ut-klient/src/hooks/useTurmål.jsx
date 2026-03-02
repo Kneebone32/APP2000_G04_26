@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 //Hook til turmål. Laget av Kay
 //TODO: må oppdateres når jeg får tested sammen med backend
-export function useTurmål(autoFetch = true) {
+export function useTurmål({autoFetch = false, hentTurmålID = null} = {}) {
   const [turmål, setTurmål] = useState([]);
   const [loading, setLoading] = useState(autoFetch);
   const [error, setError] = useState(null);
 
   //henter alle Turmålene
-  const fetchTurmål = async () => {
+  const fetchTurmål = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch(`${import.meta.env.VITE_API_URL}/turmal`);
@@ -20,14 +20,11 @@ export function useTurmål(autoFetch = true) {
     } finally {
         setLoading(false);
     }
-  };
+  }, []);
 
-  useEffect(() => {
-    if (autoFetch) fetchTurmål();
-  }, [autoFetch]);
 
   //Henter en turmål basert på ID
-  const hentTurmålFraId = async (id) => {
+  const hentTurmålFraId = useCallback(async (id) => {
     try{
       setLoading(true);
       setError(null);
@@ -41,10 +38,10 @@ export function useTurmål(autoFetch = true) {
     } finally {
         setLoading(false);
     }
-  };
+  }, []);
 
   //Lager en ny turmål
-  const opprettTurmål = async (data) => {
+  const opprettTurmål = useCallback(async (data) => {
     try{
       setLoading(true);
       setError(null);
@@ -63,10 +60,10 @@ export function useTurmål(autoFetch = true) {
     } finally {
         setLoading(false);
     }
-  };
+  }, []);
 
   //Opptaterer en turmål
-  const redigerTurmål = async (id, data) => {
+  const redigerTurmål = useCallback(async (id, data) => {
     try{
       setLoading(true);
       setError(null);
@@ -85,11 +82,11 @@ export function useTurmål(autoFetch = true) {
     } finally {
         setLoading(false);
     }
-  };
+  }, []);
 
 
   //Sletter en turmål
-  const slettTurmål = async (id) => {
+  const slettTurmål = useCallback(async (id) => {
     try{
       setLoading(true);
       setError(null);
@@ -103,8 +100,13 @@ export function useTurmål(autoFetch = true) {
     } finally {
         setLoading(false);
     }
-  };
+  }, []);
 
+
+  useEffect(() => {
+    if (autoFetch) fetchTurmål();
+    if (hentTurmålID) hentTurmålFraId(hentTurmålID);
+  }, [autoFetch, hentTurmålID, fetchTurmål, hentTurmålFraId]);
   
   return { 
     turmål: turmål, 

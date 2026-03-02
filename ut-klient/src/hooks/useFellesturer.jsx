@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 //Hook til fellesturer. Laget av Kay
 //TODO: må oppdateres når jeg får tested sammen med backend
-export function useFellestur(autoFetch = true) {
+export function useFellestur({autoFetch = false, hentTurID = null} = {}) {
+
   const [fellesturer, setFellesturer] = useState([]);
   const [loading, setLoading] = useState(autoFetch);
   const [error, setError] = useState(null);
 
   //henter alle fellesturene
-  const fetchFellesturer = async () => {
+  const fetchFellesturer = useCallback (async () => {
     try {
       setLoading(true);
       const response = await fetch(`${import.meta.env.VITE_API_URL}/fellestur`);
@@ -20,14 +21,11 @@ export function useFellestur(autoFetch = true) {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  useEffect(() => {
-    if (autoFetch) fetchFellesturer();
-  }, [autoFetch]);
 
   //Henter en fellestur basert på ID
-  const hentFellesturFraId = async (id) => {
+  const hentFellesturFraId = useCallback(async (id) => {
     try{
       setLoading(true);
       setError(null);
@@ -41,10 +39,10 @@ export function useFellestur(autoFetch = true) {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   //Lager en ny fellestur
-  const opprettFellestur = async (data) => {
+  const opprettFellestur = useCallback(async (data) => {
     try{
       setLoading(true);
       setError(null);
@@ -63,10 +61,10 @@ export function useFellestur(autoFetch = true) {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   //Opptaterer en fellestur
-  const redigerFellestur = async (id, data) => {
+  const redigerFellestur = useCallback(async (id, data) => {
     try{
       setLoading(true);
       setError(null);
@@ -85,11 +83,11 @@ export function useFellestur(autoFetch = true) {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
 
   //Sletter en fellestur
-  const slettFellestur = async (id) => {
+  const slettFellestur = useCallback(async (id) => {
     try{
       setLoading(true);
       setError(null);
@@ -103,8 +101,12 @@ export function useFellestur(autoFetch = true) {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
+  useEffect(() => {
+    if (autoFetch) fetchFellesturer();
+    if (hentTurID) hentFellesturFraId(hentTurID);
+  }, [autoFetch, hentTurID, fetchFellesturer, hentFellesturFraId]);
   
   return { 
     fellestur: fellesturer, 

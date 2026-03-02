@@ -13,9 +13,9 @@ import TurmålSøk from "../../turmål/TurmålSøk";
 //Legger til hytte eller turmål til fellestur. Laget av Kay
 export default function FellesturKobling() {
     //fetch
-    const {fellestur, hentFellesturFraId, redigerFellestur} = useFellestur(true); //redigerFellestur? eller ny func for å sette inn hytte/turmål?
-    const { hytter, hentHytteFraId } = useFetchHytter(true);
-    const { turmål, hentTurmålFraId } = useTurmål(true);
+    const {fellestur, hentFellesturFraId, redigerFellestur} = useFellestur({autoFetch: true}); //redigerFellestur? eller ny func for å sette inn hytte/turmål?
+    const { hytter, hentHytteFraId } = useFetchHytter({autoFetch: true});
+    const { turmål, hentTurmålFraId } = useTurmål({autoFetch: true});
 
     //hytter
     const [valgtHytteData, setValgtHytteData] = useState(null);

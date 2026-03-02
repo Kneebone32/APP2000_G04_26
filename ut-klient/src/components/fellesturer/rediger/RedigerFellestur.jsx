@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 //Redigerer en eksisterende Fellestur ved først å søke den opp. Laget av Kay
 export default function RedigerFellestur() {
-    const {fellestur, hentFellesturFraId, redigerFellestur} = useFellestur(true);
+    const {fellestur, hentFellesturFraId, redigerFellestur} = useFellestur({autoFetch: true});
     const [valgtData, setValgtData] = useState(null);
     const [lasterFellestur, setLasterFellestur] = useState(false);
 

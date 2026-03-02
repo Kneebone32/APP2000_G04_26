@@ -9,7 +9,7 @@ import "../turmål-form/TurmålForm.css";
 //Sletter Turmål med valgt ID. Laget av Kay.
 export default function SlettTurmål() {
     const { isOpen, open, close } = useModal();
-    const { turmål, deleteTurmål} = useTurmål();
+    const { turmål, deleteTurmål} = useTurmål({autoFetch: true});
     const [valgtId, setValgtId] = useState(0);
     const [valgtTittel, setValgtTittel] = useState("");
 

@@ -5,7 +5,7 @@ import { Bounce, Flip, Slide, toast } from 'react-toastify';
 
 //Oppretter ett nytt Turmål. Laget av Kay
 export default function LeggTilTurmål() {
-    const { opprettTurmål } = useTurmål(false)
+    const { opprettTurmål } = useTurmål({})
     
     const handleOpprett = async (formData) => {
         try {

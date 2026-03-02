@@ -4,7 +4,7 @@ import { Slide, toast } from 'react-toastify';
 
 //Oppretter en ny Fellestur. Laget av Kay
 export default function LeggTilFellestur() {
-    const { opprettFellestur } = useFellestur(false)
+    const { opprettFellestur } = useFellestur({})
     
     const handleOpprett = async (formData) => {
     
