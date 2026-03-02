@@ -7,7 +7,7 @@ Laget av Eivind
 
 .announcement-bar {
   width: 100%;
-  background-color: rgba(255, 255, 0, 0.761);
+  background-color: rgb(43, 160, 53);
   color: rgb(0, 0, 0);
   padding: 12px 20px;
   text-align: center;
@@ -15,20 +15,29 @@ Laget av Eivind
   top: 0;
   z-index: 1001;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  display: block;
 }
 
 .announcement-text {
   margin: 0;
+  padding: 0;
   font-size: 14px;
   font-weight: 500;
+  line-height: 1.5;
 }
 
 @media (max-width: 768px) {
   .announcement-bar {
     padding: 10px 15px;
+    margin: 0;
+    display: block;
   }
   
   .announcement-text {
-    font-size: 13px;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
   }
 }

@@ -12,7 +12,7 @@ Laget av Eivind
 }
 
 header {
-    position: fixed;
+    position: absolute;
     top: var(--announcement-bar-height);
     left: 0;
     width: 100%;
@@ -22,6 +22,7 @@ header {
     align-items: center;
     justify-content: space-between;
     z-index: 100;
+    margin: 0;
 }
 
 .logo {
@@ -83,6 +84,7 @@ nav .nav-close-btn {
 @media only screen and (max-width: 1120px) {
     header .nav-btn {
         display: block;
+        margin: 0;
         opacity: 1;
     }
 
