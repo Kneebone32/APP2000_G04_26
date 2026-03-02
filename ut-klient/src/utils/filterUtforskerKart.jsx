@@ -35,7 +35,15 @@ export function filterHytter(hytter, filter) {
     }
 
     //Fasiliteter filter
-    //TODO: venter på testdata
+    if (filter.fasiliteter?.length > 0) {
+      const harAlleValgteFasiliteter = 
+          filter.fasiliteter.every((valgtFasilitet) =>                  //alle de valgte fasilitetene
+          hytte.fasiliteter.verdier.some((hytteFasilitet) =>            //sjekker om hytten har de valgte fasilitetene
+          hytteFasilitet.toLowerCase() === valgtFasilitet.toLowerCase() //sammenligner på navnet
+      ))
+
+      if(!harAlleValgteFasiliteter) return false;
+    }
 
     return true;
   });
