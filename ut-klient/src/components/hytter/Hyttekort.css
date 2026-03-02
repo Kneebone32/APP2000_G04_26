@@ -22,6 +22,49 @@ Laget av Eivind
 
 .Hyttekort .korttitle {
     font-size: 30px;
+    text-align: left;
+    color: rgb(50, 112, 50);
+    font-weight: 700;
+    padding-top: 3px;
+    margin: 0;
+}
+
+.Hyttekort .kommune {
+    text-align: left;
+    font-size: 13px;
+    margin: 0;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    color: rgb(66, 66, 66);
+    font-weight: 600;
+}
+
+.Hyttekort .fylke {
+    text-align: left;
+    font-size: 13px;
+    margin: 0;
+    padding-top: 2px;
+    padding-bottom: 30px;
+    color: rgb(66, 66, 66);
+    font-weight: 600;
+}
+
+.Hyttekort .seng {
+    margin-right: 5px;
+    color: rgb(0, 0, 0);
+}
+
+.Hyttekort .penger {
+    margin-right: 5px;
+    color: rgb(0, 0, 0);
+}
+
+.Hyttekort .korttext {
+    text-align: left;
+    font-size: 15px;
+    margin: 0;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 .Hyttelink {

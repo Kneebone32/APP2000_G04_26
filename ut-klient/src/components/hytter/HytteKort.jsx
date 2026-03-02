@@ -1,5 +1,10 @@
+/* 
+Laget av Eivind
+*/
+
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { FaBed, FaMoneyCheckAlt } from "react-icons/fa";
 import './Hyttekort.css';
 
 export default function HytteKort({hytteId, hytteNavn, sengeplasser, bildeUrl, pris, fylkeId, kommuneId}) {
@@ -18,10 +23,10 @@ export default function HytteKort({hytteId, hytteNavn, sengeplasser, bildeUrl, p
                     )}
                     <div className="kortbody">
                         <h3 className="korttitle">{hytteNavn}</h3>
-                        <p className="korttext">{t("felles.antall_sengeplasser")}: {sengeplasser}</p>
-                        <p className="korttext">{t("felles.fylke")}: {fylkeId}</p>
-                        <p className="korttext">{t("felles.kommune")}: {kommuneId}</p>
-                        {pris !== undefined && <p className="korttext">{t("hytter.pris")}: {pris} kr</p>}
+                        <p className="kommune">{t("felles.kommune")}: {kommuneId}</p>
+                        <p className="fylke">{t("felles.fylke")}: {fylkeId}</p>
+                        <p className="korttext"> <FaBed className="seng" /> {sengeplasser} {t("felles.antall_sengeplasser")}:</p>
+                        {pris !== undefined && <p className="korttext"> <FaMoneyCheckAlt className="penger" /> {pris} {t("hytter.pris")}:</p>}
                     </div>
                 </div>
             </Link>
