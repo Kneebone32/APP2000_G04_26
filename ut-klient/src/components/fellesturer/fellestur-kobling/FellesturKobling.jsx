@@ -14,7 +14,7 @@ import TurmålSøk from "../../turmål/TurmålSøk";
 export default function FellesturKobling() {
     //fetch
     const {fellestur, hentFellesturFraId, redigerFellestur} = useFellestur({autoFetch: true}); //redigerFellestur? eller ny func for å sette inn hytte/turmål?
-    const { hytter, hentHytteFraId } = useFetchHytter({autoFetch: true});
+    const { hytter, hentHytteFraId } = useFetchHytter(true);
     const { turmål, hentTurmålFraId } = useTurmål({autoFetch: true});
 
     //hytter
