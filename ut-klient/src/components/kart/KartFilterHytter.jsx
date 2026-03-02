@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useEnums } from "../../hooks/useEnums";
-import { useKategorier } from "../../hooks/useInformasjon";
+//import { useKategorier } from "../../hooks/useKategorier";
 import FasiliteterDropdown from "../informasjon/FasiliteterDropdown";
 
 //Alle kartfilter til hytter. Hele filen laget av Kay med mindre annet er spesifisert
