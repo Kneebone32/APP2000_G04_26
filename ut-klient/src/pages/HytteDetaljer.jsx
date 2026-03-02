@@ -69,12 +69,12 @@ export default function HytteDetaljer() {
               <p><strong>{t("hytte.hytte_moh")}:</strong> {hytte.hytte_moh}</p>
             )}
 
-            {hytte.hytte_fylkeId && (
-              <p><strong>{t("felles.fylke")}:</strong> {hytte.hytte_fylkeId}</p>
+            {hytte.fylke_id && (
+              <p><strong>{t("felles.fylke")}:</strong> {hytte.fylke_id}</p>
             )}
 
-            {hytte.hytte_kommuneId && (
-              <p><strong>{t("hytte.hytte_kommune")}:</strong> {hytte.hytte_kommuneId}</p>
+            {hytte.kommune_id && (
+              <p><strong>{t("felles.kommune")}:</strong> {hytte.kommune_id}</p>
             )}
 
             {hytte.hytte_pris && (

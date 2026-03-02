@@ -1,48 +1,26 @@
 import PageWrapper from "../components/PageWrapper";
 import HytteKort from "../components/hytter/HytteKort";
+import { useFetchHytter } from "../hooks/useFetchHytter";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import "./Hytter.css";
 
 export default function Hytter() {
-  const [hytter, setHytter] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { hytter, loadingHytter, errorHytter } = useFetchHytter(true);
   const { t } = useTranslation();
-
-  useEffect(() => {
-    const fetchHytter = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter`);
-
-        if (!response.ok) {
-          setError(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setHytter(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchHytter();
-  }, []);
 
   return (
     <PageWrapper title={t("hytter.tittel")}>
       <div className="mt-3">
-        {loading && <p>{t("hytter.laster")}</p>}
+        {loadingHytter && <p>{t("hytter.laster")}</p>}
 
-        {error && console.log(`Error: ${error}`)}
+        {errorHytter && console.log(`Error: ${errorHytter}`)}
 
-        {!loading && !error && hytter.length === 0 && (
+        {!loadingHytter && !errorHytter && hytter.length === 0 && (
           <p>{t("hytter.ingen_hytter")}</p>
         )}
 
-        {!loading && !error && hytter.length > 0 && (
+        {!loadingHytter && !errorHytter && hytter.length > 0 && (
           <div className="HyttekortContainer">
             {hytter.map((hytte) => (
               <HytteKort
