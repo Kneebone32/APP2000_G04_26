@@ -79,8 +79,8 @@ export default function LeggTilHytte({ onSuccess }) {
                     hytte_beskrivelse: beskrivelse,
                     hytte_sengeplasser: parseInt(sengeplasser),
                     hytte_pris: parseFloat(pris),
-                    fylke_id: 4, // midlertidig hardkodet til 4 siden backend må fikse FK constraints
-                    kommune_id: 2, // midlertidig hardkodet til 2 siden backend må fikse FK constraints
+                    fylke_id: fylkeId,
+                    kommune_id: kommuneId,
                     hytte_breddegrad: koordinat ? koordinat[0] : null,
                     hytte_lengdegrad: koordinat ? koordinat[1] : null,
                     hytte_moh: Math.round(høydeData.z) || 0,

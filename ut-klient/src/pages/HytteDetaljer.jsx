@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useFetchHytter } from "../hooks/useFetchHytter";
-import { hentKommuneData } from "../utils/geoUtils";
 import  './HytteDetaljer.css';
 
 export default function HytteDetaljer() {
@@ -14,25 +13,11 @@ export default function HytteDetaljer() {
   const [hytte, setHytte] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [kommunenavn, setKommunenavn] = useState("");
-  const [fylkesnavn, setFylkesnavn] = useState("");
-
   useEffect(() => {
     const hentHytte = async () => {
       try {
         const data = await hentHytteFraId(hytteId);
         setHytte(data);
-
-        if (data?.hytte_breddegrad && data?.hytte_lengdegrad) {
-          try {
-            const kommuneData = await hentKommuneData(data.hytte_breddegrad, data.hytte_lengdegrad);
-            if (kommuneData) {
-              setKommunenavn(kommuneData.kommunenavn || "");
-              setFylkesnavn(kommuneData.fylkesnavn || "");
-            }
-          } catch (err) {
-          }
-        }
       } catch (err) {
         setError(err.message);
       } finally {
@@ -84,12 +69,12 @@ export default function HytteDetaljer() {
               <p><strong>{t("hytte.hytte_moh")}:</strong> {hytte.hytte_moh}</p>
             )}
 
-            {kommunenavn && (
-              <p><strong>{t("felles.kommune")}:</strong> {kommunenavn}</p>
+            {hytte.hytte_fylkeId && (
+              <p><strong>{t("felles.fylke")}:</strong> {hytte.hytte_fylkeId}</p>
             )}
 
-            {fylkesnavn && (
-              <p><strong>{t("felles.fylke")}:</strong> {fylkesnavn}</p>
+            {hytte.hytte_kommuneId && (
+              <p><strong>{t("hytte.hytte_kommune")}:</strong> {hytte.hytte_kommuneId}</p>
             )}
 
             {hytte.hytte_pris && (

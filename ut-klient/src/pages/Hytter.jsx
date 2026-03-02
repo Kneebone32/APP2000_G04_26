@@ -51,9 +51,9 @@ export default function Hytter() {
                 hytteNavn={hytte.hytte_navn}
                 pris={hytte.hytte_pris}
                 sengeplasser={hytte.hytte_sengeplasser}
+                fylkeId={hytte.fylke_id}
+                kommuneId={hytte.kommune_id}
                 bildeUrl={hytte.hytte_bilde}
-                lat={hytte.hytte_breddegrad}
-                lon={hytte.hytte_lengdegrad}
               />
             ))}
           </div>
