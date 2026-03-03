@@ -59,29 +59,32 @@ router.post('/', async (req, res) => {
       hytte_lengdegrad,
       hytte_moh,
       hytte_betjeningsgrad,
+      hytte_omrade,
       info_tab,
       bilder
     } = req.body;
 
     // Oppretter ny hytte i databasen
     const result = await pool.query(
-      'SELECT hytte_opprett_hel($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) AS ny_hytte_id',
-      [hytte_navn, hytte_beskrivelse, hytte_sengeplasser, hytte_pris, fylke_nummer, kommune_nummer, hytte_breddegrad, hytte_lengdegrad, hytte_moh, hytte_betjeningsgrad]
+      `SELECT hytte_opprett_hel($1, $2, $3, $4, $5, $6, $7, $8, $9, $10::betjeningsgrad_enum, $11, $12, $13) AS ny_hytte_id`,
+      [
+        fylke_nummer,
+        kommune_nummer,
+        hytte_navn,
+        hytte_omrade,
+        hytte_beskrivelse,
+        hytte_sengeplasser,
+        hytte_pris,
+        hytte_breddegrad,
+        hytte_lengdegrad,
+        hytte_betjeningsgrad,
+        hytte_moh,
+        info_tab ? JSON.stringify(info_tab) : null,
+        bilder ? JSON.stringify(bilder) : null
+      ]
     );
 
     const nyHytteId = result.rows[0].ny_hytte_id;
-
-    // Legger til informasjon om hytten (fasiliteter, adkomst, passer for, osv.) hvis det finnes
-    if (info_tab && info_tab.length > 0) {
-      await pool.query('SELECT hytte_info_sett($1, $2)', [nyHytteId, info_tab]);
-    }
-
-    // Legger til bilder av hytten hvis det finnes
-    if (bilder && bilder.length > 0) {
-      for (const bildeUrl of bilder) {
-        await pool.query('SELECT hytte_bilde_leggtill_auto($1, $2)', [nyHytteId, bildeUrl]);
-      }
-    }
 
     res.status(201).json({
       hytte_id: nyHytteId,
