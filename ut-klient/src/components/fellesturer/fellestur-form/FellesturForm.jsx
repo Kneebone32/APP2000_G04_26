@@ -13,6 +13,7 @@ import DatoListe from "./DatoListe";
 import BildeOpplasting from "../../BildeOpplasting";
 import { VærvarslingUke } from "../../Værvarsling";
 import { toast } from 'react-toastify';
+import TempBilde from "../../TempBilde";
 import "react-datepicker/dist/react-datepicker.css";
 import "./FellesturForm.css"
 
@@ -34,6 +35,7 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
     const [maksDeltakere, setMaksDeltakere] = useState(lagretData.maksDeltakere || 1);
     const [status, setStatus] = useState(lagretData.status || "");
     const [bildeUrl, setBildeUrl] = useState(lagretData.bilder || []); 
+    const [tempUrl, setTempUrl] = useState("");
     const [valgteDatoer, setValgteDatoer] = useState(
         lagretData.datoer ? lagretData.datoer.map(d => new Date(d)) : []
     );
@@ -77,6 +79,14 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
         setMaksDeltakere(nummer < minDeltakere ? minDeltakere : nummer);
     };
 
+    const handleLeggTilBilde = (e) => {
+        e.preventDefault();
+    
+    if (tempUrl.trim() !== "") {
+        setBildeUrl([...bildeUrl, tempUrl]); 
+        setTempUrl(""); 
+    }
+};
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
@@ -162,16 +172,9 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
             <BildeOpplasting bildeUrl={bildeUrl} setBildeUrl={setBildeUrl} />
 
             {/*Mulighet for å legge til en bildeurl. KUN til testing. HUSK å fjerne*/}
-            <div className="input-container">
-                <label className="input">{t("fellestur_form.bilde_url")}
-                    <input
-                        type="text"
-                        id="bilde_url"
-                        value={bildeUrl}
-                        onChange={(e) => setBildeUrl(e.target.value)}
-                    />
-                </label>
-            </div>
+            <TempBilde  tempUrl={tempUrl} setTempUrl={setTempUrl} onLeggTil={handleLeggTilBilde} />
+
+
 
             {/*Status*/}
             <div className="input-container">
