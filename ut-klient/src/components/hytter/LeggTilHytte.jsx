@@ -6,6 +6,7 @@ import { useFileUpload } from "../../hooks/useFileUpload";
 import { hentKommuneData, hentFullHøydeData } from "../../utils/geoUtils";
 import Modal from "../../modal/Modal";
 import NyttKoordinat from "../NyttKoordinat";
+import TempBilde from "../TempBilde";
 
 import { erGyldigKoordinatEttPunkt } from "../../utils/erGyldigKoordinat";
 
@@ -18,6 +19,7 @@ export default function LeggTilHytte({ onSuccess }) {
     const [sengeplasser, setSengeplasser] = useState(0);
     const [pris, setPris] = useState("");
     const [bildeUrl, setBildeUrl] = useState([]);
+    const [tempUrl, setTempUrl] = useState("");
     const [koordinat, setKoordinat] = useState(null);
     const [breddegrad, setBreddegrad] = useState("");
     const [lengdegrad, setLengdegrad] = useState("");
@@ -33,6 +35,15 @@ export default function LeggTilHytte({ onSuccess }) {
     const uploaderRef = useRef(null);
 
     useFileUpload(setBildeUrl);
+
+    //temp løsning for å legge til bilde via url, kun for testing laget av Kay
+    const handleLeggTilBilde = (e) => {
+        e.preventDefault();
+        if (tempUrl.trim() !== "") {
+            setBildeUrl([...bildeUrl, tempUrl]);
+            setTempUrl("");
+        }
+    };
 
     const handleLagreKoordinat = async (koord) => {
         const lokalHøydeData = await hentFullHøydeData(koord[0], koord[1]);
@@ -85,7 +96,6 @@ export default function LeggTilHytte({ onSuccess }) {
                     hytte_lengdegrad: koordinat ? koordinat[1] : null,
                     hytte_moh: Math.round(høydeData.z) || 0,
                     hytte_betjeningsgrad: selectedBetjeningsgrad,
-                    info_tab: null,
                     bilder: bildeUrl.length > 0 ? bildeUrl : null
                 })
             });
@@ -235,13 +245,15 @@ export default function LeggTilHytte({ onSuccess }) {
                             {bildeUrl.map((url, index) => (
                                 <img 
                                     key={index}
-                                    src={`${url}?w=200&h=200&fit=fit`} 
+                                    src={url.includes("simplefileupload") ? `${url}?w=200&h=200&fit=fit` : url} 
                                     alt={`Preview ${index + 1}`}
-                                    style={{ marginRight: '10px' }}
+                                    style={{ marginRight: '10px', maxWidth: '200px', maxHeight: '200px' }}
                                 />
                             ))}
                         </div>
                     )}
+                    {/* temp løsning for å legge til bilde via url, kun for testing laget av Kay*/}
+                    <TempBilde tempUrl={tempUrl} setTempUrl={setTempUrl} onLeggTil={handleLeggTilBilde} />
                 </div>
                 <button type="submit" disabled={loading}>
                     {loading ? t("hytter.legger_til") : t("hytter.legg_til_knapp")}
