@@ -1,8 +1,10 @@
 import { parseGPX } from '@we-gold/gpxjs';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 //Laster opp og Parser koordinater fra GPX-fil. Hele filen laget av Kay med mindre annet er spesifisert
 export const GpxParser = ({onKoordinaterLastet}) => {
+  const { t } = useTranslation();
   
   const handleFileChange = (e) => {
     const fil = e.target.files[0];
@@ -23,11 +25,11 @@ export const GpxParser = ({onKoordinaterLastet}) => {
           onKoordinaterLastet(koords);
 
         } else {
-          toast.error("Kunne ikke finne koordinatene i filen");
+          toast.error(t("gpx.kunne_ikke_finne"));
         }
 
         } catch (err) {
-        toast.error("Noe gikk galt ved henting av koordinater fra fil: " + err);
+        toast.error(t("gpx.feil_henting") + err);
       }
     };
     leser.readAsText(fil);
@@ -36,7 +38,7 @@ export const GpxParser = ({onKoordinaterLastet}) => {
 return (
     <div className="gpx-filopplasting">
       <label className="gpx-filopplasting-label">
-        Last opp GPX fil
+        {t("gpx.last_opp")}
       </label>
       <div>
       <input 

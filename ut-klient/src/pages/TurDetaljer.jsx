@@ -93,15 +93,15 @@ export default function TurDetaljer() {
             )}
 
             {tur.vanskelighetsgrad && (
-              <p><strong>{t("felles.vanskelighetsgrad")}:</strong> {tur.vanskelighetsgrad}</p>
+              <p><strong>{t("felles.vanskelighetsgrad")}:</strong> {t(`enums.vanskelighetsgrad.${tur.vanskelighetsgrad}`)}</p>
             )}
 
             {tur.turtype && (
-              <p><strong>{t("tur.turtype")}:</strong> {tur.turtype}</p>
+              <p><strong>{t("tur.turtype")}:</strong> {t(`enums.turtype.${tur.turtype}`)}</p>
             )}
 
             {tur.varighet && (
-              <p><strong>{t("tur.varighet")}:</strong> {tur.varighet}</p>
+              <p><strong>{t("tur.varighet")}:</strong> {t(`enums.varighet.${tur.varighet}`)}</p>
             )}
 
             {tur.beskrivelse && (

@@ -6,6 +6,8 @@ import { useModal } from "../hooks/useModal";
 import { useState } from "react";
 import { GpxParser } from "../components/GpxParser";
 import { regnUtTotalLengde, hentHøydeMåling } from "../utils/geoUtils";
+import BildeOpplasting from "../components/BildeOpplasting";
+import TempBilde from "../components/TempBilde";
 
 
 
@@ -16,6 +18,8 @@ export default function Test() {
     const [lagret, setLagret] = useState(false);
     const [totalRuteLengde, setTotalRuteLengde] = useState(null);
     const [høydeMeter, setHøydeMeter] = useState(null);
+    const [bildeUrl, setBildeUrl] = useState([]); 
+    const [tempUrl, setTempUrl] = useState("");
 
     const handleLagreKoordinater = (koords) => {
         setLagredeKoordinater(koords);
@@ -32,6 +36,16 @@ export default function Test() {
         setHøydeMeter(hentHøydeMåling(59.40795904872306, 9.051981209962618));
         setLagret(true);
     };
+
+    const handleLeggTilBilde = (e) => {
+        e.preventDefault();
+    
+    if (tempUrl.trim() !== "") {
+        setBildeUrl([...bildeUrl, tempUrl]); 
+        setTempUrl(""); 
+    }
+};
+
 
     return (
         <PageWrapper>
@@ -61,6 +75,12 @@ export default function Test() {
                 {høydeMeter && (
                     <span>Høyde: {høydeMeter}</span>
                 )}
+
+                {/*Bildeopplasting*/}
+                <BildeOpplasting bildeUrl={bildeUrl} setBildeUrl={setBildeUrl} />
+                {/*Mulighet for å legge til en bildeurl. KUN til testing. HUSK å fjerne*/}
+                <TempBilde  tempUrl={tempUrl} setTempUrl={setTempUrl} onLeggTil={handleLeggTilBilde} />
+
             </div>
 
             <Modal show={isOpen} onClose={close} size="lg">

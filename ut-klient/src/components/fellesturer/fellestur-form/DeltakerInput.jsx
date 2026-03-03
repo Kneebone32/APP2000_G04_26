@@ -1,11 +1,14 @@
+import { useTranslation } from "react-i18next";
+
 //refactor for å holde LegTilFellestur mindre. Laget av Kay
 //Min & Maks deltakere til fellestur.
 export default function DeltakerInput({ minDeltakere, maksDeltakere, onMinChange, onMaksChange }) {
+    const { t } = useTranslation();
     return (
         <>
             <div className="input-container">
                 <label className="input">
-                    Min deltakere
+                    {t("fellestur_form.min_deltakere")}
                     <input
                         type="number"
                         value={minDeltakere}
@@ -19,7 +22,7 @@ export default function DeltakerInput({ minDeltakere, maksDeltakere, onMinChange
 
             <div className="input-container">
                 <label className="input">
-                    Maks deltakere
+                    {t("fellestur_form.maks_deltakere")}
                     <input
                         type="number"
                         value={maksDeltakere}

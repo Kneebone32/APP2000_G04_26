@@ -2,11 +2,13 @@ import { useState, useRef, useEffect} from "react";
 import { useMap, useMapEvents } from "react-leaflet";
 import L from 'leaflet';
 import { FiNavigation } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 import "./NavigasjonFinnPosisjon.css";
 
 //Laget av Kay
 //Spør bruker om tillatelse til å bruke posisjonen og deretter "flyr" brukeren til posisjonen.
 export default function FlyTilPosisjon() {
+  const { t } = useTranslation();
   const map = useMap();
   const posisjonsKnappContainerRef = useRef(null);
   const [erFunnet, setErFunnet] = useState(false);
@@ -47,7 +49,7 @@ export default function FlyTilPosisjon() {
   return (
     <div className="leaflet-bottom leaflet-right" style={{border: 'none', marginBottom: '90px'}} ref={posisjonsKnappContainerRef}>
       <div className="leaflet-control leaflet-bar">
-        <button className="posisjons-knapp" onClick={handleLocate} title="Bruk din posisjon">
+        <button className="posisjons-knapp" onClick={handleLocate} title={t("navigasjon.bruk_din_posisjon")}>
             <FiNavigation 
             className={`pos-ikon ${loading ? 'puls-effekt' : ''}`}
             size={22}

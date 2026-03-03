@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useEnums } from "../../hooks/useEnums";
+//import { useKategorier } from "../../hooks/useKategorier";
+import FasiliteterDropdown from "../informasjon/FasiliteterDropdown";
 
 //Alle kartfilter til hytter. Hele filen laget av Kay med mindre annet er spesifisert
 export default function KartFilterHytter({ filter, setFilter, handleCheckboxChange }) {
   const [hytterFilterUtvidet, setHytterFilterUtvidet] = useState(false);
+  //const { kategorier } = useKategorier();
+  const { enumData: betjeningsgradEnum, loadingEnum, enumError } = useEnums("betjeningsgrad_enum");
   const { t } = useTranslation();
 
   //Laget av AI
@@ -89,61 +94,32 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
             </div>
           </div>
 
-          {/*Hytte - betjeningsgrad*/}
-          <div className="filter-section">
-            <label>{t("filter.betjeningsgrad")}:</label>
-            <div className="checkbox-group">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={filter.betjeningsgrad.includes("Ubetjent")}
-                  onChange={() =>
-                    handleCheckboxChange("betjeningsgrad", "Ubetjent")
-                  }
-                />{" "}
-                {t("filter.ubetjent")}
-              </label>
+            {/*Hytte - betjeningsgrad*/}
+            <div className="filter-section">
+              <label>{t("filter.betjeningsgrad")}:</label>
+              <div className="checkbox-group">
 
-              <label>
-                <input
-                  type="checkbox"
-                  checked={filter.betjeningsgrad.includes("Selvbetjent")}
-                  onChange={() =>
-                    handleCheckboxChange("betjeningsgrad", "Selvbetjent")
-                  }
-                />{" "}
-                {t("filter.selvbetjent")}
-              </label>
-              
-              <label>
-                <input
-                  type="checkbox"
-                  checked={filter.betjeningsgrad.includes("Betjent")}
-                  onChange={() =>
-                    handleCheckboxChange("betjeningsgrad", "Betjent")
-                  }
-                />{" "}
-                {t("filter.betjent")}
-              </label>
+                {!loadingEnum && !enumError && betjeningsgradEnum.map((grad) => (
+                  <label key={grad}>
+                    <input
+                      type="checkbox"
+                      checked={filter.betjeningsgrad.includes(grad)}
+                      onChange={() => handleCheckboxChange("betjeningsgrad", grad)}
+                    />{" "}
+                    {grad} 
+                  </label>
+                ))}
+              </div>
             </div>
-          </div>
 
-          {/*Hytte - fasiliteter*/}
-          <div className="filter-section">
-            <label className="filter-label-overskrift">{t("filter.fasiliteter")}:</label>
-            <div className="checkbox-group">
-              <label>
-                <input
-                  type="checkbox"
-                  //checked={filter.fasiliteter.includes("WIFI")}
-                  //onChange={() =>
-                  //  handleCheckboxChange("fasiliteter", "WIFI")
-                  //}
-                />{" "} {t("filter.wifi")}
-              </label>
-            </div>
-          </div>
-
+          {/*Hytte - fasiliteter
+          <FasiliteterDropdown 
+            overskrift={t("filter.fasiliteter")}
+            alleValg={kategorier.fasilitet}
+            valgteFasiliteter={filter.fasiliteter}
+            onToggle={(fasilitet_navn) => handleCheckboxChange("fasiliteter", fasilitet_navn)}
+          />
+          */}
         </>
       )}
     </div>

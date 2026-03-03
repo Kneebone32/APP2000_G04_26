@@ -4,18 +4,18 @@ import SlettFellestur from "../../components/fellesturer/slett/SlettFellestur";
 import FellesturKobling from "../../components/fellesturer/fellestur-kobling/FellesturKobling";
 //import { useFellesturer } from "../hooks/useFellesturer";
 import PageWrapper from "../../components/PageWrapper";
-//import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import './FellesturModerator.css';
 
 //Basert på HytteModerator.jsx. Laget av Kay og Olai
 export default function FellesturModerator() {
     //const { refetch } = useFellesturer(true);
-    //const { t } = useTranslation();
+    const { t } = useTranslation();
 
     return (
         <PageWrapper>
         <div className="FellesturModeratorPanel">
-            <h1>Fellestur</h1>
+            <h1>{t("fellesturer.moderator")}</h1>
             <hr />
             <LeggTilFellestur />
             <hr />

@@ -4,9 +4,9 @@ export function filterHytter(hytter, filter) {
   return hytter.filter((hytte) => {
     //Null checks
     if (
-      !hytte.hytte_breddegrad ||
-      !hytte.hytte_lengdegrad ||
-      !hytte.hytte_betjeningsgrad
+      !hytte.breddegrad ||
+      !hytte.lengdegrad ||
+      !hytte.betjeningsgrad
     ) {
       return false;
     }
@@ -14,14 +14,14 @@ export function filterHytter(hytter, filter) {
     //Søk filter
     if (filter.søkeord) {
       const søkeordLower = filter.søkeord.toLowerCase();
-      if (!hytte.hytte_navn?.toLowerCase().includes(søkeordLower)) {
+      if (!hytte.navn?.toLowerCase().includes(søkeordLower)) {
         return false;
       }
     }
 
     //Betjeningsgrad filter
     if (filter.betjeningsgrad?.length > 0) {
-      if (!filter.betjeningsgrad.includes(hytte.hytte_betjeningsgrad)) {
+      if (!filter.betjeningsgrad.includes(hytte.betjeningsgrad.toLowerCase())) {
         return false;
       }
     }
@@ -30,13 +30,20 @@ export function filterHytter(hytter, filter) {
     if (filter.prisnivå && hytte.pris) {
       const [minPris, maxPris] = filter.prisnivå;
       if (hytte.pris < minPris || hytte.pris > maxPris) {
-        //TODO: bytt til hytte_pris
         return false;
       }
     }
 
     //Fasiliteter filter
-    //TODO: venter på testdata
+    if (filter.fasiliteter?.length > 0) {
+      const harAlleValgteFasiliteter = 
+          filter.fasiliteter.every((valgtFasilitet) =>                  //alle de valgte fasilitetene
+          hytte.fasiliteter.verdier.some((hytteFasilitet) =>            //sjekker om hytten har de valgte fasilitetene
+          hytteFasilitet.toLowerCase() === valgtFasilitet.toLowerCase() //sammenligner på navnet
+      ))
+
+      if(!harAlleValgteFasiliteter) return false;
+    }
 
     return true;
   });

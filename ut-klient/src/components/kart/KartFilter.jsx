@@ -12,9 +12,11 @@ export default function KartFilter({ onFilterChange }) {
   const { t } = useTranslation();
   const [filter, setFilter] = useState({
     søkeord: "",
+    varighet: "",
     betjeningsgrad: [],
     turtype: [],
     prisnivå: [0, 1000],
+    fasiliteter: [],
     visHytter: true,
     visFellesturer: false,
     visTurmål: true,
@@ -60,8 +62,10 @@ export default function KartFilter({ onFilterChange }) {
   const handleReset = () => {
     setFilter({
       søkeord: "",
+      varighet: "",
       betjeningsgrad: [],
       turtype: [],
+      fasiliteter: [],
       prisnivå: [0, 1000],
       vanskelighetsgrad:"",
       visHytter: true,

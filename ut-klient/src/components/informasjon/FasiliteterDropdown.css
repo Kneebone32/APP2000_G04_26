@@ -1,0 +1,74 @@
+/*Hele denne filen er laget av AI*/
+/* Container for hele komponenten */
+.multi-select-filter {
+    margin-bottom: 20px;
+}
+
+.filter-label-overskrift {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+/* Stil for selve dropdown-menyen */
+.filter-dropdown {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background-color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.filter-dropdown:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+/* Container for "taggene" */
+.tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+/* Selve "pillen" (taggen) */
+.tag-pill {
+    background-color: #0ca771;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.1s;
+}
+
+.tag-pill:hover {
+    transform: translateY(-1px);
+    background-color: #077e72;
+}
+
+/* Fjern-knappen inni taggen */
+.tag-fjern-btn {
+    border: none;
+    background: none;
+    margin-left: 8px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: bold;
+    font-size: 16px;
+    padding: 0 2px;
+    display: flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.tag-remove-btn:hover {
+    color: white;
+}

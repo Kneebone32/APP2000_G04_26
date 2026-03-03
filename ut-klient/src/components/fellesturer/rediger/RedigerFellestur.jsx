@@ -3,9 +3,11 @@ import { useFellestur } from "../../../hooks/useFellesturer";
 import FellesturForm from "../fellestur-form/FellesturForm";
 import FellesturSøk from "../FellesturSøk";
 import { toast } from 'react-toastify';
+import { useTranslation } from "react-i18next";
 
 //Redigerer en eksisterende Fellestur ved først å søke den opp. Laget av Kay
 export default function RedigerFellestur() {
+    const { t } = useTranslation();
     const {fellestur, hentFellesturFraId, redigerFellestur} = useFellestur({autoFetch: true});
     const [valgtData, setValgtData] = useState(null);
     const [lasterFellestur, setLasterFellestur] = useState(false);
@@ -28,7 +30,7 @@ export default function RedigerFellestur() {
             
             setValgtData(formatertData);
         } catch (err) {
-            toast.error("Kunne ikke hente fellestur: " + err.message);
+            toast.error(t("fellesturer.feil_henting") + err.message);
             setValgtData(null);
         } finally {
             setLasterFellestur(false);
@@ -38,17 +40,17 @@ export default function RedigerFellestur() {
     const handleOppdatering = async (formData) => {
         try {
             await redigerFellestur(valgtData.fellestur_id, formData);
-            toast.success("Fellesturen ble oppdatert!");
+            toast.success(t("fellesturer.oppdatert"));
             setValgtData(null); 
 
         } catch (err) {
-            toast.error("Feil ved oppdatering: " + err.message);
+            toast.error(t("fellesturer.feil_oppdatering") + err.message);
         }
     };
 
     return (
         <div className="fellestur-form-container">
-            <h2>Rediger Fellestur</h2>
+            <h2>{t("fellesturer.rediger")}</h2>
             
             {/*Søkefelt til fellestur*/}
             <FellesturSøk 
@@ -65,7 +67,7 @@ export default function RedigerFellestur() {
                     buttonText="Lagre endringer" 
                 />
             ) : (
-                <p style={{color: "#888"}}>Velg fellestur for å begynne redigering.</p>
+                <p style={{color: "#888"}}>{t("fellesturer.velg_fellestur")}</p>
             )}
         </div>
     );

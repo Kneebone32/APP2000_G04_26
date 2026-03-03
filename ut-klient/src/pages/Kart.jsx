@@ -25,8 +25,8 @@ function ZoomLevel({onZoomChange}){
 
 //"Utforsker-kart" (Laget av Kay)
 export default function Kart() {
-  const { hytter, loadingHytter, errorHytter } = useFetchHytter(true);
-  const { turer, loadingTurer, errorTurer } = useFetchTurer(true);
+  const { hytter, loadingHytter, errorHytter } = useFetchHytter({autoFetch: true});
+  const { turer, loadingTurer, errorTurer } = useFetchTurer({autoFetch: true});
   const { t } = useTranslation();
   const [filter, setFilter] = useState({});
   const [zoom, setZoom] = useState(13);
@@ -89,9 +89,9 @@ export default function Kart() {
               <Popup>
                     <strong>{tur.turrute_navn}</strong>
                     <br />
-                    Turtype: {tur.turtype}
+                    {t("kart_detaljer.turtype")}{t(`enums.turtype.${tur.turtype}`)}
                     <br />
-                    Vanskelighetsgrad: {tur.vanskelighetsgrad}
+                    {t("kart_detaljer.vanskelighetsgrad")}{t(`enums.vanskelighetsgrad.${tur.vanskelighetsgrad}`)}
                 </Popup>
             </HoverPolyline>
             
@@ -103,9 +103,9 @@ export default function Kart() {
               <Popup>
                     <strong>{tur.turrute_navn}</strong>
                     <br />
-                    Turtype: {tur.turtype}
+                    {t("kart_detaljer.turtype")}{t(`enums.turtype.${tur.turtype}`)}
                     <br />
-                    Vanskelighetsgrad: {tur.vanskelighetsgrad}
+                    {t("kart_detaljer.vanskelighetsgrad")}{t(`enums.vanskelighetsgrad.${tur.vanskelighetsgrad}`)}
                 </Popup>
             </Marker>
             </Fragment>
@@ -118,15 +118,15 @@ export default function Kart() {
           filteredHytter.map((hytte) => (
             <Marker
               key={hytte.hytte_id}
-              position={[hytte.hytte_breddegrad, hytte.hytte_lengdegrad]}
+              position={[hytte.breddegrad, hytte.lengdegrad]}
               icon={hytteIcon}
             >
               <Popup>
-                <strong>{hytte.hytte_navn}</strong>
+                <strong>{hytte.navn}</strong>
                 <br />
-                {t("felles.sengeplasser")}: {hytte.hytte_sengeplasser}
+                {t("felles.sengeplasser")}: {hytte.sengeplasser}
                 <br />
-                {hytte.hytte_betjeningsgrad}
+                {t(`enums.betjeningsgrad.${hytte.betjeningsgrad}`)}
               </Popup>
             </Marker>
           ))}

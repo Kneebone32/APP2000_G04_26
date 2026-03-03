@@ -1,14 +1,16 @@
 import { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 //Søker etter hytte for å bruke i Fellestur. Laget av Kay
 export default function HytteSøk({ hytter, onSelect, lagretNavn = "" }) {
+    const { t } = useTranslation();
     const [søk, setSøk] = useState(lagretNavn);
     const [visDropdown, setVisDropdown] = useState(false);
     const dropdownRef = useRef(null);
 
 
     const filterHytter = hytter?.filter(hytte =>
-        hytte.hytte_navn.toLowerCase().includes(søk.toLowerCase()) ||   //søk på hytte navn
+        hytte.navn.toLowerCase().includes(søk.toLowerCase()) ||   //søk på hytte navn
         hytte.hytte_id.toString().includes(søk)                         //søk på ID
     ) || [];
 
@@ -26,10 +28,10 @@ export default function HytteSøk({ hytter, onSelect, lagretNavn = "" }) {
     return (
         <div className="input-container søk" ref={dropdownRef}>
             <label className="input">
-                Velg Hytte
+                {t("hytte_søk.velg_hytte")}
                 <input
                     type="text"
-                    placeholder="Søk på navn eller ID"
+                    placeholder={t("hytte_søk.søk_placeholder")}
                     value={søk}
                     onChange={(e) => {
                         setSøk(e.target.value);
@@ -48,16 +50,16 @@ export default function HytteSøk({ hytter, onSelect, lagretNavn = "" }) {
                             <li
                                 key={hytte.hytte_id}
                                 onClick={() => {
-                                    setSøk(hytte.hytte_navn);
-                                    onSelect(hytte.hytte_id, hytte.hytte_navn, hytte);
+                                    setSøk(hytte.navn);
+                                    onSelect(hytte.hytte_id, hytte.navn, hytte);
                                     setVisDropdown(false);
                                 }}
                             >
-                                <span className="hytte-id">#{hytte.hytte_id}</span> {hytte.hytte_navn}
+                                <span className="hytte-id">#{hytte.hytte_id}</span> {hytte.navn}
                             </li>
                         ))
                     ) : (
-                        <li className="ingen-resultater">Ingen resultater</li>
+                        <li className="ingen-resultater">{t("hytte_søk.ingen_resultater")}</li>
                     )}
                 </ul>
             )}

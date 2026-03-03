@@ -1,13 +1,31 @@
+/* 
+Laget av Eivind
+*/
+
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { hentKommuneData } from "../../utils/geoUtils";
+import { FaClock, FaHiking, FaBicycle, FaSkiing } from "react-icons/fa";
 import './TurKort.css';
 
 export default function TurKort({turId, turNavn, vanskelighetsgrad, bildeUrl, turtype, varighet, lat, lon}) {
     const { t } = useTranslation();
     const [kommunenavn, setKommunenavn] = useState("");
     const [fylkesnavn, setFylkesnavn] = useState("");
+
+    const getTurtypeIcon = () => {
+        switch(turtype?.toLowerCase()) {
+            case 'fottur':
+                return <FaHiking className="turtype-icon" />;
+            case 'sykkeltur':
+                return <FaBicycle className="turtype-icon" />;
+            case 'skitur':
+                return <FaSkiing className="turtype-icon" />;
+            default:
+                return null;
+        }
+    };
 
     useEffect(() => {
         if (!lat || !lon) return;
@@ -34,11 +52,10 @@ export default function TurKort({turId, turNavn, vanskelighetsgrad, bildeUrl, tu
                     )}
                     <div className="kortbody">
                         <h3 className="korttitle">{turNavn}</h3>
-                        <p className="korttext">{t("tur.vanskelighetsgrad")}: {vanskelighetsgrad}</p>
-                        <p className="korttext">{t("tur.turtype")}: {turtype}</p>
-                        <p className="korttext">{t("tur.varighet")}: {varighet}</p>
-                        {kommunenavn && <p className="korttext">{t("felles.kommune")}: {kommunenavn}</p>}
-                        {fylkesnavn && <p className="korttext">{t("felles.fylke")}: {fylkesnavn}</p>}
+                        {kommunenavn && <p className="kommune">{t("felles.kommune")}: {kommunenavn}</p>}
+                        {fylkesnavn && <p className="fylke">{t("felles.fylke")}: {fylkesnavn}</p>}
+                        <p className="korttext">{getTurtypeIcon()} {t(`enums.vanskelighetsgrad.${vanskelighetsgrad}`)}</p>
+                        <p className="korttext"><FaClock className="kortklokke" /> {t(`enums.varighet.${varighet}`)}</p>
                     </div>
                 </div>
             </Link>

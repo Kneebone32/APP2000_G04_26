@@ -6,10 +6,12 @@ import { useFetchTurer } from '../../hooks/useFetchTurer';
 import { FiNavigation } from "react-icons/fi";    
 import { navigasjonIcon } from "../kart/KartBasic"; 
 import ConfirmModal from '../ConfirmModal'; 
+import { useTranslation } from 'react-i18next';
 import "./NavigasjonFinnPosisjon.css";
 
 //funksjon for å navigere en turrute. Laget av Kay
 export default function TurNavigasjon({ turId }) {
+    const { t } = useTranslation();
     const redir = useNavigate();
     const map = useMap();
     const { turPunkter, fetchTurRute, loadingTurPunkter} = useFetchTurer(false);
@@ -22,7 +24,7 @@ export default function TurNavigasjon({ turId }) {
     const handleStartNavigasjon = () => {
         setVisVelkomst(false);
         setIsFollowing(true);
-        toast.success("Navigasjon startet!");
+        toast.success(t("navigasjon.startet"));
     };
 
 
@@ -34,7 +36,7 @@ export default function TurNavigasjon({ turId }) {
 
     useEffect(() => {
         if (!loadingTurPunkter && turPunkter.length === 0) {
-            toast.error("Kunne ikke finne valgt turrute." + "Du blir sendt tilbake til forrige side")
+            toast.error(t("navigasjon.feil_turrute") + t("navigasjon.sendes_tilbake"))
             setTimeout(() => {
             redir(-1); 
             }, 5000);
@@ -70,9 +72,9 @@ export default function TurNavigasjon({ turId }) {
                 show={visVelkomst} 
                 onClose={() => setVisVelkomst(false)} 
                 onConfirm={handleStartNavigasjon}
-                tittel="Ut på tur, aldri sur!"
-                melding="Vil du starte navigasjonen?"
-                confirmTekst="Start"
+                tittel={t("navigasjon.modal_tittel")}
+                melding={t("navigasjon.bekreft_start")}
+                confirmTekst={t("navigasjon.start")}
                 knappFarge="blå"
             />
             {!loadingTurPunkter && turPunkter.length > 0 && (
@@ -91,7 +93,7 @@ export default function TurNavigasjon({ turId }) {
                 <div className="leaflet-control leaflet-bar">
                     <button 
                         className="posisjons-knapp"
-                        title={!brukerPos ? "Bruk posisjon" : "Sentrér"}
+                        title={!brukerPos ? t("navigasjon.bruk_posisjon") : t("navigasjon.sentrér")}
                         onClick={(e) => {
                             e.stopPropagation();
                             setIsFollowing(!isFollowing);

@@ -28,7 +28,7 @@ export default function Admin() {
         className="AdminKnapp"
         onClick={() => navigate('/admin/fellesturer')}
         >
-        Gå til Admin Fellesturer
+        {t("fellesturer.gå_til_admin")}
         </button>
                 
         {/*Turmål*/}        
@@ -36,7 +36,7 @@ export default function Admin() {
         className="AdminKnapp"
         onClick={() => navigate('/admin/turmål')}
         >
-        Gå til Admin Turmål
+        {t("turmål.gå_til_admin")}
         </button>
     </div>
   );

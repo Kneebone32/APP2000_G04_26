@@ -8,10 +8,12 @@ import { minDistTilTur } from "./MinDistTilTur";
 import { tur } from "../../../assets/tur";
 import { toast } from 'react-toastify';
 import TurmålSøk from "../../turmål/TurmålSøk";
+import { useTranslation } from "react-i18next";
 
 
 //Legger til hytte eller turmål til fellestur. Laget av Kay
 export default function FellesturKobling() {
+    const { t } = useTranslation();
     //fetch
     const {fellestur, hentFellesturFraId, redigerFellestur} = useFellestur({autoFetch: true}); //redigerFellestur? eller ny func for å sette inn hytte/turmål?
     const { hytter, hentHytteFraId } = useFetchHytter({autoFetch: true});
@@ -43,7 +45,7 @@ export default function FellesturKobling() {
             setTestFellestur(tur);
 
         } catch (err) {
-            toast.error("Kunne ikke hente fellestur: " + err.message);
+            toast.error(t("fellestur_kobling.feil_henting_fellestur") + err.message);
             setValgtFellestuData(null);
         } finally {
             setLasterFellestur(false);
@@ -59,16 +61,17 @@ export default function FellesturKobling() {
         setLasterHytte(true);
         try {
             const data = await hentHytteFraId(id);
-            const minDist = minDistTilTur(data.hytte_breddegrad, data.hytte_lengdegrad, testFellestur);
+            console.log(data)
+            const minDist = minDistTilTur(data.koordinater.breddegrad, data.koordinater.lengdegrad, testFellestur);
 
             if ( minDist > maksTillattAvstandKM) {
-                toast(`Opps, hytten er ${minDist.toFixed(2)} KM unna turruten. Maks er ${maksTillattAvstandKM} KM` );
+                toast(`${t("fellestur_kobling.hytte_for_langt")}${minDist.toFixed(2)}${t("fellestur_kobling.km_unna")}${maksTillattAvstandKM}${t("fellestur_kobling.km")}` );
                 setValgtHytteData(null);
             } else{
                 setValgtHytteData(data);
             }
         } catch (err) {
-            toast.error("Kunne ikke hente hytte: " + err.message);
+            toast.error(t("fellestur_kobling.feil_henting_hytte") + err.message);
             setValgtHytteData(null);
         } finally {
             setLasterHytte(false);
@@ -87,13 +90,13 @@ export default function FellesturKobling() {
             const minDist = minDistTilTur(data.turmål_breddegrad, data.turmål_lengdegrad, testFellestur);
 
             if ( minDist > maksTillattAvstandKM) {
-                toast(`Opps, turmålet er ${minDist.toFixed(2)} KM unna turruten. Maks er ${maksTillattAvstandKM} KM` );
+                toast(`${t("fellestur_kobling.turmål_for_langt")}${minDist.toFixed(2)}${t("fellestur_kobling.km_unna")}${maksTillattAvstandKM}${t("fellestur_kobling.km")}` );
                 setValgtTurmålData(null);
             } else{
                 setValgtTurmålData(data);
             }
         } catch (err) {
-            toast.error("Kunne ikke hente Turmål: " + err.message);
+            toast.error(t("fellestur_kobling.feil_henting_turmål") + err.message);
             setValgtTurmålData(null);
         } finally {
             setLasterTurmål(false);
@@ -102,7 +105,7 @@ export default function FellesturKobling() {
 
     return (
         <>
-        <h2>Legg til hytte eller turmål i Fellestur</h2>
+        <h2>{t("fellestur_kobling.tittel")}</h2>
         {/*Søkefelt til fellestur*/}
         <FellesturSøk 
             fellesturer={fellestur} 
@@ -116,12 +119,12 @@ export default function FellesturKobling() {
             <HytteSøk
             hytter={hytter} 
             onSelect={handleHytteSøkSelect} 
-            lagretTittel={valgtHytteData?.tittel || ""}
+            lagretTittel={valgtHytteData?.navn || ""}
             />
             
             {valgtHytteData && (
                 <>
-                    <input type="text" value={(valgtHytteData.hytte_breddegrad) + ", " + (valgtHytteData.hytte_lengdegrad)} disabled={true}></input>
+                    <input type="text" value={(valgtHytteData.koordinater.breddegrad) + ", " + (valgtHytteData.koordinater.lengdegrad)} disabled={true}></input>
                 </>
             )}
 
@@ -139,7 +142,7 @@ export default function FellesturKobling() {
             )}
             </>
         ) : (
-                <p style={{color: "#888"}}>Velg fellestur for å kunne legge til hytte/turmål</p>
+                <p style={{color: "#888"}}>{t("fellestur_kobling.velg_fellestur")}</p>
             )}
             
         </>

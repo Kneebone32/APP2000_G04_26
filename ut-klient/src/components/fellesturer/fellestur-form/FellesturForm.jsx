@@ -1,5 +1,5 @@
 import { useState } from "react";
-//import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import DatePicker, { registerLocale } from "react-datepicker";
 import nb from 'date-fns/locale/nb';
 import { useEnums } from "../../../hooks/useEnums";
@@ -13,6 +13,7 @@ import DatoListe from "./DatoListe";
 import BildeOpplasting from "../../BildeOpplasting";
 import { VærvarslingUke } from "../../Værvarsling";
 import { toast } from 'react-toastify';
+import TempBilde from "../../TempBilde";
 import "react-datepicker/dist/react-datepicker.css";
 import "./FellesturForm.css"
 
@@ -22,9 +23,9 @@ registerLocale('nb', nb);
 //TODO: match feltnavn på data som kommer fra databasen. Eks. lagretData.turruteId eller lagretData.turrute_id?
 export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonTekst }) {
 
-    //const { t } = useTranslation();
+    const { t } = useTranslation();
     const { enumData: aktivitet_status } = useEnums("aktivitet_status_enum");
-    const { turer } = useFetchTurer(true);
+    const { turer } = useFetchTurer({autoFetch: true});
     const [valgtTurruteId, setValgtTurruteId] = useState(lagretData.turruteId || 0);
     const [valgtTurruteStartKoords, setValgtTurruteStartKoords] = useState(lagretData.turrute || []);
     const [tittel, setTittel] = useState(lagretData.tittel || "");
@@ -34,6 +35,7 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
     const [maksDeltakere, setMaksDeltakere] = useState(lagretData.maksDeltakere || 1);
     const [status, setStatus] = useState(lagretData.status || "");
     const [bildeUrl, setBildeUrl] = useState(lagretData.bilder || []); 
+    const [tempUrl, setTempUrl] = useState("");
     const [valgteDatoer, setValgteDatoer] = useState(
         lagretData.datoer ? lagretData.datoer.map(d => new Date(d)) : []
     );
@@ -65,6 +67,7 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
 
 
     const handleMinChange = (verdi) => {
+        console.log(bildeUrl)
         const nummer = Number(verdi);
         setMinDeltakere(nummer);
         if (nummer > maksDeltakere) setMaksDeltakere(nummer);
@@ -76,11 +79,19 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
         setMaksDeltakere(nummer < minDeltakere ? minDeltakere : nummer);
     };
 
+    const handleLeggTilBilde = (e) => {
+        e.preventDefault();
+    
+    if (tempUrl.trim() !== "") {
+        setBildeUrl([...bildeUrl, tempUrl]); 
+        setTempUrl(""); 
+    }
+};
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
         if (valgteDatoer.length === 0) {
-            return toast.error("Vennligst velg minst en dato");
+            return toast.error(t("fellestur_form.feil_minst_en_dato"));
         }
 
         const fellesturData = {
@@ -115,14 +126,14 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
                 <>
             {/*Tittel på fellestur*/}
             <div className="input-container">
-                <label className="input">Tittel
+                <label className="input">{t("fellestur_form.tittel")}
                     <input type="text" value={tittel} onChange={(e) => setTittel(e.target.value)} required />
                 </label>
             </div>
 
             {/*Beskrivelse av fellesturen*/}
             <div className="input-container">
-                <label className="input">Beskrivelse
+                <label className="input">{t("fellestur_form.beskrivelse")}
                     <textarea 
                         style={{resize: 'none', width: '100%', maxWidth: '400px'}} 
                         rows="5" minLength="20" maxLength="1000"
@@ -139,13 +150,13 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
 
             {/*Valg av datoer + tidspunkt*/}
             <div className="input-container">
-                <label className="input-label">Velg dato(er)</label>
+                <label className="input-label">{t("fellestur_form.velg_datoer")}</label>
                 <div className="input-container-kaldender-og-vær-btn">
                 <button type="button" className="velg-dato-btn" onClick={åpneKalender}>
-                    {valgteDatoer.length > 0 ? `${valgteDatoer.length} datoer valgt` : "Åpne kalender"}
+                    {valgteDatoer.length > 0 ? `${valgteDatoer.length}${t("fellestur_form.datoer_valgt")}` : t("fellestur_form.åpne_kalender")}
                 </button>
                 <button type="button" className="værvarsel-langtids" onClick={åpneVærvarsel}>
-                    8-dagers værvarsel</button>
+                    {t("fellestur_form.værvarsel_8_dager")}</button>
                 </div>
                 <DatoListe valgteDatoer={valgteDatoer} onSlett={fjernDato} lat={valgtTurruteStartKoords[0]} lon={valgtTurruteStartKoords[1]}/>
             </div>
@@ -161,23 +172,16 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
             <BildeOpplasting bildeUrl={bildeUrl} setBildeUrl={setBildeUrl} />
 
             {/*Mulighet for å legge til en bildeurl. KUN til testing. HUSK å fjerne*/}
-            <div className="input-container">
-                <label className="input">Bilde url (kun til testing. HUSK å fjerne denne!)
-                    <input
-                        type="text"
-                        id="bilde_url"
-                        value={bildeUrl}
-                        onChange={(e) => setBildeUrl(e.target.value)}
-                    />
-                </label>
-            </div>
+            <TempBilde  tempUrl={tempUrl} setTempUrl={setTempUrl} onLeggTil={handleLeggTilBilde} />
+
+
 
             {/*Status*/}
             <div className="input-container">
-                <label className="input">Status
+                <label className="input">{t("fellestur_form.status")}
                     <select value={status} onChange={(e) => setStatus(e.target.value)} required>
                         <option value="" disabled hidden></option>
-                        {aktivitet_status.map(valg => <option key={valg} value={valg}>{valg}</option>)}
+                        {aktivitet_status.map(valg => <option key={valg} value={valg}>{t(`enums.aktivitet_status.${valg}`)}</option>)}
                     </select>
                 </label>
             </div>
@@ -186,21 +190,22 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
             <button type="submit" className="lagre-btn">{buttonTekst}</button>
             </>
             ) : (
-                <p style={{color: "#888"}}>Velg en turrute for å starte planleggingen</p>
+                <p style={{color: "#888"}}>{t("fellestur_form.velg_turrute")}</p>
             )}
 
-            <Modal show={kalenderÅpen} onClose={lukkKalender} title="Velg dato og tid" size="sm">
+            <Modal show={kalenderÅpen} onClose={lukkKalender} title={t("fellestur_form.velg_dato_tid")} size="sm">
                 <div className="modal-calendar-container">
                     <DatePicker
                         inline locale="nb" selected={midlertidigDato} highlightDates={valgteDatoer}
                         onChange={handleDatoChange} minDate={new Date()} showTimeSelect
-                        timeFormat="HH:mm" timeIntervals={15} timeCaption="Tid"
+                        timeFormat="HH:mm" timeIntervals={15} timeCaption={t("fellestur_form.tid")}
                     /> 
                 </div>
             </Modal>
             
-            <Modal show={værvarselÅpen} onClose={lukkVærvarsel} title="Værvarsel" size="lg">
+            <Modal show={værvarselÅpen} onClose={lukkVærvarsel} title={t("fellestur_form.værvarsel")} size="lg">
                 <div className="modal-weather-container">
+                    {}
                     <VærvarslingUke 
                         latitude={valgtTurruteStartKoords[0]} 
                         longitude={valgtTurruteStartKoords[1]} 

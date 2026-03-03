@@ -4,10 +4,12 @@ import { useModal } from "../../../hooks/useModal";
 import TurmålSøk from "../TurmålSøk";
 import { toast } from 'react-toastify';
 import ConfirmModal from "../../ConfirmModal";
+import { useTranslation } from "react-i18next";
 import "../turmål-form/TurmålForm.css";
 
 //Sletter Turmål med valgt ID. Laget av Kay.
 export default function SlettTurmål() {
+    const { t } = useTranslation();
     const { isOpen, open, close } = useModal();
     const { turmål, deleteTurmål} = useTurmål({autoFetch: true});
     const [valgtId, setValgtId] = useState(0);
@@ -20,24 +22,24 @@ export default function SlettTurmål() {
 
     const handleSlett = async () => {
         if (valgtId === 0) {
-            return toast.warn("Vennligst velg ett turmål først");
+            return toast.warn(t("turmål.velg_for_sletting"));
         }
 
         try {
             await deleteTurmål(valgtId);
-            toast.success(`"${valgtTittel}" ble slettet`);
+            toast.success(`"${valgtTittel}${t("turmål.slettet")}`);
             setValgtId(0);
             setValgtTittel("");
 
         } catch (err) {
-            toast.error("Kunne ikke slette turmålet: " + err.message);
+            toast.error(t("turmål.feil_sletting") + err.message);
         }
     };
 
 
     return (
         <div className="turmål-forum-container">
-            <h2>Slett Turmål</h2>
+            <h2>{t("turmål.slett")}</h2>
 
             {/*Søkefelt til turmål*/}
             <TurmålSøk 
@@ -52,7 +54,7 @@ export default function SlettTurmål() {
                     className="lagre-btn" 
                     disabled={false /*valgtId === 0  */} 
                 >
-                    Slett Turmål
+                    {t("turmål.slett")}
                 </button>
             </div>
 
@@ -61,9 +63,9 @@ export default function SlettTurmål() {
                 show={isOpen} 
                 onClose={close} 
                 onConfirm={handleSlett}
-                tittel="Slett turmål"
-                melding={`Er du helt sikker på at du vil slette "${valgtTittel}"?`}
-                confirmText="Slett turmål"
+                tittel={t("turmål.slett").toLowerCase()}
+                melding={`${t("turmål.bekreft_sletting")}${valgtTittel}"?`}
+                confirmText={t("turmål.slett").toLowerCase()}
             />
         </div>
     );
