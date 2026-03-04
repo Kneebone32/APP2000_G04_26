@@ -11,9 +11,10 @@ export function useTurmål({autoFetch = false, hentTurmålID = null} = {}) {
   const fetchTurmål = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/turmal`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/turmaal`);
       if (!response.ok) throw new Error(`HTTP feil: ${response.status}`);
       const data = await response.json();
+
       setTurmål(data);
     } catch (err) {
         setError(err.message);
@@ -29,7 +30,7 @@ export function useTurmål({autoFetch = false, hentTurmålID = null} = {}) {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/turmal/${id}`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/turmaal/${id}`);
       if (!response.ok) throw new Error("Kunne ikke hente turen");
 
       return await response.json();
@@ -46,7 +47,7 @@ export function useTurmål({autoFetch = false, hentTurmålID = null} = {}) {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(encodeURI(`${import.meta.env.VITE_API_URL}/turmal`), {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/turmaal`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -68,7 +69,7 @@ export function useTurmål({autoFetch = false, hentTurmålID = null} = {}) {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/turmal/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/turmaal/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -91,7 +92,7 @@ export function useTurmål({autoFetch = false, hentTurmålID = null} = {}) {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/turmal/${id}`, { method: 'DELETE' });
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/turmaal/${id}`, { method: 'DELETE' });
     if (!response.ok) throw new Error("Kunne ikke slette turmålet");
 
       setTurmål(prev => prev.filter(m => m.turmål !== id));

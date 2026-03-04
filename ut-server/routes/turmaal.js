@@ -42,6 +42,7 @@ router.post('/', async (req, res) => {
       bilder                
     } = req.body;
 
+
     const result = await pool.query(
       `
       SELECT public.turmaal_opprett_hel(
@@ -92,3 +93,5 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ error: 'Kunne ikke slette turmål' });
   }
 });
+
+export default router;

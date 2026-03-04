@@ -11,8 +11,8 @@ export default function LeggTilTurmål() {
     
     const handleOpprett = async (formData) => {
         try {
-            //await opprettTurmål(formData);
-            toast.info(t("turmål.backend_melding"), {
+            await opprettTurmål(formData);
+            toast.info("Turmål opprettet!", {
             progress: undefined,
             theme: "dark",
             transition: Flip

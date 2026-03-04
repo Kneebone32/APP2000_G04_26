@@ -82,11 +82,11 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
     const handleLeggTilBilde = (e) => {
         e.preventDefault();
     
-    if (tempUrl.trim() !== "") {
-        setBildeUrl([...bildeUrl, tempUrl]); 
-        setTempUrl(""); 
+        if (tempUrl.trim() !== "") {
+            setBildeUrl([...bildeUrl, tempUrl]); 
+            setTempUrl(""); 
     }
-};
+    };
 
     const handleFormSubmit = (e) => {
         e.preventDefault();

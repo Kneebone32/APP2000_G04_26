@@ -11,7 +11,7 @@ import "../turmål-form/TurmålForm.css";
 export default function SlettTurmål() {
     const { t } = useTranslation();
     const { isOpen, open, close } = useModal();
-    const { turmål, deleteTurmål} = useTurmål({autoFetch: true});
+    const { turmål, slettTurmål} = useTurmål({autoFetch: true});
     const [valgtId, setValgtId] = useState(0);
     const [valgtTittel, setValgtTittel] = useState("");
 
@@ -26,10 +26,11 @@ export default function SlettTurmål() {
         }
 
         try {
-            await deleteTurmål(valgtId);
+            await slettTurmål(valgtId);
             toast.success(`"${valgtTittel}${t("turmål.slettet")}`);
             setValgtId(0);
             setValgtTittel("");
+            close();
 
         } catch (err) {
             toast.error(t("turmål.feil_sletting") + err.message);

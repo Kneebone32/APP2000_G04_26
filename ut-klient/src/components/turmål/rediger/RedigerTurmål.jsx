@@ -13,6 +13,7 @@ export default function RedigerTurmål() {
     const [lasterTurmål, setLasterTurmål] = useState(false);
 
     const handleSøkSelect = async (id) => {
+        console.log(id)
         if (!id) {
             setValgtData(null);
             return;
@@ -21,6 +22,7 @@ export default function RedigerTurmål() {
         setLasterTurmål(true);
         try {
             const data = await hentTurmålFraId(id);
+            console.log(data)
             
             //TODO: må oppdatere denne når jeg får testdata fra DB.
             

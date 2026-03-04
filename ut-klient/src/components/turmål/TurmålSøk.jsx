@@ -10,8 +10,8 @@ export default function TurmålSøk({ turmål, onSelect, lagretNavn = "" }) {
 
 
     const filterTurmål = turmål?.filter(turmål =>
-        turmål.turmål_navn.toLowerCase().includes(søk.toLowerCase()) ||   //søk på turmål navn
-        turmål.turmål_id.toString().includes(søk)                         //søk på ID
+        turmål.navn.toLowerCase().includes(søk.toLowerCase()) ||   //søk på turmål navn
+        turmål.turmaal_id.toString().includes(søk)                         //søk på ID
     ) || [];
 
     //Lukker dropdown når bruker klikker på utsiden
@@ -48,14 +48,14 @@ export default function TurmålSøk({ turmål, onSelect, lagretNavn = "" }) {
                     {filterTurmål.length > 0 ? (
                         filterTurmål.map((turmål) => (
                             <li
-                                key={turmål.turmål_id}
+                                key={turmål.turmaal_id}
                                 onClick={() => {
-                                    setSøk(turmål.turmål_navn);
-                                    onSelect(turmål.turmål_id, turmål.turmål_navn, turmål);
+                                    setSøk(turmål.navn);
+                                    onSelect(turmål.turmaal_id, turmål.navn, turmål);
                                     setVisDropdown(false);
                                 }}
                             >
-                                <span className="turmål-id">#{turmål.turmål_id}</span> {turmål.turmål_navn}
+                                <span className="turmål-id">#{turmål.turmaal_id}</span> {turmål.navn}
                             </li>
                         ))
                     ) : (
