@@ -74,6 +74,48 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Oppdaterer turmål med gitt id
+router.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const {
+      turmaal_navn,
+      turmaal_breddegrad,
+      turmaal_lengdegrad,
+      turmaal_moh,
+      turmaal_beskrivelse,
+      informasjon_id,
+      bilder
+    } = req.body;
+
+    // Oppdaterer turmål i databasen
+    await pool.query(
+      `SELECT public.turmaal_oppdater_hel(
+        $1, $2, $3, $4, $5, $6, $7, $8::jsonb
+      )`,
+      [
+        id,
+        turmaal_navn,
+        turmaal_breddegrad,
+        turmaal_lengdegrad,
+        turmaal_moh ?? null,
+        turmaal_beskrivelse ?? null,
+        informasjon_id ?? null,
+        bilder ? JSON.stringify(bilder) : '[]'
+      ]
+    );
+
+    res.json({
+      turmaal_id: id,
+      message: 'Turmål oppdatert'
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke oppdatere turmål' });
+  }
+});
 
 
 // Sletter turmål med gitt id
