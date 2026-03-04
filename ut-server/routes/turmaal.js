@@ -26,6 +26,28 @@ router.get('/kort', async (req, res) => {
   }
 });
 
+// Henter turmål med gitt id
+router.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const result = await pool.query(
+      'SELECT turmaal_hent_detalj($1) AS turmaal',
+      [id]
+    );
+
+    if (!result.rows[0].turmaal) {
+      return res.status(404).json({ error: 'Turmål ikke funnet' });
+    }
+
+    res.json(result.rows[0].turmaal);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Database connection failed' });
+  }
+});
+
 
 // Legger til nytt turmål
 router.post('/', async (req, res) => {
