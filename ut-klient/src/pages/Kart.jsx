@@ -1,14 +1,15 @@
 import { useState, Fragment } from "react";
 import { Marker, Popup, useMapEvents } from "react-leaflet";
 import { useTranslation } from "react-i18next";
-import Kart_basic, {hytteIcon, turIcon} from "../components/kart/KartBasic";
+import Kart_basic, {hytteIcon, turIcon, turmålIcon} from "../components/kart/KartBasic";
 import KartFilter from "../components/kart/KartFilter";
 import { useFetchHytter } from "../hooks/useFetchHytter";
+import { useTurmål }  from "../hooks/useTurmål";
 import { useFetchTurer } from "../hooks/useFetchTurer";
-import { filterHytter } from "../utils/filterUtforskerKart";
-import { filterTurer } from "../utils/filterUtforskerKart";
+import { filterHytter, filterTurMål, filterTurer } from "../utils/filterUtforskerKart";
 import { HoverPolyline } from "../components/kart/HoverPolyline";
 import { tur } from "../assets/tur";
+import "./Kart.css";
 import "../App.css";
 
 //Hele filen laget av Kay med mindre annet er spesifisert
@@ -27,6 +28,7 @@ function ZoomLevel({onZoomChange}){
 export default function Kart() {
   const { hytter, loadingHytter, errorHytter } = useFetchHytter({autoFetch: true});
   const { turer, loadingTurer, errorTurer } = useFetchTurer({autoFetch: true});
+  const { turmål } = useTurmål({autoFetch: true});
   const { t } = useTranslation();
   const [filter, setFilter] = useState({});
   const [zoom, setZoom] = useState(13);
@@ -34,6 +36,7 @@ export default function Kart() {
   //filter til hytter
   const filteredHytter = filterHytter(hytter, filter);
   const filteredTurer = filterTurer(turer, filter);
+  const filteredTurmål = filterTurMål(turmål, filter);
   
 
 
@@ -42,6 +45,7 @@ export default function Kart() {
 
   if (loadingTurer) return <p>{t("kart.laster")}</p>;
   if (errorTurer) return <p>{t("kart.feil_lasting")}: {errorTurer}</p>;
+
 
   const visMarker = zoom >= 9;
   return (
@@ -127,6 +131,24 @@ export default function Kart() {
                 {t("felles.sengeplasser")}: {hytte.sengeplasser}
                 <br />
                 {t(`enums.betjeningsgrad.${hytte.betjeningsgrad}`)}
+              </Popup>
+            </Marker>
+          ))}
+ 
+        {/*Turmål*/}
+        {visMarker && filter.visTurmål &&
+          filteredTurmål.map((mål) => (
+            <Marker
+              key={mål.turmaal_id}
+              position={[mål.breddegrad, mål.lengdegrad]}
+              icon={turmålIcon}
+            >
+              <Popup maxWidth={260} minWidth={260}>
+                <strong>{mål.navn}</strong>
+                  <img
+                    className="popup-bilde"
+                    src={`${mål.hovedbilde_url}?w=200&h=200&fit=fit`} 
+                  />
               </Popup>
             </Marker>
           ))}

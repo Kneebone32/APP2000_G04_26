@@ -93,13 +93,13 @@ export function filterFellesturer(fellesturer, filter) {
 }
 
 //Filterfunksjon til TurMål
-export function filterTurMål(turmål, filter) {
+export function filterTurMål(turmål) {
   return turmål.filter((mål) => {
     //Null check
-    if (!mål.koordinater) {
+    if (!mål.breddegrad && mål.lengdegrad) {
       return false;
     }
 
-    //TODO
+    return true;
   });
 }
