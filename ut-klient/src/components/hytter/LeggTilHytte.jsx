@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { useModal } from "../../hooks/useModal";
 import { useEnums } from "../../hooks/useEnums";
 import { useFileUpload } from "../../hooks/useFileUpload";
+import { useKategorier } from "../../hooks/useKategorier";
+import FasiliteterDropdown from "../informasjon/FasiliteterDropdown";
 import { hentKommuneData, hentFullHøydeData } from "../../utils/geoUtils";
 import Modal from "../../modal/Modal";
 import NyttKoordinat from "../NyttKoordinat";
@@ -14,6 +16,7 @@ export default function LeggTilHytte({ onSuccess }) {
     const { t } = useTranslation();
     const { isOpen, open, close } = useModal();
     const { enumData: betjeningsgrad, loadingEnum, enumError } = useEnums("betjeningsgrad_enum");
+    const { kategorier } = useKategorier();
     const [navn, setNavn] = useState("");
     const [beskrivelse, setBeskrivelse] = useState("");
     const [sengeplasser, setSengeplasser] = useState(0);
@@ -28,6 +31,7 @@ export default function LeggTilHytte({ onSuccess }) {
     const [kommune, setKommune] = useState("");
     const [kommuneId, setKommuneId] = useState("");
     const [selectedBetjeningsgrad, setSelectedBetjeningsgrad] = useState("");
+    const [valgteFasiliteter, setValgteFasiliteter] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [høydeData, setHøydeData] = useState([]);
@@ -35,6 +39,12 @@ export default function LeggTilHytte({ onSuccess }) {
     const uploaderRef = useRef(null);
 
     useFileUpload(setBildeUrl);
+
+    const handleToggleFasilitet = (navn) => {
+        setValgteFasiliteter(prev =>
+            prev.includes(navn) ? prev.filter(f => f !== navn) : [...prev, navn]
+        );
+    };
 
     //temp løsning for å legge til bilde via url, kun for testing laget av Kay
     const handleLeggTilBilde = (e) => {
@@ -96,6 +106,7 @@ export default function LeggTilHytte({ onSuccess }) {
                     hytte_lengdegrad: koordinat ? koordinat[1] : null,
                     hytte_moh: Math.round(høydeData.z) || 0,
                     hytte_betjeningsgrad: selectedBetjeningsgrad,
+                    info_tab: valgteFasiliteter.length > 0 ? valgteFasiliteter : null,
                     bilder: bildeUrl.length > 0 ? bildeUrl : null
                 })
             });
@@ -117,6 +128,7 @@ export default function LeggTilHytte({ onSuccess }) {
         setFylkeId("");
         setKommune("");
         setKommuneId("");
+        setValgteFasiliteter([]);
 
         if (onSuccess) {
             onSuccess();
@@ -217,6 +229,14 @@ export default function LeggTilHytte({ onSuccess }) {
                         onChange={(e) => setKommune(e.target.value)}
                         readOnly
                         placeholder={t("hytter.kommune_automatisk")}
+                    />
+                </div>
+                <div>
+                    <FasiliteterDropdown
+                        overskrift={t("hytter.fasiliteter")}
+                        alleValg={kategorier.fasilitet || []}
+                        valgteFasiliteter={valgteFasiliteter}
+                        onToggle={handleToggleFasilitet}
                     />
                 </div>
                 <div>

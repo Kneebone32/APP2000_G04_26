@@ -76,7 +76,8 @@
     "koordinater_valgt": "Coordinates selected",
     "velg_betjeningsgrad": "Select service level",
     "fylke_automatisk": "County is fetched automatically",
-    "kommune_automatisk": "Municipality is fetched automatically"
+    "kommune_automatisk": "Municipality is fetched automatically",
+    "fasiliteter": "Facilities"
   },
 
   "profil": {
