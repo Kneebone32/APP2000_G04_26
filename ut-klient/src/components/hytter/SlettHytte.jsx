@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 export default function SlettHytte({ onSuccess }) {
     const { t } = useTranslation();
-    const { hytter, deleteHytte } = useFetchHytter(true);
+    const { hytter, deleteHytte } = useFetchHytter({ autoFetch: true });
     const [selectedId, setSelectedId] = useState(null);
 
     const handleSlettHytte = async () => {
