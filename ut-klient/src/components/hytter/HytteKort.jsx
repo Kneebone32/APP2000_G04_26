@@ -16,7 +16,7 @@ export default function HytteKort({hytteId, hytteNavn, sengeplasser, bildeUrl, p
                 <div className="Hovedkort">
                     {bildeUrl && (
                         <img 
-                            src={`${bildeUrl}?w=200&h=200&fit=fit`} 
+                            src={bildeUrl.includes("simplefileupload") ? `${bildeUrl}?w=200&h=200&fit=fit` : bildeUrl} 
                             alt={hytteNavn}
                             className="Hyttebilde"
                             />
