@@ -6,7 +6,7 @@ import turruterRoutes from './turruter.js';
 import enumsRoutes from './enums.js';
 import turmaalRoutes from './turmaal.js';
 import metadataRoutes from './metadata.js';
-import fellesturRoutes from '.fellestur.js';
+import fellesturRoutes from './fellestur.js';
 
 const router = express.Router();
 
