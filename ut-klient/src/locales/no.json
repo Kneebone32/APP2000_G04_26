@@ -15,7 +15,7 @@
   "felles": {
     "koordinater": "Koordinater",
     "sengeplasser": "Sengeplasser",
-    "antall_sengeplasser": "Antall sengeplasser",
+    "antall_sengeplasser": "Sengeplasser",
     "lokasjon": "Lokasjon",
     "betjeningsgrad": "Betjeningsgrad",
     "vanskelighetsgrad": "Vanskelighetsgrad",
@@ -67,7 +67,7 @@
     "velg_hytte": "Velg en hytte for sletting.",
     "last_opp_bilde": "Last opp bilde",
     "bilde_lastet_opp": "Bilde lastet opp!",
-    "pris": "Pris per natt (kr)",
+    "pris": "Kr per natt",
     "betjeningsgrad": "Betjeningsgrad",
     "beskrivelse": "Beskrivelse",
     "koordinater": "Koordinater",

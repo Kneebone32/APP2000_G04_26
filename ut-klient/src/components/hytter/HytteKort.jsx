@@ -25,8 +25,8 @@ export default function HytteKort({hytteId, hytteNavn, sengeplasser, bildeUrl, p
                         <h3 className="korttitle">{hytteNavn}</h3>
                         <p className="kommune">{t("felles.kommune")}: {kommuneId}</p>
                         <p className="fylke">{t("felles.fylke")}: {fylkeId}</p>
-                        <p className="korttext"> <FaBed className="seng" /> {sengeplasser} {t("felles.antall_sengeplasser")}:</p>
-                        {pris !== undefined && <p className="korttext"> <FaMoneyCheckAlt className="penger" /> {pris} {t("hytter.pris")}:</p>}
+                        <p className="korttext"> <FaBed className="seng" /> {sengeplasser} {t("felles.antall_sengeplasser")}</p>
+                        {pris !== undefined && <p className="korttext"> <FaMoneyCheckAlt className="penger" /> {pris} {t("hytter.pris")}</p>}
                     </div>
                 </div>
             </Link>

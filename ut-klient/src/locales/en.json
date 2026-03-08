@@ -15,7 +15,7 @@
   "felles": {
     "koordinater": "Coordinates",
     "sengeplasser": "Beds",
-    "antall_sengeplasser": "Number of beds",
+    "antall_sengeplasser": "Beds",
     "lokasjon": "Location",
     "betjeningsgrad": "Service Level",
     "vanskelighetsgrad": "Difficulty",
@@ -67,7 +67,7 @@
     "velg_hytte": "Select a cabin for deletion.",
     "last_opp_bilde": "Upload photo",
     "bilde_lastet_opp": "Image uploaded!",
-    "pris": "Price per night (NOK)",
+    "pris": "NOK per night",
     "betjeningsgrad": "Service level",
     "beskrivelse": "Description",
     "koordinater": "Coordinates",
