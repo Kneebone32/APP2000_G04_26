@@ -52,7 +52,7 @@ router.post('/', async (req, res) => {
       bilder
     } = req.body;
 
-    // 1. Opprett turrute med turrute_opprett_med_punkter funksjonen
+    // Oppretter turrute med turrute_opprett_med_punkter funksjonen
     const result = await pool.query(
       'SELECT turrute_opprett_med_punkter($1, $2, $3, $4, $5, $6, $7, $8, $9) AS ny_turrute_id',
       [
@@ -64,18 +64,13 @@ router.post('/', async (req, res) => {
         turtype,
         fylke_id,
         kommune_id,
-        JSON.stringify(punkter) // konverterer til JSONB
+        JSON.stringify(punkter)
       ]
     );
 
     const nyTurruteId = result.rows[0].ny_turrute_id;
 
-    // 2. Legg til informasjon hvis det finnes
-    if (info_array && info_array.length > 0) {
-      await pool.query('SELECT turrute_info_sett($1, $2)', [nyTurruteId, info_array]);
-    }
-
-    // 3. Legg til bilder hvis det finnes
+    // Legger til bilder hvis det finnes
     if (bilder && bilder.length > 0) {
       for (const bildeUrl of bilder) {
         await pool.query('SELECT turrute_bilde_leggtill_auto($1, $2)', [nyTurruteId, bildeUrl]);
@@ -110,7 +105,7 @@ router.put('/:id', async (req, res) => {
       bilder
     } = req.body;
 
-    // 1. Oppdater turrute grunndata
+    // Oppdaterer turrute grunndata
     await pool.query(
       `UPDATE turrute 
        SET turrute_navn = $1, 
@@ -135,7 +130,7 @@ router.put('/:id', async (req, res) => {
       ]
     );
 
-    // 2. Oppdater punkter hvis det finnes
+    // Oppdaterer punkter hvis det finnes
     if (punkter && punkter.length > 0) {
       await pool.query('SELECT turrute_punkter_sett_latlng($1, $2)', [
         id,
@@ -143,12 +138,7 @@ router.put('/:id', async (req, res) => {
       ]);
     }
 
-    // 3. Oppdater informasjon hvis det finnes
-    if (info_array && info_array.length > 0) {
-      await pool.query('SELECT turrute_info_sett($1, $2)', [id, info_array]);
-    }
-
-    // 4. Legg til nye bilder hvis det finnes
+    // Legger til nye bilder hvis det finnes
     if (bilder && bilder.length > 0) {
       for (const bildeUrl of bilder) {
         await pool.query('SELECT turrute_bilde_leggtill_auto($1, $2)', [id, bildeUrl]);
@@ -170,7 +160,7 @@ router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Sletter turrute (CASCADE vil slette tilknyttede punkter, bilder og informasjon)
+    // Sletter turrute
     const result = await pool.query('DELETE FROM turrute WHERE turrute_id = $1 RETURNING *', [id]);
 
     if (result.rows.length === 0) {
@@ -187,7 +177,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// Henter punkter for en turrute i lat/lng format
+// Henter punkter for en turrute
 router.get('/:id/punkter', async (req, res) => {
   try {
     const { id } = req.params;
