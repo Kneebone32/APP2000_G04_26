@@ -151,6 +151,7 @@ export default function RedigerHytte({ onSuccess }) {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
+                    hytte_id: Number(selectedId),
                     hytte_navn: navn,
                     hytte_beskrivelse: beskrivelse,
                     hytte_sengeplasser: parseInt(sengeplasser),
