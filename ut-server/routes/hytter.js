@@ -105,8 +105,8 @@ router.put('/:id', async (req, res) => {
       hytte_beskrivelse,
       hytte_sengeplasser,
       hytte_pris,
-      fylke_id,
-      kommune_id,
+      fylke_nummer,
+      kommune_nummer,
       hytte_breddegrad,
       hytte_lengdegrad,
       hytte_moh,
@@ -117,21 +117,23 @@ router.put('/:id', async (req, res) => {
 
     // Oppdaterer hytte i databasen med hytte_oppdater funksjonen
     await pool.query(
-      'SELECT hytte_oppdater($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
-      [id, hytte_navn, hytte_beskrivelse, hytte_sengeplasser, hytte_pris, fylke_id, kommune_id, hytte_breddegrad, hytte_lengdegrad, hytte_moh, hytte_betjeningsgrad]
+      'SELECT hytte_oppdater($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11::betjeningsgrad_enum, $12, $13)',
+      [
+        id,
+        hytte_navn,
+        hytte_beskrivelse,
+        hytte_sengeplasser,
+        hytte_pris,
+        fylke_nummer,
+        kommune_nummer,
+        hytte_breddegrad,
+        hytte_lengdegrad,
+        hytte_moh,
+        hytte_betjeningsgrad,
+        info_tab ? JSON.stringify(info_tab) : '[]',
+        bilder ? JSON.stringify(bilder) : '[]'
+      ]
     );
-
-    // Oppdaterer informasjon om hytten (fasiliteter, adkomst, passer for, osv.) hvis det finnes
-    if (info_tab && info_tab.length > 0) {
-      await pool.query('SELECT hytte_info_sett($1, $2)', [id, info_tab]);
-    }
-
-    // Oppdaterer bilder av hytten hvis det finnes
-    if (bilder && bilder.length > 0) {
-      for (const bildeUrl of bilder) {
-        await pool.query('SELECT hytte_bilde_leggtill_auto($1, $2)', [id, bildeUrl]);
-      }
-    }
 
     res.json({
       hytte_id: id,
