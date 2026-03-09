@@ -1,4 +1,5 @@
 import LeggTilHytte from "../components/hytter/LeggTilHytte";
+import RedigerHytte from "../components/hytter/RedigerHytte";
 import SlettHytte from "../components/hytter/SlettHytte";
 import { useFetchHytter } from "../hooks/useFetchHytter";
 import { useTranslation } from "react-i18next";
@@ -14,7 +15,13 @@ export default function HytteModerator() {
             <h1>{t("admin.tittel")}</h1>
             
             <LeggTilHytte onSuccess={refetch} />
+            
 
+            <hr />
+
+            <RedigerHytte onSuccess={refetch} />
+            
+            
             <hr />
 
             <SlettHytte onSuccess={refetch} />

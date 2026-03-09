@@ -77,7 +77,16 @@
     "velg_betjeningsgrad": "Select service level",
     "fylke_automatisk": "County is fetched automatically",
     "kommune_automatisk": "Municipality is fetched automatically",
-    "fasiliteter": "Facilities"
+    "fasiliteter": "Facilities",
+    "rediger_tittel": "Edit cabin",
+    "hytte_oppdatert": "Cabin has been updated.",
+    "feil_oppdatering_melding": "Something went wrong while updating the cabin.",
+    "feil_oppdatering": "Error with update",
+    "feil_henting_melding": "Something went wrong while fetching the cabin.",
+    "oppdaterer": "Updating...",
+    "oppdater_knapp": "Update cabin",
+    "laster_hyttedata": "Loading cabin data...",
+    "velg_hytte_redigering": "Select a cabin to edit."
   },
 
   "profil": {

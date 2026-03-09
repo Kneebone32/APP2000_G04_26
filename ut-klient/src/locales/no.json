@@ -77,7 +77,16 @@
     "velg_betjeningsgrad": "Velg betjeningsgrad",
     "fylke_automatisk": "Fylke hentes automatisk",
     "kommune_automatisk": "Kommune hentes automatisk",
-    "fasiliteter": "Fasiliteter"
+    "fasiliteter": "Fasiliteter",
+    "rediger_tittel": "Rediger hytte",
+    "hytte_oppdatert": "Hytte er blitt oppdatert.",
+    "feil_oppdatering_melding": "Noe gikk galt ved oppdatering av hytten.",
+    "feil_oppdatering": "Feil ved oppdatering",
+    "feil_henting_melding": "Noe gikk galt ved henting av hytten.",
+    "oppdaterer": "Oppdaterer...",
+    "oppdater_knapp": "Oppdater hytte",
+    "laster_hyttedata": "Laster hyttedata...",
+    "velg_hytte_redigering": "Velg en hytte for redigering."
   },
 
   "profil": {
