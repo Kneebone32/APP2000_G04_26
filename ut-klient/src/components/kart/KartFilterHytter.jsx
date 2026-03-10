@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useEnums } from "../../hooks/useEnums";
-//import { useKategorier } from "../../hooks/useKategorier";
+import { useKategorier } from "../../hooks/useKategorier";
 import FasiliteterDropdown from "../informasjon/FasiliteterDropdown";
 
 //Alle kartfilter til hytter. Hele filen laget av Kay med mindre annet er spesifisert
 export default function KartFilterHytter({ filter, setFilter, handleCheckboxChange }) {
   const [hytterFilterUtvidet, setHytterFilterUtvidet] = useState(false);
-  //const { kategorier } = useKategorier();
+  const { kategorier } = useKategorier();
   const { enumData: betjeningsgradEnum, loadingEnum, enumError } = useEnums("betjeningsgrad_enum");
   const { t } = useTranslation();
 
@@ -112,14 +112,14 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
               </div>
             </div>
 
-          {/*Hytte - fasiliteter
+          {/*Hytte - fasiliteter*/}
           <FasiliteterDropdown 
             overskrift={t("filter.fasiliteter")}
             alleValg={kategorier.fasilitet}
             valgteFasiliteter={filter.fasiliteter}
             onToggle={(fasilitet_navn) => handleCheckboxChange("fasiliteter", fasilitet_navn)}
           />
-          */}
+          
         </>
       )}
     </div>
