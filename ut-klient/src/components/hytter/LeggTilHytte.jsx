@@ -239,16 +239,19 @@ export default function LeggTilHytte({ onSuccess }) {
                         onToggle={handleToggleFasilitet}
                     />
                 </div>
-                <div>
-                    <label htmlFor="beskrivelse">{t("hytter.beskrivelse")}:</label>
-                    <input
-                        type="text"
-                        id="beskrivelse"
-                        value={beskrivelse}
-                        onChange={(e) => setBeskrivelse(e.target.value)}
-                        pattern="^[0-9A-Za-zØÆÅøæå\s]{3,150}$"
-                        required
-                    />
+                {/*Beskrivelse av hytte*/}
+                <div className="input-container">
+                    <label className="input">{t("fellestur_form.beskrivelse")}
+                        <textarea 
+                            style={{resize: 'none', width: '100%', maxWidth: '400px'}} 
+                            rows="5" minLength="20" maxLength="1000"
+                            value={beskrivelse} onChange={(e) => setBeskrivelse(e.target.value)} 
+                            required 
+                        />
+                        <small style={{color: beskrivelse.length > 950 ? 'red' : '#666' }}>
+                            {beskrivelse.length} / 1000
+                        </small>
+                    </label>
                 </div>
                 <div>
                     <label>{t("hytter.last_opp_bilde")}:</label>

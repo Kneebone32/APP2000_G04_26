@@ -64,8 +64,8 @@ export default function RedigerHytte({ onSuccess }) {
                 setSengeplasser(hytte.hytte_sengeplasser ?? hytte.sengeplasser ?? "");
                 setPris(hytte.hytte_pris ?? hytte.pris ?? "");
                 setSelectedBetjeningsgrad(hytte.betjeningsgrad || "");
-                setFylkeId(hytte.fylke_id ?? hytte.fylke_nummer ?? "");
-                setKommuneId(hytte.kommune_id ?? hytte.kommune_nummer ?? "");
+                setFylkeId(hytte.fylke_nummer ?? "");
+                setKommuneId(hytte.kommune_nummer ?? "");
                 setFylke(hytte.fylke || "");
                 setKommune(hytte.kommune || "");
 
@@ -156,8 +156,8 @@ export default function RedigerHytte({ onSuccess }) {
                     hytte_beskrivelse: beskrivelse,
                     hytte_sengeplasser: parseInt(sengeplasser),
                     hytte_pris: parseFloat(pris),
-                    fylke_id: fylkeId,
-                    kommune_id: kommuneId,
+                    fylke_nummer: fylkeId,
+                    kommune_nummer: kommuneId,
                     hytte_breddegrad: koordinat ? koordinat[0] : null,
                     hytte_lengdegrad: koordinat ? koordinat[1] : null,
                     hytte_moh: høydeData ? Math.round(høydeData.z) : 0,
@@ -317,17 +317,20 @@ export default function RedigerHytte({ onSuccess }) {
                         />
                     </div>
 
-                    <div>
-                        <label htmlFor="beskrivelse">{t("hytter.beskrivelse")}:</label>
-                        <input
-                            type="text"
-                            id="beskrivelse"
-                            value={beskrivelse}
-                            onChange={(e) => setBeskrivelse(e.target.value)}
-                            pattern="^[0-9A-Za-zØÆÅøæå\s]{3,150}$"
-                            required
+                    {/*Beskrivelse av hytte*/}
+                <div className="input-container">
+                    <label className="input">{t("hytter.beskrivelse")}
+                        <textarea 
+                            style={{resize: 'none', width: '100%', maxWidth: '400px'}} 
+                            rows="5" minLength="20" maxLength="1000"
+                            value={beskrivelse} onChange={(e) => setBeskrivelse(e.target.value)} 
+                            required 
                         />
-                    </div>
+                        <small style={{color: beskrivelse.length > 950 ? 'red' : '#666' }}>
+                            {beskrivelse.length} / 1000
+                        </small>
+                    </label>
+                </div>
 
                     <div>
                         <label>{t("hytter.last_opp_bilde")}:</label>
