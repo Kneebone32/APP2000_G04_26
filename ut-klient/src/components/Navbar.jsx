@@ -1,16 +1,22 @@
 /*
-Laget av Eivind & Olai
+Laget av Eivind, Olai & Kay
 */
 
 import { Link } from "react-router-dom";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import { useAutentisering } from "../hooks/useAutentisering";
+import Logginn from "./autentisering/Logginn";
+import RegisterBruker from "./autentisering/RegistrerBruker";
 import 'flag-icons/css/flag-icons.min.css';
 import './Navbar.css'
 
 export default function Navbar() {
   const { t, i18n } = useTranslation();
+  const {bruker, erAutentisert, loggut} = useAutentisering({autoFetch: true})
+  const [visLogginn, setVisLogginn] = useState(false);
+  const [visRegistrer, setVisRegistrer] = useState(false);
 
   const toggleSpråk = () => {
   const nyttSpråk = i18n.language === "no" ? "en" : "no";
@@ -18,6 +24,7 @@ export default function Navbar() {
   };
   
   const navRef = useRef();
+  
 
   const showNavbar = () => {
     const isOpening = !navRef.current.classList.contains("responsive_nav");
@@ -33,6 +40,30 @@ export default function Navbar() {
     navRef.current.classList.remove("responsive_nav");
   }
 
+  const handleLogginnKlikk = () => {
+    setVisLogginn(true);
+    closeNavbar();
+  };
+
+  const handleRegistrerKlikk = () => {
+    setVisRegistrer(true);
+    closeNavbar();
+  };
+
+  const byttTilRegistrer = () => {
+    setVisLogginn(false);
+    setVisRegistrer(true);
+  };
+
+  const byttTilLoggInn = () => {
+    setVisRegistrer(false);
+    setVisLogginn(true);
+  };
+
+  const handleLoggUt = () => {
+    loggut();
+    closeNavbar();
+  };
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (navRef.current && !navRef.current.contains(event.target) && 
@@ -54,6 +85,7 @@ export default function Navbar() {
   }, []);
 
   return (
+    <>
     <header>
         <Link to="/" className="logo">UT.ut</Link>
         
@@ -64,6 +96,23 @@ export default function Navbar() {
             <Link to="/kart" className="Kart" onClick={closeNavbar}>{t("nav.kart")}</Link>
             <Link to="/fellesturer" className="Fellesturer" onClick={closeNavbar}>{t("nav.fellesturer")}</Link>
             <Link to="/annonser" className="Annonser" onClick={closeNavbar}>{t("nav.annonser")}</Link>
+
+          {/*Bruker på navbar*/}
+          {erAutentisert ? (
+            <>
+              <Link to="/profil" onClick={closeNavbar}>
+                {bruker?.bruker_navn}
+              </Link>
+              <button onClick={handleLoggUt} className="auth-nav-btn">
+                Logg ut
+              </button>
+            </>
+          ) : (
+              <button onClick={handleLogginnKlikk} className="auth-nav-btn">
+                Logg inn
+              </button>
+          )}
+
             <Link to="/profil" className="Profil" onClick={closeNavbar}>{t("nav.profil")}</Link>
             <button onClick={toggleSpråk} className="språk-toggle" title="Bytt språk">
                 <span className={`fi fi-${i18n.language === "en" ? "no" : "gb"}`}></span>
@@ -71,10 +120,24 @@ export default function Navbar() {
             <button className="nav-btn nav-close-btn" onClick={showNavbar}>
               <FaTimes/>
             </button>
+
+
+
           </nav>
           <button className="nav-btn" onClick={showNavbar}>
             <FaBars/>
           </button>
     </header>
+    <Logginn 
+      show={visLogginn} 
+      onClose={() => setVisLogginn(false)}
+      onByttTilRegistrer={byttTilRegistrer}
+    />
+    <RegisterBruker 
+      show={visRegistrer} 
+      onClose={() => setVisRegistrer(false)}
+      onByttTilLogginn={byttTilLoggInn}
+    />
+    </>
   );
 }
