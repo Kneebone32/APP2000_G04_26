@@ -6,9 +6,10 @@ export default function FasiliteterDropdown({ overskrift, alleValg = [], valgteF
     
     //Sjekker om 
     const handleSelectChange = (e) => {
-        const nyFasilitet = e.target.value;
-        if (valgteFasiliteter && !valgteFasiliteter.includes(nyFasilitet)) {
-            onToggle(nyFasilitet);
+        const valgtFasilitetId = e.target.value;
+         const valgtFasilitet = alleValg.find(v => v.id === parseInt(valgtFasilitetId));
+        if (valgtFasilitet && valgteFasiliteter && !valgteFasiliteter.some(f => f.id === valgtFasilitet.id)) {
+            onToggle(valgtFasilitet);
         }
         e.target.value = ""; 
     };
@@ -27,8 +28,8 @@ export default function FasiliteterDropdown({ overskrift, alleValg = [], valgteF
                 {alleValg.map((valg) => (
                     <option 
                         key={valg.navn}
-                        value={valg.navn} 
-                        disabled={valgteFasiliteter.includes(valg.navn)}
+                        value={valg.id} 
+                        disabled={valgteFasiliteter.some(f => f.id === valg.id)}
                     >
                         {valg.navn}
                     </option>
@@ -37,13 +38,13 @@ export default function FasiliteterDropdown({ overskrift, alleValg = [], valgteF
 
             {/*Legger valgene i en list under dropdown*/}
             <div className="tag-container">
-                {valgteFasiliteter.map((navn) => (
-                    <span key={navn} className="tag-pill">
-                        {navn}
+                {valgteFasiliteter.map((fasilitet) => (
+                    <span key={fasilitet.id} className="tag-pill">
+                        {fasilitet.navn}
                         <button 
                             type="button"
                             className="tag-fjern-btn"
-                            onClick={() => onToggle(navn)}
+                            onClick={() => onToggle(fasilitet)}
                         >
                             ×
                         </button>

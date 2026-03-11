@@ -39,7 +39,7 @@ export function filterHytter(hytter, filter) {
       const harAlleValgteFasiliteter = 
           filter.fasiliteter.every((valgtFasilitet) =>                  //alle de valgte fasilitetene
           hytte.fasiliteter.verdier.some((hytteFasilitet) =>            //sjekker om hytten har de valgte fasilitetene
-          hytteFasilitet.toLowerCase() === valgtFasilitet.toLowerCase() //sammenligner på navnet
+          hytteFasilitet.toLowerCase() === valgtFasilitet.navn.toLowerCase() //sammenligner på navnet
       ))
 
       if(!harAlleValgteFasiliteter) return false;
