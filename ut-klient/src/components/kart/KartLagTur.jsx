@@ -1,9 +1,10 @@
 import { Marker, Polyline, useMapEvents, useMap } from "react-leaflet";
 import { useEffect, useState } from "react";
-import Kart_basic, { hytteIcon, markerA, markerB} from "./KartBasic";
+import Kart_basic, { hytteIcon, markerA, markerB, turmålIcon} from "./KartBasic";
 import { useFetchHytter } from "../../hooks/useFetchHytter";
+import { useTurmål } from "../../hooks/useTurmål";
 import { erSammeKoordinat } from "../../utils/erGyldigKoordinat";
-import testSti from "../../../public/sti.json"
+import stier from "../../assets/stier.json"
 import { HoverPolyline } from "./HoverPolyline";
 import { HoverMarker } from "./HoverMarker";
 
@@ -35,18 +36,20 @@ function RuteKontroller({setRutePunkter}) {
 
 
 //Brukes til å hente punktkoordinater og tegne ruten på kartet. Laget av Kay
-export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4087, 9.0593], zoom = 12, hytterITuren, setHytterITuren}) {
+export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4087, 9.0593], zoom = 12, hytterITuren, setHytterITuren, turmålITuren, setTurmålITuren}) {
   const { hytter } = useFetchHytter({autoFetch: true});
+  const { turmål } = useTurmål({autoFetch: true});
+
   //const { stier } = useStier({autoFetch: true})
-  const [forrigeHytte, setForrigeHytte] = useState(null);
-  const stier = testSti
+  const [forrigeObjekt, setForrigeObjekt] = useState(null);
 
 
   
-/** 
-  const finnRuteMellomHytter = (hytteA, hytteB) => {
-    const hytteAKoord = [hytteA.breddegrad, hytteA.lengdegrad];
-    const hytteBKoord = [hytteB.breddegrad, hytteB.lengdegrad];
+
+// Rename and generalize the function
+  const finnRuteMellomPunkter = (objektA, objektB) => {
+    const objektAKoord = [objektA.breddegrad, objektA.lengdegrad];
+    const objektBKoord = [objektB.breddegrad, objektB.lengdegrad];
 
     for (const sti of stier) {
       if (!sti.punkter || sti.punkter.length < 2) continue;
@@ -55,73 +58,71 @@ export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4
       const stiSlutt = sti.punkter[sti.punkter.length - 1];
 
       //Sjekker om stien går fra A til B
-      if (erSammeKoordinat(stiStart, hytteAKoord) && erSammeKoordinat(stiSlutt, hytteBKoord)) {
+      if (erSammeKoordinat(stiStart, objektAKoord) && erSammeKoordinat(stiSlutt, objektBKoord)) {
         return sti.punkter;
       }
 
       //Sjekker om stien må reverseres
-      if (erSammeKoordinat(stiStart, hytteBKoord) && erSammeKoordinat(stiSlutt, hytteAKoord)) {
+      if (erSammeKoordinat(stiStart, objektBKoord) && erSammeKoordinat(stiSlutt, objektAKoord)) {
         return [...sti.punkter].reverse();
       }
     }
 
     return null;
   };
-  */
-  
-    const finnRuteMellomHytter = (hytteA, hytteB) => {
-      const hytteAKoord = [hytteA.breddegrad, hytteA.lengdegrad];
-      const hytteBKoord = [hytteB.breddegrad, hytteB.lengdegrad];
 
-
-      if (!stier || stier.length < 2) return;
-
-      const stiStart = stier[0];
-      const stiSlutt = stier[stier.length - 1];
-
-      //Sjekker om stien går fra A til B
-      if (erSammeKoordinat(stiStart, hytteAKoord) && erSammeKoordinat(stiSlutt, hytteBKoord)) {
-        return stier;
-      }
-
-      //Sjekker om stien må reverseres
-      if (erSammeKoordinat(stiStart, hytteBKoord) && erSammeKoordinat(stiSlutt, hytteAKoord)) {
-        return [...stier].reverse();
-      }
- 
-
-    return null;
-  };
   
   //Håndterer klikk på stien. Skal forbedres.
   const handleStiKlikk = (event, koordinater) => {
     setRutePunkter(koordinater);
-    setForrigeHytte(null);
+    setForrigeObjekt(null);
   };
 
 
-  //Håndterer klikk på hytter for å se om det finnes en Sti mellom hyttene
+  //Håndterer klikk på hytte
   const handleHytteKlikk = (event, hytte) => {
     setHytterITuren(prev => [...prev, hytte]); 
 
-    if (rutePunkter.length === 0 || !forrigeHytte) {
-      setForrigeHytte(hytte);
+    if (rutePunkter.length === 0 || !forrigeObjekt) {
+      setForrigeObjekt(hytte);
       const nyttPunkt = [event.latlng.lat, event.latlng.lng];
       setRutePunkter(prev => [...prev, nyttPunkt]);
       return;
     }
 
-
-    const ruteKoordinater = finnRuteMellomHytter(forrigeHytte, hytte);
+    const ruteKoordinater = finnRuteMellomPunkter(forrigeObjekt, hytte);
   
     if (ruteKoordinater) {
-    setRutePunkter(prev => [...prev, ...ruteKoordinater]);
+      setRutePunkter(prev => [...prev, ...ruteKoordinater]);
     } else {
       const nyttPunkt = [event.latlng.lat, event.latlng.lng];
       setRutePunkter(prev => [...prev, nyttPunkt]);
     }
 
-    setForrigeHytte(hytte);
+    setForrigeObjekt(hytte);
+  };
+
+  //Håndterer klikk på turmål
+  const handleTurMålKlikk = (event, turmål) => {
+    setTurmålITuren(prev => [...prev, turmål]); 
+
+    if (rutePunkter.length === 0 || !forrigeObjekt) {
+      setForrigeObjekt(turmål);
+      const nyttPunkt = [event.latlng.lat, event.latlng.lng];
+      setRutePunkter(prev => [...prev, nyttPunkt]);
+      return;
+    }
+
+    const ruteKoordinater = finnRuteMellomPunkter(forrigeObjekt, turmål);
+  
+    if (ruteKoordinater) {
+      setRutePunkter(prev => [...prev, ...ruteKoordinater]);
+    } else {
+      const nyttPunkt = [event.latlng.lat, event.latlng.lng];
+      setRutePunkter(prev => [...prev, nyttPunkt]);
+    }
+
+    setForrigeObjekt(turmål);
   };
 
 
@@ -156,12 +157,32 @@ export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4
         ))
       )}
 
+      {/*TurMål*/}
+      {turmål && (
+        turmål.map((mål) => (
+          <HoverMarker 
+             key={mål.turmaal_id}
+             objekt={mål}
+             ikon={turmålIcon}
+             hoverFaktor={1.2}
+             onKlikk={handleTurMålKlikk}
+          />
+        ))
+      )} 
+
       {/*Stier*/}
+      {stier && (
+        stier.map((sti) => (
         <HoverPolyline 
-          punkter={testSti}
+          punkter={sti.punkter}
           farge="#0fe407"
+          standardVekt={4}
+          hoverVekt={8}
           onKlikk={handleStiKlikk}
         />
+        ))
+      )}
+
 
       {rutePunkter.length > 1 && (
       <>

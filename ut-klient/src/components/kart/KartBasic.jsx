@@ -29,6 +29,7 @@ export const turIcon = new Icon({
 export const turmålIcon = new Icon({
     iconUrl: cameraIcon, 
     iconSize: [36, 36],
+    iconAnchor: [21, 21],
     className: 'no-scale-marker'
 });
 
@@ -57,7 +58,7 @@ export const navigasjonIcon = new Icon({
 export const markerA = new Icon({
     iconUrl: markerLetterA,
     iconSize: [36, 36],
-    iconAnchor: [12, 12],
+    iconAnchor: [21, 21],
     className: 'no-scale-marker'
 });
 

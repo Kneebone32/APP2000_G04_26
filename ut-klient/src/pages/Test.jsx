@@ -15,6 +15,7 @@ export default function Test() {
     const {isOpen, open, close} = useModal();
     const [rutePunkter, setRutePunkter] = useState([]);
     const [hytterITuren, setHytterITuren] = useState([]);
+    const [turmålITuren, setTurmålITuren] = useState([]);
     const [lagredeKoordinater, setLagredeKoordinater] = useState(null);
     const [lagret, setLagret] = useState(false);
     const [totalRuteLengde, setTotalRuteLengde] = useState(null);
@@ -27,7 +28,6 @@ export default function Test() {
         setTotalRuteLengde(regnUtTotalLengde(koords));
         setLagret(true);
         close();
-        console.log(rutePunkter);
     };
 
     const handleGpxKoordinater = (koords) => {
@@ -85,6 +85,8 @@ export default function Test() {
                         onLagreKoordinater={handleLagreKoordinater}
                         hytterITuren={hytterITuren}
                         setHytterITuren={setHytterITuren}
+                        turmålITuren={turmålITuren}
+                        setTurmålITuren={setTurmålITuren}
                     />
                 </div>
             </Modal>

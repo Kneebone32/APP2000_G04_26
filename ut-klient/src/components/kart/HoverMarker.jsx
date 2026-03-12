@@ -34,7 +34,7 @@ export function HoverMarker({ objekt, children, hoverFaktor = 1, onKlikk, ikon})
     return (
         <>
             <Marker
-                key={objekt.hytte_id}
+                key={objekt.hytte_id ? objekt.hytte_id : objekt.turmaal_id}
                 position={[objekt.breddegrad, objekt.lengdegrad]}
                 icon={hover ? hoverIkon : normalIkon}
                 eventHandlers={{
