@@ -15,8 +15,9 @@ export default function Nytur({rutePunkter, setRutePunkter, onLagreKoordinater, 
       {/*Håndterer turlaging*/}
       <div className="rute-kontroller">
         <div className="rute-kontroller-punkter">
-          <strong>{t("nytur.antall_punkter")}</strong> {rutePunkter.length}
-          <strong> Antall hytter: </strong> {hytterITuren.length}
+          <div className="rute-kontroller-tur"><strong>{t("nytur.antall_punkter")}</strong> {rutePunkter.length}</div>
+          <div className="rute-kontroller-tur"><strong> Antall hytter: </strong> {hytterITuren.length}</div>
+          <div className="rute-kontroller-tur"><strong> Antall turmål: </strong> {turmålITuren.length}</div>
 
         </div>
         <div className="rute-kontroller-knapp-container">
@@ -25,6 +26,7 @@ export default function Nytur({rutePunkter, setRutePunkter, onLagreKoordinater, 
         <button onClick={() => {
           setRutePunkter([]);
           setHytterITuren([]);
+          setTurmålITuren([]);
         }} className="rute-knapp rute-knapp-tøm">
           {t("nytur.tøm_rute")}
         </button>
@@ -56,9 +58,7 @@ export default function Nytur({rutePunkter, setRutePunkter, onLagreKoordinater, 
         setRutePunkter={setRutePunkter}
         center={[59.4087, 9.0593]}
         zoom={12}
-        hytterITuren={hytterITuren}
         setHytterITuren={setHytterITuren}
-        turmålITuren={turmålITuren}
         setTurmålITuren={setTurmålITuren}
 
       />

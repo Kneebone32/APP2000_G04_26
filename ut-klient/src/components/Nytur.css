@@ -49,3 +49,8 @@
   font-Weight: '500';
   margin-Left: '10px';
 }
+
+.rute-kontroller-info{
+  display: flex;
+  flex-direction: column;
+}
