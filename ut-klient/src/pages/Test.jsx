@@ -14,6 +14,7 @@ import TempBilde from "../components/TempBilde";
 export default function Test() {
     const {isOpen, open, close} = useModal();
     const [rutePunkter, setRutePunkter] = useState([]);
+    const [hytterITuren, setHytterITuren] = useState([]);
     const [lagredeKoordinater, setLagredeKoordinater] = useState(null);
     const [lagret, setLagret] = useState(false);
     const [totalRuteLengde, setTotalRuteLengde] = useState(null);
@@ -51,13 +52,6 @@ export default function Test() {
         <PageWrapper>
             <div className="kart-knapp-container">
                 <div>
-                <a
-                    href="/testfiler/testrute.gpx"
-                    download="testrute.gpx"
-                    className="button-style"
-                >
-                    last ned gpx
-                </a>
                 {!lagret && (
                     <GpxParser onKoordinaterLastet={handleGpxKoordinater} />
                 )}
@@ -89,6 +83,8 @@ export default function Test() {
                         rutePunkter={rutePunkter}
                         setRutePunkter={setRutePunkter}
                         onLagreKoordinater={handleLagreKoordinater}
+                        hytterITuren={hytterITuren}
+                        setHytterITuren={setHytterITuren}
                     />
                 </div>
             </Modal>
