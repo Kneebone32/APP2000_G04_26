@@ -114,8 +114,6 @@ export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4
 
     const startObjekt = startHytte || startTurmål;
     const sluttObjekt = sluttHytte || sluttTurmål;
-    console.log(sluttObjekt)
-    console.log(startObjekt)
 
     //sjekker om stien ikke er på starten av turruten
     if (startObjekt && sluttObjekt && objektRekkefølge.length > 1) {
