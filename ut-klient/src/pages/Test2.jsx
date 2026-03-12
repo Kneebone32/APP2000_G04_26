@@ -26,7 +26,7 @@ export default function Test2(){
         close();
         try {
             await opprettSti(koords);
-            ("Sti opprettet!");
+            toast.success("Sti opprettet!");
             
         } catch (error) {
             console.log(error);
@@ -37,7 +37,6 @@ export default function Test2(){
 
     return (
         <PageWrapper>
-        
             <button onClick={open}>{lagret ? "Vis Sti" : "Lag Sti"}</button>
             <Modal show={isOpen} onClose={close} size="lg">
                 <div className="modal-map-container">
@@ -51,9 +50,6 @@ export default function Test2(){
                     />
                 </div>
             </Modal>
-
-                     
-
         </PageWrapper>
     )
 }
