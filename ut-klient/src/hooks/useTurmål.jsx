@@ -36,6 +36,7 @@ export function useTurmål({autoFetch = false, hentTurmålID = null} = {}) {
       return await response.json();
     } catch (err){
         setError(err.message);
+        throw err;
     } finally {
         setLoading(false);
     }
@@ -58,6 +59,7 @@ export function useTurmål({autoFetch = false, hentTurmålID = null} = {}) {
       return await response.json();
     } catch (err){
         setError("er: " + err.message);
+        throw err;
     } finally {
         setLoading(false);
     }
@@ -80,6 +82,7 @@ export function useTurmål({autoFetch = false, hentTurmålID = null} = {}) {
       return await response.json();
     } catch (err){
         setError(err.message);
+        throw err;
     } finally {
         setLoading(false);
     }
@@ -98,6 +101,7 @@ export function useTurmål({autoFetch = false, hentTurmålID = null} = {}) {
       setTurmål(prev => prev.filter(m => m.turmål !== id));
     } catch (err){
         setError(err.message);
+        throw err;
     } finally {
         setLoading(false);
     }

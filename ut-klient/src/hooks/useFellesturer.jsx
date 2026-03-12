@@ -58,6 +58,7 @@ export function useFellestur({autoFetch = false, hentTurID = null} = {}) {
       return await response.json();
     } catch (err){
       setError(err.message);
+      throw err;
     } finally {
       setLoading(false);
     }
@@ -80,6 +81,7 @@ export function useFellestur({autoFetch = false, hentTurID = null} = {}) {
       return await response.json();
     } catch (err){
       setError(err.message);
+      throw err;
     } finally {
       setLoading(false);
     }
@@ -98,6 +100,7 @@ export function useFellestur({autoFetch = false, hentTurID = null} = {}) {
       setFellesturer(prev => prev.filter(f => f.fellestur_id !== id));
     } catch (err){
       setError(err.message);
+      throw err;
     } finally {
       setLoading(false);
     }

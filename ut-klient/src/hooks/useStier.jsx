@@ -18,6 +18,7 @@ export function useStier({autoFetch = false} = {}) {
       setStier(data);
     } catch (err) {
         setError(err.message);
+        throw err;
     } finally {
         setLoading(false);
     }
@@ -41,6 +42,7 @@ export function useStier({autoFetch = false} = {}) {
       return await response.json();
     } catch (err){
         setError("er: " + err.message);
+        throw err;
     } finally {
         setLoading(false);
     }
