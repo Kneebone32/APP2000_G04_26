@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import "./Nytur.css";
 
 //For å opprette en ny turrute. Laget av Kay
-export default function Nytur({rutePunkter, setRutePunkter, onLagreKoordinater}) {
+export default function Nytur({rutePunkter, setRutePunkter, onLagreKoordinater, hytterITuren, setHytterITuren}) {
   const { t } = useTranslation();
 
   const handleLagre = () => {
@@ -16,11 +16,16 @@ export default function Nytur({rutePunkter, setRutePunkter, onLagreKoordinater})
       <div className="rute-kontroller">
         <div className="rute-kontroller-punkter">
           <strong>{t("nytur.antall_punkter")}</strong> {rutePunkter.length}
+          <strong> Antall hytter: </strong> {hytterITuren.length}
+
         </div>
         <div className="rute-kontroller-knapp-container">
 
         {/*Fjerner alle punkter*/}
-        <button onClick={() => setRutePunkter([])} className="rute-knapp rute-knapp-tøm">
+        <button onClick={() => {
+          setRutePunkter([]);
+          setHytterITuren([]);
+        }} className="rute-knapp rute-knapp-tøm">
           {t("nytur.tøm_rute")}
         </button>
 
@@ -51,6 +56,8 @@ export default function Nytur({rutePunkter, setRutePunkter, onLagreKoordinater})
         setRutePunkter={setRutePunkter}
         center={[59.4087, 9.0593]}
         zoom={12}
+        hytterITuren={hytterITuren}
+        setHytterITuren={setHytterITuren}
       />
     </div>
   );

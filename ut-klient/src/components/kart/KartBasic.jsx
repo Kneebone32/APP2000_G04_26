@@ -2,6 +2,8 @@ import PageWrapper from "../PageWrapper";
 import {MapContainer, TileLayer, ZoomControl} from "react-leaflet";
 import { Icon } from "leaflet";
 import hytteMarker from "../../assets/kart/hytte.png";
+import markerLetterA from "../../assets/kart/markerA.png";
+import markerLetterB from "../../assets/kart/markerB.png";
 import turStartMarker from "../../assets/kart/tur.png";
 import cameraIcon from "../../assets/kart/camera.png";
 import FlyTilPosisjon from "../navigasjon/NavigasjonFinnPosisjon";
@@ -11,21 +13,22 @@ import "./KartBasic.css";
 //kartikon for hytter
 export const hytteIcon = new Icon({
     iconUrl: hytteMarker,
-    iconSize: [42, 42],
+    iconSize: [36, 36],
+    iconAnchor: [12, 12],
     className: 'no-scale-marker'
 });
 
 //kartikon for turstart
 export const turIcon = new Icon({
     iconUrl: turStartMarker, 
-    iconSize: [42, 42],
+    iconSize: [36, 36],
     className: 'no-scale-marker'
 });
 
 //kartikon for turmål
 export const turmålIcon = new Icon({
     iconUrl: cameraIcon, 
-    iconSize: [42, 42],
+    iconSize: [36, 36],
     className: 'no-scale-marker'
 });
 
@@ -48,6 +51,20 @@ export const navigasjonIcon = new Icon({
     iconUrl: turStartMarker,
     iconSize: [38, 38],
     iconAnchor: [12, 12],
+    className: 'no-scale-marker'
+});
+
+export const markerA = new Icon({
+    iconUrl: markerLetterA,
+    iconSize: [36, 36],
+    iconAnchor: [12, 12],
+    className: 'no-scale-marker'
+});
+
+export const markerB = new Icon({
+    iconUrl: markerLetterB,
+    iconSize: [42, 42],
+    iconAnchor: [21, 21],
     className: 'no-scale-marker'
 });
 
