@@ -55,12 +55,18 @@ export const hentHøydeMåling = async (lat, lon) => {
 
 //Henter høydemåling for ruter. Returerer en arr. Laget av Kay
 export const hentHøydeProfil = async (koords) => {
-  const utvalgteKoords = koords.filter((_, index) => index % 20 === 0); //Henter kun hvert 20. punkt
-  
-  const høyderPromises = utvalgteKoords.map(koord=> hentHøydeMåling(koord[0], koord[1]));
-  const results = await Promise.all(høyderPromises);
+  const antall = Math.min(50, koords.length);
 
-  return results; 
+  //hvis koords er større enn 50 vil kun 50 punkter bli sendt inn.
+  //har prøvd å spre de punktene vi må droppe på best mulig måte.
+  const utvalgteKoords = Array.from({length: antall}, (_, index) =>
+    koords[Math.round(index * (koords.length - 1) / (antall - 1))]
+  );
+
+  const punkter = JSON.stringify(utvalgteKoords.map(([lat, lon]) => [lon, lat]));
+  const data = await hentHøydedataFraPunkter(punkter);
+
+  return data ? data.map(koord => koord.z) : [];
 };
 
 
@@ -97,6 +103,26 @@ export const hentKommuneData = async (lat, lon) => {
 
     const data = await response.json();
     return data;
+
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+
+export const hentHøydedataFraPunkter = async (punkter) => {
+  try {
+    const response = await fetch(
+      `https://ws.geonorge.no/hoydedata/v1/punkt?koordsys=4258&nord=0&ost=0&punkter=${punkter}&geojson=false`
+    );
+    
+    if (!response.ok){ 
+      throw new Error("Kunne ikke hente høydedata");
+    }
+
+    const data = await response.json();
+    return data.punkter;
 
   } catch (error) {
     console.error(error);

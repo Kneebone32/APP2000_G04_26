@@ -1,17 +1,20 @@
+import { useState } from "react";
 import { useVærvarsel } from "../hooks/useVærvarsel";
 import "./Værvarsling.css"
 
 //Funksjon som henter værvarsel for det neste døgnet fra Yr. Laget av Kay
 export function VærvarslingDag({latitude, longitude}) {
   const yrUrlDag = `https://www.yr.no/nb/innhold/${latitude},${longitude}/card.html?mode=light`;
-
+  const [laster, setLaster] = useState(true);
   return (
     <div className="yr-widget-container">
+      {laster && <p style={{textAlign: 'center', color: '#888'}}>Laster værvarsel</p>}
       <iframe
         src={yrUrlDag}
         width= "100%"
         height= "372px"
         style={{border: 'none', borderRadius: '8px'}}
+        onLoad={() => setLaster(false)}
       ></iframe>
     </div>
   );
@@ -19,15 +22,18 @@ export function VærvarslingDag({latitude, longitude}) {
 
 //Funksjon som henter værvarsel for den neste uken fra Yr. Laget av Kay
 export function VærvarslingUke({latitude, longitude}) {
+  const [laster, setLaster] = useState(true);
   const yrUrlUke = `https://www.yr.no/nb/innhold/${latitude},${longitude}/table.html?mode=light`;
 
   return (
     <div className="yr-widget-container">
+      {laster && <p style={{textAlign: 'center', color: '#888'}}>Laster værvarsel</p>}
       <iframe
         src={yrUrlUke}
-        width= "100%"
-        height= "372px"
+        width="100%"
+        height="372px"
         style={{border: 'none', borderRadius: '8px'}}
+        onLoad={() => setLaster(false)}
       ></iframe>
     </div>
   );
