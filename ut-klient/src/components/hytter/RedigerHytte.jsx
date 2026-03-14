@@ -116,9 +116,11 @@ export default function RedigerHytte({ onSuccess }) {
         }
     };
 
-    const handleToggleFasilitet = (navn) => {
+    const handleToggleFasilitet = (fasilitet) => {
         setValgteFasiliteter(prev =>
-            prev.includes(navn) ? prev.filter(f => f !== navn) : [...prev, navn]
+            prev.some((f) => f.id === fasilitet.id)
+                ? prev.filter((f) => f.id !== fasilitet.id)
+                : [...prev, fasilitet]
         );
     };
 
@@ -162,7 +164,7 @@ export default function RedigerHytte({ onSuccess }) {
                     hytte_lengdegrad: koordinat ? koordinat[1] : null,
                     hytte_moh: høydeData ? Math.round(høydeData.z) : 0,
                     hytte_betjeningsgrad: selectedBetjeningsgrad,
-                    info_tab: valgteFasiliteter.length > 0 ? valgteFasiliteter : null,
+                    info_tab: valgteFasiliteter.length > 0 ? valgteFasiliteter.map((f) => f.id) : null,
                     bilder: bildeUrl.length > 0 ? bildeUrl : null
                 })
             });

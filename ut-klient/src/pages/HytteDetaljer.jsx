@@ -13,6 +13,19 @@ export default function HytteDetaljer() {
   const [hytte, setHytte] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const fasiliteterNavn = Array.isArray(hytte?.kategorier)
+    ? hytte.kategorier
+        .filter((kategori) =>
+          String(kategori?.kategori || kategori?.kategori_navn || "")
+            .toLowerCase()
+            .includes("fasilitet")
+        )
+        .flatMap((kategori) => Array.isArray(kategori?.items) ? kategori.items : [])
+        .map((fasilitet) => fasilitet?.navn)
+        .filter(Boolean)
+    : [];
+
   useEffect(() => {
     const hentHytte = async () => {
       try {
@@ -46,14 +59,14 @@ export default function HytteDetaljer() {
 
         {!loading && !error && hytte && (
           <div className="hytte-detaljer">
-            <h2>{hytte.hytte_navn}</h2>
+            <h2>{hytte.hytte_navn || hytte.navn}</h2>
 
             {hytte.bilder && hytte.bilder.length > 0 && (
               <div className="hytte-bilder">
                 {hytte.bilder.map((bilde, index) => (
                   <img
                     key={index}
-                    src={bilde.url}
+                    src={typeof bilde === "string" ? bilde : bilde?.url}
                     alt={`${hytte.navn} bilde ${index + 1}`}
                     className="hytte-bilde"
                   />
@@ -61,12 +74,12 @@ export default function HytteDetaljer() {
               </div>
             )}
 
-            {hytte.hytte_omrade && (
-              <p><strong>{t("felles.lokasjon")}:</strong> {hytte.hytte_omrade}</p>
+            {(hytte.hytte_omrade || hytte.omrade) && (
+              <p><strong>{t("felles.lokasjon")}:</strong> {hytte.hytte_omrade || hytte.omrade}</p>
             )}
 
-            {hytte.koordinater.moh && (
-              <p><strong>{t("hytte.hytte_moh")}:</strong> {hytte.koordinater.moh}</p>
+            {hytte.koordinater?.moh && (
+              <p><strong>{t("hytte.hytte_moh")}:</strong> {hytte.koordinater?.moh}</p>
             )}
 
             {hytte.fylke && (
@@ -77,8 +90,8 @@ export default function HytteDetaljer() {
               <p><strong>{t("felles.kommune")}:</strong> {hytte.kommune}</p>
             )}
 
-            {hytte.hytte && (
-              <p><strong>{t("hytte.pris")}:</strong> {hytte.hytte}</p>
+            {(hytte.hytte ?? hytte.hytte_pris ?? hytte.pris) !== undefined && (
+              <p><strong>{t("hytte.pris")}:</strong> {hytte.hytte ?? hytte.hytte_pris ?? hytte.pris}</p>
             )}
 
             {hytte.betjeningsgrad && (
@@ -87,6 +100,10 @@ export default function HytteDetaljer() {
 
             {hytte.beskrivelse && (
               <p><strong>{t("hytte.beskrivelse")}:</strong> {hytte.beskrivelse}</p>
+            )}
+
+            {fasiliteterNavn.length > 0 && (
+              <p><strong>{t("hytter.fasiliteter")}:</strong> {fasiliteterNavn.join(", ")}</p>
             )}
 
           </div>
