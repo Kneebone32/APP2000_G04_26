@@ -1,8 +1,10 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import passport from 'passport';
 import routes from './routes/index.js';
 import pool from "./config/db.js"; //db config
+import './config/passport.js';
 
 const app = express();
 
@@ -14,6 +16,7 @@ app.use(cors({
 
 
 app.use(express.json());
+app.use(passport.initialize());
 
 //Bruk ruter fra routes/index.js
 app.use('/', routes);

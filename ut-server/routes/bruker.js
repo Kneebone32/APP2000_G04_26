@@ -4,6 +4,7 @@ import express from 'express';
 import pool from '../config/db.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import passport from 'passport';
 
 const router = express.Router();
 
@@ -111,41 +112,13 @@ router.post('/logginn', async (req, res) => {
 });
 
 // Hent innlogget brukers profil
-router.get('/meg', autentiser, async (req, res) => {
+router.get('/meg', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
-    const result = await pool.query(
-      'SELECT bruker_id, bruker_navn, bruker_etternavn, bruker_epost, bruker_joined FROM bruker WHERE bruker_id = $1',
-      [req.bruker.bruker_id]
-    );
-
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Bruker ikke funnet' });
-    }
-
-    res.json(result.rows[0]);
+    res.json({ bruker: req.user });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Kunne ikke hente bruker' });
   }
 });
-
-// Middleware for autentisering
-export function autentiser(req, res, next) {
-  const authHeader = req.headers.authorization;
-
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Ingen tilgangstoken oppgitt' });
-  }
-
-  const token = authHeader.split(' ')[1];
-
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    req.bruker = decoded;
-    next();
-  } catch (err) {
-    return res.status(403).json({ error: 'Ugyldig eller utløpt token' });
-  }
-}
 
 export default router;
