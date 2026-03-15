@@ -5,6 +5,7 @@ import { useFetchHytter } from "../hooks/useFetchHytter";
 import { useTranslation } from "react-i18next";
 import './HytteModerator.css';
 
+// Administrasjonsside for å legge til, redigere og slette hytter. Laget av Olai
 export default function HytteModerator() {
     const { refetch } = useFetchHytter(true);
     const { t } = useTranslation();

@@ -8,6 +8,7 @@ export default function LeggTilHytte({ onSuccess }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    // Sender nye skjemadata til backend for å opprette en ny hytte.
     const handleOpprett = async (formData) => {
         try {
             setLoading(true);

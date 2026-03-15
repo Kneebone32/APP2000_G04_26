@@ -30,6 +30,7 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
   }, []);
 
 
+    // Henter en kortversjon av turruter til kortvisning/lister.
     const fetchTurKort = useCallback (async () => {
     try {
       setLoadingTurer(true);
@@ -124,6 +125,7 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
       }
     }, []);
 
+  // Kjører valgte hentefunksjoner automatisk ut fra hook-innstillingene.
   useEffect(() => {
     if (autoFetch) fetchTurer();
     if (hentTurID) hentTurFraId(hentTurID);

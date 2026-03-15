@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useFetchHytter } from "../hooks/useFetchHytter";
 import  './HytteDetaljer.css';
 
+// Viser detaljside for én valgt hytte basert på ID fra URL. Laget av Olai
 export default function HytteDetaljer() {
   const { hytteId } = useParams();
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ export default function HytteDetaljer() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Trekker ut navn på fasiliteter fra kategoristrukturen på hytta.
   const fasiliteterNavn = Array.isArray(hytte?.kategorier)
     ? hytte.kategorier
         .filter((kategori) =>
@@ -27,6 +29,7 @@ export default function HytteDetaljer() {
     : [];
 
   useEffect(() => {
+    // Henter hyttedata når ID i URL endres.
     const hentHytte = async () => {
       try {
         const data = await hentHytteFraId(hytteId);

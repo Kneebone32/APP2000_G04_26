@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useFetchHytter } from "../../hooks/useFetchHytter";
 import HytteForm from "./hytte-form/HytteForm";
 
-// Redigerer en eksisterende hytte ved å først søke den opp
+// Lar bruker søke opp en hytte, hente eksisterende data og oppdatere den. Laget av Olai.
 export default function RedigerHytte({ onSuccess }) {
     const { t } = useTranslation();
     const { hytter, hentHytteFraId } = useFetchHytter({ autoFetch: true });
@@ -14,6 +14,7 @@ export default function RedigerHytte({ onSuccess }) {
     const [error, setError] = useState(null);
     const [lagretData, setLagretData] = useState(null);
 
+    // Filtrerer søkeresultat på hytte-ID eller navn.
     const filteredHytter = hytter.filter(hytte =>
         hytte.hytte_id?.toString().includes(searchTerm) ||
         hytte.navn?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -25,6 +26,7 @@ export default function RedigerHytte({ onSuccess }) {
             return;
         }
 
+        // Henter valgt hytte og mapper API-format til feltene HytteForm forventer.
         const lastHytteData = async () => {
             try {
                 setLoading(true);
@@ -62,6 +64,7 @@ export default function RedigerHytte({ onSuccess }) {
         lastHytteData();
     }, [selectedId]);
 
+    // Sender oppdatert hytte til backend med PUT og nullstiller skjema ved suksess.
     const handleOppdater = async (formData) => {
         try {
             setLoading(true);
@@ -118,6 +121,7 @@ export default function RedigerHytte({ onSuccess }) {
                     value={searchTerm}
                     maxLength={50}
                     onChange={(e) => {
+                        // Velger hytte fra datalist og lagrer ID for videre henting/redigering.
                         setSearchTerm(e.target.value);
                         const matchedHytte = filteredHytter.find(
                             h => `ID: ${h.hytte_id} - ${h.navn}` === e.target.value ||

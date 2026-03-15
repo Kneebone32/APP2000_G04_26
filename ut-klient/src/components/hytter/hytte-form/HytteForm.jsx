@@ -38,6 +38,7 @@ export default function HytteForm({ lagretData = {}, onSubmitAction, buttonTekst
 
     useFileUpload(setBildeUrl);
 
+    // Legger til/fjerner en fasilitet i listen over valgte fasiliteter.
     const handleToggleFasilitet = (fasilitet) => {
         setValgteFasiliteter(prev =>
             prev.some((f) => f.id === fasilitet.id)
@@ -46,6 +47,7 @@ export default function HytteForm({ lagretData = {}, onSubmitAction, buttonTekst
         );
     };
 
+    // Legger til en midlertidig bilde-URL manuelt i bilde-listen. Laget av Kay.
     const handleLeggTilBilde = (e) => {
         e.preventDefault();
         if (tempUrl.trim() !== "") {
@@ -54,6 +56,7 @@ export default function HytteForm({ lagretData = {}, onSubmitAction, buttonTekst
         }
     };
 
+    // Lagrer koordinat, henter automatisk kommune/fylke/høyde og validerer terrengtype.
     const handleLagreKoordinat = async (koord) => {
         const lokalHøydeData = await hentFullHøydeData(koord[0], koord[1]);
         const lokalKommuneData = await hentKommuneData(koord[0], koord[1]);
@@ -74,6 +77,7 @@ export default function HytteForm({ lagretData = {}, onSubmitAction, buttonTekst
         }
     };
 
+    // Validerer feltene og sender normaliserte data videre til parent-komponenten.
     const handleSubmit = (e) => {
         e.preventDefault();
 

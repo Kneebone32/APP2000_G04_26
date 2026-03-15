@@ -5,6 +5,7 @@ import { useFetchTurer } from "../hooks/useFetchTurer";
 import { useTranslation } from "react-i18next";
 import './TurModerator.css';
 
+// Administrasjonsside for å legge til, redigere og slette turruter. Laget av Olai
 export default function TurModerator() {
     const { refetch } = useFetchTurer(true);
     const { t } = useTranslation();

@@ -1,12 +1,9 @@
-/* 
-Laget av Eivind
-*/
-
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { FaBed, FaMoneyCheckAlt } from "react-icons/fa";
 import './Hyttekort.css';
 
+// Viser et klikkbart hyttekort med bilde, sted, sengeplasser og eventuell pris. Laget av Olai og Eivind.
 export default function HytteKort({hytteId, hytteNavn, sengeplasser, bildeUrl, pris, fylkeId, kommuneId}) {
     const { t } = useTranslation();
 
@@ -16,6 +13,7 @@ export default function HytteKort({hytteId, hytteNavn, sengeplasser, bildeUrl, p
                 <div className="Hovedkort">
                     {bildeUrl && (
                         <img 
+                            // Legger på bildeparametre for simple-file-upload URL-er for mindre forhåndsvisning.
                             src={bildeUrl.includes("simplefileupload") ? `${bildeUrl}?w=200&h=200&fit=fit` : bildeUrl} 
                             alt={hytteNavn}
                             className="Hyttebilde"

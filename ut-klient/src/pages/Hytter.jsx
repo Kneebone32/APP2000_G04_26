@@ -4,6 +4,7 @@ import { useFetchHytter } from "../hooks/useFetchHytter";
 import { useTranslation } from "react-i18next";
 import "./Hytter.css";
 
+// Viser oversikt over alle hytter som kort. Laget av Olai.
 export default function Hytter() {
   const { hytter, loadingHytter, errorHytter } = useFetchHytter({hytteKort: true});
   const { t } = useTranslation();

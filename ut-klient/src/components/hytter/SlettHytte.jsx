@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useFetchHytter } from "../../hooks/useFetchHytter";
 import { useTranslation } from "react-i18next";
 
+// Lar bruker søke opp en hytte og slette den etter bekreftelse. Laget av Olai.
 export default function SlettHytte({ onSuccess }) {
     const { t } = useTranslation();
     const { hytter, deleteHytte } = useFetchHytter({ autoFetch: true });
     const [selectedId, setSelectedId] = useState(null);
 
+    // Sletter valgt hytte hvis bruker bekrefter i dialogen.
     const handleSlettHytte = async () => {
         if (!selectedId) {
             alert(t("hytter.velg_hytte"));
@@ -33,6 +35,7 @@ export default function SlettHytte({ onSuccess }) {
 
     const [searchTerm, setSearchTerm] = useState("");
 
+    // Filtrerer forslagene i datalisten basert på ID eller navn.
     const filteredHytter = hytter.filter(hytte => 
         hytte.hytte_id?.toString().includes(searchTerm) ||
         hytte.navn?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -51,6 +54,7 @@ export default function SlettHytte({ onSuccess }) {
                         value={searchTerm}
                         maxLength={50}
                         onChange={(e) => {
+                            // Matcher fritekst mot datalist-verdi og setter valgt hytte-ID.
                             setSearchTerm(e.target.value);
                             const matchedHytte = hytter.find(h => 
                                 `ID: ${h.hytte_id} - ${h.navn}` === e.target.value ||
