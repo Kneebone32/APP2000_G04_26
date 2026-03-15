@@ -7,6 +7,7 @@ import enumsRoutes from './enums.js';
 import turmaalRoutes from './turmaal.js';
 import metadataRoutes from './metadata.js';
 import fellesturRoutes from './fellestur.js';
+import brukerRoutes from './bruker.js';
 
 const router = express.Router();
 
@@ -16,5 +17,6 @@ router.use('/enums', enumsRoutes);
 router.use('/turmaal', turmaalRoutes);
 router.use('/metadata', metadataRoutes);
 router.use('/fellestur', fellesturRoutes);
+router.use('/bruker', brukerRoutes);
 
 export default router;
