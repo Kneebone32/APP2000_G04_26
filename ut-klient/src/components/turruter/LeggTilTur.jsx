@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useModal } from "../../hooks/useModal";
 import { useEnums } from "../../hooks/useEnums";
 import { useFileUpload } from "../../hooks/useFileUpload";
-import { hentKommuneData } from "../../utils/geoUtils";
+import { hentKommuneData, regnUtTotalLengde } from "../../utils/geoUtils";
 import Modal from "../../modal/Modal";
 import Nytur from "../Nytur";
 import { GpxParser } from "../GpxParser";
@@ -26,6 +26,10 @@ export default function LeggTilTur({ onSuccess }) {
     const [bildeUrl, setBildeUrl] = useState([]);
     const [rutePunkter, setRutePunkter] = useState([]);
     const [lagredeKoordinater, setLagredeKoordinater] = useState(null);
+    const [hytterITuren, setHytterITuren] = useState([]);
+    const [turmålITuren, setTurmålITuren] = useState([]);
+    const [lagret, setLagret] = useState(false);
+    const [totalRuteLengde, setTotalRuteLengde] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const uploaderRef = useRef(null);
@@ -38,6 +42,8 @@ export default function LeggTilTur({ onSuccess }) {
             const sluttKoord = koords[koords.length - 1];
             
             setLagredeKoordinater(koords);
+            setTotalRuteLengde(regnUtTotalLengde(koords));
+            setLagret(true);
             
             try {
                 const kommuneData = await hentKommuneData(startKoord[0], startKoord[1]);
@@ -58,17 +64,12 @@ export default function LeggTilTur({ onSuccess }) {
         }
     };
 
-        const handleGpxKoordinater = (koords) => {
+    const handleGpxKoordinater = (koords) => {
         if (koords && koords.length >= 2) {
-            const startKoord = koords[0];
-            const sluttKoord = koords[koords.length - 1];
-            
-            if (erGyldigKoordinat(startKoord) && erGyldigKoordinat(sluttKoord)) {
-                setLagredeKoordinater(koords);
-                setRutePunkter(koords);
-            } else {
-                alert(t("tur.gpx_utenfor_norge"));
-            }
+            setLagredeKoordinater(koords);
+            setRutePunkter(koords);
+            setTotalRuteLengde(regnUtTotalLengde(koords));
+            setLagret(true);
         } else if (koords && koords.length === 1) {
             alert(t("tur.gpx_ett_punkt"));
         }
@@ -100,8 +101,8 @@ export default function LeggTilTur({ onSuccess }) {
                     vanskelighetsgrad: selectedVanskelighetsgrad || null,
                     varighet: selectedVarighet || null,
                     turtype: selectedTurtype || null,
-                    fylke_id: 4, // midlertidig hardkodet til 4 siden backend må fikse FK constraints
-                    kommune_id: 2, // midlertidig hardkodet til 2 siden backend må fikse FK constraints
+                    fylke_id: fylkeId,
+                    kommune_id: kommuneId,
                     punkter: lagredeKoordinater || null,
                     info_array: null,
                     bilder: bildeUrl.length > 0 ? bildeUrl : null
@@ -125,6 +126,10 @@ export default function LeggTilTur({ onSuccess }) {
         setBildeUrl([]);
         setLagredeKoordinater(null);
         setRutePunkter([]);
+        setHytterITuren([]);
+        setTurmålITuren([]);
+        setLagret(false);
+        setTotalRuteLengde(null);
 
         if (onSuccess) {
             onSuccess();
@@ -235,21 +240,27 @@ export default function LeggTilTur({ onSuccess }) {
                     {lagredeKoordinater && lagredeKoordinater.length >= 2 && (
                         <div style={{ marginTop: '10px' }}>
                             <p>✓ {t("tur.rute_lagret")} {lagredeKoordinater.length} {t("tur.punkter")}</p>
-                            <p>{t("tur.start")}: {lagredeKoordinater[0][0].toFixed(5)}, {lagredeKoordinater[0][1].toFixed(5)}</p>
-                            <p>{t("tur.slutt")}: {lagredeKoordinater[lagredeKoordinater.length - 1][0].toFixed(5)}, {lagredeKoordinater[lagredeKoordinater.length - 1][1].toFixed(5)}</p>
+                            <p>{t("tur.start")}: {parseFloat(lagredeKoordinater[0][0]).toFixed(5)}, {parseFloat(lagredeKoordinater[0][1]).toFixed(5)}</p>
+                            <p>{t("tur.slutt")}: {parseFloat(lagredeKoordinater[lagredeKoordinater.length - 1][0]).toFixed(5)}, {parseFloat(lagredeKoordinater[lagredeKoordinater.length - 1][1]).toFixed(5)}</p>
+                            {totalRuteLengde !== null && (
+                                <p>{t("tur.rutelengde") || "Rutelengde"}: {totalRuteLengde.toFixed(3)} km</p>
+                            )}
                         </div>
                     )}
                 </div>
-                <div>
-                    <label htmlFor="beskrivelse">{t("tur.beskrivelse")}:</label>
-                    <input
-                        type="text"
-                        id="beskrivelse"
-                        value={beskrivelse}
-                        onChange={(e) => setBeskrivelse(e.target.value)}
-                        pattern="^[0-9A-Za-zØÆÅøæå\s]{3,150}$"
-                        required
-                    />
+                {/*Beskrivelse av turruten*/}
+                <div className="input-container">
+                    <label className="input">{t("tur.beskrivelse")}
+                        <textarea 
+                            style={{resize: 'none', width: '100%', maxWidth: '400px'}} 
+                            rows="5" minLength="20" maxLength="1000"
+                            value={beskrivelse} onChange={(e) => setBeskrivelse(e.target.value)} 
+                            required 
+                        />
+                        <small style={{color: beskrivelse.length > 950 ? 'red' : '#666' }}>
+                            {beskrivelse.length} / 1000
+                        </small>
+                    </label>
                 </div>
                 <div>
                     <label>{t("tur.last_opp_bilde")}:</label>
@@ -286,6 +297,10 @@ export default function LeggTilTur({ onSuccess }) {
                         rutePunkter={rutePunkter}
                         setRutePunkter={setRutePunkter}
                         onLagreKoordinater={handleLagreKoordinater}
+                        hytterITuren={hytterITuren}
+                        setHytterITuren={setHytterITuren}
+                        turmålITuren={turmålITuren}
+                        setTurmålITuren={setTurmålITuren}
                     />
                 </div>
             </Modal>
