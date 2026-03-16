@@ -31,12 +31,12 @@ export function useMeldinger({ token, pollIntervall = 5000 } = {}) {
   }, [authHeaders, token]);
 
   //Henter meldinger i en privatsamtale med en spesifikk bruker
-  const hentSamtale = useCallback(async (motakerId) => {
+  const hentSamtale = useCallback(async (mottakerId) => {
     if (!token) return;
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/meldinger/pm/${motakerId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/meldinger/pm/${mottakerId}`, {
         headers: authHeaders
       });
       if (!response.ok) throw new Error("Kunne ikke hente samtalen");
@@ -50,14 +50,14 @@ export function useMeldinger({ token, pollIntervall = 5000 } = {}) {
   }, [authHeaders, token]);
 
   //Sender en privatmelding til en bruker
-  const sendMelding = useCallback(async (motakerId, innhold) => {
+  const sendMelding = useCallback(async (mottakerId, innhold) => {
     if (!token) return;
     try {
       setError(null);
       const response = await fetch(`${import.meta.env.VITE_API_URL}/meldinger/pm`, {
         method: 'POST',
         headers: authHeaders,
-        body: JSON.stringify({ mottaker_id: motakerId, innhold })
+        body: JSON.stringify({ mottaker_id: mottakerId, innhold })
       });
       if (!response.ok) throw new Error("Kunne ikke sende melding");
       return await response.json();
