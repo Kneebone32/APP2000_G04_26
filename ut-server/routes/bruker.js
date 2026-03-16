@@ -15,15 +15,16 @@ const SALT_ROUNDS = 10;
 router.post('/registrer', async (req, res) => {
   try {
     const { bruker_navn, bruker_etternavn, bruker_epost, bruker_passord } = req.body;
+    const normalisertEpost = bruker_epost?.trim().toLowerCase();
 
-    if (!bruker_navn || !bruker_etternavn || !bruker_epost || !bruker_passord) {
+    if (!bruker_navn || !bruker_etternavn || !normalisertEpost || !bruker_passord) {
       return res.status(400).json({ error: 'Alle felt må fylles ut' });
     }
 
     // Sjekk om e-post allerede er registrert
     const eksisterende = await pool.query(
-      'SELECT bruker_id FROM bruker WHERE bruker_epost = $1',
-      [bruker_epost]
+      'SELECT bruker_id FROM bruker WHERE LOWER(bruker_epost) = $1',
+      [normalisertEpost]
     );
 
     if (eksisterende.rows.length > 0) {
@@ -37,7 +38,7 @@ router.post('/registrer', async (req, res) => {
       `INSERT INTO bruker (bruker_navn, bruker_etternavn, bruker_epost, bruker_passord)
        VALUES ($1, $2, $3, $4)
        RETURNING bruker_id, bruker_navn, bruker_etternavn, bruker_epost, bruker_joined`,
-      [bruker_navn, bruker_etternavn, bruker_epost, hashedPassord]
+      [bruker_navn, bruker_etternavn, normalisertEpost, hashedPassord]
     );
 
     const bruker = result.rows[0];
@@ -68,14 +69,15 @@ router.post('/registrer', async (req, res) => {
 router.post('/logginn', async (req, res) => {
   try {
     const { bruker_epost, bruker_passord } = req.body;
+    const normalisertEpost = bruker_epost?.trim().toLowerCase();
 
-    if (!bruker_epost || !bruker_passord) {
+    if (!normalisertEpost || !bruker_passord) {
       return res.status(400).json({ error: 'E-post og passord er påkrevd' });
     }
 
     const result = await pool.query(
-      'SELECT * FROM bruker WHERE bruker_epost = $1',
-      [bruker_epost]
+      'SELECT * FROM bruker WHERE LOWER(bruker_epost) = $1',
+      [normalisertEpost]
     );
 
     if (result.rows.length === 0) {
