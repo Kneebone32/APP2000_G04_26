@@ -240,8 +240,8 @@ export default function LeggTilTur({ onSuccess }) {
                     {lagredeKoordinater && lagredeKoordinater.length >= 2 && (
                         <div style={{ marginTop: '10px' }}>
                             <p>✓ {t("tur.rute_lagret")} {lagredeKoordinater.length} {t("tur.punkter")}</p>
-                            <p>{t("tur.start")}: {parseFloat(lagredeKoordinater[0][0]).toFixed(5)}, {parseFloat(lagredeKoordinater[0][1]).toFixed(5)}</p>
-                            <p>{t("tur.slutt")}: {parseFloat(lagredeKoordinater[lagredeKoordinater.length - 1][0]).toFixed(5)}, {parseFloat(lagredeKoordinater[lagredeKoordinater.length - 1][1]).toFixed(5)}</p>
+                            <p>{t("tur.start")}: {(lagredeKoordinater[0][0]).toFixed(5)}, {(lagredeKoordinater[0][1]).toFixed(5)}</p>
+                            <p>{t("tur.slutt")}: {lagredeKoordinater[lagredeKoordinater.length - 1][0].toFixed(5)}, {lagredeKoordinater[lagredeKoordinater.length - 1][1].toFixed(5)}</p>
                             {totalRuteLengde !== null && (
                                 <p>{t("tur.rutelengde") || "Rutelengde"}: {totalRuteLengde.toFixed(3)} km</p>
                             )}
