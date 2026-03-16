@@ -1,6 +1,6 @@
 import { Marker, Polyline, useMapEvents, useMap } from "react-leaflet";
 import { useEffect, useState } from "react";
-import Kart_basic, { hytteIcon, markerA, markerB, turmålIcon} from "./KartBasic";
+import Kart_basic, { hytteIcon, marker1, marker2,  marker3, marker4, marker5, marker6, turmålIcon} from "./KartBasic";
 import { useFetchHytter } from "../../hooks/useFetchHytter";
 import { useTurmål } from "../../hooks/useTurmål";
 import { erSammeKoordinat } from "../../utils/erGyldigKoordinat";
@@ -235,7 +235,7 @@ export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4
       {rutePunkter.length > 0 && (
       <Marker 
         position={rutePunkter[0]}
-        icon={markerA}
+        icon={marker1}
       />
       )}
       
@@ -269,6 +269,7 @@ export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4
       {stier && (
         stier.map((sti) => (
         <HoverPolyline 
+          key={sti.id}
           punkter={sti.punkter}
           farge="#0fe407"
           standardVekt={4}
@@ -283,7 +284,7 @@ export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4
       <>
         <Marker 
         position={rutePunkter[rutePunkter.length - 1]}
-        icon={markerB}
+        icon={marker2}
         />
         <Polyline 
           positions={rutePunkter}
