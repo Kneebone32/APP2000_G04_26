@@ -1,0 +1,31 @@
+/*Laget av Kay*/
+.meldinger-side {
+    display: flex;
+    flex-direction: column;
+    height: calc(100dvh - var(--navbar-height) - 50px); /*Pagewrapper legger på en rar padding/margin på bunnen*/
+    margin-top: 5px;
+}
+
+.meldinger-layout {
+    display: flex;
+    flex: 1;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.meldinger-chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.meldinger-ingen-valgt {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 0.95rem;
+}

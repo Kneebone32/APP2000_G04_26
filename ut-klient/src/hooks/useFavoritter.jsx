@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 //bruker Set for å gjøre søk etter favoritter raskere. 
 export function useFavoritter({ token } = {}) {
   const [hytteFavoritter, sethytteFavoritter] = useState(new Set([80, 134]));
-  const [turFavoritter, setTurFavoritter] = useState(new Set());
+  const [turFavoritter, setTurFavoritter] = useState(new Set([36]));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 

@@ -20,6 +20,7 @@ import TurModerator from "./pages/TurModerator";
 import FellesturModerator from "./pages/fellesturer/FellesturModerator";
 import TurmålModerator from "./pages/turmål/TurmålModerator";
 import Feilside from "./pages/Feilside";
+import Meldinger from "./pages/Meldinger";
 import Test from "./pages/Test";
 import Test2 from "./pages/Test2";
 import Navigasjon from "./pages/Navigasjon";
@@ -51,6 +52,7 @@ export default function App() {
             <Route path="/admin/turmål" element={<TurmålModerator />} />
             <Route path="/test" element={<Test />} />
             <Route path="/test2" element={<Test2 />} />
+            <Route path="/meldinger" element={<Meldinger />} />
             <Route path="/navigasjon/:turId" element={<Navigasjon />} />
             <Route path="*" element={<Feilside />} />
           </Routes>
