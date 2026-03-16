@@ -1,6 +1,8 @@
 import PageWrapper from "../components/PageWrapper";
 import TurKort from "../components/turruter/TurKort";
 import { useFetchTurer } from "../hooks/useFetchTurer";
+import { useFavoritter } from "../hooks/useFavoritter";
+import { useAutentisering } from "../hooks/useAutentisering";
 import { useTranslation } from "react-i18next";
 import "./Turer.css";
 
@@ -8,6 +10,8 @@ import "./Turer.css";
 export default function Turer() {
   const { t } = useTranslation();
   const { turer, loadingTurer, errorTurer } = useFetchTurer({autoFetch: true}); //turKort: true
+  const { token } = useAutentisering();
+  const { erTurFavoritt, toggleTurFavoritt } = useFavoritter({token});
 
   return (
     <PageWrapper title={t("turer.tittel")}>
@@ -33,6 +37,8 @@ export default function Turer() {
                 varighet={tur.varighet}
                 lat={tur.punkter?.[0]?.[0]}
                 lon={tur.punkter?.[0]?.[1]}
+                erFavoritt={erTurFavoritt(tur.turrute_id)}
+                onToggleFavoritt={toggleTurFavoritt}
               />
               ))}
           </div>

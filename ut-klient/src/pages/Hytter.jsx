@@ -1,12 +1,16 @@
 import PageWrapper from "../components/PageWrapper";
 import HytteKort from "../components/hytter/HytteKort";
 import { useFetchHytter } from "../hooks/useFetchHytter";
+import { useFavoritter } from "../hooks/useFavoritter";
+import { useAutentisering } from "../hooks/useAutentisering";
 import { useTranslation } from "react-i18next";
 import "./Hytter.css";
 
 // Viser oversikt over alle hytter som kort. Laget av Olai.
 export default function Hytter() {
   const { hytter, loadingHytter, errorHytter } = useFetchHytter({hytteKort: true});
+  const { token } = useAutentisering();
+  const { erHytteFavoritt, toggleHytteFavoritt } = useFavoritter({token});
   const { t } = useTranslation();
 
   return (
@@ -32,6 +36,8 @@ export default function Hytter() {
                 fylkeId={hytte.fylke_navn}
                 kommuneId={hytte.kommune_navn}
                 bildeUrl={hytte.hovedbilde_url}
+                erFavoritt={erHytteFavoritt(hytte.id)}
+                onToggleFavoritt={toggleHytteFavoritt}
               />
             ))}
           </div>

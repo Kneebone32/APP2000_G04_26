@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Modal from '../../modal/Modal';
 import './Autentisering.css';
+import { toast } from 'react-toastify';
 
 //Håndterer brukerinnlogging med Modal. Laget av Kay
 export default function Logginn({ show, onClose, onByttTilRegistrer, logginn, loading, error }) {
@@ -10,10 +11,11 @@ export default function Logginn({ show, onClose, onByttTilRegistrer, logginn, lo
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await logginn(epost, passord);
+      const innloggetBruker = await logginn(epost, passord);
       onClose();
       setEpost('');
       setPassord('');
+      toast.success(`Velkommen tilbake, ${innloggetBruker.bruker.bruker_navn}!`)
     } catch (err) {
       console.log(err);
     }

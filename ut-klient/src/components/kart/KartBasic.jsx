@@ -2,8 +2,12 @@ import PageWrapper from "../PageWrapper";
 import {MapContainer, TileLayer, ZoomControl} from "react-leaflet";
 import { Icon } from "leaflet";
 import hytteMarker from "../../assets/kart/hytte.png";
-import markerLetterA from "../../assets/kart/markerA.png";
-import markerLetterB from "../../assets/kart/markerB.png";
+import markerNumber1 from "../../assets/kart/marker1.png";
+import markerNumber2 from "../../assets/kart/marker2.png";
+import markerNumber3 from "../../assets/kart/marker3.png";
+import markerNumber4 from "../../assets/kart/marker4.png";
+import markerNumber5 from "../../assets/kart/marker5.png";
+import markerNumber6 from "../../assets/kart/marker6.png";
 import turStartMarker from "../../assets/kart/tur.png";
 import cameraIcon from "../../assets/kart/camera.png";
 import FlyTilPosisjon from "../navigasjon/NavigasjonFinnPosisjon";
@@ -55,15 +59,43 @@ export const navigasjonIcon = new Icon({
     className: 'no-scale-marker'
 });
 
-export const markerA = new Icon({
-    iconUrl: markerLetterA,
+export const marker1 = new Icon({
+    iconUrl: markerNumber1,
     iconSize: [36, 36],
     iconAnchor: [21, 21],
     className: 'no-scale-marker'
 });
 
-export const markerB = new Icon({
-    iconUrl: markerLetterB,
+export const marker2 = new Icon({
+    iconUrl: markerNumber2,
+    iconSize: [42, 42],
+    iconAnchor: [21, 21],
+    className: 'no-scale-marker'
+});
+
+export const marker3 = new Icon({
+    iconUrl: markerNumber3,
+    iconSize: [42, 42],
+    iconAnchor: [21, 21],
+    className: 'no-scale-marker'
+});
+
+export const marker4 = new Icon({
+    iconUrl: markerNumber4,
+    iconSize: [42, 42],
+    iconAnchor: [21, 21],
+    className: 'no-scale-marker'
+});
+
+export const marker5 = new Icon({
+    iconUrl: markerNumber5,
+    iconSize: [42, 42],
+    iconAnchor: [21, 21],
+    className: 'no-scale-marker'
+});
+
+export const marker6 = new Icon({
+    iconUrl: markerNumber6,
     iconSize: [42, 42],
     iconAnchor: [21, 21],
     className: 'no-scale-marker'

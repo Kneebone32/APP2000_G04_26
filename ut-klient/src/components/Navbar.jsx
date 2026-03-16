@@ -138,6 +138,7 @@ export default function Navbar() {
       logginn={logginn}
       loading={loading}
       error={error}
+      bruker={bruker}
     />
     <RegisterBruker
       show={visRegistrer}

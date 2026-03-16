@@ -20,14 +20,43 @@ Laget av Eivind
     border: 2px solid green;
 }
 
+.turkort-bilde-wrapper {
+    position: relative;
+}
+
 .TurBilde {
-    width: 100%;     
-    max-height: 200px;      
-    object-fit: cover;      
-    border-radius: 8px;    
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
     display: block;
     margin: 0 auto;
     padding-bottom: 5px;
+}
+
+.favoritt-knapp {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 255, 255, 0.85);
+    border: none;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.favoritt-ikon {
+    font-size: 16px;
+    color: #aaa;
+}
+
+.favoritt-ikon.aktiv {
+    color: #e03131;
 }
 
 .Turkort .korttitle {

@@ -22,3 +22,14 @@ export const formatNorskdato = (dato) => {
   });
 };
 
+//Formaterer datoen til norsk format
+export const formatNorskTid = (tid) => {
+  return tid.toLocaleTimeString("nb-NO", {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+};
+
+
+
+
