@@ -8,13 +8,14 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { useAutentisering } from "../hooks/useAutentisering";
 import Logginn from "./autentisering/Logginn";
+import { toast } from "react-toastify";
 import RegisterBruker from "./autentisering/RegistrerBruker";
 import 'flag-icons/css/flag-icons.min.css';
 import './Navbar.css'
 
 export default function Navbar() {
   const { t, i18n } = useTranslation();
-  const {bruker, erAutentisert, loggut} = useAutentisering({autoFetch: true})
+  const {bruker, erAutentisert, loggut, logginn, registrer, loading, error} = useAutentisering({autoFetch: true})
   const [visLogginn, setVisLogginn] = useState(false);
   const [visRegistrer, setVisRegistrer] = useState(false);
 
@@ -63,6 +64,8 @@ export default function Navbar() {
   const handleLoggUt = () => {
     loggut();
     closeNavbar();
+    toast.success("Du har blitt logget ut")
+    
   };
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -128,15 +131,21 @@ export default function Navbar() {
             <FaBars/>
           </button>
     </header>
-    <Logginn 
-      show={visLogginn} 
+    <Logginn
+      show={visLogginn}
       onClose={() => setVisLogginn(false)}
       onByttTilRegistrer={byttTilRegistrer}
+      logginn={logginn}
+      loading={loading}
+      error={error}
     />
-    <RegisterBruker 
-      show={visRegistrer} 
+    <RegisterBruker
+      show={visRegistrer}
       onClose={() => setVisRegistrer(false)}
       onByttTilLogginn={byttTilLoggInn}
+      registrer={registrer}
+      loading={loading}
+      error={error}
     />
     </>
   );

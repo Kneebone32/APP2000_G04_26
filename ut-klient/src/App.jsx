@@ -24,6 +24,7 @@ import Test from "./pages/Test";
 import Test2 from "./pages/Test2";
 import Navigasjon from "./pages/Navigasjon";
 
+// Hovedkomponent som setter opp routing for hele applikasjonen. Laget av Olai og Kay.
 export default function App() {
   return (
     <Router>

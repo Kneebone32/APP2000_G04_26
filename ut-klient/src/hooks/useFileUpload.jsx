@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-// Hook for å håndtere bildeopplasting med Simple File Upload
+// Hook for å håndtere bildeopplasting med Simple File Upload. Laget av Olai.
 export function useFileUpload(setBildeUrl) {
     useEffect(() => {
         const uploader = document.querySelector('simple-file-upload');

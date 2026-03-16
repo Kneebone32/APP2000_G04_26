@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import { useAutentisering } from '../../hooks/useAutentisering';
 import Modal from '../../modal/Modal';
 import './Autentisering.css';
 
 //Håndterer brukerinnlogging med Modal. Laget av Kay
-export default function Logginn({ show, onClose, onByttTilRegistrer }) {
-  const { logginn, loading, error } = useAutentisering({ autoFetch: false });
+export default function Logginn({ show, onClose, onByttTilRegistrer, logginn, loading, error }) {
   const [epost, setEpost] = useState('');
   const [passord, setPassord] = useState('');
 

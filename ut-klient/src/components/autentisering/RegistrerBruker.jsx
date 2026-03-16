@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import { useAutentisering } from '../../hooks/useAutentisering';
 import Modal from '../../modal/Modal';
 import './Autentisering.css';
 
 //Registrerer en ny bruker med Modal. Laget av Kay
-export default function RegisterBruker({ show, onClose, onByttTilLogginn }) {
-  const { registrer, loading, error } = useAutentisering({ autoFetch: false });
+export default function RegisterBruker({ show, onClose, onByttTilLogginn, registrer, loading, error }) {
   const [formData, setFormData] = useState({
     bruker_navn: '',
     bruker_etternavn: '',
