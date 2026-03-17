@@ -3,11 +3,18 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useFetchTurer } from "../hooks/useFetchTurer";
+import { useAutentisering } from "../hooks/useAutentisering";
+import { useAnmeldelser } from "../hooks/useAnmeldelser";
 import { hentKommuneData } from "../utils/geoUtils";
+import AnmeldelseListe from "../components/anmeldelser/AnmeldelseListe";
+import AnmeldelseSkjema from "../components/anmeldelser/AnmeldelseSkjema";
 import  './TurDetaljer.css';
 
+
 export default function TurDetaljer() {
+  const { bruker, token } = useAutentisering({autoFetch: true});
   const { turId } = useParams();
+  const {turAnmeldelser, turGjennomsnittsrating, leggTilTurAnmeldelse, slettTurAnmeldelse} = useAnmeldelser({token, turId});
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { hentTurFraId } = useFetchTurer(false);
@@ -110,6 +117,18 @@ export default function TurDetaljer() {
 
           </div>
         )}
+        <AnmeldelseSkjema onSend={(data) => leggTilTurAnmeldelse(turId, data)} loading={loading} />
+        <AnmeldelseListe
+          anmeldelser={turAnmeldelser}
+          gjennomsnittsrating={turGjennomsnittsrating}
+          rating={"turrute_rating"}
+          kommentar={"turrute_anmeldelse"}
+          tid={"turrute_opprettet_tidspunkt"}
+          loading={loading}
+          error={error}
+          brukerId={bruker?.bruker_id}
+          onSlett={slettTurAnmeldelse(turId, bruker?.bruker_id)}
+        />
 
         {!loading && !error && !tur && <p>{t("turer.ikke_funnet")}</p>}
       </div>

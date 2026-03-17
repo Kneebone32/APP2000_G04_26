@@ -1,0 +1,172 @@
+/*Laget av AI*/
+/* ---- Liste ---- */
+.anmeldelse-liste {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.anmeldelse-liste-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.anmeldelse-liste-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.anmeldelse-gjennomsnitt {
+    font-size: 0.95rem;
+    color: var(--text-secondary, #555);
+}
+
+.anmeldelse-status {
+    text-align: center;
+    color: #888;
+    font-size: 0.9rem;
+    padding: 16px 0;
+}
+
+.anmeldelse-feil {
+    text-align: center;
+    color: var(--feil-farge, #c0392b);
+    font-size: 0.9rem;
+}
+
+/* ---- Anmeldelse-kort ---- */
+.anmeldelse-kort {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 8px;
+    background-color: var(--bg-secondary, #f9f9f9);
+}
+
+.anmeldelse-kort-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.anmeldelse-navn {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.anmeldelse-stjerner {
+    color: #f5a623;
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+.anmeldelse-kommentar {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-primary, #222);
+    line-height: 1.5;
+}
+
+.anmeldelse-kort-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.anmeldelse-dato {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.anmeldelse-slett-btn {
+    background: none;
+    border: none;
+    color: var(--feil-farge, #c0392b);
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+}
+
+.anmeldelse-slett-btn:hover {
+    opacity: 0.75;
+}
+
+/* ---- Skjema ---- */
+.anmeldelse-skjema {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 8px;
+    background-color: var(--bg-secondary, #f9f9f9);
+    margin-top: 24px;
+}
+
+.anmeldelse-skjema h3 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.anmeldelse-stjerne-velger {
+    display: flex;
+    gap: 6px;
+}
+
+.anmeldelse-stjerne {
+    font-size: 1.8rem;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.15s;
+    line-height: 1;
+}
+
+.anmeldelse-stjerne.aktiv {
+    color: #f5a623;
+}
+
+.anmeldelse-textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color, #ccc);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    resize: vertical;
+    outline: none;
+    box-sizing: border-box;
+    background-color: var(--bg-primary, #fff);
+    color: var(--text-primary, #222);
+}
+
+.anmeldelse-textarea:focus {
+    border-color: var(--accent-color, #2e7d32);
+}
+
+.anmeldelse-send-btn {
+    align-self: flex-end;
+    padding: 8px 20px;
+    background-color: var(--accent-color, #2e7d32);
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+}
+
+.anmeldelse-send-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.anmeldelse-send-btn:hover:not(:disabled) {
+    opacity: 0.85;
+}

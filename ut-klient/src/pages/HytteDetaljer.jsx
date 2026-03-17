@@ -2,12 +2,18 @@ import PageWrapper from "../components/PageWrapper";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useAutentisering } from '../hooks/useAutentisering';
 import { useFetchHytter } from "../hooks/useFetchHytter";
+import { useAnmeldelser } from "../hooks/useAnmeldelser";
+import AnmeldelseListe from "../components/anmeldelser/AnmeldelseListe";
+import AnmeldelseSkjema from "../components/anmeldelser/AnmeldelseSkjema";
 import  './HytteDetaljer.css';
 
 // Viser detaljside for én valgt hytte basert på ID fra URL. Laget av Olai
 export default function HytteDetaljer() {
+  const { bruker, token } = useAutentisering({autoFetch: true});
   const { hytteId } = useParams();
+  const {hytteAnmeldelser, hytteGjennomsnittsrating, leggTilHytteAnmeldelse, slettHytteAnmeldelse} = useAnmeldelser({token, hytteId});
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { hentHytteFraId } = useFetchHytter(false);
@@ -111,6 +117,18 @@ export default function HytteDetaljer() {
 
           </div>
         )}
+        <AnmeldelseSkjema onSend={(data) => leggTilHytteAnmeldelse(hytteId, data)} loading={loading} />
+        <AnmeldelseListe
+          anmeldelser={hytteAnmeldelser}
+          gjennomsnittsrating={hytteGjennomsnittsrating}
+          rating={"hytte_rating"}
+          kommentar={"hytte_anmeldelse"}
+          tid={"hytte_opprettet_tidspunkt"}
+          loading={loading}
+          error={error}
+          brukerId={bruker?.bruker_id}
+          onSlett={slettHytteAnmeldelse(hytteId, bruker?.bruker_id)}
+        />
 
         {!loading && !error && !hytte && <p>{t("hytter.ikke_funnet")}</p>}
       </div>
