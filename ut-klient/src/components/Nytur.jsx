@@ -1,10 +1,12 @@
 import KartLagTur from "./kart/KartLagTur";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 import "./Nytur.css";
 
 //For å opprette en ny turrute. Laget av Kay
-export default function Nytur({rutePunkter, setRutePunkter, onLagreKoordinater, hytterITuren, setHytterITuren, turmålITuren, setTurmålITuren}) {
+export default function Nytur({rutePunkter, setRutePunkter, onLagreKoordinater, hytterITuren, setHytterITuren, turmålITuren, setTurmålITuren, stierITuren, setStierITuren, nyeStier, setNyeStier}) {
   const { t } = useTranslation();
+  const [resetRute, setResetRute] = useState(0);
 
   const handleLagre = () => {
     onLagreKoordinater?.(rutePunkter);
@@ -15,9 +17,10 @@ export default function Nytur({rutePunkter, setRutePunkter, onLagreKoordinater, 
       {/*Håndterer turlaging*/}
       <div className="rute-kontroller">
         <div className="rute-kontroller-punkter">
-          <div className="rute-kontroller-tur"><strong>{t("nytur.antall_punkter")}</strong> {rutePunkter.length}</div>
+          <div className="rute-kontroller-tur"><strong> Antall stier: </strong> {stierITuren.length}</div>
           <div className="rute-kontroller-tur"><strong> Antall hytter: </strong> {hytterITuren.length}</div>
           <div className="rute-kontroller-tur"><strong> Antall turmål: </strong> {turmålITuren.length}</div>
+          <div className="rute-kontroller-tur"><strong> Antall nye stier: </strong> {nyeStier.length}</div>
 
         </div>
         <div className="rute-kontroller-knapp-container">
@@ -27,6 +30,9 @@ export default function Nytur({rutePunkter, setRutePunkter, onLagreKoordinater, 
           setRutePunkter([]);
           setHytterITuren([]);
           setTurmålITuren([]);
+          setStierITuren([]);
+          setNyeStier([]);
+          setResetRute(k => k + 1);
         }} className="rute-knapp rute-knapp-tøm">
           {t("nytur.tøm_rute")}
         </button>
@@ -53,14 +59,16 @@ export default function Nytur({rutePunkter, setRutePunkter, onLagreKoordinater, 
         </div>
       </div>
       
-      <KartLagTur 
+      <KartLagTur
+        key={resetRute}
         rutePunkter={rutePunkter}
         setRutePunkter={setRutePunkter}
         center={[59.4087, 9.0593]}
         zoom={12}
         setHytterITuren={setHytterITuren}
         setTurmålITuren={setTurmålITuren}
-
+        setStierITuren={setStierITuren}
+        setNyeStier={setNyeStier}
       />
     </div>
   );

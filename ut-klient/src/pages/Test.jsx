@@ -16,6 +16,8 @@ export default function Test() {
     const [rutePunkter, setRutePunkter] = useState([]);
     const [hytterITuren, setHytterITuren] = useState([]);
     const [turmålITuren, setTurmålITuren] = useState([]);
+    const [stierITuren, setStierITuren] = useState([]);
+    const [nyeStierITuren, setNyeStierITuren] = useState([]);
     const [lagredeKoordinater, setLagredeKoordinater] = useState(null);
     const [lagret, setLagret] = useState(false);
     const [totalRuteLengde, setTotalRuteLengde] = useState(null);
@@ -23,12 +25,12 @@ export default function Test() {
     const [bildeUrl, setBildeUrl] = useState([]); 
     const [tempUrl, setTempUrl] = useState("");
 
-    const handleLagreKoordinater = (koords) => {
-        setLagredeKoordinater(koords);
-        setTotalRuteLengde(regnUtTotalLengde(koords));
-        setLagret(true);
+    const handleLagreKoordinater = async (koords) => {
+        //setLagredeKoordinater(koords);
+        //setTotalRuteLengde(regnUtTotalLengde(koords));
+        //setLagret(true);
         close();
-    };
+    }
 
     const handleGpxKoordinater = (koords) => {
         setLagredeKoordinater(koords);
@@ -87,6 +89,10 @@ export default function Test() {
                         setHytterITuren={setHytterITuren}
                         turmålITuren={turmålITuren}
                         setTurmålITuren={setTurmålITuren}
+                        stierITuren={stierITuren}
+                        setStierITuren={setStierITuren}
+                        nyeStier={nyeStierITuren}
+                        setNyeStier={setNyeStierITuren}
                     />
                 </div>
             </Modal>

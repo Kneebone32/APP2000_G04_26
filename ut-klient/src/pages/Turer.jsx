@@ -33,7 +33,7 @@ export default function Turer() {
                 turId={tur.tur_id}
                 turNavn={tur.tur_navn}
                 vanskelighetsgrad={tur.vanskelighetsgrad}
-                bildeUrl={tur.hovedbilde_url}
+                bildeUrl={tur.bilder[0]?.tur_url}
                 turtype={tur.turtype}
                 varighet={tur.varighet}
                 lat={tur.punkter?.[0]?.[0]}
