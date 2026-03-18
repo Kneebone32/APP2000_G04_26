@@ -72,7 +72,7 @@ export default function TurDetaljer() {
 
         {!loading && !error && tur && (
           <div className="tur-detaljer">
-            <h2>{tur.turrute_navn}</h2>
+            <h2>{tur.tur_navn}</h2>
 
             {tur.bilder && tur.bilder.length > 0 && (
               <div className="tur-bilder">
@@ -80,15 +80,15 @@ export default function TurDetaljer() {
                   <img
                     key={index}
                     src={bilder}
-                    alt={`${tur.turrute_navn} bilde ${index + 1}`}
+                    alt={`${tur.tur_navn} bilde ${index + 1}`}
                     className="tur-bilde"
                   />
                 ))}
               </div>
             )}
 
-            {tur.turrute_omrade && (
-              <p><strong>{t("felles.lokasjon")}:</strong> {tur.turrute_omrade}</p>
+            {tur.tur_omrade && (
+              <p><strong>{t("felles.lokasjon")}:</strong> {tur.tur_omrade}</p>
             )}
 
             {kommunenavn && (
@@ -121,9 +121,9 @@ export default function TurDetaljer() {
         <AnmeldelseListe
           anmeldelser={turAnmeldelser}
           gjennomsnittsrating={turGjennomsnittsrating}
-          rating={"turrute_rating"}
-          kommentar={"turrute_anmeldelse"}
-          tid={"turrute_opprettet_tidspunkt"}
+          rating={"tur_rating"}
+          kommentar={"tur_anmeldelse"}
+          tid={"tur_opprettet_tidspunkt"}
           loading={loading}
           error={error}
           brukerId={bruker?.bruker_id}

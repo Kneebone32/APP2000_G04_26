@@ -12,6 +12,7 @@ export default function Turer() {
   const { turer, loadingTurer, errorTurer } = useFetchTurer({autoFetch: true}); //turKort: true
   const { token } = useAutentisering();
   const { erTurFavoritt, toggleTurFavoritt } = useFavoritter({token});
+  console.log(turer)
 
   return (
     <PageWrapper title={t("turer.tittel")}>
@@ -28,16 +29,16 @@ export default function Turer() {
           <div className="TurKortContainer">
             {turer.map((tur) => (
               <TurKort
-                key={tur.turrute_id}
-                turId={tur.turrute_id}
-                turNavn={tur.turrute_navn}
+                key={tur.tur_id}
+                turId={tur.tur_id}
+                turNavn={tur.tur_navn}
                 vanskelighetsgrad={tur.vanskelighetsgrad}
                 bildeUrl={tur.hovedbilde_url}
                 turtype={tur.turtype}
                 varighet={tur.varighet}
                 lat={tur.punkter?.[0]?.[0]}
                 lon={tur.punkter?.[0]?.[1]}
-                erFavoritt={erTurFavoritt(tur.turrute_id)}
+                erFavoritt={erTurFavoritt(tur.tur_id)}
                 onToggleFavoritt={toggleTurFavoritt}
               />
               ))}
