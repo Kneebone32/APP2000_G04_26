@@ -8,6 +8,7 @@ import turmaalRoutes from './turmaal.js';
 import metadataRoutes from './metadata.js';
 import fellesturRoutes from './fellestur.js';
 import brukerRoutes from './bruker.js';
+import stiRoutes from "./sti.js";
 
 const router = express.Router();
 
@@ -18,5 +19,6 @@ router.use('/turmaal', turmaalRoutes);
 router.use('/metadata', metadataRoutes);
 router.use('/fellestur', fellesturRoutes);
 router.use('/bruker', brukerRoutes);
+router.use('/sti', stiRoutes);
 
 export default router;

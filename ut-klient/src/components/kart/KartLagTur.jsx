@@ -4,9 +4,10 @@ import Kart_basic, { hytteIcon, marker1, marker2,  marker3, marker4, marker5, ma
 import { useFetchHytter } from "../../hooks/useFetchHytter";
 import { useTurmål } from "../../hooks/useTurmål";
 import { erSammeKoordinat } from "../../utils/erGyldigKoordinat";
-import stier from "../../assets/stier.json"
+//import stier from "../../assets/stier.json"
 import { HoverPolyline } from "./HoverPolyline";
 import { HoverMarker } from "./HoverMarker";
+import { useStier } from "../../hooks/useStier";
 
 //Hjelper Leaflet med å regne ut den faktiske størrelsen på Modal. Laget av AI
 function MapSizeInvalidator() {
@@ -36,6 +37,8 @@ function RuteKontroller({setRutePunkter}) {
 export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4087, 9.0593], zoom = 12, setHytterITuren, setTurmålITuren}) {
   const { hytter } = useFetchHytter({autoFetch: true});
   const { turmål } = useTurmål({autoFetch: true});
+  const { stier } = useStier({autoFetch: true});
+
 
   //const { stier } = useStier({autoFetch: true})
   const [forrigeObjekt, setForrigeObjekt] = useState(null);
@@ -266,11 +269,11 @@ export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4
       )} 
 
       {/*Stier*/}
-      {stier && (
-        stier.map((sti) => (
+      {stier.length > 0 && (
+        stier.map((sti, index) => (
         <HoverPolyline 
-          key={sti.id}
-          punkter={sti.punkter}
+          key={index}
+          punkter={sti.punkter.map(punkt => [punkt.breddegrad, punkt.lengdegrad])}
           farge="#0fe407"
           standardVekt={4}
           hoverVekt={8}

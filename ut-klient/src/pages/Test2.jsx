@@ -7,6 +7,7 @@ import { useTurmål } from "../hooks/useTurmål";
 import { useFetchHytter } from "../hooks/useFetchHytter";
 import { useStier } from "../hooks/useStier";
 import { toast } from "react-toastify";
+import { byggPunkterMedMoh, hentKommuneData } from "../utils/geoUtils";
 
 
 export default function Test2(){
@@ -21,13 +22,19 @@ export default function Test2(){
 
 
     const handleLagreKoordinater = async (koords) => {
+        if(!koords || koords.length < 1) return;
         setLagredeKoordinater(koords);
-        setLagret(true);
-        close();
+        const sted = await hentKommuneData(koords[0][0], koords[0][1]);
         try {
-            await opprettSti(koords);
+            const punkter = await byggPunkterMedMoh(koords);
+            await opprettSti({
+                punkter,
+                fylke_nummer: sted.fylkesnummer,
+                kommune_nummer: sted.kommunenummer
+            });
             toast.success("Sti opprettet!");
-            
+            setLagret(true);
+            close();
         } catch (error) {
             console.log(error);
             toast.error(error.message);

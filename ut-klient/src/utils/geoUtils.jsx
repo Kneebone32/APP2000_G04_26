@@ -63,10 +63,32 @@ export const hentHøydeProfil = async (koords) => {
     koords[Math.round(index * (koords.length - 1) / (antall - 1))]
   );
 
-  const punkter = JSON.stringify(utvalgteKoords.map(([lat, lon]) => [lon, lat]));
-  const data = await hentHøydedataFraPunkter(punkter);
+  const data = await hentHøydedataFraPunkter(utvalgteKoords);
+  return data;
+};
 
-  return data ? data.map(koord => koord.z) : [];
+
+//Bygger punkter med moh for lagring av Stier
+//Punkter som ikke ble samplet får moh: null
+export const byggPunkterMedMoh = async (koords) => {
+  const høydeData = await hentHøydeProfil(koords);
+  if (!høydeData) return koords.map(p => ({breddegrad: p[0], lengdegrad: p[1], moh: null}));
+
+  const antall = Math.min(50, koords.length);
+  const sampledIndices = Array.from({length: antall}, (_, i) =>
+    Math.round(i * (koords.length - 1) / (antall - 1))
+  );
+
+  const mohByIndex = {};
+  sampledIndices.forEach((koordIdx, høydeIdx) => {
+    mohByIndex[koordIdx] = høydeData[høydeIdx]?.z ?? null;
+  });
+
+  return koords.map((p, i) => ({
+    breddegrad: p[0],
+    lengdegrad: p[1],
+    moh: parseInt(mohByIndex[i]) ?? null
+  }));
 };
 
 
@@ -112,9 +134,10 @@ export const hentKommuneData = async (lat, lon) => {
 
 
 export const hentHøydedataFraPunkter = async (punkter) => {
+  const lonLat = punkter.map(p => [p[1], p[0]]);
   try {
     const response = await fetch(
-      `https://ws.geonorge.no/hoydedata/v1/punkt?koordsys=4258&nord=0&ost=0&punkter=${punkter}&geojson=false`
+      `https://ws.geonorge.no/hoydedata/v1/punkt?koordsys=4258&punkter=${encodeURIComponent(JSON.stringify(lonLat))}&geojson=false`
     );
     
     if (!response.ok){ 
