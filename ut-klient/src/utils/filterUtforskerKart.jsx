@@ -53,7 +53,7 @@ export function filterHytter(hytter, filter) {
 export function filterTurer(turer, filter) {
   return turer.filter((tur) => {
     //Null check
-    if (!tur.punkter || tur.punkter.length === 0) {
+    if (!tur.stier || tur.stier.length === 0) {
       return false;
     }
 

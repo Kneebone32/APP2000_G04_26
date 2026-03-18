@@ -51,7 +51,7 @@ export default function Kart() {
     <div>
       <KartFilter onFilterChange={setFilter} />
 
-      <Kart_basic center={[59.41020666063333, 9.069621134032557]} zoom={13}>
+      <Kart_basic center={[59.412533435582255, 9.067389041659744]} zoom={13}>
         <ZoomLevel onZoomChange={setZoom} />
 
         {/*Fellesturer*/}
@@ -86,37 +86,40 @@ export default function Kart() {
         
 
         {/*Turer /////////////////////////////////////////////////////////////////////////*/}
-        {visMarker && filter.visTurer &&
+        {visMarker && filter.visTurer  &&
           filteredTurer.map((tur) => (
-            <>
-            <Fragment key={tur.turrute_id}>
-            <HoverPolyline 
-            punkter={tur.punkter}
-            >
-              <Popup>
-                    <strong>{tur.turrute_navn}</strong>
+            <Fragment key={tur.tur_id}>
+              {tur.stier?.map((sti, index) => (
+                <HoverPolyline
+                  key={sti.sti_id ?? index}
+                  punkter={sti.punkter.map(p => [p.breddegrad, p.lengdegrad])}
+                >
+                  {index === 0 && (
+                    <Popup>
+                      <strong>{tur.tur_navn}</strong>
+                      <br />
+                      {t("kart_detaljer.turtype")}{t(`enums.turtype.${tur.turtype}`)}
+                      <br />
+                      {t("kart_detaljer.vanskelighetsgrad")}{t(`enums.vanskelighetsgrad.${tur.vanskelighetsgrad}`)}
+                    </Popup>
+                  )}
+                </HoverPolyline>
+              ))}
+              {tur.stier?.[0]?.punkter?.[0] && (
+                <Marker
+                  position={[tur.stier[0].punkter[0].breddegrad, tur.stier[0].punkter[0].lengdegrad]}
+                  icon={turIcon}
+                >
+                  <Popup>
+                    <strong>{tur.tur_navn}</strong>
                     <br />
                     {t("kart_detaljer.turtype")}{t(`enums.turtype.${tur.turtype}`)}
                     <br />
                     {t("kart_detaljer.vanskelighetsgrad")}{t(`enums.vanskelighetsgrad.${tur.vanskelighetsgrad}`)}
-                </Popup>
-            </HoverPolyline>
-            
-            <Marker
-                key={tur.turrute_id}
-                position={tur.punkter[0]}
-                icon={turIcon}
-            >
-              <Popup>
-                    <strong>{tur.turrute_navn}</strong>
-                    <br />
-                    {t("kart_detaljer.turtype")}{t(`enums.turtype.${tur.turtype}`)}
-                    <br />
-                    {t("kart_detaljer.vanskelighetsgrad")}{t(`enums.vanskelighetsgrad.${tur.vanskelighetsgrad}`)}
-                </Popup>
-            </Marker>
+                  </Popup>
+                </Marker>
+              )}
             </Fragment>
-            </>
           ))}
           
 
