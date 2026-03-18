@@ -8,7 +8,6 @@ import { useTurmål }  from "../hooks/useTurmål";
 import { useFetchTurer } from "../hooks/useFetchTurer";
 import { filterHytter, filterTurMål, filterTurer } from "../utils/filterUtforskerKart";
 import { HoverPolyline } from "../components/kart/HoverPolyline";
-import { tur } from "../assets/tur";
 import "./Kart.css";
 import "../App.css";
 
@@ -56,6 +55,7 @@ export default function Kart() {
         <ZoomLevel onZoomChange={setZoom} />
 
         {/*Fellesturer*/}
+        {/* 
         {visMarker && filter.visFellesturer !== false && (
           <>
             <HoverPolyline 
@@ -80,7 +80,10 @@ export default function Kart() {
             </Marker>
             
           </>
+          
         )}
+          */}
+        
 
         {/*Turer /////////////////////////////////////////////////////////////////////////*/}
         {visMarker && filter.visTurer &&

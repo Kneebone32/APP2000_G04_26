@@ -2,7 +2,7 @@
 
 import express from 'express';
 import hytterRoutes from './hytter.js';
-import turruterRoutes from './turruter.js';
+import turRoutes from './tur.js';
 import enumsRoutes from './enums.js';
 import turmaalRoutes from './turmaal.js';
 import metadataRoutes from './metadata.js';
@@ -13,7 +13,7 @@ import stiRoutes from "./sti.js";
 const router = express.Router();
 
 router.use('/hytter', hytterRoutes);
-router.use('/turruter', turruterRoutes);
+router.use('/tur', turRoutes);
 router.use('/enums', enumsRoutes);
 router.use('/turmaal', turmaalRoutes);
 router.use('/metadata', metadataRoutes);

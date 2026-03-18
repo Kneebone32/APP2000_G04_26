@@ -14,7 +14,7 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
     try {
       setLoadingTurer(true);
       setErrorTurer(null);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/tur`);
       
       if (!response.ok) {
         throw new Error(`HTTP error: ${response.status}`);
@@ -35,7 +35,7 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
     try {
       setLoadingTurer(true);
       setErrorTurer(null);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter/kort`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/tur/kort`);
       
       if (!response.ok) {
         throw new Error(`HTTP error: ${response.status}`);
@@ -54,7 +54,7 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
   // Oppdaterer en turrute
   const opptaterTur = useCallback (async (id, data) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/tur/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -77,7 +77,7 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
   // Sletter en turrute
   const deleteTur = useCallback (async (id) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/tur/${id}`, {
         method: 'DELETE'
       });
 
@@ -96,7 +96,7 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
   // Henter en turrute basert på ID
   const hentTurFraId = useCallback(async (id) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter/${id}`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/tur/${id}`);
 
       if (!response.ok) {
         throw new Error(`HTTP error: ${response.status}`);
@@ -112,7 +112,7 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
   const fetchTurRute = useCallback(async (tur_id) => {
       try {
         setLoadingTurPunkter(true);
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter/${tur_id}/punkter`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/tur/${tur_id}/punkter`);
         if (!response.ok) console.log("Kunne ikke hente tur");
         
         const data = await response.json();
