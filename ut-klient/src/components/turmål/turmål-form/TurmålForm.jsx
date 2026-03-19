@@ -13,19 +13,21 @@ import "./TurmålForm.css"
 export default function TurmålForm({lagretData = {}, onSubmitAction, buttonTekst}){
     const { t } = useTranslation();
     const {isOpen, open, close} = useModal();
-    const [lagretKoordinat, setLagretKoordinat] = useState(null);
-    const [tittel, setTittel] = useState(lagretData.tittel || "");
+    const [tittel, setTittel] = useState(lagretData.turmaal_navn || "");
     const [lagret, setLagret] = useState(lagretData || false);
-    const [høydeMeter, setHøydeMeter] = useState(lagretData.høyde || "");
-    const [breddegrad, setBreddegrad] = useState(lagretData.høyde || 0);
-    const [lengdegrad, setLengdegrad] = useState(lagretData.høyde || 0);
-    const [beskrivelse, setBeskrivelse] = useState(lagretData.beskrivelse || "");
-    const [bildeUrl, setBildeUrl] = useState(lagretData.bilder || []); 
+    const [høydeMeter, setHøydeMeter] = useState(lagretData.turmaal_moh || "");
+    const [breddegrad, setBreddegrad] = useState(lagretData.turmaal_breddegrad || 0);
+    const [lengdegrad, setLengdegrad] = useState(lagretData.turmaal_lengdegrad || 0);
+    const [lagretKoordinat, setLagretKoordinat] = useState(breddegrad + "," + lengdegrad || "");
+    const [beskrivelse, setBeskrivelse] = useState(lagretData.turmaal_beskrivelse || "");
+    const [bildeUrl, setBildeUrl] = useState(
+        (lagretData.turmaal_bilder || []).map(bilde => bilde.url)
+    ); 
     const [tempUrl, setTempUrl] = useState("");
-    const [kommune, setKommune] = useState(lagretData.kommune || "");
-    const [kommuneID, setKommuneID] = useState(lagretData.kommuneID || "");
-    const [fylke, setFylke] = useState(lagretData.fylke || "");
-    const [fylkeID, setFylkeID] = useState(lagretData.fylkeID || "");
+    const [kommune, setKommune] = useState(lagretData.kommune_navn || "");
+    const [kommuneID, setKommuneID] = useState(lagretData.kommune_id || "");
+    const [fylke, setFylke] = useState(lagretData.fylke_navn || "");
+    const [fylkeID, setFylkeID] = useState(lagretData.fylke_id || "");
     
 
     const handleLagreKoordinat = async (koord) => {

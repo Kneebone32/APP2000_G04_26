@@ -36,6 +36,7 @@ export default function Kart() {
   const filteredHytter = filterHytter(hytter, filter);
   const filteredTurer = filterTurer(turer, filter);
   const filteredTurmål = filterTurMål(turmål, filter);
+  console.log(filteredTurmål)
   
 
 
@@ -150,7 +151,9 @@ export default function Kart() {
               icon={turmålIcon}
             >
               <Popup maxWidth={260} minWidth={260}>
-                <strong>{mål.navn}</strong>
+                <h3>{mål.navn}</h3>
+                <strong>Høyde: </strong> {mål.moh}
+                <br/>
                   <img
                     className="popup-bilde"
                     src={`${mål.hovedbilde_url}?w=200&h=200&fit=fit`} 

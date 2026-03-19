@@ -21,13 +21,20 @@ export default function BildeOpplasting({ bildeUrl, setBildeUrl }) {
                     <div style={{ marginTop: '10px' }}>
                         <p>{t("tur.bilde_lastet_opp")} ({bildeUrl.length})</p>
                         {bildeUrl?.map((url, index) => (
-                            <img
-                                className="Bilde"
-                                key={index}
-                                src={`${url}?w=200&h=200&fit=fit`} 
-                                alt={`Preview ${index + 1}`}
-                                style={{ marginRight: '10px' }}
-                            />
+                            <div key={index} style={{display: 'inline-block', position: 'relative', marginRight: '10px'}}>
+                                <img
+                                    className="Bilde"
+                                    src={`${url}?w=200&h=200&fit=fit`}
+                                    alt={`Preview ${index + 1}`}
+                                />
+                                <button
+                                    className="fjern-bilde"
+                                    type="button"
+                                    onClick={() => setBildeUrl(bildeUrl.filter((_, i) => i !== index))}
+                                >
+                                    ✕
+                                </button>
+                            </div>
                         ))}
                     </div>
                 )}

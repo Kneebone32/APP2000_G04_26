@@ -61,7 +61,6 @@ export default function FellesturKobling() {
         setLasterHytte(true);
         try {
             const data = await hentHytteFraId(id);
-            console.log(data)
             const minDist = minDistTilTur(data.koordinater.breddegrad, data.koordinater.lengdegrad, testFellestur);
 
             if ( minDist > maksTillattAvstandKM) {

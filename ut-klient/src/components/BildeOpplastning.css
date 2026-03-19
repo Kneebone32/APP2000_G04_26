@@ -5,3 +5,27 @@
     border-radius: 8px;    
     margin: 0 auto 15px;
 }
+
+.fjern-bilde {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 12px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.fjern-bilde:hover {
+    background-color: rgba(200, 0, 0, 0.8);
+}

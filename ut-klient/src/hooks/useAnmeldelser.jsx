@@ -53,7 +53,6 @@ export function useAnmeldelser({ token, hytteId, turId } = {}) {
   //Legger til en ny anmeldelse for en hytte
   const leggTilHytteAnmeldelse = useCallback(async (hytteId, {stjerner, kommentar}) => {
     if (!token) return;
-    console.log("hook etter token")
     try {
       setError(null);
       const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/${hytteId}/anmeldelser`, {
@@ -63,7 +62,6 @@ export function useAnmeldelser({ token, hytteId, turId } = {}) {
       });
       if (!response.ok) throw new Error(`Kunne ikke legge til anmeldelse: ${response.status}`);
       const ny = await response.json();
-      console.log(ny)
       setHytteAnmeldelser(prev => [ny, ...prev]);
     } catch (err) {
       setError(err.message);
