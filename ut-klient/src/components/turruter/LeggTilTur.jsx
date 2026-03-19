@@ -28,6 +28,8 @@ export default function LeggTilTur({ onSuccess }) {
     const [lagredeKoordinater, setLagredeKoordinater] = useState(null);
     const [hytterITuren, setHytterITuren] = useState([]);
     const [turmålITuren, setTurmålITuren] = useState([]);
+    const [stierITuren, setStierITuren] = useState([]);
+    const [nyeStierITuren, setNyeStierITuren] = useState([]);
     const [lagret, setLagret] = useState(false);
     const [totalRuteLengde, setTotalRuteLengde] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -90,14 +92,14 @@ export default function LeggTilTur({ onSuccess }) {
             const startKoord = lagredeKoordinater && lagredeKoordinater.length >= 2 ? lagredeKoordinater[0] : null;
             const sluttKoord = lagredeKoordinater && lagredeKoordinater.length >= 2 ? lagredeKoordinater[lagredeKoordinater.length - 1] : null;
 
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/tur`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    turrute_navn: navn,
-                    beskrivelse: beskrivelse,
+                    tur_navn: navn,
+                    tur_beskrivelse: beskrivelse,
                     vanskelighetsgrad: selectedVanskelighetsgrad || null,
                     varighet: selectedVarighet || null,
                     turtype: selectedTurtype || null,
@@ -105,7 +107,10 @@ export default function LeggTilTur({ onSuccess }) {
                     kommune_id: kommuneId,
                     punkter: lagredeKoordinater || null,
                     info_array: null,
-                    bilder: bildeUrl.length > 0 ? bildeUrl : null
+                    bilder: bildeUrl.length > 0 ? bildeUrl : null,
+                    hytter: hytterITuren?.map(h => h.hytte_id),
+                    turmaal: turmålITuren?.map(t => t.turmaal_id),
+                    stier: stierITuren
                 })
             });
 
@@ -128,6 +133,8 @@ export default function LeggTilTur({ onSuccess }) {
         setRutePunkter([]);
         setHytterITuren([]);
         setTurmålITuren([]);
+        setStierITuren([]);
+        setNyeStierITuren([]);
         setLagret(false);
         setTotalRuteLengde(null);
 
@@ -301,6 +308,10 @@ export default function LeggTilTur({ onSuccess }) {
                         setHytterITuren={setHytterITuren}
                         turmålITuren={turmålITuren}
                         setTurmålITuren={setTurmålITuren}
+                        stierITuren={stierITuren}
+                        setStierITuren={setStierITuren}
+                        nyeStier={nyeStierITuren}
+                        setNyeStier={setNyeStierITuren}
                     />
                 </div>
             </Modal>
