@@ -67,7 +67,6 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
 
 
     const handleMinChange = (verdi) => {
-        console.log(bildeUrl)
         const nummer = Number(verdi);
         setMinDeltakere(nummer);
         if (nummer > maksDeltakere) setMaksDeltakere(nummer);

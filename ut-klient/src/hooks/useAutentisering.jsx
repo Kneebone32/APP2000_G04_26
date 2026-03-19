@@ -102,6 +102,89 @@ export function useAutentisering({autoFetch = true} = {}) {
     }
   }, []);
 
+  //Oppdater profil
+  const redigerProfil = useCallback(async (bruker_navn, bruker_etternavn) => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/bruker/oppdater`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ bruker_navn, bruker_etternavn })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Oppdatering feilet');
+      }
+
+      await fetchProfil();
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, [token, fetchProfil]);
+
+  //Bytt passord
+  const byttPassord = useCallback(async (gammelt_passord, nytt_passord) => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/bruker/bytt-passord`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({gammelt_passord, nytt_passord})
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error);
+      }
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, [token]);
+
+  //rollebytte
+  const byttRolle = useCallback(async (rolle_id) => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/bruker/bytt-rolle`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ rolle_id })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error);
+      }
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, [token]);
+
   //Logg ut
   const loggut = useCallback(() => {
     setToken(null);
@@ -128,6 +211,9 @@ export function useAutentisering({autoFetch = true} = {}) {
     logginn,
     registrer,
     loggut,
+    redigerProfil,
+    byttPassord,
+    byttRolle,
     refetch: fetchProfil
   };
 }
