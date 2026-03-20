@@ -18,8 +18,8 @@ export default function RedigerPassord() {
         }
 
         try {
-            //await byttPassord(gammeltPassord, nyttPassord);
-            toast.success("Passord oppdatert. Eller er ble det oppdatert?");
+            await byttPassord(gammeltPassord, nyttPassord);
+            toast.success("Passord oppdatert!");
             setGammeltPassord("");
             setNyttPassord("");
             setBekreftPassord("");

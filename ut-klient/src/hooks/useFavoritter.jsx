@@ -3,8 +3,8 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 //Hook for å håndtere hyttefavoritter. Laget av Kay
 //bruker Set for å gjøre søk etter favoritter raskere. 
 export function useFavoritter({ token } = {}) {
-  const [hytteFavoritter, sethytteFavoritter] = useState(new Set([80, 134]));
-  const [turFavoritter, setTurFavoritter] = useState(new Set([36]));
+  const [hytteFavoritter, sethytteFavoritter] = useState(new Set());
+  const [turFavoritter, setTurFavoritter] = useState(new Set());
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -19,13 +19,12 @@ export function useFavoritter({ token } = {}) {
     try {
       setLoading(true);
       setError(null);
-      /*const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/favoritter`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/favoritter`, {
         headers: authHeaders
       });
       if (!response.ok) throw new Error(`Kunne ikke hente favoritter: ${response.status}`);
       const data = await response.json();
       sethytteFavoritter(new Set(data.map(f => f.hytte_id)));
-      */
 
     } catch (err) {
       setError(err.message);
@@ -72,13 +71,12 @@ export function useFavoritter({ token } = {}) {
     try {
       setLoading(true);
       setError(null);
-      //const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter/favoritter`, {
-      //  headers: authHeaders
-      //});
-      //if (!response.ok) throw new Error(`Kunne ikke hente turfavoritter: ${response.status}`);
-      //const data = await response.json();
-      //setTurFavoritter(new Set(data.map(f => f.turrute_id)));
-      setTurFavoritter(new Set(36));
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter/favoritter`, {
+        headers: authHeaders
+      });
+      if (!response.ok) throw new Error(`Kunne ikke hente turfavoritter: ${response.status}`);
+      const data = await response.json();
+      setTurFavoritter(new Set(data.map(f => f.turrute_id)));
     } catch (err) {
       setError(err.message);
     } finally {

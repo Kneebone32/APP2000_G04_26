@@ -17,8 +17,8 @@ function ProfilForm({bruker, redigerProfil}) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            //await redigerProfil(navn, etternavn);
-            toast("Hvorfor skal du alltid teste ting som ikke er koblet til backend?!");
+            await redigerProfil(navn, etternavn);
+            toast.success("Profil oppdatert!");
         } catch (err) {
             toast.error(err.message);
         }

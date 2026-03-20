@@ -15,8 +15,8 @@ export default function AnmeldelseSkjema({onSend, loading}) {
             return;
         }
         try {
-            //await onSend({stjerner, kommentar: kommentar.trim()});
-            toast("Thank you mario, but our backend is in another castle");
+            await onSend({stjerner, kommentar: kommentar.trim()});
+            toast.success("Anmeldelse sendt!");
             setStjerner(0);
             setKommentar('');
         } catch {

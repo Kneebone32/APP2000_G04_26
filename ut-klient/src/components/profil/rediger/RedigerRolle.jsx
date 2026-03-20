@@ -19,8 +19,8 @@ function RolleForm({bruker, byttRolle}) {
         e.preventDefault();
         const valgtRolleId = parseInt(e.target.rolle.value);
         try {
-            //await byttRolle(valgtRolleId);
-            toast.success("nei");
+            await byttRolle(valgtRolleId);
+            toast.success("Rolle oppdatert!");
         } catch (err) {
             toast.error(err.message);
         }
