@@ -1,6 +1,7 @@
 // Skrevet av Kristoffer med mindre annet er spesifisert
 
 import express from 'express';
+import passport from 'passport';
 import pool from '../config/db.js';
 
 const router = express.Router();
@@ -24,6 +25,44 @@ router.get('/kort', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Database connection failed' });
+  }
+});
+
+// Henter alle favoritthytter til en bruker
+router.get('/favoritter', passport.authenticate('jwt', {session: false}), async (req, res) => {
+  try {
+    const brukerId = req.user.bruker_id;
+    const result = await pool.query('SELECT hytte_id FROM favoritt_hytte WHERE bruker_id = $1', [brukerId]);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke hente favoritter' });
+  }
+});
+
+// Legger til en hytte i favoritter
+router.post('/favoritter/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
+  try {
+    const brukerId = req.user.bruker_id;
+    const hytteId = req.params.id;
+    await pool.query('INSERT INTO favoritt_hytte (bruker_id, hytte_id) VALUES ($1, $2) ON CONFLICT DO NOTHING', [brukerId, hytteId]);
+    res.status(201).json({ message: 'Favoritt lagt til' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke legge til favoritt' });
+  }
+});
+
+// Fjerner en hytte fra favoritter
+router.delete('/favoritter/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
+  try {
+    const brukerId = req.user.bruker_id;
+    const hytteId = req.params.id;
+    await pool.query('DELETE FROM favoritt_hytte WHERE bruker_id = $1 AND hytte_id = $2', [brukerId, hytteId]);
+    res.json({ message: 'Favoritt fjernet' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke fjerne favoritt' });
   }
 });
 

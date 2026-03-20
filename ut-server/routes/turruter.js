@@ -1,6 +1,7 @@
 // Skrevet av Kristoffer med mindre annet er spesifisert
 
 import express from 'express';
+import passport from 'passport';
 import pool from '../config/db.js';
 
 const router = express.Router();
@@ -16,6 +17,44 @@ router.get('/', async (req, res) => {
   }
 });
 
+
+// Henter alle favoritturene til en bruker
+router.get('/favoritter', passport.authenticate('jwt', {session: false}), async (req, res) => {
+  try {
+    const brukerId = req.user.bruker_id;
+    const result = await pool.query('SELECT turrute_id FROM favoritt_turrute WHERE bruker_id = $1', [brukerId]);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke hente favoritter' });
+  }
+});
+
+// Legger til en turrute i favoritter
+router.post('/favoritter/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
+  try {
+    const brukerId = req.user.bruker_id;
+    const turruteId = req.params.id;
+    await pool.query('INSERT INTO favoritt_turrute (bruker_id, turrute_id) VALUES ($1, $2) ON CONFLICT DO NOTHING', [brukerId, turruteId]);
+    res.status(201).json({ message: 'Favoritt lagt til' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke legge til favoritt' });
+  }
+});
+
+// Fjerner en turrute fra favoritter
+router.delete('/favoritter/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
+  try {
+    const brukerId = req.user.bruker_id;
+    const turruteId = req.params.id;
+    await pool.query('DELETE FROM favoritt_turrute WHERE bruker_id = $1 AND turrute_id = $2', [brukerId, turruteId]);
+    res.json({ message: 'Favoritt fjernet' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke fjerne favoritt' });
+  }
+});
 
 // Henter turrute med gitt id
 router.get('/:id', async (req, res) => {
