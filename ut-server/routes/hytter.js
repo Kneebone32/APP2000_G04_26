@@ -66,6 +66,59 @@ router.delete('/favoritter/:id', passport.authenticate('jwt', {session: false}),
   }
 });
 
+// Henter anmeldelser for en hytte
+router.get('/:id/anmeldelser', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query('SELECT anmeldelse_hytte_hent_for_hytte($1) AS anmeldelser', [id]);
+    res.json(result.rows[0].anmeldelser);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke hente anmeldelser' });
+  }
+});
+
+// Oppretter anmeldelse for en hytte
+router.post('/:id/anmeldelser', passport.authenticate('jwt', {session: false}), async (req, res) => {
+  try {
+    const brukerId = req.user.bruker_id;
+    const hytteId = req.params.id;
+    const { rating, anmeldelse } = req.body;
+    await pool.query('SELECT anmeldelse_hytte_opprett($1, $2, $3, $4)', [brukerId, hytteId, rating, anmeldelse]);
+    res.status(201).json({ message: 'Anmeldelse opprettet' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke opprette anmeldelse' });
+  }
+});
+
+// Oppdaterer anmeldelse for en hytte
+router.put('/:id/anmeldelser', passport.authenticate('jwt', {session: false}), async (req, res) => {
+  try {
+    const brukerId = req.user.bruker_id;
+    const hytteId = req.params.id;
+    const { rating, anmeldelse } = req.body;
+    await pool.query('SELECT anmeldelse_hytte_oppdater($1, $2, $3, $4)', [brukerId, hytteId, rating, anmeldelse]);
+    res.json({ message: 'Anmeldelse oppdatert' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke oppdatere anmeldelse' });
+  }
+});
+
+// Sletter anmeldelse for en hytte
+router.delete('/:id/anmeldelser', passport.authenticate('jwt', {session: false}), async (req, res) => {
+  try {
+    const brukerId = req.user.bruker_id;
+    const hytteId = req.params.id;
+    await pool.query('SELECT anmeldelse_hytte_slett($1, $2)', [brukerId, hytteId]);
+    res.json({ message: 'Anmeldelse slettet' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke slette anmeldelse' });
+  }
+});
+
 // Henter hytte med gitt id (detaljvisning)
 router.get('/:id', async (req, res) => {
   try {

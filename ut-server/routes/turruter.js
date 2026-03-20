@@ -56,6 +56,59 @@ router.delete('/favoritter/:id', passport.authenticate('jwt', {session: false}),
   }
 });
 
+// Henter anmeldelser for en turrute
+router.get('/:id/anmeldelser', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query('SELECT anmeldelse_tur_hent_for_tur($1) AS anmeldelser', [id]);
+    res.json(result.rows[0].anmeldelser);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke hente anmeldelser' });
+  }
+});
+
+// Oppretter anmeldelse for en turrute
+router.post('/:id/anmeldelser', passport.authenticate('jwt', {session: false}), async (req, res) => {
+  try {
+    const brukerId = req.user.bruker_id;
+    const turId = req.params.id;
+    const { rating, anmeldelse } = req.body;
+    await pool.query('SELECT anmeldelse_tur_opprett($1, $2, $3, $4)', [brukerId, turId, rating, anmeldelse]);
+    res.status(201).json({ message: 'Anmeldelse opprettet' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke opprette anmeldelse' });
+  }
+});
+
+// Oppdaterer anmeldelse for en turrute
+router.put('/:id/anmeldelser', passport.authenticate('jwt', {session: false}), async (req, res) => {
+  try {
+    const brukerId = req.user.bruker_id;
+    const turId = req.params.id;
+    const { rating, anmeldelse } = req.body;
+    await pool.query('SELECT anmeldelse_tur_oppdater($1, $2, $3, $4)', [brukerId, turId, rating, anmeldelse]);
+    res.json({ message: 'Anmeldelse oppdatert' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke oppdatere anmeldelse' });
+  }
+});
+
+// Sletter anmeldelse for en turrute
+router.delete('/:id/anmeldelser', passport.authenticate('jwt', {session: false}), async (req, res) => {
+  try {
+    const brukerId = req.user.bruker_id;
+    const turId = req.params.id;
+    await pool.query('SELECT anmeldelse_tur_slett($1, $2)', [brukerId, turId]);
+    res.json({ message: 'Anmeldelse slettet' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke slette anmeldelse' });
+  }
+});
+
 // Henter turrute med gitt id
 router.get('/:id', async (req, res) => {
   try {
