@@ -81,6 +81,68 @@ nav .nav-close-btn {
     padding: 5px;
 }
 
+.LogginnKnapp {
+    position: relative;
+    margin-left: 40px;
+    font-weight: 500;
+}
+
+.navbar .auth-nav-btn {
+    border-radius: 7px;
+    border: 0.5px solid rgb(149, 192, 142);
+    padding: 3px 10px;
+    background: rgb(187, 255, 175);
+}
+
+.navbar .auth-nav-btn:hover:hover {
+    background: rgb(146, 255, 127);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.bruker-dropdown {
+    position: relative;
+    display: inline-flex;
+    margin-left: 40px;
+}
+
+.bruker-dropdown .bruker-meny-knapp {
+    margin-left: 0;
+}
+
+.bruker-dropdown-meny {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 140px;
+    background: rgb(240, 240, 240);
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-direction: column;
+    z-index: 1100;
+}
+
+.bruker-dropdown-meny .dropdown-valg {
+    margin-left: 0;
+    padding: 10px 12px;
+    text-align: left;
+    background: transparent;
+    border: none;
+    color: black;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.bruker-dropdown-meny .dropdown-valg:hover {
+    background: rgb(226, 226, 226);
+}
+
+.bruker-dropdown-meny .dropdown-valg::before {
+    content: none;
+}
+
 @media only screen and (max-width: 1120px) {
     header .nav-btn {
         display: block;
@@ -128,6 +190,28 @@ nav .nav-close-btn {
     nav.navbar a {
         font-size: 18px;
         margin-left: 0;
+    }
+
+    .LogginnKnapp {
+        padding-right: 40px;
+    }
+
+    .bruker-dropdown {
+        margin-left: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .bruker-dropdown-meny {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        width: max-content;
+        margin-top: 0;
     }
 
     .språk-toggle {

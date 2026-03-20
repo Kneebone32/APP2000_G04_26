@@ -18,6 +18,7 @@ export default function Navbar() {
   const {bruker, erAutentisert, loggut, logginn, registrer, loading, error} = useAutentisering({autoFetch: true})
   const [visLogginn, setVisLogginn] = useState(false);
   const [visRegistrer, setVisRegistrer] = useState(false);
+  const [visBrukerMeny, setVisBrukerMeny] = useState(false);
 
   const toggleSpråk = () => {
   const nyttSpråk = i18n.language === "no" ? "en" : "no";
@@ -39,6 +40,7 @@ export default function Navbar() {
 
   const closeNavbar = () => {
     navRef.current.classList.remove("responsive_nav");
+    setVisBrukerMeny(false);
   }
 
   const handleLogginnKlikk = () => {
@@ -63,9 +65,19 @@ export default function Navbar() {
 
   const handleLoggUt = () => {
     loggut();
+    setVisBrukerMeny(false);
     closeNavbar();
     toast.success("Du har blitt logget ut")
     
+  };
+
+  const toggleBrukerMeny = () => {
+    setVisBrukerMeny((forrige) => !forrige);
+  };
+
+  const handleProfilKlikk = () => {
+    setVisBrukerMeny(false);
+    closeNavbar();
   };
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -102,21 +114,29 @@ export default function Navbar() {
 
           {/*Bruker på navbar*/}
           {erAutentisert ? (
-            <>
-              <Link to="/profil" onClick={closeNavbar}>
+            <div className="bruker-dropdown">
+              <button onClick={toggleBrukerMeny} className="auth-nav-btn bruker-meny-knapp">
                 {bruker?.bruker_navn}
-              </Link>
-              <button onClick={handleLoggUt} className="auth-nav-btn">
-                Logg ut
               </button>
-            </>
+
+              {visBrukerMeny && (
+                <div className="bruker-dropdown-meny">
+                  <Link to="/profil" onClick={handleProfilKlikk} className="dropdown-valg">
+                    Profil
+                  </Link>
+                  <button onClick={handleLoggUt} className="dropdown-valg">
+                    Logg ut
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
+            <div className = "LogginnKnapp">
               <button onClick={handleLogginnKlikk} className="auth-nav-btn">
                 Logg inn
               </button>
+            </div>
           )}
-
-            <Link to="/profil" className="Profil" onClick={closeNavbar}>{t("nav.profil")}</Link>
             <button onClick={toggleSpråk} className="språk-toggle" title="Bytt språk">
                 <span className={`fi fi-${i18n.language === "en" ? "no" : "gb"}`}></span>
             </button>
