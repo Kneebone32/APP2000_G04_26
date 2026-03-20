@@ -5,6 +5,7 @@ import passport from 'passport';
 import pool from '../config/db.js';
 
 const router = express.Router();
+const auth = passport.authenticate('jwt', { session: false });
 
 //Henter alle turruter til kartet
 router.get('/', async (req, res) => {
@@ -19,7 +20,7 @@ router.get('/', async (req, res) => {
 
 
 // Henter alle favoritturene til en bruker
-router.get('/favoritter', passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get('/favoritter', auth, async (req, res) => {
   try {
     const brukerId = req.user.bruker_id;
     const result = await pool.query('SELECT turrute_id FROM favoritt_turrute WHERE bruker_id = $1', [brukerId]);
@@ -31,7 +32,7 @@ router.get('/favoritter', passport.authenticate('jwt', {session: false}), async 
 });
 
 // Legger til en turrute i favoritter
-router.post('/favoritter/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post('/favoritter/:id', auth, async (req, res) => {
   try {
     const brukerId = req.user.bruker_id;
     const turruteId = req.params.id;
@@ -44,7 +45,7 @@ router.post('/favoritter/:id', passport.authenticate('jwt', {session: false}), a
 });
 
 // Fjerner en turrute fra favoritter
-router.delete('/favoritter/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.delete('/favoritter/:id', auth, async (req, res) => {
   try {
     const brukerId = req.user.bruker_id;
     const turruteId = req.params.id;
@@ -69,7 +70,7 @@ router.get('/:id/anmeldelser', async (req, res) => {
 });
 
 // Oppretter anmeldelse for en turrute
-router.post('/:id/anmeldelser', passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post('/:id/anmeldelser', auth, async (req, res) => {
   try {
     const brukerId = req.user.bruker_id;
     const turId = req.params.id;
@@ -83,7 +84,7 @@ router.post('/:id/anmeldelser', passport.authenticate('jwt', {session: false}), 
 });
 
 // Oppdaterer anmeldelse for en turrute
-router.put('/:id/anmeldelser', passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.put('/:id/anmeldelser', auth, async (req, res) => {
   try {
     const brukerId = req.user.bruker_id;
     const turId = req.params.id;
@@ -97,7 +98,7 @@ router.put('/:id/anmeldelser', passport.authenticate('jwt', {session: false}), a
 });
 
 // Sletter anmeldelse for en turrute
-router.delete('/:id/anmeldelser', passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.delete('/:id/anmeldelser', auth, async (req, res) => {
   try {
     const brukerId = req.user.bruker_id;
     const turId = req.params.id;

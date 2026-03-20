@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 import passport from 'passport';
 
 const router = express.Router();
+const auth = passport.authenticate('jwt', { session: false });
 
 const JWT_SECRET = process.env.JWT_SECRET || 'hemmelig_nøkkel_endre_meg';
 const SALT_ROUNDS = 10;
@@ -114,7 +115,7 @@ router.post('/logginn', async (req, res) => {
 });
 
 // Hent innlogget brukers profil
-router.get('/meg', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.get('/meg', auth, async (req, res) => {
   try {
     res.json({ bruker: req.user });
   } catch (err) {
@@ -124,7 +125,7 @@ router.get('/meg', passport.authenticate('jwt', { session: false }), async (req,
 });
 
 // Oppdater bruker_navn og bruker_etternavn for innlogget bruker
-router.put('/oppdater', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.put('/oppdater', auth, async (req, res) => {
   try {
     const brukerId = req.user.bruker_id;
     const { bruker_navn, bruker_etternavn } = req.body;
@@ -146,7 +147,7 @@ router.put('/oppdater', passport.authenticate('jwt', { session: false }), async 
 });
 
 // Bytt passord for innlogget bruker
-router.put('/bytt-passord', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.put('/bytt-passord', auth, async (req, res) => {
   try {
     const brukerId = req.user.bruker_id;
     const { gammelt_passord, nytt_passord } = req.body;
@@ -173,7 +174,7 @@ router.put('/bytt-passord', passport.authenticate('jwt', { session: false }), as
 });
 
 // Bytt rolle for innlogget bruker
-router.put('/bytt-rolle', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.put('/bytt-rolle', auth, async (req, res) => {
   try {
     const brukerId = req.user.bruker_id;
     const { rolle_id, bruker_rolle } = req.body;
