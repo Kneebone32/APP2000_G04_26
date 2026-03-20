@@ -123,4 +123,75 @@ router.get('/meg', passport.authenticate('jwt', { session: false }), async (req,
   }
 });
 
+// Oppdater bruker_navn og bruker_etternavn for innlogget bruker
+router.put('/oppdater', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  try {
+    const brukerId = req.user.bruker_id;
+    const { bruker_navn, bruker_etternavn } = req.body;
+
+    if (!bruker_navn || !bruker_etternavn) {
+      return res.status(400).json({ error: 'Navn og etternavn er påkrevd' });
+    }
+
+    await pool.query(
+      'UPDATE bruker SET bruker_navn = $1, bruker_etternavn = $2 WHERE bruker_id = $3',
+      [bruker_navn, bruker_etternavn, brukerId]
+    );
+
+    res.json({ message: 'Bruker oppdatert' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke oppdatere bruker' });
+  }
+});
+
+// Bytt passord for innlogget bruker
+router.put('/bytt-passord', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  try {
+    const brukerId = req.user.bruker_id;
+    const { gammelt_passord, nytt_passord } = req.body;
+
+    if (!gammelt_passord || !nytt_passord) {
+      return res.status(400).json({ error: 'Gammelt og nytt passord er påkrevd' });
+    }
+
+    const result = await pool.query('SELECT bruker_passord FROM bruker WHERE bruker_id = $1', [brukerId]);
+    const passordMatch = await bcrypt.compare(gammelt_passord, result.rows[0].bruker_passord);
+
+    if (!passordMatch) {
+      return res.status(401).json({ error: 'Gammelt passord er feil' });
+    }
+
+    const hashedPassord = await bcrypt.hash(nytt_passord, SALT_ROUNDS);
+    await pool.query('UPDATE bruker SET bruker_passord = $1 WHERE bruker_id = $2', [hashedPassord, brukerId]);
+
+    res.json({ message: 'Passord oppdatert' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke bytte passord' });
+  }
+});
+
+// Bytt rolle for innlogget bruker
+router.put('/bytt-rolle', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  try {
+    const brukerId = req.user.bruker_id;
+    const { rolle_id, bruker_rolle } = req.body;
+
+    if (!rolle_id || !bruker_rolle) {
+      return res.status(400).json({ error: 'rolle_id og bruker_rolle er påkrevd' });
+    }
+
+    await pool.query(
+      'UPDATE bruker SET rolle_id = $1, bruker_rolle = $2 WHERE bruker_id = $3',
+      [rolle_id, bruker_rolle, brukerId]
+    );
+
+    res.json({ message: 'Rolle oppdatert' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke bytte rolle' });
+  }
+});
+
 export default router;
