@@ -1,0 +1,37 @@
+/* Laget av AI */
+.Annonsekort {
+  width: 100%;
+}
+
+.AnnonseHovedkort {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.Annonsebilde {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+.AnnonsekortBody {
+  padding: 12px;
+}
+
+.AnnonsekortTitle {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.AnnonsekortText {
+  margin-bottom: 8px;
+}
+
+.AnnonsekortMeta {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
