@@ -1,0 +1,220 @@
+/*
+Laget av Eivind
+*/
+* {
+    font-family: poppins, sans-serif;
+}
+
+:root {
+    --navbar-content-height: 34px; /*Obs. Dette er et "magic number". Kan endre seg etter størrelse på logo + nav links*/
+    --navbar-padding: 40px;
+    --navbar-height: calc(var(--announcement-bar-height) + var(--navbar-padding) + var(--navbar-content-height));
+}
+
+header {
+    position: absolute;
+    top: var(--announcement-bar-height);
+    left: 0;
+    width: 100%;
+    padding: 20px 10%;
+    background: rgb(240, 240, 240);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+    margin: 0;
+}
+
+.logo {
+    font-size: 32px;
+    color: black;
+    text-decoration: none;
+}
+
+nav a {
+    position: relative;
+    font-size: 20x;
+    color: black;
+    font-weight: 500;
+    margin-left: 40px;
+    text-decoration: none;
+}
+
+nav a::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: green;
+    transition: .3s;
+}
+
+nav a:hover::before {
+    width: 100%;
+}
+
+header .nav-btn {
+    display: none;
+    opacity: 0;
+    color: black;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    font-size: 24px;
+}
+
+nav .nav-close-btn {
+    display: none;
+    opacity: 0;
+}
+
+.språk-toggle {
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 40px;
+    transition: 0.2s;
+    padding: 5px;
+}
+
+.LogginnKnapp {
+    position: relative;
+    margin-left: 40px;
+    font-weight: 500;
+}
+
+.navbar .auth-nav-btn {
+    border-radius: 7px;
+    border: 0.5px solid rgb(149, 192, 142);
+    padding: 3px 10px;
+    background: rgb(187, 255, 175);
+}
+
+.navbar .auth-nav-btn:hover:hover {
+    background: rgb(146, 255, 127);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.bruker-dropdown {
+    position: relative;
+    display: inline-flex;
+    margin-left: 40px;
+}
+
+.bruker-dropdown .bruker-meny-knapp {
+    margin-left: 0;
+}
+
+.bruker-dropdown-meny {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 140px;
+    background: rgb(240, 240, 240);
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-direction: column;
+    z-index: 1100;
+}
+
+.bruker-dropdown-meny .dropdown-valg {
+    margin-left: 0;
+    padding: 10px 12px;
+    text-align: left;
+    background: transparent;
+    border: none;
+    color: black;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.bruker-dropdown-meny .dropdown-valg:hover {
+    background: rgb(226, 226, 226);
+}
+
+.bruker-dropdown-meny .dropdown-valg::before {
+    content: none;
+}
+
+@media only screen and (max-width: 1120px) {
+    header .nav-btn {
+        display: block;
+        margin: 0;
+        opacity: 1;
+    }
+
+    nav.navbar {
+        top: var(--announcement-bar-height);
+        position: fixed;
+        right: 0;
+        height: 100%;
+        width: 300px;
+        background: rgb(240, 240, 240);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding-top: 80px;
+        padding-right: 40px;
+        gap: 30px;
+        transition: transform .3s ease-in-out;
+        transform: translateX(100%);
+        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    nav.navbar.responsive_nav {
+        transform: translateX(0);
+    }
+
+    nav.navbar .nav-close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        display: block;
+        opacity: 1;
+        color: black;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 24px;
+    }
+
+    nav.navbar a {
+        font-size: 18px;
+        margin-left: 0;
+    }
+
+    .LogginnKnapp {
+        padding-right: 40px;
+    }
+
+    .bruker-dropdown {
+        margin-left: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .bruker-dropdown-meny {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        width: max-content;
+        margin-top: 0;
+    }
+
+    .språk-toggle {
+        padding-right: 40px;
+    }
+}

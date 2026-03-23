@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navbar/Navbar";
 import AnnouncementBar from "./components/AnnouncementBar";
 //import "./components/AnnouncementBar.css";
 
@@ -22,6 +22,7 @@ import FellesturModerator from "./pages/fellesturer/FellesturModerator";
 import TurmålModerator from "./pages/turmål/TurmålModerator";
 import Feilside from "./pages/Feilside";
 import Meldinger from "./pages/Meldinger";
+import Varsler from "./pages/Varsler";
 import Test from "./pages/Test";
 import Test2 from "./pages/Test2";
 import Navigasjon from "./pages/Navigasjon";
@@ -55,6 +56,7 @@ export default function App() {
             <Route path="/test" element={<Test />} />
             <Route path="/test2" element={<Test2 />} />
             <Route path="/meldinger" element={<Meldinger />} />
+            <Route path="/varsler" element={<Varsler />} />
             <Route path="/navigasjon/:turId" element={<Navigasjon />} />
             <Route path="*" element={<Feilside />} />
           </Routes>

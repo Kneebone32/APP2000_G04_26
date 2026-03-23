@@ -1,0 +1,79 @@
+/*Laget av AI*/
+.varsel-detaljer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+}
+
+.varsel-detaljer-tom {
+    align-items: center;
+    justify-content: center;
+    color: #888;
+}
+
+.varsel-detaljer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-color, #ddd);
+}
+
+.varsel-detaljer-tittel {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.varsel-detaljer-tid {
+    font-size: 0.8rem;
+    color: #888;
+    white-space: nowrap;
+}
+
+.varsel-detaljer-innhold {
+    margin: 0 0 24px 0;
+    line-height: 1.6;
+    color: var(--text-primary, #222);
+}
+
+.varsel-detaljer-handlinger {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.varsel-knapp {
+    padding: 10px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+
+.varsel-knapp:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.varsel-knapp-godta {
+    background-color: var(--accent-color, #2e7d32);
+    color: #fff;
+}
+
+.varsel-knapp-avvis {
+    background-color: transparent;
+    color: var(--text-primary, #222);
+    border: 1px solid var(--border-color, #ddd);
+}
+
+.varsel-detaljer-behandlet {
+    font-size: 0.9rem;
+    color: #888;
+    font-style: italic;
+}

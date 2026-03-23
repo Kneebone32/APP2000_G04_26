@@ -6,10 +6,11 @@ import { Link } from "react-router-dom";
 import { useRef, useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
-import { useAutentisering } from "../hooks/useAutentisering";
-import Logginn from "./autentisering/Logginn";
+import { useAutentisering } from "../../hooks/useAutentisering";
+import Logginn from "../autentisering/Logginn";
 import { toast } from "react-toastify";
-import RegisterBruker from "./autentisering/RegistrerBruker";
+import RegisterBruker from "../autentisering/RegistrerBruker";
+import NavbarRoller from "./NavbarRoller";
 import 'flag-icons/css/flag-icons.min.css';
 import './Navbar.css'
 
@@ -48,11 +49,6 @@ export default function Navbar() {
     closeNavbar();
   };
 
-  const handleRegistrerKlikk = () => {
-    setVisRegistrer(true);
-    closeNavbar();
-  };
-
   const byttTilRegistrer = () => {
     setVisLogginn(false);
     setVisRegistrer(true);
@@ -79,6 +75,8 @@ export default function Navbar() {
     setVisBrukerMeny(false);
     closeNavbar();
   };
+
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (navRef.current && !navRef.current.contains(event.target) && 
@@ -124,9 +122,20 @@ export default function Navbar() {
                   <Link to="/profil" onClick={handleProfilKlikk} className="dropdown-valg">
                     Profil
                   </Link>
+                  <Link to="/meldinger" onClick={handleProfilKlikk} className="dropdown-valg">
+                    Meldinger
+                  </Link>
+                  <Link to="/varsler" onClick={handleProfilKlikk} className="dropdown-valg">
+                    Varsler
+                  </Link>
+                  <Link to="/favoritter" onClick={handleProfilKlikk} className="dropdown-valg">
+                    Favoritter
+                  </Link>
+                  <NavbarRoller brukerRolle={bruker?.bruker_rolle} onClick={handleProfilKlikk} />
                   <button onClick={handleLoggUt} className="dropdown-valg">
                     Logg ut
                   </button>
+
                 </div>
               )}
             </div>
