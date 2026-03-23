@@ -12,7 +12,7 @@ import  './TurDetaljer.css';
 
 
 export default function TurDetaljer() {
-  const { bruker, token } = useAutentisering({autoFetch: true});
+  const { bruker, token, erAutentisert } = useAutentisering({autoFetch: true});
   const { turId } = useParams();
   const {turAnmeldelser, turGjennomsnittsrating, leggTilTurAnmeldelse, slettTurAnmeldelse} = useAnmeldelser({token, turId});
   const navigate = useNavigate();
@@ -117,7 +117,11 @@ export default function TurDetaljer() {
 
           </div>
         )}
-        <AnmeldelseSkjema onSend={(data) => leggTilTurAnmeldelse(turId, data)} loading={loading} />
+        
+        {erAutentisert && (
+          <AnmeldelseSkjema onSend={(data) => leggTilTurAnmeldelse(turId, data)} loading={loading} />
+        )}
+
         <AnmeldelseListe
           anmeldelser={turAnmeldelser}
           gjennomsnittsrating={turGjennomsnittsrating}

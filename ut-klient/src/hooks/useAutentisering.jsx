@@ -61,7 +61,8 @@ export function useAutentisering({autoFetch = true} = {}) {
       setToken(data.token);
       setBruker(data.bruker);
       localStorage.setItem('token', data.token);
-      
+      window.dispatchEvent(new CustomEvent('autentiseringEndret', {detail: {token: data.token}}));
+
       return data;
     } catch (err) {
       setError(err.message);
@@ -201,6 +202,15 @@ export function useAutentisering({autoFetch = true} = {}) {
       setLoading(false);
     }
   }, [autoFetch, fetchProfil, token]);
+
+  //Synkroniser token på tvers av instanser
+  useEffect(() => {
+    const handleAutentiseringEndret = (e) => {
+      setToken(e.detail.token);
+    };
+    window.addEventListener('autentiseringEndret', handleAutentiseringEndret);
+    return () => window.removeEventListener('autentiseringEndret', handleAutentiseringEndret);
+  }, []);
 
   return {
     bruker,

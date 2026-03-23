@@ -36,7 +36,6 @@ export default function Kart() {
   const filteredHytter = filterHytter(hytter, filter);
   const filteredTurer = filterTurer(turer, filter);
   const filteredTurmål = filterTurMål(turmål, filter);
-  console.log(filteredTurmål)
   
 
 

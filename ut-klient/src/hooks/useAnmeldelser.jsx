@@ -7,24 +7,6 @@ export function useAnmeldelser({ token, hytteId, turId } = {}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   
-  const testdataHytte = [{
-    "bruker_id": 35,
-    "hytte_rating": 5,
-    "hytte_anmeldelse": "[testdata] Fin hytte",
-    "hytte_opprettet_tidspunkt": "2026-03-17T16:54:51.730Z",
-    "bruker_navn": "Admin"
-  }]
-
-
-  const testdataTur = [{
-    "bruker_id": 35,
-    "turrute_rating": 5,
-    "turrute_anmeldelse": "[testdata] Beste sykkelturen i verden!",
-    "turrute_opprettet_tidspunkt": "2026-03-17T17:38:36.280Z",
-    "bruker_navn": "Admin"
-  }]
-  
-
   const authHeaders = useMemo(() => ({
     'Authorization': `Bearer ${token}`,
     'Content-Type': 'application/json'
@@ -33,8 +15,7 @@ export function useAnmeldelser({ token, hytteId, turId } = {}) {
   /*------------------------------------------------------Hytter------------------------------------------------------ */
   //Henter alle anmeldelser for en hytte
   const hentHytteAnmeldelser = useCallback(async (hytteId) => {
-    setHytteAnmeldelser(testdataHytte);
-    if (!hytteId || hytteId) return;
+    if (!hytteId) return;
     try {
       setLoading(true);
       setError(null);
@@ -42,7 +23,6 @@ export function useAnmeldelser({ token, hytteId, turId } = {}) {
       if (!response.ok) throw new Error(`Kunne ikke hente anmeldelser: ${response.status}`);
       const data = await response.json();
       setHytteAnmeldelser(data);
-      console.log(data)
     } catch (err) {
       setError(err.message);
     } finally {
@@ -102,12 +82,11 @@ export function useAnmeldelser({ token, hytteId, turId } = {}) {
   /*------------------------------------------------------Turer------------------------------------------------------ */
   //Henter alle anmeldelser for en tur
   const hentTurAnmeldelser = useCallback(async (turId) => {
-    setTurAnmeldelser(testdataTur);
-    if (!turId || turId) return;
+    if (!turId) return;
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter/${turId}/anmeldelser`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/tur/${turId}/anmeldelser`);
       if (!response.ok) throw new Error(`Kunne ikke hente turanmeldelser: ${response.status}`);
       const data = await response.json();
       setTurAnmeldelser(data);
@@ -123,7 +102,7 @@ export function useAnmeldelser({ token, hytteId, turId } = {}) {
     if (!token) return;
     try {
       setError(null);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter/${turId}/anmeldelser`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/tur/${turId}/anmeldelser`, {
         method: 'POST',
         headers: authHeaders,
         body: JSON.stringify({stjerner, kommentar})
@@ -143,7 +122,7 @@ export function useAnmeldelser({ token, hytteId, turId } = {}) {
     //bruker optimistisk oppdatering slik at oppdateringen visuelt skjer med en gang
     setTurAnmeldelser(prev => prev.filter(a => a.id !== anmeldelseId));
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter/${turId}/anmeldelser/${anmeldelseId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/tur/${turId}/anmeldelser/${anmeldelseId}`, {
         method: 'DELETE',
         headers: authHeaders
       });

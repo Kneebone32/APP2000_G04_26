@@ -6,14 +6,18 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { hentKommuneData } from "../../utils/geoUtils";
-import { toast, Flip } from "react-toastify";
+import { useAutentisering } from "../../hooks/useAutentisering";
 import { FaClock, FaHiking, FaBicycle, FaSkiing, FaHeart, FaRegHeart } from "react-icons/fa";
+import Logginn from '../autentisering/Logginn';
+import { handleFavoritt } from '../Favoritt';
 import './TurKort.css';
 
 export default function TurKort({turId, turNavn, vanskelighetsgrad, bildeUrl, turtype, varighet, lat, lon, erFavoritt, onToggleFavoritt}) {
     const { t } = useTranslation();
+    const { logginn, loading, error } = useAutentisering({ autoFetch: false });
     const [kommunenavn, setKommunenavn] = useState("");
     const [fylkesnavn, setFylkesnavn] = useState("");
+    const [visLogginn, setVisLogginn] = useState(false);
 
     const getTurtypeIcon = () => {
         switch(turtype?.toLowerCase()) {
@@ -40,17 +44,8 @@ export default function TurKort({turId, turNavn, vanskelighetsgrad, bildeUrl, tu
             .catch(() => {});
     }, [lat, lon]);
 
-    const handleFavoritt = (e) => {
-        e.preventDefault();
-        toast.warning("Pfft, du har ikke prøvd denne turen! Jeg er ikke så lettlurt! Prøv igjen senere ", {
-            progress: undefined,
-            theme: "dark",
-            transition: Flip
-            });
-        //onToggleFavoritt?.(turId);
-    };
-
     return (
+        <>
         <div className="Turkort">
             <Link to={`/turer/${turId}`} className="TurLink">
                 <div className="Hovedkort">
@@ -63,7 +58,7 @@ export default function TurKort({turId, turNavn, vanskelighetsgrad, bildeUrl, tu
                             />
                         )}
                         {onToggleFavoritt && (
-                            <button className="favoritt-knapp" onClick={handleFavoritt} aria-label="Favoritt">
+                            <button className="favoritt-knapp" onClick={(e) => handleFavoritt(e, () => setVisLogginn(true), () => onToggleFavoritt?.(turId))}>
                                 {erFavoritt ? <FaHeart className="favoritt-ikon aktiv" /> : <FaRegHeart className="favoritt-ikon" />}
                             </button>
                         )}
@@ -78,5 +73,13 @@ export default function TurKort({turId, turNavn, vanskelighetsgrad, bildeUrl, tu
                 </div>
             </Link>
         </div>
+        <Logginn
+            show={visLogginn}
+            onClose={() => setVisLogginn(false)}
+            logginn={logginn}
+            loading={loading}
+            error={error}
+        />
+        </>
     );
 }

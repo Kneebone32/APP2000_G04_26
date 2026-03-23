@@ -71,7 +71,7 @@ export function useFavoritter({ token } = {}) {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter/favoritter`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/tur/favoritter`, {
         headers: authHeaders
       });
       if (!response.ok) throw new Error(`Kunne ikke hente turfavoritter: ${response.status}`);
@@ -97,7 +97,7 @@ export function useFavoritter({ token } = {}) {
     });
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter/favoritter/${turId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/tur/favoritter/${turId}`, {
         method: erFavoritt ? 'DELETE' : 'POST',
         headers: authHeaders
       });

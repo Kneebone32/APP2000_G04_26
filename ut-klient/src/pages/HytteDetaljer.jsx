@@ -11,7 +11,7 @@ import  './HytteDetaljer.css';
 
 // Viser detaljside for én valgt hytte basert på ID fra URL. Laget av Olai
 export default function HytteDetaljer() {
-  const { bruker, token } = useAutentisering({autoFetch: true});
+  const { bruker, token, erAutentisert } = useAutentisering({autoFetch: true});
   const { hytteId } = useParams();
   const {hytteAnmeldelser, hytteGjennomsnittsrating, leggTilHytteAnmeldelse, slettHytteAnmeldelse} = useAnmeldelser({token, hytteId});
   const navigate = useNavigate();
@@ -117,7 +117,13 @@ export default function HytteDetaljer() {
 
           </div>
         )}
-        <AnmeldelseSkjema onSend={(data) => leggTilHytteAnmeldelse(hytteId, data)} loading={loading} />
+
+        {erAutentisert && (
+          <AnmeldelseSkjema onSend={(data) => leggTilHytteAnmeldelse(hytteId, data)} loading={loading} />
+        )}
+
+        <hr />
+        
         <AnmeldelseListe
           anmeldelser={hytteAnmeldelser}
           gjennomsnittsrating={hytteGjennomsnittsrating}

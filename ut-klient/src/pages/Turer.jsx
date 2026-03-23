@@ -12,7 +12,6 @@ export default function Turer() {
   const { turer, loadingTurer, errorTurer } = useFetchTurer({autoFetch: true}); //turKort: true
   const { token } = useAutentisering();
   const { erTurFavoritt, toggleTurFavoritt } = useFavoritter({token});
-  console.log(turer)
 
   return (
     <PageWrapper title={t("turer.tittel")}>
