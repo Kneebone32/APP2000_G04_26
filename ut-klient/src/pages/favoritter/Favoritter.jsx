@@ -5,8 +5,6 @@ import { useFavoritter } from "../../hooks/useFavoritter";
 import { useFetchHytter } from "../../hooks/useFetchHytter";
 import { useFetchTurer } from "../../hooks/useFetchTurer";
 import { useAutentisering } from "../../hooks/useAutentisering";
-import "../../components/hytter/HytteKort.css";
-import "../../components/turruter/TurKort.css";
 
 //Viser brukerens favoritthytter og favorittturer. Laget av Kay
 export default function Favoritter() {
