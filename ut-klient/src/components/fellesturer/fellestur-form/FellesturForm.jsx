@@ -1,19 +1,20 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import DatePicker, { registerLocale } from "react-datepicker";
-import nb from 'date-fns/locale/nb';
+import { GpxParser } from "../../GpxParser";
 import { useEnums } from "../../../hooks/useEnums";
-import { useFetchTurer } from "../../../hooks/useFetchTurer";
 import { useModal } from "../../../hooks/useModal";
 import { toggleDatoArray } from "../../../utils/datoUtils";
+import { VærvarslingUke } from "../../Værvarsling";
+import { toast } from 'react-toastify';
+import { regnUtTotalLengde } from "../../../utils/geoUtils";
+import DatePicker, { registerLocale } from "react-datepicker";
 import Modal from "../../../modal/Modal";
-import TurruteSøk from "./TurruteSøk";
+import Nytur from "../../Nytur";
 import DeltakerInput from "./DeltakerInput";
 import DatoListe from "./DatoListe";
 import BildeOpplasting from "../../BildeOpplasting";
-import { VærvarslingUke } from "../../Værvarsling";
-import { toast } from 'react-toastify';
 import TempBilde from "../../TempBilde";
+import nb from 'date-fns/locale/nb';
 import "react-datepicker/dist/react-datepicker.css";
 import "./FellesturForm.css"
 
@@ -22,12 +23,15 @@ registerLocale('nb', nb);
 //all brukerinput til fellesturer. Laget av Kay
 //TODO: match feltnavn på data som kommer fra databasen. Eks. lagretData.turruteId eller lagretData.turrute_id?
 export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonTekst }) {
-
     const { t } = useTranslation();
     const { enumData: aktivitet_status } = useEnums("aktivitet_status_enum");
-    const { turer } = useFetchTurer({autoFetch: true});
-    const [valgtTurruteId, setValgtTurruteId] = useState(lagretData.turruteId || 0);
-    const [valgtTurruteStartKoords, setValgtTurruteStartKoords] = useState(lagretData.turrute || []);
+    const [rutePunkter, setRutePunkter] = useState([]);
+    const [hytterITuren, setHytterITuren] = useState([]);
+    const [turmålITuren, setTurmålITuren] = useState([]);
+    const [stierITuren, setStierITuren] = useState([]);
+    const [nyeStierITuren, setNyeStierITuren] = useState([]);
+    const [totalRuteLengde, setTotalRuteLengde] = useState(null);
+    const [gpxKoords, setGpxKoords] = useState(null);
     const [tittel, setTittel] = useState(lagretData.tittel || "");
     const [beskrivelse, setBeskrivelse] = useState(lagretData.beskrivelse || "");
     const [midlertidigDato, setMidlertidigDato] = useState(new Date());
@@ -51,6 +55,13 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
         open: åpneVærvarsel,
         close: lukkVærvarsel
     } = useModal();    
+
+
+    const {
+        isOpen: lagTurÅpen,
+        open: åpneLagTur,
+        close: lukkLagTur
+    } = useModal();   
 
     
     const handleDatoChange = (dato) => {
@@ -87,6 +98,22 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
     }
     };
 
+    const handleGpxKoordinater = (koords) => {
+        if (koords && koords.length >= 2) {
+            setGpxKoords(koords);
+            setRutePunkter(koords);
+            setTotalRuteLengde(regnUtTotalLengde(koords));
+        } else if (koords && koords.length === 1) {
+            alert(t("tur.gpx_ett_punkt"));
+        }
+    };
+
+
+    const handleLagreKoordinater = async (koords) => {
+        setTotalRuteLengde(regnUtTotalLengde(koords));
+        lukkLagTur();
+    }
+
     const handleFormSubmit = (e) => {
         e.preventDefault();
         if (valgteDatoer.length === 0) {
@@ -98,7 +125,12 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
             beskrivelse: beskrivelse.trim(),
             minDeltakere,
             maksDeltakere,
-            turruteId: valgtTurruteId,
+            hytter: hytterITuren?.map(h => h.hytte_id),
+            turmaal: turmålITuren?.map(t => t.turmaal_id),
+            stier: stierITuren,
+            nyeStier: nyeStierITuren,
+            gpx: gpxKoords,
+            ruteLengde: totalRuteLengde,
             status,
             datoer: valgteDatoer.map(d => d.toISOString()),
             bilder: bildeUrl
@@ -108,20 +140,22 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
     };
 
     return (
+        <>
         <form onSubmit={handleFormSubmit}>
 
             {/*Turrute som skal brukes til fellestur*/}
-            <TurruteSøk 
-                turer={turer} 
-                onSelect={(id, navn, tur) => {
-                    setValgtTurruteId(id);
-                    if(tur && tur.punkter){
-                        setValgtTurruteStartKoords(tur.punkter[0]); 
-                    } 
-                    
-                }}
-            />
-            {valgtTurruteStartKoords && valgtTurruteStartKoords.length > 0 ? (
+            {rutePunkter.length < 1  && (
+                <div className="input-container">
+                <GpxParser onKoordinaterLastet={handleGpxKoordinater} />
+                </div>
+            )}
+            <div className="input-container">
+            <button className="input" type="button" onClick={åpneLagTur}>
+                {rutePunkter.length > 1 ? t("tur.endre_rute") : t("tur.lag_rute")}
+            </button>
+            </div>
+
+            {rutePunkter && rutePunkter.length > 0 ? (
                 <>
             {/*Tittel på fellestur*/}
             <div className="input-container">
@@ -157,7 +191,7 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
                 <button type="button" className="værvarsel-langtids" onClick={åpneVærvarsel}>
                     {t("fellestur_form.værvarsel_8_dager")}</button>
                 </div>
-                <DatoListe valgteDatoer={valgteDatoer} onSlett={fjernDato} lat={valgtTurruteStartKoords[0]} lon={valgtTurruteStartKoords[1]}/>
+                <DatoListe valgteDatoer={valgteDatoer} onSlett={fjernDato} lat={rutePunkter[0][0]} lon={rutePunkter[0][1]}/>
             </div>
             
 
@@ -204,14 +238,33 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
             
             <Modal show={værvarselÅpen} onClose={lukkVærvarsel} title={t("fellestur_form.værvarsel")} size="lg">
                 <div className="modal-weather-container">
-                    {}
+                    {rutePunkter.length > 0 && (
                     <VærvarslingUke 
-                        latitude={valgtTurruteStartKoords[0]} 
-                        longitude={valgtTurruteStartKoords[1]} 
+                        latitude={rutePunkter[0][0]} 
+                        longitude={rutePunkter[0][1]} 
+                    />
+                    )}
+                </div>
+            </Modal>
+            </form>
+            <Modal show={lagTurÅpen} onClose={lukkLagTur} size="lg">
+                <div className="modal-map-container">
+                    <Nytur 
+                        rutePunkter={rutePunkter}
+                        setRutePunkter={setRutePunkter}
+                        onLagreKoordinater={handleLagreKoordinater}
+                        hytterITuren={hytterITuren}
+                        setHytterITuren={setHytterITuren}
+                        turmålITuren={turmålITuren}
+                        setTurmålITuren={setTurmålITuren}
+                        stierITuren={stierITuren}
+                        setStierITuren={setStierITuren}
+                        nyeStier={nyeStierITuren}
+                        setNyeStier={setNyeStierITuren}
                     />
                 </div>
             </Modal>
-
-        </form>
+            </>
+        
     );
 }

@@ -21,6 +21,7 @@ import AnnonseModerator from "./pages/AnnonseModerator";
 import FellesturModerator from "./pages/fellesturer/FellesturModerator";
 import TurmålModerator from "./pages/turmål/TurmålModerator";
 import Feilside from "./pages/Feilside";
+import Favoritter from "./pages/favoritter/Favoritter";
 import Meldinger from "./pages/Meldinger";
 import Varsler from "./pages/Varsler";
 import Test from "./pages/Test";
@@ -57,6 +58,7 @@ export default function App() {
             <Route path="/test2" element={<Test2 />} />
             <Route path="/meldinger" element={<Meldinger />} />
             <Route path="/varsler" element={<Varsler />} />
+            <Route path="/favoritter" element={<Favoritter />} />
             <Route path="/navigasjon/:turId" element={<Navigasjon />} />
             <Route path="*" element={<Feilside />} />
           </Routes>

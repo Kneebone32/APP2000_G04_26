@@ -25,7 +25,6 @@ export function useFavoritter({ token } = {}) {
       if (!response.ok) throw new Error(`Kunne ikke hente favoritter: ${response.status}`);
       const data = await response.json();
       sethytteFavoritter(new Set(data.map(f => f.hytte_id)));
-
     } catch (err) {
       setError(err.message);
     } finally {

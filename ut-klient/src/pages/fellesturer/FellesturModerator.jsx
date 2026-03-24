@@ -1,7 +1,6 @@
 import LeggTilFellestur from "../../components/fellesturer/legg-til/LeggTilFellestur";
 import RedigerFellestur from "../../components/fellesturer/rediger/RedigerFellestur";
 import SlettFellestur from "../../components/fellesturer/slett/SlettFellestur";
-import FellesturKobling from "../../components/fellesturer/fellestur-kobling/FellesturKobling";
 //import { useFellesturer } from "../hooks/useFellesturer";
 import PageWrapper from "../../components/PageWrapper";
 import { useTranslation } from "react-i18next";
@@ -18,8 +17,6 @@ export default function FellesturModerator() {
             <h1>{t("fellesturer.moderator")}</h1>
             <hr />
             <LeggTilFellestur />
-            <hr />
-            <FellesturKobling />
             <hr />
             <RedigerFellestur />
             <hr />
