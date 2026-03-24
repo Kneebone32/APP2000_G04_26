@@ -191,6 +191,7 @@ export function useAutentisering({autoFetch = true} = {}) {
     setToken(null);
     setBruker(null);
     localStorage.removeItem('token');
+    window.dispatchEvent(new CustomEvent('autentiseringEndret', { detail: { token: null } }));
   }, []);
 
 
@@ -207,6 +208,7 @@ export function useAutentisering({autoFetch = true} = {}) {
   useEffect(() => {
     const handleAutentiseringEndret = (e) => {
       setToken(e.detail.token);
+      if (!e.detail.token) setBruker(null);
     };
     window.addEventListener('autentiseringEndret', handleAutentiseringEndret);
     return () => window.removeEventListener('autentiseringEndret', handleAutentiseringEndret);

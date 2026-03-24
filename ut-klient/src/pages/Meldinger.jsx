@@ -49,16 +49,6 @@ export default function Meldinger() {
         //await hentSamtale(valgtSamtale.bruker_id);
     };
 
-    if (!erAutentisert) {
-        return (
-            <div className="meldinger-side">
-                <PageWrapper title="Meldinger">
-                    <p>Du må være logget inn for å kunne se meldinger</p>
-                </PageWrapper>
-            </div>
-        );
-    }
-
     return (
         <PageWrapper>
         <div className="meldinger-side">

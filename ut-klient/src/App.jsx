@@ -24,6 +24,7 @@ import Feilside from "./pages/Feilside";
 import Favoritter from "./pages/favoritter/Favoritter";
 import Meldinger from "./pages/Meldinger";
 import Varsler from "./pages/Varsler";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Test from "./pages/Test";
 import Test2 from "./pages/Test2";
 import Navigasjon from "./pages/Navigasjon";
@@ -47,18 +48,25 @@ export default function App() {
             <Route path="/kart" element={<Kart />} />
             <Route path="/fellesturer" element={<Fellesturer />} />
             <Route path="/annonser" element={<Annonser />} />
-            <Route path="/profil" element={<Profil />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/admin/hytter" element={<HytteModerator />} />
-            <Route path="/admin/turer" element={<TurModerator />} />
-            <Route path="/admin/annonser" element={<AnnonseModerator />} />
-            <Route path="/admin/fellesturer" element={<FellesturModerator />} />
-            <Route path="/admin/turmål" element={<TurmålModerator />} />
+            
+            <Route element={<ProtectedRoute />}>
+              <Route path="/profil" element={<Profil />} />
+              <Route path="/meldinger" element={<Meldinger />} />
+              <Route path="/varsler" element={<Varsler />} />
+              <Route path="/favoritter" element={<Favoritter />} />
+            </Route>
+
+            <Route element={<ProtectedRoute rolle="admin" />}>
+              <Route path="/admin" element={<Admin />} />
+              <Route path="/admin/hytter" element={<HytteModerator />} />
+              <Route path="/admin/turer" element={<TurModerator />} />
+              <Route path="/admin/annonser" element={<AnnonseModerator />} />
+              <Route path="/admin/fellesturer" element={<FellesturModerator />} />
+              <Route path="/admin/turmål" element={<TurmålModerator />} />
+            </Route>
+
             <Route path="/test" element={<Test />} />
             <Route path="/test2" element={<Test2 />} />
-            <Route path="/meldinger" element={<Meldinger />} />
-            <Route path="/varsler" element={<Varsler />} />
-            <Route path="/favoritter" element={<Favoritter />} />
             <Route path="/navigasjon/:turId" element={<Navigasjon />} />
             <Route path="*" element={<Feilside />} />
           </Routes>

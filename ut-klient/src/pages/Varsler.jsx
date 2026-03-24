@@ -37,14 +37,6 @@ export default function Varsler() {
         }
     };
 
-    if (!erAutentisert) {
-        return (
-            <PageWrapper title="Varsler">
-                <p>Du må være logget inn for å se varsler</p>
-            </PageWrapper>
-        );
-    }
-
     return (
         <PageWrapper>
             <div className="varsler-side">

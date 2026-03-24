@@ -2,7 +2,7 @@
 Laget av Eivind, Olai & Kay
 */
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRef, useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
@@ -17,6 +17,7 @@ import './Navbar.css'
 export default function Navbar() {
   const { t, i18n } = useTranslation();
   const {bruker, erAutentisert, loggut, logginn, registrer, loading, error} = useAutentisering({autoFetch: true})
+  const navigate = useNavigate();
   const [visLogginn, setVisLogginn] = useState(false);
   const [visRegistrer, setVisRegistrer] = useState(false);
   const [visBrukerMeny, setVisBrukerMeny] = useState(false);
@@ -63,8 +64,8 @@ export default function Navbar() {
     loggut();
     setVisBrukerMeny(false);
     closeNavbar();
-    toast.success("Du har blitt logget ut")
-    
+    toast.success("Du har blitt logget ut");
+    navigate('/');
   };
 
   const toggleBrukerMeny = () => {

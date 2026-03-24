@@ -8,21 +8,13 @@ import { useAutentisering } from "../../hooks/useAutentisering";
 
 //Viser brukerens favoritthytter og favorittturer. Laget av Kay
 export default function Favoritter() {
-    const { token, erAutentisert } = useAutentisering({ autoFetch: true });
+    const { token } = useAutentisering({ autoFetch: true });
     const { erHytteFavoritt, erTurFavoritt, toggleHytteFavoritt, toggleTurFavoritt } = useFavoritter({ token });
     const { hytter, loadingHytter } = useFetchHytter({ hytteKort: true });
     const { turer, loadingTurer } = useFetchTurer({ autoFetch: true });
 
     const favorittHytter = hytter.filter(h => erHytteFavoritt(h.id));
     const favorittTurer = turer.filter(t => erTurFavoritt(t.tur_id));
-
-    if (!erAutentisert) {
-        return (
-            <PageWrapper title="Favoritter">
-                <p>Du må være logget inn for å se favoritter</p>
-            </PageWrapper>
-        );
-    }
 
     return (
         <PageWrapper title="Favoritter">
