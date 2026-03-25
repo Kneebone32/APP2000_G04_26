@@ -4,42 +4,56 @@ import pool from '../config/db.js';
 const router = express.Router();
 
 
-// Opprett ny aktivitet
+// Legger til ny aktivitet
 router.post('/', async (req, res) => {
   try {
     const {
       aktivitet_tittel,
       aktivitet_beskrivelse,
-      turrute_id,
       bruker_id,
       aktivitet_min_deltakere,
       aktivitet_maks_deltakere,
-      datoer,              
-      aktivitet_status    
+      datoer,
+      aktivitet_status,
+      hytter,
+      turmaal,
+      stier,
+      bilder
     } = req.body;
 
     const result = await pool.query(
-      `
-      SELECT public.aktivitet_opprett(
-        $1, $2, $3, $4, $5, $6, $7::jsonb, $8::aktivitet_status_enum
-      ) AS aktivitet_id
-      `,
+      `SELECT aktivitet_opprett(
+        $1,
+        $2,
+        $3,
+        $4,
+        $5,
+        $6::jsonb,
+        $7::aktivitet_status_enum,
+        $8::jsonb,
+        $9::jsonb,
+        $10::jsonb,
+        $11::jsonb
+      ) AS ny_aktivitet_id`,
       [
         aktivitet_tittel,
         aktivitet_beskrivelse,
-        turrute_id,
         bruker_id,
         aktivitet_min_deltakere,
         aktivitet_maks_deltakere,
         datoer ? JSON.stringify(datoer) : '[]',
-        (aktivitet_status ?? 'utkast')
+        (aktivitet_status ?? 'utkast'),
+        hytter ? JSON.stringify(hytter) : '[]',
+        turmaal ? JSON.stringify(turmaal) : '[]',
+        stier ? JSON.stringify(stier) : '[]',
+        bilder ? JSON.stringify(bilder) : '[]'
       ]
     );
 
-    const aktivitetId = result.rows[0].aktivitet_id;
+    const nyAktivitetId = result.rows[0].ny_aktivitet_id;
 
     res.status(201).json({
-      aktivitet_id: aktivitetId,
+      aktivitet_id: nyAktivitetId,
       message: 'Aktivitet opprettet'
     });
   } catch (err) {
@@ -49,7 +63,17 @@ router.post('/', async (req, res) => {
 });
 
 
-//Hente aktivitet
+
+// Henter alle aktiviteter
+router.get('/', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM aktivitet_hent()');
+    res.json(result.rows.map(row => row.aktivitet));
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Database connection failed' });
+  }
+});
 
 
 export default router;
