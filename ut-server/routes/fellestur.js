@@ -76,4 +76,21 @@ router.get('/', async (req, res) => {
 });
 
 
+// Sletter aktivitet
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await pool.query('SELECT aktivitet_slett($1)', [id]);
+
+    res.json({
+      aktivitet_id: id,
+      message: 'Aktivitet slettet'
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke slette aktivitet' });
+  }
+});
+
 export default router;
