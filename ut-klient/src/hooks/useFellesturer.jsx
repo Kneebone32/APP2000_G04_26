@@ -10,7 +10,6 @@ export function useFellestur({autoFetch = false, hentTurID = null} = {}) {
 
   //henter alle fellesturene
   const fetchFellesturer = useCallback (async () => {
-    console.log("y");
     try {
       setLoading(true);
       const response = await fetch(`${import.meta.env.VITE_API_URL}/fellestur`);
