@@ -11,7 +11,7 @@ import "../fellestur-form/FellesturForm.css";
 export default function SlettFellestur() {
     const { t } = useTranslation();
     const { isOpen, open, close } = useModal();
-    const { fellestur, deleteFellestur} = useFellestur({autoFetch: true});
+    const { fellesturer: fellestur, slettFellestur: deleteFellestur} = useFellestur({autoFetch: true});
     const [valgtId, setValgtId] = useState(0);
     const [valgtTittel, setValgtTittel] = useState("");
 

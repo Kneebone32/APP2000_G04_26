@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 //Redigerer en eksisterende Fellestur ved først å søke den opp. Laget av Kay
 export default function RedigerFellestur() {
     const { t } = useTranslation();
-    const {fellestur, hentFellesturFraId, redigerFellestur} = useFellestur({autoFetch: true});
+    const {fellesturer: fellestur, hentFellesturFraId, redigerFellestur} = useFellestur({autoFetch: true});
     const [valgtData, setValgtData] = useState(null);
     const [lasterFellestur, setLasterFellestur] = useState(false);
 

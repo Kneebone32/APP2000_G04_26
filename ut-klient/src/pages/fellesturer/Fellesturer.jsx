@@ -1,13 +1,14 @@
-import PageWrapper from "../components/PageWrapper";
+import PageWrapper from "../../components/PageWrapper";
 import FellesturKort from "../../components/fellesturer/FellesturKort";
-import { useFellesturer } from "../hooks/useFellesturer";
+import { useFellestur } from "../../hooks/useFellesturer";
 import { useTranslation } from "react-i18next";
 import "./Fellesturer.css";
 
 //Basert på Hytter.jsx. Laget av Kay og Olai
 export default function Fellesturer() {
   const { t } = useTranslation();
-  const { fellesturer, loadingFellesturer, errorFellesturer } = useFellesturer(true);
+  const { fellesturer, loadingFellesturer, errorFellesturer } = useFellestur({autoFetch: true});
+  console.log(fellesturer);
 
   return (
     <PageWrapper title={t("fellesturer.tittel")}>
@@ -24,13 +25,12 @@ export default function Fellesturer() {
           <div className="FellesturKortContainer">
             {fellesturer.map((fellestur) => (
               <FellesturKort
-                key={fellestur.fellesturrute_id}
-                fellesturId={fellestur.fellesturrute_id}
-                fellesturNavn={fellestur.fellesturrute_navn}
-                vanskelighetsgrad={fellestur.vanskelighetsgrad}
-                bildeUrl={fellestur.hovedbilde_url}
-                fellesturtype={fellestur.fellesturtype}
-                varighet={fellestur.varighet}
+                key={fellestur.aktivitet_id}
+                fellesturId={fellestur.aktivitet_id}
+                fellesturNavn={fellestur.aktivitet_tittel}
+                startDato={fellestur.datoer[0].aktivitet_start_dato}
+                sluttDato={fellestur.datoer[0].aktivitet_slutt_dato}
+                bildeUrl={fellestur.bilder[0].aktivitet_url}
               />
               ))}
           </div>

@@ -10,11 +10,13 @@ export function useFellestur({autoFetch = false, hentTurID = null} = {}) {
 
   //henter alle fellesturene
   const fetchFellesturer = useCallback (async () => {
+    console.log("y");
     try {
       setLoading(true);
       const response = await fetch(`${import.meta.env.VITE_API_URL}/fellestur`);
       if (!response.ok) throw new Error(`HTTP feil: ${response.status}`);
       const data = await response.json();
+      console.log(data)
       setFellesturer(data);
     } catch (err) {
       setError(err.message);
@@ -111,13 +113,13 @@ export function useFellestur({autoFetch = false, hentTurID = null} = {}) {
     if (hentTurID) hentFellesturFraId(hentTurID);
   }, [autoFetch, hentTurID, fetchFellesturer, hentFellesturFraId]);
   
-  return { 
-    fellestur: fellesturer, 
-    loading, 
-    error, 
-    opprettFellestur, 
-    redigerFellestur, 
-    hentFellesturFraId, 
-    slettFellestur 
+  return {
+    fellesturer,
+    loadingFellesturer: loading,
+    errorFellesturer: error,
+    opprettFellestur,
+    redigerFellestur,
+    hentFellesturFraId,
+    slettFellestur
   };
 }

@@ -11,7 +11,8 @@ import TurDetaljer from "./pages/TurDetaljer";
 import Hytter from "./pages/Hytter";
 import HytteDetaljer from "./pages/HytteDetaljer";
 import Kart from "./pages/Kart";
-import Fellesturer from "./pages/Fellesturer";
+import Fellesturer from "./pages/fellesturer/Fellesturer";
+import FellesturerDetaljer from "./pages/fellesturer/FellesturerDetaljer";
 import Annonser from "./pages/Annonser";
 import Profil from "./pages/Profil";
 import Admin from "./pages/Admin";
@@ -47,6 +48,7 @@ export default function App() {
             <Route path="/hytter/:hytteId" element={<HytteDetaljer />} />
             <Route path="/kart" element={<Kart />} />
             <Route path="/fellesturer" element={<Fellesturer />} />
+            <Route path="/fellesturer/:fellesturId" element={<FellesturerDetaljer />} />
             <Route path="/annonser" element={<Annonser />} />
             
             <Route element={<ProtectedRoute />}>
