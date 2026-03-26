@@ -33,7 +33,7 @@ router.post('/tur/:id', auth, async (req, res) => {
 
     await pool.query(
       'SELECT anmeldelse_tur_opprett($1, $2, $3, $4)',
-      [bruker_id, tur_id, rating, anmeldelse]
+      [bruker_id, tur_id, hytte_rating, hytte_anmeldelse]
     );
 
     res.status(201).json({ message: 'Anmeldelse opprettet' });
@@ -86,7 +86,7 @@ router.post('/hytte/:id', auth, async (req, res) => {
 
     await pool.query(
       'SELECT anmeldelse_hytte_opprett($1, $2, $3, $4)',
-      [bruker_id, hytte_id, rating, anmeldelse]
+      [bruker_id, hytte_id, hytte_rating, hytte_anmeldelse]
     );
 
     res.status(201).json({ message: 'Anmeldelse opprettet' });
@@ -136,7 +136,7 @@ router.post('/turmaal/:id', auth, async (req, res) => {
   try {
     const bruker_id = req.user.bruker_id;
     const turmaal_id = req.params.id;
-    const { rating, anmeldelse } = req.body;
+    const { turmaal_rating, turmaal_anmeldelse } = req.body;
 
     await pool.query(
       'SELECT anmeldelse_turmaal_opprett($1, $2, $3, $4)',
