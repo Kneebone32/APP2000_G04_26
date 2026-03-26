@@ -29,7 +29,7 @@ router.post('/tur/:id', auth, async (req, res) => {
   try {
     const bruker_id = req.user.bruker_id;
     const tur_id = req.params.id;
-    const { hytte_rating, hytte_anmeldelse } = req.body;
+    const { rating, anmeldelse } = req.body;
 
     await pool.query(
       'SELECT anmeldelse_tur_opprett($1, $2, $3, $4)',
