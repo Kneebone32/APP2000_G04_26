@@ -29,7 +29,7 @@ router.post('/tur/:id', auth, async (req, res) => {
   try {
     const bruker_id = req.user.bruker_id;
     const tur_id = req.params.id;
-    const { rating, anmeldelse } = req.body;
+    const { hytte_rating, hytte_anmeldelse } = req.body;
 
     await pool.query(
       'SELECT anmeldelse_tur_opprett($1, $2, $3, $4)',
@@ -140,7 +140,7 @@ router.post('/turmaal/:id', auth, async (req, res) => {
 
     await pool.query(
       'SELECT anmeldelse_turmaal_opprett($1, $2, $3, $4)',
-      [bruker_id, turmaal_id, rating, anmeldelse]
+      [bruker_id, turmaal_id, turmaal_rating, turmaal_anmeldelse]
     );
 
     res.status(201).json({ message: 'Anmeldelse opprettet' });
