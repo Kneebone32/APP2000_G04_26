@@ -33,7 +33,7 @@ router.post('/tur/:id', auth, async (req, res) => {
 
     await pool.query(
       'SELECT anmeldelse_tur_opprett($1, $2, $3, $4)',
-      [bruker_id, tur_id, hytte_rating, hytte_anmeldelse]
+      [bruker_id, tur_id, rating, anmeldelse]
     );
 
     res.status(201).json({ message: 'Anmeldelse opprettet' });
