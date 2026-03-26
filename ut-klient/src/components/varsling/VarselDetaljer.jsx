@@ -1,9 +1,14 @@
 import { formatNorskTid } from '../../utils/datoUtils';
 import { toast } from 'react-toastify';
+import OppgaveRolleEndring from './oppgaver/OppgaveRolleEndring';
 import './VarselDetaljer.css';
 
+const oppgaveTyper = {
+    rolle_foresporsel: OppgaveRolleEndring,
+};
+
 //Viser innhold og eventuelle handlinger for et varsel. Laget av Kay
-export default function VarselDetaljer({varsel, loading, onBehandle}) {
+export default function VarselDetaljer({ varsel, loading, onBehandle }) {
 
     if (!varsel) {
         return (
@@ -13,13 +18,13 @@ export default function VarselDetaljer({varsel, loading, onBehandle}) {
         );
     }
 
-    const erOppgave = varsel.varsel_kategori === 'oppgave';
-    const erBehandlet = varsel.status === 'godtatt' || varsel.status === 'avvist';
+    const OppgaveType = oppgaveTyper[varsel.type_navn];
+    console.log(varsel)
 
-    const handleBeslutning = async (beslutning) => {
+    const handleBeslutning = async (beslutning, { melding } = {}) => {
         try {
             await onBehandle(varsel.varsel_id, beslutning);
-            toast.success(beslutning === 'godtatt' ? 'Godtatt' : 'Avvist');
+            toast.success(melding ?? (beslutning === 'godtatt' ? 'Godtatt' : 'Avvist'));
         } catch {
             toast.error('Noe gikk galt');
         }
@@ -30,38 +35,17 @@ export default function VarselDetaljer({varsel, loading, onBehandle}) {
             <div className="varsel-detaljer-header">
                 <h3 className="varsel-detaljer-tittel">{varsel.tittel}</h3>
                 <span className="varsel-detaljer-tid">
-                    {formatNorskTid(new Date(varsel.opprettet_tid))}
+                    {formatNorskTid(new Date(varsel.opprettet_tidspunkt))}
                 </span>
             </div>
             <p className="varsel-detaljer-innhold">{varsel.innhold}</p>
 
-            {/*Handlingsknapper hvis varsel er en oppgave*/}
-            {/*For nå vil denne kun fungere på rolle-bytte. Trenger en ny fil til alle oppgaver*/}
-            {erOppgave && (
-                <div className="varsel-detaljer-handlinger">
-                    {erBehandlet ? (
-                        <p className="varsel-detaljer-behandlet">
-                            {varsel.status === 'godtatt' ? 'Du godtok denne forespørselen' : 'Du avslo denne forespørselen'}
-                        </p>
-                    ) : (
-                        <>
-                            <button
-                                className="varsel-knapp varsel-knapp-godta"
-                                onClick={() => handleBeslutning('godtatt')}
-                                disabled={loading}
-                            >
-                                Godta
-                            </button>
-                            <button
-                                className="varsel-knapp varsel-knapp-avvis"
-                                onClick={() => handleBeslutning('avvist')}
-                                disabled={loading}
-                            >
-                                Avvis
-                            </button>
-                        </>
-                    )}
-                </div>
+            {OppgaveType && (
+                <OppgaveType
+                    varsel={varsel}
+                    loading={loading}
+                    onBeslutning={handleBeslutning}
+                />
             )}
         </div>
     );

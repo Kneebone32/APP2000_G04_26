@@ -7,6 +7,7 @@ import PageWrapper from '../components/PageWrapper';
 import './Varsler.css';
 
 const testVarsler = [
+    { varsel_id: 1, tittel: 'Velkommen til UT.ut!', varsel_kategori: 'info', status: 'ulest', opprettet_tid: new Date().toISOString(), innhold: 'Takk for at du registrerte deg. Utforsk turer, hytter og fellesturer i nærheten av deg.' },
     { varsel_id: 2, tittel: 'Forespørsel om rolleendring', varsel_kategori: 'oppgave', status: 'ulest', opprettet_tid: '2026-03-23T09:00:00.000Z', innhold: 'Bruker Ola Nordmann (ola@example.com) har bedt om å bli annonsør.' },
 ];
 

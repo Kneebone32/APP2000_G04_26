@@ -121,18 +121,22 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
         }
 
         const fellesturData = {
-            tittel,
-            beskrivelse: beskrivelse.trim(),
-            minDeltakere,
-            maksDeltakere,
+            aktivitet_tittel: tittel,
+            aktivitet_beskrivelse: beskrivelse.trim(),
+            bruker_id: 35,
+            aktivitet_min_deltakere: minDeltakere,
+            aktivitet_maks_deltakere: maksDeltakere,
             hytter: hytterITuren?.map(h => h.hytte_id),
             turmaal: turmålITuren?.map(t => t.turmaal_id),
             stier: stierITuren,
             nyeStier: nyeStierITuren,
             gpx: gpxKoords,
             ruteLengde: totalRuteLengde,
-            status,
-            datoer: valgteDatoer.map(d => d.toISOString()),
+            aktivitet_status: status,
+            datoer: valgteDatoer.map(d => ({
+                aktivitet_start_dato: d.toISOString(),
+                aktivitet_slutt_dato:d.toISOString()
+            })),
             bilder: bildeUrl
         };
 

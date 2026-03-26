@@ -11,16 +11,22 @@ import Logginn from "../autentisering/Logginn";
 import { toast } from "react-toastify";
 import RegisterBruker from "../autentisering/RegistrerBruker";
 import NavbarRoller from "./NavbarRoller";
+import { useVarsler } from "../../hooks/useVarsler";
+import { useMeldinger } from "../../hooks/useMeldinger";
 import 'flag-icons/css/flag-icons.min.css';
 import './Navbar.css'
 
 export default function Navbar() {
-  const { t, i18n } = useTranslation();
-  const {bruker, erAutentisert, loggut, logginn, registrer, loading, error} = useAutentisering({autoFetch: true})
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+  const {bruker, erAutentisert, loggut, logginn, registrer, loading, error, token} = useAutentisering({autoFetch: true})
+  const { varsler } = useVarsler({token, autoPoll: erAutentisert});
+  const { samtaler } = useMeldinger({token, autoPoll: erAutentisert});
   const [visLogginn, setVisLogginn] = useState(false);
   const [visRegistrer, setVisRegistrer] = useState(false);
   const [visBrukerMeny, setVisBrukerMeny] = useState(false);
+  const ulestVarsler = varsler.filter(varsel => varsel.status === 'ulest').length;
+  const ulesteMeldinger = samtaler.filter(samtale => samtale.uleste > 0).length;
 
   const toggleSpråk = () => {
   const nyttSpråk = i18n.language === "no" ? "en" : "no";
@@ -115,19 +121,20 @@ export default function Navbar() {
           {erAutentisert ? (
             <div className="bruker-dropdown">
               <button onClick={toggleBrukerMeny} className="auth-nav-btn bruker-meny-knapp">
-                {bruker?.bruker_navn}
+                {bruker?.bruker_navn} {ulestVarsler + ulesteMeldinger > 0 && <span className="varsler-badge">{ulestVarsler + ulesteMeldinger}</span>}
               </button>
 
+              {/*Brukermeny*/}
               {visBrukerMeny && (
                 <div className="bruker-dropdown-meny">
                   <Link to="/profil" onClick={handleProfilKlikk} className="dropdown-valg">
                     Profil
                   </Link>
                   <Link to="/meldinger" onClick={handleProfilKlikk} className="dropdown-valg">
-                    Meldinger
+                    Meldinger {ulesteMeldinger > 0 && <span className="varsler-badge">{ulesteMeldinger}</span>}
                   </Link>
                   <Link to="/varsler" onClick={handleProfilKlikk} className="dropdown-valg">
-                    Varsler
+                    Varsler {ulestVarsler > 0 && <span className="varsler-badge">{ulestVarsler}</span>}
                   </Link>
                   <Link to="/favoritter" onClick={handleProfilKlikk} className="dropdown-valg">
                     Favoritter
@@ -161,6 +168,8 @@ export default function Navbar() {
             <FaBars/>
           </button>
     </header>
+
+    {/*Modal til innlogging/register*/}
     <Logginn
       show={visLogginn}
       onClose={() => setVisLogginn(false)}

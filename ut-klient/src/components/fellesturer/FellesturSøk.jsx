@@ -8,10 +8,11 @@ export default function FellesturSøk({ fellesturer, onSelect, lagretTittel = ""
     const [søk, setSøk] = useState(lagretTittel);
     const [visDropdown, setVisDropdown] = useState(false);
     const dropdownRef = useRef(null);
+    console.log(fellesturer)
 
     const filterFellesturer = fellesturer?.filter(tur =>
-        tur.tittel.toLowerCase().includes(søk.toLowerCase()) ||   //søk på tittel
-        tur.fellestur_id.toString().includes(søk)                 //søk på ID
+        tur.aktivitet_tittel.toLowerCase().includes(søk.toLowerCase()) ||   //søk på tittel
+        tur.aktivitet_id.toString().includes(søk)                 //søk på ID
     ) || [];
 
     //Lukker dropdown når bruker klikker på utsiden
@@ -48,14 +49,14 @@ export default function FellesturSøk({ fellesturer, onSelect, lagretTittel = ""
                     {filterFellesturer.length > 0 ? (
                         filterFellesturer.map((tur) => (
                             <li
-                                key={tur.fellestur_id}
+                                key={tur.aktivitet_id}
                                 onClick={() => {
                                     setSøk(tur.tittel);
-                                    onSelect(tur.fellestur_id, tur.tittel);
+                                    onSelect(tur.aktivitet_id, tur.aktivitet_tittel);
                                     setVisDropdown(false);
                                 }}
                             >
-                                <span className="tur-id">#{tur.fellestur_id}</span> {tur.tittel}
+                                <span className="tur-id">#{tur.aktivitet_id}</span> {tur.aktivitet_tittel}
                             </li>
                         ))
                     ) : (

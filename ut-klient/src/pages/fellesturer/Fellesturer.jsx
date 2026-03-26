@@ -28,9 +28,9 @@ export default function Fellesturer() {
                 key={fellestur.aktivitet_id}
                 fellesturId={fellestur.aktivitet_id}
                 fellesturNavn={fellestur.aktivitet_tittel}
-                startDato={fellestur.datoer[0].aktivitet_start_dato}
-                sluttDato={fellestur.datoer[0].aktivitet_slutt_dato}
-                bildeUrl={fellestur.bilder[0].aktivitet_url}
+                startDato={fellestur.datoer[0]?.aktivitet_start_dato}
+                sluttDato={fellestur.datoer[0]?.aktivitet_slutt_dato}
+                bildeUrl={fellestur.bilder[0]?.aktivitet_url}
               />
               ))}
           </div>

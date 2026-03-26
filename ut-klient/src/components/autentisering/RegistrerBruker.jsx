@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Modal from '../../modal/Modal';
+import { toast } from 'react-toastify';
 import './Autentisering.css';
 
 //Registrerer en ny bruker med Modal. Laget av Kay
@@ -8,20 +9,26 @@ export default function RegisterBruker({ show, onClose, onByttTilLogginn, regist
     bruker_navn: '',
     bruker_etternavn: '',
     bruker_epost: '',
-    bruker_passord: ''
+    bruker_passord: '',
+    bruker_passord_bekreft: ''
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({...formData, [e.target.name]: e.target.value});
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.bruker_passord !== formData.bruker_passord_bekreft) {
+        toast.error("Passordene er ikke like");
+        return;
+    }
+
     try {
       await registrer(
         formData.bruker_navn,
         formData.bruker_etternavn,
-        formData.bruker_epost,
+        formData.bruker_epost.toLocaleLowerCase(),
         formData.bruker_passord
       );
       onClose(); 
@@ -41,7 +48,8 @@ export default function RegisterBruker({ show, onClose, onByttTilLogginn, regist
       bruker_navn: '',
       bruker_etternavn: '',
       bruker_epost: '',
-      bruker_passord: ''
+      bruker_passord: '',
+      bruker_passord_bekreft: ''
     });
     onByttTilLogginn();
   };
@@ -92,6 +100,19 @@ export default function RegisterBruker({ show, onClose, onByttTilLogginn, regist
                 type="password"
                 name="bruker_passord"
                 value={formData.bruker_passord}
+                onChange={handleChange}
+                required
+                minLength={6}
+                disabled={loading}
+              />
+          </div>
+
+          <div className="input-container">
+            <label className='input'>Bekreft passord</label>
+              <input
+                type="password"
+                name="bruker_passord_bekreft"
+                value={formData.bruker_passord_bekreft}
                 onChange={handleChange}
                 required
                 minLength={6}

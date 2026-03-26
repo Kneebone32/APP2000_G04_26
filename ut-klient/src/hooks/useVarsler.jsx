@@ -1,7 +1,11 @@
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 
+const testVarsler = [
+    { varsel_id: 99, tittel: 'Velkommen til UT.ut!', varsel_kategori: 'info', status: 'ulest', opprettet_tid: new Date().toISOString(), innhold: 'Takk for at du registrerte deg. Utforsk turer, hytter og fellesturer i nærheten av deg.' }
+];
+
 //Hook til varslingssystemet. Laget av Kay
-export function useVarsler({ token, pollIntervall = 10000 } = {}) {
+export function useVarsler({ token, pollIntervall = 10000, autoPoll = false } = {}) {
 
     const [varsler, setVarsler] = useState([]);
     const [valgtVarsel, setValgtVarsel] = useState(null);
@@ -24,7 +28,7 @@ export function useVarsler({ token, pollIntervall = 10000 } = {}) {
             });
             if (!response.ok) throw new Error(`HTTP feil: ${response.status}`);
             const data = await response.json();
-            setVarsler(data);
+            setVarsler([...testVarsler, ...data]);
         } catch (err) {
             setError(err.message);
         }
@@ -59,7 +63,7 @@ export function useVarsler({ token, pollIntervall = 10000 } = {}) {
             });
             if (!response.ok) throw new Error('Kunne ikke merke varsel som lest');
             setVarsler((forrige) =>
-                forrige.map((v) => v.varsel_id === varselId ? { ...v, status: 'lest' } : v)
+                forrige.map((varsel) => varsel.varsel_id === varselId ? { ...varsel, status: 'lest' } : varsel)
             );
         } catch (err) {
             setError(err.message);
@@ -104,8 +108,11 @@ export function useVarsler({ token, pollIntervall = 10000 } = {}) {
     }, [pollIntervall, stopPoll]);
 
     useEffect(() => {
+        if (autoPoll && token) {
+            startPoll(hentVarsler);
+        }
         return () => stopPoll();
-    }, [stopPoll]);
+    }, [autoPoll, token, hentVarsler, startPoll, stopPoll]);
 
     return {
         varsler,

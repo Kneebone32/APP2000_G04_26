@@ -84,11 +84,12 @@ export function filterTurer(turer, filter) {
 export function filterFellesturer(fellesturer, filter) {
   return fellesturer.filter((fellestur) => {
     //Null check
-    if (!fellestur.koordinater) {
-      return false;
-    }
+    //if (!fellestur.koordinater) {
+    //  return false;
+    //}
 
     //TODO
+    return true;
   });
 }
 

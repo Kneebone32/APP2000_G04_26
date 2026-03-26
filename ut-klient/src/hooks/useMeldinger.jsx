@@ -1,10 +1,15 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 
 //Hook til meldingssystemet. Laget av Kay
-export function useMeldinger({ token, pollIntervall = 5000 } = {}) {
+export function useMeldinger({ token, pollIntervall = 5000, autoPoll = false } = {}) {
 
-  const [meldinger, setMeldinger] = useState([]);
-  const [samtaler, setSamtaler] = useState([]);
+  const [meldinger, setMeldinger] = useState([
+    {id: 1, avsender_id: 1, avsender_navn: 'Ola Nordmann', innhold: 'Hei! Blir du med på tur?', sendt_tid: new Date().toISOString()}
+  ]);
+  const [samtaler, setSamtaler] = useState([
+    {bruker_id: 1, navn: 'Ola Nordmann', siste_melding: 'Hei! Blir du med på tur?', uleste: 2},
+  ]);
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const intervallRef = useRef(null);
@@ -18,6 +23,7 @@ export function useMeldinger({ token, pollIntervall = 5000 } = {}) {
   const hentSamtaler = useCallback(async () => {
     if (!token) return;
     try {
+      /*
       setError(null);
       const response = await fetch(`${import.meta.env.VITE_API_URL}/meldinger/samtaler`, {
         headers: authHeaders
@@ -25,6 +31,7 @@ export function useMeldinger({ token, pollIntervall = 5000 } = {}) {
       if (!response.ok) throw new Error(`HTTP feil: ${response.status}`);
       const data = await response.json();
       setSamtaler(data);
+      */
     } catch (err) {
       setError(err.message);
     }
@@ -133,8 +140,11 @@ export function useMeldinger({ token, pollIntervall = 5000 } = {}) {
   }, [pollIntervall, stopPoll]);
 
   useEffect(() => {
+    if (autoPoll && token) {
+      startPoll(hentSamtaler);
+    }
     return () => stopPoll();
-  }, [stopPoll]);
+  }, [autoPoll, token, hentSamtaler, startPoll, stopPoll]);
 
   return {
     meldinger,

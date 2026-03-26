@@ -6,6 +6,8 @@ export function useAutentisering({autoFetch = true} = {}) {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [loading, setLoading] = useState(autoFetch);
   const [error, setError] = useState(null);
+  const [roller, setRoller] = useState([]);
+  const [mineRoller, setMineRoller] = useState([]);
 
 
   //Henter profil ut fra token
@@ -159,14 +161,14 @@ export function useAutentisering({autoFetch = true} = {}) {
     }
   }, [token]);
 
-  //rollebytte
+  //sender søknad om rollebytte via varselsystemet
   const byttRolle = useCallback(async (rolle_id) => {
     try {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/bruker/bytt-rolle`, {
-        method: 'PUT',
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/varsler/rolle-foresporsel`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -186,6 +188,22 @@ export function useAutentisering({autoFetch = true} = {}) {
     }
   }, [token]);
 
+  //Henter alle tilgjengelige roller fra DB
+  const hentRoller = useCallback(async () => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/bruker/roller`);
+    if (!response.ok) throw new Error('Kunne ikke hente roller');
+    return await response.json();
+  }, []);
+
+  //Henter rollene til innlogget bruker
+  const hentMineRoller = useCallback(async () => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/bruker/mine-roller`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (!response.ok) throw new Error('Kunne ikke hente brukerens roller');
+    return await response.json();
+  }, [token]);
+
   //Logg ut
   const loggut = useCallback(() => {
     setToken(null);
@@ -199,10 +217,12 @@ export function useAutentisering({autoFetch = true} = {}) {
   useEffect(() => {
     if (autoFetch && token) {
       fetchProfil();
+      hentRoller().then(setRoller).catch(() => {});
+      hentMineRoller().then(setMineRoller).catch(() => {});
     } else if (autoFetch) {
       setLoading(false);
     }
-  }, [autoFetch, fetchProfil, token]);
+  }, [autoFetch, fetchProfil, token, hentRoller, hentMineRoller]);
 
   //Synkroniser token på tvers av instanser
   useEffect(() => {
@@ -226,6 +246,10 @@ export function useAutentisering({autoFetch = true} = {}) {
     redigerProfil,
     byttPassord,
     byttRolle,
+    roller,
+    mineRoller,
+    hentRoller,
+    hentMineRoller,
     refetch: fetchProfil
   };
 }
