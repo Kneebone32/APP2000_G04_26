@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback } from 'react';
 export function useFellestur({autoFetch = false, hentTurID = null} = {}) {
 
   const [fellesturer, setFellesturer] = useState([]);
+  const [fellestur, setFellestur] = useState(null);
   const [loading, setLoading] = useState(autoFetch);
   const [error, setError] = useState(null);
 
@@ -34,7 +35,9 @@ export function useFellestur({autoFetch = false, hentTurID = null} = {}) {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/fellestur/${id}`);
       if (!response.ok) throw new Error("Kunne ikke hente turen");
 
-      return await response.json();
+      const data = await response.json();
+      setFellestur(data);
+      return data;
     } catch (err){
       setError(err.message);
     } finally {
@@ -114,6 +117,7 @@ export function useFellestur({autoFetch = false, hentTurID = null} = {}) {
   
   return {
     fellesturer,
+    fellestur,
     loadingFellesturer: loading,
     errorFellesturer: error,
     opprettFellestur,

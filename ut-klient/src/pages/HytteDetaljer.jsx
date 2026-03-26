@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useAutentisering } from '../hooks/useAutentisering';
 import { useFetchHytter } from "../hooks/useFetchHytter";
 import { useAnmeldelser } from "../hooks/useAnmeldelser";
+import { toast } from "react-toastify";
 import AnmeldelseListe from "../components/anmeldelser/AnmeldelseListe";
 import AnmeldelseSkjema from "../components/anmeldelser/AnmeldelseSkjema";
 import  './HytteDetaljer.css';
@@ -20,6 +21,7 @@ export default function HytteDetaljer() {
   const [hytte, setHytte] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
 
   // Trekker ut navn på fasiliteter fra kategoristrukturen på hytta.
   const fasiliteterNavn = Array.isArray(hytte?.kategorier)
@@ -118,8 +120,9 @@ export default function HytteDetaljer() {
           </div>
         )}
 
-        {erAutentisert && (
-          <AnmeldelseSkjema onSend={(data) => leggTilHytteAnmeldelse(hytteId, data)} loading={loading} />
+        {/*Fjerner AnmeldelseSkjema hvis bruker ikke er innlogget eller allerede har lagt til en anmeldelse*/}
+        {erAutentisert && !hytteAnmeldelser.some(a => a.bruker_id === bruker?.bruker_id) && (
+          <AnmeldelseSkjema onSend={(data) => leggTilHytteAnmeldelse(hytteId, data, bruker?.bruker_navn)} loading={loading} />
         )}
 
         <hr />
@@ -133,7 +136,10 @@ export default function HytteDetaljer() {
           loading={loading}
           error={error}
           brukerId={bruker?.bruker_id}
-          onSlett={slettHytteAnmeldelse(hytteId, bruker?.bruker_id)}
+          onSlett={async (brukerId) => {
+                      await slettHytteAnmeldelse(hytteId, brukerId);
+                      toast.success('Anmeldelse slettet');
+                    }}
         />
 
         {!loading && !error && !hytte && <p>{t("hytter.ikke_funnet")}</p>}

@@ -6,6 +6,7 @@ import { useFetchTurer } from "../hooks/useFetchTurer";
 import { useAutentisering } from "../hooks/useAutentisering";
 import { useAnmeldelser } from "../hooks/useAnmeldelser";
 import { hentKommuneData } from "../utils/geoUtils";
+import { toast } from "react-toastify";
 import AnmeldelseListe from "../components/anmeldelser/AnmeldelseListe";
 import AnmeldelseSkjema from "../components/anmeldelser/AnmeldelseSkjema";
 import  './TurDetaljer.css';
@@ -118,20 +119,24 @@ export default function TurDetaljer() {
           </div>
         )}
         
-        {erAutentisert && (
-          <AnmeldelseSkjema onSend={(data) => leggTilTurAnmeldelse(turId, data)} loading={loading} />
+        {/*Fjerner AnmeldelseSkjema hvis bruker ikke er innlogget eller allerede har lagt til en anmeldelse*/}
+        {erAutentisert && !turAnmeldelser.some(a => a.bruker_id === bruker?.bruker_id) && (
+          <AnmeldelseSkjema onSend={(data) => leggTilTurAnmeldelse(turId, data, bruker?.bruker_navn)} loading={loading} />
         )}
 
         <AnmeldelseListe
           anmeldelser={turAnmeldelser}
           gjennomsnittsrating={turGjennomsnittsrating}
-          rating={"tur_rating"}
-          kommentar={"tur_anmeldelse"}
-          tid={"tur_opprettet_tidspunkt"}
+          rating={"rating"}
+          kommentar={"anmeldelse"}
+          tid={"opprettet_tidspunkt"}
           loading={loading}
           error={error}
           brukerId={bruker?.bruker_id}
-          onSlett={slettTurAnmeldelse(turId, bruker?.bruker_id)}
+          onSlett={async (brukerId) => {
+                      await slettTurAnmeldelse(turId, brukerId);
+                      toast.success('Anmeldelse slettet');
+                    }}
         />
 
         {!loading && !error && !tur && <p>{t("turer.ikke_funnet")}</p>}

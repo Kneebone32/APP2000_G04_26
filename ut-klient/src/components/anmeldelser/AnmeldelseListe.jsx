@@ -4,7 +4,7 @@ import { formatNorskdato } from '../../utils/datoUtils';
 //Viser liste over anmeldelser med stjerner og kommentar. Laget av Kay
 export default function AnmeldelseListe({anmeldelser, gjennomsnittsrating, rating, kommentar, tid, loading, error, brukerId, onSlett}) {
     const tegnStjerner = (antall) => '★'.repeat(antall) + '☆'.repeat(5 - antall);
-    if (loading || error) return;
+    //if (loading || error) return;
 
     return (
         <div className="anmeldelse-liste">
@@ -33,7 +33,7 @@ export default function AnmeldelseListe({anmeldelser, gjennomsnittsrating, ratin
                             {brukerId && brukerId === anmeldelse.bruker_id && (
                                 <button
                                     className="anmeldelse-slett-btn"
-                                    onClick={() => onSlett()}
+                                    onClick={() => onSlett(anmeldelse.bruker_id)}
                                 >
                                     Slett
                                 </button>

@@ -19,7 +19,7 @@ export function useAnmeldelser({ token, hytteId, turId } = {}) {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/${hytteId}/anmeldelser`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/anmeldelser/hytte/${hytteId}`);
       if (!response.ok) throw new Error(`Kunne ikke hente anmeldelser: ${response.status}`);
       const data = await response.json();
       setHytteAnmeldelser(data);
@@ -31,31 +31,31 @@ export function useAnmeldelser({ token, hytteId, turId } = {}) {
   }, []);
 
   //Legger til en ny anmeldelse for en hytte
-  const leggTilHytteAnmeldelse = useCallback(async (hytteId, {stjerner, kommentar}) => {
+  const leggTilHytteAnmeldelse = useCallback(async (hytteId, {rating, anmeldelse}, brukerNavn) => {
     if (!token) return;
     try {
       setError(null);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/${hytteId}/anmeldelser`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/anmeldelser/hytte/${hytteId}`, {
         method: 'POST',
         headers: authHeaders,
-        body: JSON.stringify({stjerner, kommentar})
+        body: JSON.stringify({rating, anmeldelse})
       });
       if (!response.ok) throw new Error(`Kunne ikke legge til anmeldelse: ${response.status}`);
       const ny = await response.json();
-      setHytteAnmeldelser(prev => [ny, ...prev]);
+      setHytteAnmeldelser(prev => [{ ...ny, bruker_navn: brukerNavn }, ...prev]);
     } catch (err) {
       setError(err.message);
     }
   }, [authHeaders, token]);
 
   //Sletter en anmeldelse fra en hytte
-  const slettHytteAnmeldelse = useCallback(async (hytteId, anmeldelseId) => {
-    if (!token || token) return;
+  const slettHytteAnmeldelse = useCallback(async (hytteId, brukerId) => {
+    if (!token) return;
 
     //bruker optimistisk oppdatering slik at oppdateringen visuelt skjer med en gang
-    setHytteAnmeldelser(prev => prev.filter(a => a.id !== anmeldelseId));
+    setHytteAnmeldelser(prev => prev.filter(a => a.bruker_id !== brukerId));
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/${hytteId}/anmeldelser`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/anmeldelser/hytte/${hytteId}`, {
         method: 'DELETE',
         headers: authHeaders
       });
@@ -86,7 +86,7 @@ export function useAnmeldelser({ token, hytteId, turId } = {}) {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/tur/${turId}/anmeldelser`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/anmeldelser/tur/${turId}`);
       if (!response.ok) throw new Error(`Kunne ikke hente turanmeldelser: ${response.status}`);
       const data = await response.json();
       setTurAnmeldelser(data);
@@ -98,31 +98,31 @@ export function useAnmeldelser({ token, hytteId, turId } = {}) {
   }, []);
 
   //Legger til en ny anmeldelse for en tur
-  const leggTilTurAnmeldelse = useCallback(async (turId, {stjerner, kommentar}) => {
+  const leggTilTurAnmeldelse = useCallback(async (turId, {rating, anmeldelse}, brukerNavn) => {
     if (!token) return;
     try {
       setError(null);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/tur/${turId}/anmeldelser`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/anmeldelser/tur/${turId}`, {
         method: 'POST',
         headers: authHeaders,
-        body: JSON.stringify({stjerner, kommentar})
+        body: JSON.stringify({rating, anmeldelse})
       });
       if (!response.ok) throw new Error(`Kunne ikke legge til turanmeldelse: ${response.status}`);
       const ny = await response.json();
-      setTurAnmeldelser(prev => [ny, ...prev]);
+      setTurAnmeldelser(prev => [{ ...ny, bruker_navn: brukerNavn }, ...prev]);
     } catch (err) {
       setError(err.message);
     }
   }, [authHeaders, token]);
 
   //Sletter en anmeldelse fra en tur
-  const slettTurAnmeldelse = useCallback(async (turId, anmeldelseId) => {
-    if (!token || token) return;
+  const slettTurAnmeldelse = useCallback(async (turId, brukerId) => {
+    if (!token) return;
 
     //bruker optimistisk oppdatering slik at oppdateringen visuelt skjer med en gang
-    setTurAnmeldelser(prev => prev.filter(a => a.id !== anmeldelseId));
+    setTurAnmeldelser(prev => prev.filter(a => a.bruker_id !== brukerId));
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/tur/${turId}/anmeldelser/${anmeldelseId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/anmeldelser/tur/${turId}`, {
         method: 'DELETE',
         headers: authHeaders
       });
@@ -141,7 +141,7 @@ export function useAnmeldelser({ token, hytteId, turId } = {}) {
 
   //Beregner gjennomsnittsrating fra turanmeldelseslisten
   const turGjennomsnittsrating = turAnmeldelser.length > 0
-    ? (turAnmeldelser.reduce((sum, a) => sum + a.turrute_rating, 0) / turAnmeldelser.length).toFixed(1)
+    ? (turAnmeldelser.reduce((sum, a) => sum + a.rating, 0) / turAnmeldelser.length).toFixed(1)
     : null;
 
   return {
