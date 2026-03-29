@@ -1,0 +1,22 @@
+/* Laget av AI */
+.AnnonseStatistikkTabell {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.AnnonseStatistikkTabell th {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 2px solid #ddd;
+    font-size: 0.9rem;
+}
+
+.AnnonseStatistikkTabell td {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9rem;
+}
+
+.AnnonseStatistikkFeil {
+    color: red;
+}

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 
-// Hook for annonseendepunkter: liste, kort og enkel annonse. Laget av Olai
+// Hook for annonseendepunkter: liste, kort, enkelannonse og CRUD. Laget av Olai
 export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, annonseKort = false } = {}) {
   const [annonser, setAnnonser] = useState([]);
   const [loadingAnnonser, setLoadingAnnonser] = useState(false);
@@ -58,6 +58,79 @@ export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, anno
     }
   }, []);
 
+  // Oppdaterer en annonse med PUT og oppdaterer lokal state.
+  const oppdaterAnnonse = useCallback(async (id, data) => {
+
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/annonser/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Feil ved oppdatering: ${response.status}`);
+    }
+
+    const oppdatert = await response.json();
+    setAnnonser(prev => prev.map(a => a.annonse_id === parseInt(id) ? { ...a, ...oppdatert } : a));
+    return oppdatert;
+  }, []);
+
+  // Sletter en annonse og oppdaterer lokal state.
+  const slettAnnonse = useCallback(async (id) => {
+
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/annonser/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Feil ved sletting: ${response.status}`);
+    }
+
+    setAnnonser(prev => prev.filter(a => a.annonse_id !== parseInt(id)));
+    return await response.json();
+  }, []);
+
+  // Godkjenner en ventende annonse og oppdaterer lokal state.
+  const godkjennAnnonse = useCallback(async (id) => {
+
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/annonser/${id}/godkjenn`, {
+      method: "PUT",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Feil ved godkjenning: ${response.status}`);
+    }
+
+    setAnnonser(prev => prev.map(a => a.annonse_id === parseInt(id) ? { ...a, status: "godkjent" } : a));
+    return await response.json();
+  }, []);
+
+  // Avviser en ventende annonse og oppdaterer lokal state.
+  const avvisAnnonse = useCallback(async (id) => {
+
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/annonser/${id}/avvis`, {
+      method: "PUT",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Feil ved avvisning: ${response.status}`);
+    }
+
+    setAnnonser(prev => prev.map(a => a.annonse_id === parseInt(id) ? { ...a, status: "avvist" } : a));
+    return await response.json();
+  }, []);
+
+  // Henter visnings- og klikkstatistikk for en annonse.
+  const hentStatistikk = useCallback(async (id) => {
+
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/annonser/${id}/statistikk`);
+    if (!response.ok) {
+      throw new Error(`Feil ved henting av statistikk: ${response.status}`);
+    }
+    return await response.json();
+  }, []);
+
   // Kjører automatisk henting basert på valgte flagg.
   useEffect(() => {
     if (autoFetch) fetchAnnonser();
@@ -72,5 +145,10 @@ export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, anno
     refetch: fetchAnnonser,
     fetchAnnonseKort,
     hentAnnonseFraId,
+    oppdaterAnnonse,
+    slettAnnonse,
+    godkjennAnnonse,
+    avvisAnnonse,
+    hentStatistikk,
   };
 }

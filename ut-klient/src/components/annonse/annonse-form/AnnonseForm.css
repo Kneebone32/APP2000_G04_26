@@ -1,0 +1,24 @@
+/* Laget av AI */
+.AnnonseFormTekstomrade {
+    resize: none;
+    width: 100%;
+    max-width: 400px;
+}
+
+.AnnonseFormTegnteller {
+    color: #666;
+}
+
+.AnnonseFormTegnteller--advarsel {
+    color: red;
+}
+
+.AnnonseFormBildeForhandsvisning {
+    margin-top: 10px;
+}
+
+.AnnonseFormBilde {
+    margin-right: 10px;
+    max-width: 200px;
+    max-height: 200px;
+}

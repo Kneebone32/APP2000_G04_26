@@ -1,3 +1,39 @@
+/* Laget av AI */
 .AnnonseModeratorPanel {
     margin-top: 150px;
+}
+
+.AnnonseFaneContainer {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.AnnonseVentendeBadge {
+    margin-left: 6px;
+    background: #dc3545;
+    color: #fff;
+    border-radius: 50%;
+    padding: 1px 6px;
+    font-size: 0.75rem;
+}
+
+.AnnonseGodkjennRad {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 16px;
+}
+
+.AnnonseGodkjennKort {
+    flex: 1;
+}
+
+.AnnonseGodkjennKnapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
