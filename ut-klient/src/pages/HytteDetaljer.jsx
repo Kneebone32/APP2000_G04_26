@@ -8,6 +8,7 @@ import { useAnmeldelser } from "../hooks/useAnmeldelser";
 import { toast } from "react-toastify";
 import AnmeldelseListe from "../components/anmeldelser/AnmeldelseListe";
 import AnmeldelseSkjema from "../components/anmeldelser/AnmeldelseSkjema";
+import EmblaCarousel from "../components/EmblaCarousel";
 import  './HytteDetaljer.css';
 
 // Viser detaljside for én valgt hytte basert på ID fra URL. Laget av Olai
@@ -21,6 +22,7 @@ export default function HytteDetaljer() {
   const [hytte, setHytte] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const kanSkriveAnmeldelse = erAutentisert && !hytteAnmeldelser.some((a) => a.bruker_id === bruker?.bruker_id);
 
 
   // Trekker ut navn på fasiliteter fra kategoristrukturen på hytta.
@@ -54,7 +56,7 @@ export default function HytteDetaljer() {
 
   return (
     <PageWrapper>
-      <div className="Hytter">
+      <div className="Hytter HytteDetaljerSide">
         <button 
           className="TilbakeKnapp" 
           onClick={() => navigate("/hytter")}
@@ -73,56 +75,52 @@ export default function HytteDetaljer() {
             <h2>{hytte.hytte_navn || hytte.navn}</h2>
 
             {hytte.bilder && hytte.bilder.length > 0 && (
-              <div className="hytte-bilder">
-                {hytte.bilder.map((bilde, index) => (
-                  <img
-                    key={index}
-                    src={typeof bilde === "string" ? bilde : bilde?.url}
-                    alt={`${hytte.navn} bilde ${index + 1}`}
-                    className="hytte-bilde"
-                  />
-                ))}
+              <EmblaCarousel slides={hytte.bilder} options={{ loop: true }} />
+            )}
+
+            <div className="hytte-info-og-anmeldelse">
+              <div className="hytte-info">
+                {(hytte.hytte_omrade || hytte.omrade) && (
+                  <p><strong>{t("felles.lokasjon")}:</strong> {hytte.hytte_omrade || hytte.omrade}</p>
+                )}
+
+                {hytte.koordinater?.moh && (
+                  <p><strong>{t("hytte.hytte_moh")}:</strong> {hytte.koordinater?.moh}</p>
+                )}
+
+                {hytte.fylke && (
+                  <p><strong>{t("felles.fylke")}:</strong> {hytte.fylke}</p>
+                )}
+
+                {hytte.kommune && (
+                  <p><strong>{t("felles.kommune")}:</strong> {hytte.kommune}</p>
+                )}
+
+                {(hytte.hytte ?? hytte.hytte_pris ?? hytte.pris) !== undefined && (
+                  <p><strong>{t("hytte.pris")}:</strong> {hytte.hytte ?? hytte.hytte_pris ?? hytte.pris}</p>
+                )}
+
+                {hytte.betjeningsgrad && (
+                  <p><strong>{t("hytte.hytte_betjeningsgrad")}:</strong> {t(`enums.betjeningsgrad.${hytte.betjeningsgrad}`)}</p>
+                )}
+
+                {hytte.beskrivelse && (
+                  <p><strong>{t("hytte.beskrivelse")}:</strong> {hytte.beskrivelse}</p>
+                )}
+
+                {fasiliteterNavn.length > 0 && (
+                  <p><strong>{t("hytter.fasiliteter")}:</strong> {fasiliteterNavn.join(", ")}</p>
+                )}
               </div>
-            )}
 
-            {(hytte.hytte_omrade || hytte.omrade) && (
-              <p><strong>{t("felles.lokasjon")}:</strong> {hytte.hytte_omrade || hytte.omrade}</p>
-            )}
-
-            {hytte.koordinater?.moh && (
-              <p><strong>{t("hytte.hytte_moh")}:</strong> {hytte.koordinater?.moh}</p>
-            )}
-
-            {hytte.fylke && (
-              <p><strong>{t("felles.fylke")}:</strong> {hytte.fylke}</p>
-            )}
-
-            {hytte.kommune && (
-              <p><strong>{t("felles.kommune")}:</strong> {hytte.kommune}</p>
-            )}
-
-            {(hytte.hytte ?? hytte.hytte_pris ?? hytte.pris) !== undefined && (
-              <p><strong>{t("hytte.pris")}:</strong> {hytte.hytte ?? hytte.hytte_pris ?? hytte.pris}</p>
-            )}
-
-            {hytte.betjeningsgrad && (
-              <p><strong>{t("hytte.hytte_betjeningsgrad")}:</strong> {t(`enums.betjeningsgrad.${hytte.betjeningsgrad}`)}</p>
-            )}
-
-            {hytte.beskrivelse && (
-              <p><strong>{t("hytte.beskrivelse")}:</strong> {hytte.beskrivelse}</p>
-            )}
-
-            {fasiliteterNavn.length > 0 && (
-              <p><strong>{t("hytter.fasiliteter")}:</strong> {fasiliteterNavn.join(", ")}</p>
-            )}
+              {kanSkriveAnmeldelse && (
+                <div className="hytte-anmeldelse-side">
+                  <AnmeldelseSkjema onSend={(data) => leggTilHytteAnmeldelse(hytteId, data, bruker?.bruker_navn)} loading={loading} />
+                </div>
+              )}
+            </div>
 
           </div>
-        )}
-
-        {/*Fjerner AnmeldelseSkjema hvis bruker ikke er innlogget eller allerede har lagt til en anmeldelse*/}
-        {erAutentisert && !hytteAnmeldelser.some(a => a.bruker_id === bruker?.bruker_id) && (
-          <AnmeldelseSkjema onSend={(data) => leggTilHytteAnmeldelse(hytteId, data, bruker?.bruker_navn)} loading={loading} />
         )}
 
         <hr />
