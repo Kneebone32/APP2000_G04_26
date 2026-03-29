@@ -1,0 +1,85 @@
+/*Laget av AI*/
+.påmelding-knapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.ledige-plasser {
+    font-weight: 600;
+    margin: 0;
+}
+
+.påmelding-status {
+    font-weight: 600;
+    margin: 0;
+}
+
+.påmelding-status.bindende { color: #2e7d32; }
+.påmelding-status.interessert { color: #1565c0; }
+.påmelding-status.fristilt { color: #e65100; }
+
+.påmelding-btn {
+    padding: 0.5rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    width: fit-content;
+}
+
+.påmelding-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.påmelding-btn.bindende {
+    background-color: #2e7d32;
+    color: white;
+}
+
+.påmelding-btn.interessert {
+    background-color: #1565c0;
+    color: white;
+}
+
+.påmelding-btn.avmeld {
+    background-color: transparent;
+    color: #c62828;
+    border: 1px solid #c62828;
+}
+
+.påmelding-ingen-dato {
+    color: #666;
+    font-style: italic;
+    margin: 0;
+}
+
+.dato-liste {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.dato-valg {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    width: fit-content;
+}
+
+.dato-valg:hover {
+    border-color: #2e7d32;
+}
+
+.dato-valg.valgt {
+    border-color: #2e7d32;
+    background-color: #e8f5e9;
+    font-weight: 600;
+}

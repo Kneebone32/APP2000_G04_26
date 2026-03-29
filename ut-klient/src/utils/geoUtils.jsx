@@ -1,4 +1,11 @@
 
+//Returnerer koordinaten i midten av en sti. Laget av Kay
+export const midtpunkt = (punkter) => {
+    if (!punkter?.length) return null;
+    const midt = punkter[Math.floor(punkter.length / 2)];
+    return [midt.breddegrad, midt.lengdegrad];
+};
+
 //Regner ut distansen mellom to punkter på en sfære med "Haversine formula".
 //Standardkode fra internett. Ikke laget av oss
 export const getDistanceBetweenPoints = (lat1, lon1, lat2, lon2) => {

@@ -5,7 +5,7 @@ const testVarsler = [
 ];
 
 //Hook til varslingssystemet. Laget av Kay
-export function useVarsler({ token, pollIntervall = 10000, autoPoll = false } = {}) {
+export function useVarsler({token, pollIntervall = 10000, autoPoll = false} = {}) {
 
     const [varsler, setVarsler] = useState([]);
     const [valgtVarsel, setValgtVarsel] = useState(null);
@@ -70,6 +70,30 @@ export function useVarsler({ token, pollIntervall = 10000, autoPoll = false } = 
         }
     }, [authHeaders, token]);
 
+    //Oppretter et info-varsel
+    const sendInfoVarsel = useCallback(async ({mottaker_id, type_navn, tittel, innhold, referanse_type, referanse_id}) => {
+        if (!token) return;
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/varsler/info`, {
+                method: 'POST',
+                headers: authHeaders,
+                body: JSON.stringify({ mottaker_id, type_navn, tittel, innhold, referanse_type, referanse_id })
+            });
+            if (!response.ok) {
+                const feil = await response.json().catch(() => ({}));
+                throw new Error(feil.error ?? 'Kunne ikke sende varsel');
+            }
+            return await response.json();
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }, [authHeaders, token]);
+
     //Behandler en oppgave
     const behandleOppgave = useCallback(async (varselId, beslutning) => {
         if (!token) return;
@@ -83,7 +107,7 @@ export function useVarsler({ token, pollIntervall = 10000, autoPoll = false } = 
             });
             if (!response.ok) throw new Error('Kunne ikke behandle oppgaven');
             setVarsler((forrige) =>
-                forrige.map((v) => v.varsel_id === varselId ? {...v, status: beslutning} : v)
+                forrige.map((varsel) => varsel.varsel_id === varselId ? {...varsel, status: beslutning} : varsel)
             );
             setValgtVarsel((forrige) => forrige ? {...forrige, status: beslutning} : null);
         } catch (err) {
@@ -101,12 +125,14 @@ export function useVarsler({ token, pollIntervall = 10000, autoPoll = false } = 
         }
     }, []);
 
+    //Polling
     const startPoll = useCallback((pollFunc) => {
         stopPoll();
         pollFunc();
         intervallRef.current = setInterval(pollFunc, pollIntervall);
     }, [pollIntervall, stopPoll]);
 
+    //auto
     useEffect(() => {
         if (autoPoll && token) {
             startPoll(hentVarsler);
@@ -123,6 +149,7 @@ export function useVarsler({ token, pollIntervall = 10000, autoPoll = false } = 
         hentVarsler,
         hentVarsel,
         merkSomLest,
+        sendInfoVarsel,
         behandleOppgave,
         startPoll,
         stopPoll

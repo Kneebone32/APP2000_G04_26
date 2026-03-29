@@ -1,7 +1,7 @@
 import './VarselListe.css';
 
 //viser alle varsler for innlogget bruker. Laget av Kay
-export default function VarselListe({ varsler, valgtId, onVelg }) {
+export default function VarselListe({varsler, valgtId, onVelg}) {
     return (
         <div className="varsel-liste">
             <h3 className="varsel-liste-tittel">Varsler</h3>

@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import './FellesturModerator.css';
 
 //Basert på HytteModerator.jsx. Laget av Kay og Olai
-export default function FellesturModerator() {
+export default function FellesturModerator({fellesturer} = {}) {
     //const { refetch } = useFellesturer(true);
     const { t } = useTranslation();
 
@@ -18,14 +18,10 @@ export default function FellesturModerator() {
             <hr />
             <LeggTilFellestur />
             <hr />
-            <RedigerFellestur />
+            <RedigerFellestur fellesturer={fellesturer} />
             <hr />
-            <SlettFellestur />
+            <SlettFellestur fellesturer={fellesturer} />
         </div>
         </PageWrapper>
     );
 }
-
-//Bug:
-//bildeopplastning vil ikke fungere helt riktig dersom LeggTilFellestur og RedigerFellesTur er på samme side. Dette er pga. hooken bruker 
-//document.querySelector istedet for useRef .current

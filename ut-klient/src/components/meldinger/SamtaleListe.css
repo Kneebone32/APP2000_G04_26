@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    overflow: scroll;
     border-right: 1px solid var(--border-color, #ddd);
     background-color: var(--bg-secondary, #f5f5f5);
     min-width: 220px;
@@ -83,4 +84,97 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+    .samtale-liste {
+        min-width: 48px;
+        width: 48px;
+        transition: width 0.25s ease, min-width 0.25s ease;
+    }
+
+    .samtale-liste:hover,
+    .samtale-liste:focus-within {
+        width: 240px;
+        min-width: 240px;
+    }
+
+    /* Skjul tittelteksten, vis bare en strek */
+    .samtale-liste-tittel {
+        font-size: 0;
+        padding: 14px 0;
+        text-align: center;
+        border-bottom: 1px solid var(--border-color, #ddd);
+    }
+
+    .samtale-liste-tittel::after {
+        content: '—';
+        font-size: 1rem;
+        color: var(--text-primary, #222);
+    }
+
+    .samtale-liste:hover .samtale-liste-tittel,
+    .samtale-liste:focus-within .samtale-liste-tittel {
+        font-size: 1rem;
+        padding: 14px 16px;
+        text-align: left;
+    }
+
+    .samtale-liste:hover .samtale-liste-tittel::after,
+    .samtale-liste:focus-within .samtale-liste-tittel::after {
+        content: '';
+    }
+
+    /* Knapp: sentrert dot når kollapset */
+    .samtale-rad {
+        justify-content: center;
+        padding: 12px 0;
+    }
+
+    .samtale-liste:hover .samtale-rad,
+    .samtale-liste:focus-within .samtale-rad {
+        justify-content: space-between;
+        padding: 12px 16px;
+    }
+
+    /* Skjul tekst når kollapset */
+    .samtale-rad-info {
+        display: none;
+    }
+
+    .samtale-liste:hover .samtale-rad-info,
+    .samtale-liste:focus-within .samtale-rad-info {
+        display: flex;
+    }
+
+    /* Vis alltid en dot per samtale (grå for lest, grønn for ulest) via pseudo */
+    .samtale-rad::before {
+        content: '';
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: var(--border-color, #ccc);
+        flex-shrink: 0;
+    }
+
+    /* Bruker samtale-rad-aktiv som proxy siden vi ikke har en ulest-klasse her */
+    .samtale-rad:has(.samtale-uleste)::before {
+        background-color: var(--accent-color, #2e7d32);
+    }
+
+    /* Skjul ekte count-badge på mobil (erstattes av ::before) */
+    .samtale-uleste {
+        display: none;
+    }
+
+    /* Vis ekte badge igjen ved hover/expand */
+    .samtale-liste:hover .samtale-uleste,
+    .samtale-liste:focus-within .samtale-uleste {
+        display: flex;
+    }
+
+    .samtale-liste:hover .samtale-rad::before,
+    .samtale-liste:focus-within .samtale-rad::before {
+        display: none;
+    }
 }

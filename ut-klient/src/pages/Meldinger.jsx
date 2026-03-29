@@ -18,13 +18,6 @@ export default function Meldinger() {
 
     const [valgtSamtale, setValgtSamtale] = useState(null);
 
-    //testdata
-    const testSamtaler = [
-        {bruker_id: 1, navn: 'Ola Nordmann', siste_melding: 'Hei! Blir du med på tur?', uleste: 2},
-    ];
-    const testMeldinger = [
-        {id: 1, avsender_id: 1, avsender_navn: 'Ola Nordmann', innhold: 'Hei! Blir du med på tur?', sendt_tid: new Date().toISOString()}
-    ];
 
     //Henter samtalelisten når siden lastes
     useEffect(() => {
@@ -55,7 +48,7 @@ export default function Meldinger() {
             
             <div className="meldinger-layout">
                 <SamtaleListe
-                    samtaler={samtaler.length > 0 ? samtaler : testSamtaler}
+                    samtaler={samtaler}
                     valgtId={valgtSamtale?.bruker_id}
                     onVelg={handleVelgSamtale}
                 />
@@ -63,7 +56,7 @@ export default function Meldinger() {
                     {valgtSamtale ? (
                         <MeldingsBoks
                             tittel={valgtSamtale.navn}
-                            meldinger={meldinger.length > 0 ? meldinger : testMeldinger}
+                            meldinger={meldinger}
                             loading={loading}
                             error={error}
                             brukerId={bruker?.bruker_id}

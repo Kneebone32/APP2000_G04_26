@@ -2,6 +2,7 @@
 .varsel-liste {
     display: flex;
     flex-direction: column;
+    overflow: scroll;
     height: 100%;
     border-right: 1px solid var(--border-color, #ddd);
     background-color: var(--bg-secondary, #f5f5f5);
@@ -76,4 +77,96 @@
     border-radius: 50%;
     background-color: var(--accent-color, #2e7d32);
     flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+    .varsel-liste {
+        min-width: 48px;
+        width: 48px;
+        transition: width 0.25s ease, min-width 0.25s ease;
+    }
+
+    .varsel-liste:hover,
+    .varsel-liste:focus-within {
+        width: 240px;
+        min-width: 240px;
+    }
+
+    /* Skjul tittelteksten, vis bare en strek */
+    .varsel-liste-tittel {
+        font-size: 0;
+        padding: 14px 0;
+        text-align: center;
+        border-bottom: 1px solid var(--border-color, #ddd);
+    }
+
+    .varsel-liste-tittel::after {
+        content: '—';
+        font-size: 1rem;
+        color: var(--text-primary, #222);
+    }
+
+    .varsel-liste:hover .varsel-liste-tittel,
+    .varsel-liste:focus-within .varsel-liste-tittel {
+        font-size: 1rem;
+        padding: 14px 16px;
+        text-align: left;
+    }
+
+    .varsel-liste:hover .varsel-liste-tittel::after,
+    .varsel-liste:focus-within .varsel-liste-tittel::after {
+        content: '';
+    }
+
+    /* Knapp: sentrert dot når kollapset */
+    .varsel-rad {
+        justify-content: center;
+        padding: 12px 0;
+    }
+
+    .varsel-liste:hover .varsel-rad,
+    .varsel-liste:focus-within .varsel-rad {
+        justify-content: space-between;
+        padding: 12px 16px;
+    }
+
+    /* Skjul tekst når kollapset */
+    .varsel-rad-info {
+        display: none;
+    }
+
+    .varsel-liste:hover .varsel-rad-info,
+    .varsel-liste:focus-within .varsel-rad-info {
+        display: flex;
+    }
+
+    /* Vis alltid en dot per varsel (grå for lest, grønn for ulest) via pseudo */
+    .varsel-rad::before {
+        content: '';
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: var(--border-color, #ccc);
+        flex-shrink: 0;
+    }
+
+    .varsel-rad-ulest::before {
+        background-color: var(--accent-color, #2e7d32);
+    }
+
+    /* Skjul ekte dot-indikator på mobil (erstattes av ::before) */
+    .varsel-ulest-indikator {
+        display: none;
+    }
+
+    /* Vis ekte dot-indikator igjen ved hover/expand */
+    .varsel-liste:hover .varsel-ulest-indikator,
+    .varsel-liste:focus-within .varsel-ulest-indikator {
+        display: block;
+    }
+
+    .varsel-liste:hover .varsel-rad::before,
+    .varsel-liste:focus-within .varsel-rad::before {
+        display: none;
+    }
 }

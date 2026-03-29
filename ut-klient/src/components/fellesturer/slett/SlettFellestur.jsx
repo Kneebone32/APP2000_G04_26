@@ -8,10 +8,12 @@ import { useTranslation } from "react-i18next";
 import "../fellestur-form/FellesturForm.css";
 
 //Sletter Fellestur med valgt ID. Laget av Kay
-export default function SlettFellestur() {
+//fellesturer-prop brukes av turleder for å begrense søk til egne turer
+export default function SlettFellestur({fellesturer: fellesturer_prop} = {}) {
     const { t } = useTranslation();
     const { isOpen, open, close } = useModal();
-    const { fellesturer: fellestur, slettFellestur: deleteFellestur} = useFellestur({autoFetch: true});
+    const { fellesturer: fellesturer_alle, slettFellestur: deleteFellestur} = useFellestur({autoFetch: !fellesturer_prop});
+    const fellestur = fellesturer_prop ?? fellesturer_alle;
     const [valgtId, setValgtId] = useState(0);
     const [valgtTittel, setValgtTittel] = useState("");
 

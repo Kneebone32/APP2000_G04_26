@@ -6,8 +6,10 @@ import KartFilter from "../components/kart/KartFilter";
 import { useFetchHytter } from "../hooks/useFetchHytter";
 import { useTurmål }  from "../hooks/useTurmål";
 import { useFetchTurer } from "../hooks/useFetchTurer";
-import { filterHytter, filterTurMål, filterTurer } from "../utils/filterUtforskerKart";
+import { useFellestur } from "../hooks/useFellesturer";
+import { filterHytter, filterTurMål, filterTurer, filterFellesturer } from "../utils/filterUtforskerKart";
 import { HoverPolyline } from "../components/kart/HoverPolyline";
+import { midtpunkt } from "../utils/geoUtils";
 import "./Kart.css";
 import "../App.css";
 
@@ -27,15 +29,21 @@ function ZoomLevel({onZoomChange}){
 export default function Kart() {
   const { hytter, loadingHytter, errorHytter } = useFetchHytter({autoFetch: true});
   const { turer, loadingTurer, errorTurer } = useFetchTurer({autoFetch: true});
+  const { fellesturer } = useFellestur({autoFetch: true});
   const { turmål } = useTurmål({autoFetch: true});
   const { t } = useTranslation();
   const [filter, setFilter] = useState({});
   const [zoom, setZoom] = useState(13);
+  const [valgt, setValgt] = useState(null); 
+
+  //toggle til stiene for en Tur/Fellestur
+  const toggleValgt = (visTurID) => setValgt(gjeldende => gjeldende === visTurID ? null : visTurID);
 
   //filter til hytter
   const filteredHytter = filterHytter(hytter, filter);
   const filteredTurer = filterTurer(turer, filter);
   const filteredTurmål = filterTurMål(turmål, filter);
+  const filteredFellesturer = filterFellesturer(fellesturer, filter);
   
 
 
@@ -44,6 +52,7 @@ export default function Kart() {
 
   if (loadingTurer) return <p>{t("kart.laster")}</p>;
   if (errorTurer) return <p>{t("kart.feil_lasting")}: {errorTurer}</p>;
+  
 
 
   const visMarker = zoom >= 9;
@@ -55,46 +64,51 @@ export default function Kart() {
         <ZoomLevel onZoomChange={setZoom} />
 
         {/*Fellesturer*/}
-        {/* 
-        {visMarker && filter.visFellesturer !== false && (
-          <>
-            <HoverPolyline 
-            key={tur.turrute_id} 
-            punkter={tur} 
-            >
-            <Popup>
-                <strong>{t("kart.tur_til_meny")}</strong>
-                <br />
-                {t("kart.varmdisk")}
-              </Popup>
-            </HoverPolyline>
-            <Marker
-              position={tur[0]}
-              icon={turIcon}
-            >
-              <Popup>
-                <strong>{t("kart.tur_til_meny")}</strong>
-                <br />
-                {t("kart.varmdisk")}
-              </Popup>
-            </Marker>
-            
-          </>
+         
+        {visMarker && filter.visFellesturer  &&
+          filteredFellesturer.map((fellestur) => {
+            const key = `fellestur-${fellestur.aktivitet_id}`;
+            return (
+              <Fragment key={fellestur.aktivitet_id}>
+                {valgt === key && fellestur.stier?.map((sti, index) => (
+                  <HoverPolyline
+                    key={sti.sti_id ?? index}
+                    punkter={sti.punkter.map(p => [p.breddegrad, p.lengdegrad])}
+                  />
+                ))}
+                {midtpunkt(fellestur.stier?.[0]?.punkter) && (
+                  <Marker
+                    position={midtpunkt(fellestur.stier[0].punkter)}
+                    icon={turIcon}
+                    eventHandlers={{ click: () => toggleValgt(key) }}
+                  >
+                    <Popup>Fellestur</Popup>
+                  </Marker>
+                )}
+              </Fragment>
+            );
+          })}
           
-        )}
-          */}
         
 
         {/*Turer /////////////////////////////////////////////////////////////////////////*/}
         {visMarker && filter.visTurer  &&
-          filteredTurer.map((tur) => (
-            <Fragment key={tur.tur_id}>
-              {tur.stier?.map((sti, index) => (
-                <HoverPolyline
-                  key={sti.sti_id ?? index}
-                  punkter={sti.punkter.map(p => [p.breddegrad, p.lengdegrad])}
-                >
-                  {index === 0 && (
+          filteredTurer.map((tur) => {
+            const visTurID = `tur-${tur.tur_id}`;
+            return (
+              <Fragment key={tur.tur_id}>
+                {valgt === visTurID && tur.stier?.map((sti, index) => (
+                  <HoverPolyline
+                    visTurID={sti.sti_id ?? index}
+                    punkter={sti.punkter.map(p => [p.breddegrad, p.lengdegrad])}
+                  />
+                ))}
+                {midtpunkt(tur.stier?.[0]?.punkter) && (
+                  <Marker
+                    position={midtpunkt(tur.stier[0].punkter)}
+                    icon={turIcon}
+                    eventHandlers={{ click: () => toggleValgt(visTurID) }}
+                  >
                     <Popup>
                       <strong>{tur.tur_navn}</strong>
                       <br />
@@ -102,25 +116,11 @@ export default function Kart() {
                       <br />
                       {t("kart_detaljer.vanskelighetsgrad")}{t(`enums.vanskelighetsgrad.${tur.vanskelighetsgrad}`)}
                     </Popup>
-                  )}
-                </HoverPolyline>
-              ))}
-              {tur.stier?.[0]?.punkter?.[0] && (
-                <Marker
-                  position={[tur.stier[0].punkter[0].breddegrad, tur.stier[0].punkter[0].lengdegrad]}
-                  icon={turIcon}
-                >
-                  <Popup>
-                    <strong>{tur.tur_navn}</strong>
-                    <br />
-                    {t("kart_detaljer.turtype")}{t(`enums.turtype.${tur.turtype}`)}
-                    <br />
-                    {t("kart_detaljer.vanskelighetsgrad")}{t(`enums.vanskelighetsgrad.${tur.vanskelighetsgrad}`)}
-                  </Popup>
-                </Marker>
-              )}
-            </Fragment>
-          ))}
+                  </Marker>
+                )}
+              </Fragment>
+            );
+          })}
           
 
         {/*Hytter*/}

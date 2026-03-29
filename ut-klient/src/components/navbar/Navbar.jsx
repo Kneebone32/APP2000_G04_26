@@ -139,6 +139,9 @@ export default function Navbar() {
                   <Link to="/favoritter" onClick={handleProfilKlikk} className="dropdown-valg">
                     Favoritter
                   </Link>
+                  <Link to="/minefellesturer" onClick={handleProfilKlikk} className="dropdown-valg">
+                    Mine Fellesturer
+                  </Link>
                   <NavbarRoller brukerRolle={bruker?.bruker_rolle} onClick={handleProfilKlikk} />
                   <button onClick={handleLoggUt} className="dropdown-valg">
                     Logg ut

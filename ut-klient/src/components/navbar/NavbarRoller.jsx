@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { BRUKER_ROLLE } from "../../constants/konstanter";
 
 //rollespesifikke lenker i navbar-dropdown. Laget av Kay
 export default function NavbarRoller({ brukerRolle, onClick }) {
@@ -11,7 +12,7 @@ export default function NavbarRoller({ brukerRolle, onClick }) {
         );
     }
 
-    if (brukerRolle === 'annonsør') {
+    if (brukerRolle === BRUKER_ROLLE.ANNONSØR) {
         return (
             <Link to="/annonser" onClick={onClick} className="dropdown-valg">
                 Mine annonser
