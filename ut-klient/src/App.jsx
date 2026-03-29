@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BRUKER_ROLLE } from "./constants/konstanter";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from "./components/navbar/Navbar";
@@ -20,16 +21,17 @@ import HytteModerator from "./pages/HytteModerator";
 import TurModerator from "./pages/TurModerator";
 import AnnonseModerator from "./pages/AnnonseModerator";
 import FellesturModerator from "./pages/fellesturer/FellesturModerator";
+import TurlederFellesturPanel from "./pages/fellesturer/TurlederFellesturPanel";
 import TurmålModerator from "./pages/turmål/TurmålModerator";
 import Feilside from "./pages/Feilside";
 import Favoritter from "./pages/favoritter/Favoritter";
+import MineFellesturer from "./pages/fellesturer/minefellesturer/MineFellesturer";
 import Meldinger from "./pages/Meldinger";
 import Varsler from "./pages/Varsler";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Test from "./pages/Test";
 import Test2 from "./pages/Test2";
 import Navigasjon from "./pages/Navigasjon";
-
 //<Route path="/fellesturer/:fellesturId" element={<FellesturerDetaljer />} />
 
 // Hovedkomponent som setter opp routing for hele applikasjonen. Laget av Olai og Kay.
@@ -51,6 +53,8 @@ export default function App() {
             <Route path="/kart" element={<Kart />} />
             <Route path="/fellesturer" element={<Fellesturer />} />
             
+
+            
             <Route path="/annonser" element={<Annonser />} />
             
             <Route element={<ProtectedRoute />}>
@@ -58,15 +62,20 @@ export default function App() {
               <Route path="/meldinger" element={<Meldinger />} />
               <Route path="/varsler" element={<Varsler />} />
               <Route path="/favoritter" element={<Favoritter />} />
+              <Route path="/minefellesturer" element={<MineFellesturer />} />
             </Route>
 
-            <Route element={<ProtectedRoute rolle="admin" />}>
+            <Route element={<ProtectedRoute rolle={BRUKER_ROLLE.ADMIN} />}>
               <Route path="/admin" element={<Admin />} />
               <Route path="/admin/hytter" element={<HytteModerator />} />
               <Route path="/admin/turer" element={<TurModerator />} />
               <Route path="/admin/annonser" element={<AnnonseModerator />} />
               <Route path="/admin/fellesturer" element={<FellesturModerator />} />
               <Route path="/admin/turmål" element={<TurmålModerator />} />
+            </Route>
+
+            <Route element={<ProtectedRoute rolle={BRUKER_ROLLE.TURLEDER} />}>
+              <Route path="/turleder/fellesturer" element={<TurlederFellesturPanel />} />
             </Route>
 
             <Route path="/test" element={<Test />} />

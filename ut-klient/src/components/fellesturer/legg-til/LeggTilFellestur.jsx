@@ -15,11 +15,7 @@ export default function LeggTilFellestur() {
     
         try {
             await opprettFellestur({ ...formData, brukerId: id });
-            toast.info(t("fellesturer.backend_melding"), {
-            progress: undefined,
-            theme: "dark",
-            transition: Slide
-            });
+            toast.success("Fellestur opprettet!");
 
         } catch (err) {
             console.log(err);

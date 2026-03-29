@@ -6,11 +6,14 @@ import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next";
 
 //Redigerer en eksisterende Fellestur ved først å søke den opp. Laget av Kay
-export default function RedigerFellestur() {
+//fellesturer-prop brukes av turleder for å begrense søk til egne turer
+export default function RedigerFellestur({ fellesturer: fellesturer_prop } = {}) {
     const { t } = useTranslation();
-    const {fellesturer: fellestur, hentFellesturFraId, redigerFellestur} = useFellestur({autoFetch: true});
+    const {fellesturer: fellesturer_alle, hentFellesturFraId, redigerFellestur} = useFellestur({autoFetch: !fellesturer_prop});
+    const fellestur = fellesturer_prop ?? fellesturer_alle;
     const [valgtData, setValgtData] = useState(null);
     const [lasterFellestur, setLasterFellestur] = useState(false);
+    console.log(valgtData)
 
     const handleSøkSelect = async (id) => {
         if (!id) {
@@ -18,9 +21,11 @@ export default function RedigerFellestur() {
             return;
         }
 
+
         setLasterFellestur(true);
         try {
             const data = await hentFellesturFraId(id);
+            console.log(data)
             
             //TODO: må oppdatere denne når jeg får testdata fra DB.
             const formatertData = {
