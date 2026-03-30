@@ -5,9 +5,8 @@ import SlettAnnonse from "../components/annonse/SlettAnnonse";
 import AnnonseStatistikk from "../components/annonse/AnnonseStatistikk";
 import AnnonseKort from "../components/annonse/AnnonseKort";
 import { useFetchAnnonser } from "../hooks/useFetchAnnonser";
+import { ANNONSE_FANER } from "../constants/konstanter";
 import "./AnnonseModerator.css";
-
-const FANER = ["Legg til", "Rediger", "Slett", "Godkjenn", "Statistikk"];
 
 // Administrasjonsside for annonser. Laget av Olai.
 export default function AnnonseModerator() {
@@ -44,7 +43,7 @@ export default function AnnonseModerator() {
       <h1>Annonser</h1>
 
       <div className="AnnonseFaneContainer">
-        {FANER.map(fane => (
+        {ANNONSE_FANER.map(fane => (
           <button
             key={fane}
             className={`btn ${aktivFane === fane ? "btn-primary" : "btn-outline-primary"}`}

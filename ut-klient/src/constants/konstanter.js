@@ -9,6 +9,14 @@ export const BRUKER_ROLLE = {
     VANLIGBRUKER: 'vanligbruker'
 };
 
+//Faner i AnnonseModerator
+export const ANNONSE_FANER = ["Legg til", 
+    "Rediger", 
+    "Slett", 
+    "Godkjenn", 
+    "Statistikk"
+];
+
 //Fellestur påmeldingsstatus
 export const PÅMELDING_STATUS = {
     INTERESSERT: 'interessert',
