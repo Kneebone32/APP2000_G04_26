@@ -1,8 +1,13 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 //Hook til fellesturer. Laget av Kay
 //TODO: må oppdateres når jeg får tested sammen med backend
-export function useFellestur({autoFetch = false, hentTurID = null} = {}) {
+export function useFellestur({autoFetch = false, hentTurID = null, token = null} = {}) {
+
+  const authHeaders = useMemo(() => ({
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json',
+  }), [token]);
 
   const [fellesturer, setFellesturer] = useState([]);
   const [fellestur, setFellestur] = useState(null);
@@ -53,7 +58,7 @@ export function useFellestur({autoFetch = false, hentTurID = null} = {}) {
 
       const response = await fetch(`${import.meta.env.VITE_API_URL}/fellestur`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: authHeaders,
         body: JSON.stringify(data)
       });
 
@@ -66,7 +71,7 @@ export function useFellestur({autoFetch = false, hentTurID = null} = {}) {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [authHeaders]);
 
   //Opptaterer en fellestur
   const redigerFellestur = useCallback(async (id, data) => {
@@ -76,7 +81,7 @@ export function useFellestur({autoFetch = false, hentTurID = null} = {}) {
 
       const response = await fetch(`${import.meta.env.VITE_API_URL}/fellestur/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: authHeaders,
         body: JSON.stringify(data)
       });
 
@@ -89,7 +94,7 @@ export function useFellestur({autoFetch = false, hentTurID = null} = {}) {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [authHeaders]);
 
 
   //Sletter en fellestur
@@ -98,8 +103,11 @@ export function useFellestur({autoFetch = false, hentTurID = null} = {}) {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/fellestur/${id}`, { method: 'DELETE' });
-    if (!response.ok) throw new Error("Kunne ikke slette turen");
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/fellestur/${id}`, {
+        method: 'DELETE',
+        headers: authHeaders,
+      });
+      if (!response.ok) throw new Error("Kunne ikke slette turen");
 
       setFellesturer(prev => prev.filter(f => f.fellestur_id !== id));
     } catch (err){
@@ -108,7 +116,7 @@ export function useFellestur({autoFetch = false, hentTurID = null} = {}) {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [authHeaders]);
 
   useEffect(() => {
     if (autoFetch) fetchFellesturer();

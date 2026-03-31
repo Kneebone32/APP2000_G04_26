@@ -9,7 +9,7 @@ import { HoverMarker } from "./HoverMarker";
 import { useStier } from "../../hooks/useStier";
 
 //Hjelper Leaflet med å regne ut den faktiske størrelsen på Modal. Laget av AI
-function MapSizeInvalidator() {
+export function MapSizeInvalidator() {
   const map = useMap();
   useEffect(() => {
     const timer = setTimeout(() => {

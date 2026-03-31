@@ -6,10 +6,11 @@ import { useModal } from "../../../hooks/useModal";
 import { toggleDatoArray } from "../../../utils/datoUtils";
 import { VærvarslingUke } from "../../Værvarsling";
 import { toast } from 'react-toastify';
-import { regnUtTotalLengde } from "../../../utils/geoUtils";
+import { regnUtTotalLengde, byggPunkterMedMoh } from "../../../utils/geoUtils";
 import DatePicker, { registerLocale } from "react-datepicker";
 import Modal from "../../../modal/Modal";
 import Nytur from "../../Nytur";
+import LeggTilHytterTurmål from "../legg-til/LeggTilHytterTurmål";
 import DeltakerInput from "./DeltakerInput";
 import DatoListe from "./DatoListe";
 import BildeOpplasting from "../../BildeOpplasting";
@@ -21,22 +22,27 @@ import "./FellesturForm.css"
 registerLocale('nb', nb);
 
 //all brukerinput til fellesturer. Laget av Kay
-//TODO: match feltnavn på data som kommer fra databasen. Eks. lagretData.turruteId eller lagretData.turrute_id?
-export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonTekst }) {
+export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTekst}) {
     const { t } = useTranslation();
     const { enumData: aktivitet_status } = useEnums("aktivitet_status_enum");
+    const { enumData: vanskelighetsgrad } = useEnums("vanskelighetsgrad_enum");
+    const { enumData: turtype } = useEnums("turtype_enum");
+    const { enumData: varighet} = useEnums("varighet_enum");
     const [rutePunkter, setRutePunkter] = useState([]);
     const [hytterITuren, setHytterITuren] = useState([]);
     const [turmålITuren, setTurmålITuren] = useState([]);
     const [stierITuren, setStierITuren] = useState([]);
     const [nyeStierITuren, setNyeStierITuren] = useState([]);
     const [totalRuteLengde, setTotalRuteLengde] = useState(null);
-    const [gpxKoords, setGpxKoords] = useState(null);
+    const [gpxKoords, setGpxKoords] = useState([]);
     const [tittel, setTittel] = useState(lagretData.tittel || "");
     const [beskrivelse, setBeskrivelse] = useState(lagretData.beskrivelse || "");
     const [midlertidigDato, setMidlertidigDato] = useState(new Date());
     const [minDeltakere, setMinDeltakere] = useState(lagretData.minDeltakere || 1);
     const [maksDeltakere, setMaksDeltakere] = useState(lagretData.maksDeltakere || 1);
+    const [selectedVanskelighetsgrad, setSelectedVanskelighetsgrad] = useState("");
+    const [selectedTurtype, setSelectedTurtype] = useState("");
+    const [selectedVarighet, setSelectedVarighet] = useState("");
     const [status, setStatus] = useState(lagretData.status || "");
     const [bildeUrl, setBildeUrl] = useState(lagretData.bilder || []); 
     const [tempUrl, setTempUrl] = useState("");
@@ -98,11 +104,12 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
     }
     };
 
-    const handleGpxKoordinater = (koords) => {
+    const handleGpxKoordinater = async (koords) => {
         if (koords && koords.length >= 2) {
-            setGpxKoords(koords);
             setRutePunkter(koords);
             setTotalRuteLengde(regnUtTotalLengde(koords));
+            const punkter = await byggPunkterMedMoh(koords);
+            setGpxKoords(punkter);
         } else if (koords && koords.length === 1) {
             alert(t("tur.gpx_ett_punkt"));
         }
@@ -114,22 +121,28 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
         lukkLagTur();
     }
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
         if (valgteDatoer.length === 0) {
             return toast.error(t("fellestur_form.feil_minst_en_dato"));
         }
 
+        const nyeStierMedMoh = await Promise.all(
+            nyeStierITuren.map(rute => byggPunkterMedMoh(rute))
+        );
+
         const fellesturData = {
             aktivitet_tittel: tittel,
             aktivitet_beskrivelse: beskrivelse.trim(),
-            bruker_id: 35,
             aktivitet_min_deltakere: minDeltakere,
             aktivitet_maks_deltakere: maksDeltakere,
+            vanskelighetsgrad: selectedVanskelighetsgrad,
+            varighet: selectedVarighet,
+            turtype: selectedTurtype,
             hytter: hytterITuren?.map(h => h.hytte_id),
             turmaal: turmålITuren?.map(t => t.turmaal_id),
             stier: stierITuren,
-            nyeStier: nyeStierITuren,
+            nyeStier: nyeStierMedMoh,
             gpx: gpxKoords,
             ruteLengde: totalRuteLengde,
             aktivitet_status: status,
@@ -139,7 +152,7 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
             })),
             bilder: bildeUrl
         };
-
+        
         onSubmitAction(fellesturData);
     };
 
@@ -153,16 +166,30 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
                 <GpxParser onKoordinaterLastet={handleGpxKoordinater} />
                 </div>
             )}
+
+            {/*Legg til hytter eller turmål ved gpx opplastning*/}
+            {rutePunkter?.length > 1 && gpxKoords?.length > 1 && (
             <div className="input-container">
             <button className="input" type="button" onClick={åpneLagTur}>
-                {rutePunkter.length > 1 ? t("tur.endre_rute") : t("tur.lag_rute")}
+                Legg til Hytter eller Turmål
             </button>
             </div>
+            )}
+
+            {/*Lag turrute-knapp*/}
+            {rutePunkter.length < 1 && gpxKoords.length < 1 && (
+            <div className="input-container">
+            <button className="input" type="button" onClick={åpneLagTur}>
+                {t("tur.lag_rute")}
+            </button>
+            </div>
+            )}
 
             {rutePunkter && rutePunkter.length > 0 ? (
                 <>
             {/*Tittel på fellestur*/}
             <div className="input-container">
+                <label className="input">Rute lagret</label>
                 <label className="input">{t("fellestur_form.tittel")}
                     <input type="text" value={tittel} onChange={(e) => setTittel(e.target.value)} required />
                 </label>
@@ -173,7 +200,7 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
                 <label className="input">{t("fellestur_form.beskrivelse")}
                     <textarea 
                         style={{resize: 'none', width: '100%', maxWidth: '400px'}} 
-                        rows="5" minLength="20" maxLength="1000"
+                        rows="5" minLength="10" maxLength="1000"
                         value={beskrivelse} onChange={(e) => setBeskrivelse(e.target.value)} 
                         required 
                     />
@@ -210,6 +237,59 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
 
             {/*Mulighet for å legge til en bildeurl. KUN til testing. HUSK å fjerne*/}
             <TempBilde  tempUrl={tempUrl} setTempUrl={setTempUrl} onLeggTil={handleLeggTilBilde} />
+
+                <div className="input-container">
+                    <label className="input">{t("tur.vanskelighetsgrad")}:</label>
+                    <select
+                        id="vanskelighetsgrad"
+                        value={selectedVanskelighetsgrad}
+                        onChange={(e) => setSelectedVanskelighetsgrad(e.target.value)}
+                        required
+                    >
+                        <option value="" disabled selected hidden></option>
+                        {vanskelighetsgrad.map((valg) => (
+                            <option key={valg} value={valg}>
+                                {valg}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                
+                {/*Turtype*/}
+               <div className="input-container">
+                    <label className="input">{t("tur.turtype")}:</label>
+                    <select
+                        id="turtype"
+                        value={selectedTurtype}
+                        onChange={(e) => setSelectedTurtype(e.target.value)}
+                        required
+                    >
+                        <option value="" disabled selected hidden></option>
+                        {turtype.map((valg) => (
+                            <option key={valg} value={valg}>
+                                {valg}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                
+                {/*Varighet*/}
+                <div className="input-container">
+                    <label className="input">{t("tur.varighet")}:</label>
+                    <select
+                        id="varighet"
+                        value={selectedVarighet}
+                        onChange={(e) => setSelectedVarighet(e.target.value)}
+                        required
+                    >
+                        <option value="" disabled selected hidden></option>
+                        {varighet.map((valg) => (
+                            <option key={valg} value={valg}>
+                                {valg}
+                            </option>
+                        ))}
+                    </select>
+                </div>
 
 
 
@@ -250,22 +330,35 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
                     )}
                 </div>
             </Modal>
+
+
             </form>
             <Modal show={lagTurÅpen} onClose={lukkLagTur} size="lg">
                 <div className="modal-map-container">
-                    <Nytur 
-                        rutePunkter={rutePunkter}
-                        setRutePunkter={setRutePunkter}
-                        onLagreKoordinater={handleLagreKoordinater}
-                        hytterITuren={hytterITuren}
-                        setHytterITuren={setHytterITuren}
-                        turmålITuren={turmålITuren}
-                        setTurmålITuren={setTurmålITuren}
-                        stierITuren={stierITuren}
-                        setStierITuren={setStierITuren}
-                        nyeStier={nyeStierITuren}
-                        setNyeStier={setNyeStierITuren}
-                    />
+                    {gpxKoords.length > 1 ? (
+                        <LeggTilHytterTurmål
+                            gpxKoords={gpxKoords}
+                            hytterITuren={hytterITuren}
+                            setHytterITuren={setHytterITuren}
+                            turmålITuren={turmålITuren}
+                            setTurmålITuren={setTurmålITuren}
+                            onLagre={lukkLagTur}
+                        />
+                    ) : (
+                        <Nytur
+                            rutePunkter={rutePunkter}
+                            setRutePunkter={setRutePunkter}
+                            onLagreKoordinater={handleLagreKoordinater}
+                            hytterITuren={hytterITuren}
+                            setHytterITuren={setHytterITuren}
+                            turmålITuren={turmålITuren}
+                            setTurmålITuren={setTurmålITuren}
+                            stierITuren={stierITuren}
+                            setStierITuren={setStierITuren}
+                            nyeStier={nyeStierITuren}
+                            setNyeStier={setNyeStierITuren}
+                        />
+                    )}
                 </div>
             </Modal>
             </>
