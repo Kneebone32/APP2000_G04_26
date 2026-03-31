@@ -7,13 +7,12 @@ import { useTranslation } from "react-i18next";
 
 //Redigerer en eksisterende Fellestur ved først å søke den opp. Laget av Kay
 //fellesturer-prop brukes av turleder for å begrense søk til egne turer
-export default function RedigerFellestur({ fellesturer: fellesturer_prop } = {}) {
+export default function RedigerFellestur({fellesturer: fellesturer_prop} = {}) {
     const { t } = useTranslation();
     const {fellesturer: fellesturer_alle, hentFellesturFraId, redigerFellestur} = useFellestur({autoFetch: !fellesturer_prop});
     const fellestur = fellesturer_prop ?? fellesturer_alle;
     const [valgtData, setValgtData] = useState(null);
     const [lasterFellestur, setLasterFellestur] = useState(false);
-    console.log(valgtData)
 
     const handleSøkSelect = async (id) => {
         if (!id) {
@@ -21,19 +20,10 @@ export default function RedigerFellestur({ fellesturer: fellesturer_prop } = {})
             return;
         }
 
-
         setLasterFellestur(true);
         try {
             const data = await hentFellesturFraId(id);
-            console.log(data)
-            
-            //TODO: må oppdatere denne når jeg får testdata fra DB.
-            const formatertData = {
-                ...data,
-                datoer: data.datoer ? data.datoer.map(d => new Date(d)) : []
-            };
-            
-            setValgtData(formatertData);
+            setValgtData(data);
         } catch (err) {
             toast.error(t("fellesturer.feil_henting") + err.message);
             setValgtData(null);
@@ -44,7 +34,8 @@ export default function RedigerFellestur({ fellesturer: fellesturer_prop } = {})
 
     const handleOppdatering = async (formData) => {
         try {
-            await redigerFellestur(valgtData.fellestur_id, formData);
+            console.log(formData);
+            await redigerFellestur(valgtData.aktivitet_id, formData);
             toast.success(t("fellesturer.oppdatert"));
             setValgtData(null); 
 
@@ -66,10 +57,11 @@ export default function RedigerFellestur({ fellesturer: fellesturer_prop } = {})
 
             {/*Viser FellesturFom når bruker har valgt fellestur*/}
             {!lasterFellestur && valgtData ? (
-                <FellesturForm 
-                    lagretData={valgtData} 
-                    onSubmitAction={handleOppdatering} 
-                    buttonText="Lagre endringer" 
+                <FellesturForm
+                    lagretData={valgtData}
+                    onSubmitAction={handleOppdatering}
+                    editModus={true}
+                    buttonTekst="Lagre endringer"
                 />
             ) : (
                 <p style={{color: "#888"}}>{t("fellesturer.velg_fellestur")}</p>

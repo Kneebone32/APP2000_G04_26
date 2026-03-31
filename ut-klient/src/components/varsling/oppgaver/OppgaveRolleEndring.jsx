@@ -1,5 +1,5 @@
 //Håndterer rollebytte i varslingssystemet. Laget av Kay
-export default function OppgaveRolleEndring({ varsel, loading, onBeslutning }) {
+export default function OppgaveRolleEndring({varsel, loading, onBeslutning}) {
     const erBehandlet = varsel.status === 'behandlet' || varsel.status === 'avvist';
     // {varsel.status === 'godtatt' ? 'Du godtok denne forespørselen' : 'Du avslo denne forespørselen'}
     if (erBehandlet) {

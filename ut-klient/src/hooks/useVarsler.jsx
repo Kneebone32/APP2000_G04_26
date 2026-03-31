@@ -1,7 +1,8 @@
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 
 const testVarsler = [
-    { varsel_id: 99, tittel: 'Velkommen til UT.ut!', varsel_kategori: 'info', status: 'ulest', opprettet_tid: new Date().toISOString(), innhold: 'Takk for at du registrerte deg. Utforsk turer, hytter og fellesturer i nærheten av deg.' }
+    { varsel_id: 99, tittel: 'Velkommen til UT.ut![test]', varsel_kategori: 'info', status: 'ulest', opprettet_tid: new Date().toISOString(), innhold: 'Takk for at du registrerte deg. Utforsk turer, hytter og fellesturer i nærheten av deg.' },
+    { varsel_id: 200, tittel: 'Forespørsel om rolleendring[test]', varsel_kategori: 'oppgave', status: 'ulest', opprettet_tid: '2026-03-23T09:00:00.000Z', innhold: 'Bruker Ola Nordmann (ola@example.com) har bedt om å bli annonsør.' },
 ];
 
 //Hook til varslingssystemet. Laget av Kay

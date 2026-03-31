@@ -1,0 +1,27 @@
+/*Laget av Kay*/
+.låsdato-container {
+    border: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.låsdato-legend {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.låsdato-liste {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.låsdato-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+

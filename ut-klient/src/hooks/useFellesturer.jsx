@@ -21,7 +21,6 @@ export function useFellestur({autoFetch = false, hentTurID = null, token = null}
       const response = await fetch(`${import.meta.env.VITE_API_URL}/fellestur`);
       if (!response.ok) throw new Error(`HTTP feil: ${response.status}`);
       const data = await response.json();
-      console.log(data)
       setFellesturer(data);
     } catch (err) {
       setError(err.message);
@@ -109,7 +108,7 @@ export function useFellestur({autoFetch = false, hentTurID = null, token = null}
       });
       if (!response.ok) throw new Error("Kunne ikke slette turen");
 
-      setFellesturer(prev => prev.filter(f => f.fellestur_id !== id));
+      setFellesturer(prev => prev.filter(f => f.aktivitet_id !== id));
     } catch (err){
       setError(err.message);
       throw err;

@@ -16,6 +16,7 @@ export default function SlettFellestur({fellesturer: fellesturer_prop} = {}) {
     const fellestur = fellesturer_prop ?? fellesturer_alle;
     const [valgtId, setValgtId] = useState(0);
     const [valgtTittel, setValgtTittel] = useState("");
+    const [nullstillSøk, setNullstillSøk] = useState(0);
 
     const handleSelect = (id, tittel) => {
         setValgtId(id);
@@ -30,8 +31,10 @@ export default function SlettFellestur({fellesturer: fellesturer_prop} = {}) {
         try {
             await deleteFellestur(valgtId);
             toast.success(`"${valgtTittel}${t("fellesturer.slettet")}`);
+            close();
             setValgtId(0);
             setValgtTittel("");
+            setNullstillSøk(k => k + 1);
 
         } catch (err) {
             toast.error(t("fellesturer.feil_sletting") + err.message);
@@ -44,9 +47,10 @@ export default function SlettFellestur({fellesturer: fellesturer_prop} = {}) {
             <h2>{t("fellesturer.slett")}</h2>
 
             {/*Søkefelt til fellestur*/}
-            <FellesturSøk 
-                fellesturer={fellestur} 
-                onSelect={handleSelect} 
+            <FellesturSøk
+                key={nullstillSøk}
+                fellesturer={fellestur}
+                onSelect={handleSelect}
                 lagretTittel={valgtTittel}
             />
             
@@ -54,7 +58,7 @@ export default function SlettFellestur({fellesturer: fellesturer_prop} = {}) {
                 <button 
                     onClick={open}
                     className="lagre-btn" 
-                    disabled={false /*valgtId === 0  */} 
+                    disabled={valgtId === 0} 
                 >
                     {t("fellesturer.slett")}
                 </button>

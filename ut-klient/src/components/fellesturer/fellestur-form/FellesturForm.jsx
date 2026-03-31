@@ -22,7 +22,7 @@ import "./FellesturForm.css"
 registerLocale('nb', nb);
 
 //all brukerinput til fellesturer. Laget av Kay
-export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTekst}) {
+export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTekst, editModus = false}) {
     const { t } = useTranslation();
     const { enumData: aktivitet_status } = useEnums("aktivitet_status_enum");
     const { enumData: vanskelighetsgrad } = useEnums("vanskelighetsgrad_enum");
@@ -35,20 +35,19 @@ export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTe
     const [nyeStierITuren, setNyeStierITuren] = useState([]);
     const [totalRuteLengde, setTotalRuteLengde] = useState(null);
     const [gpxKoords, setGpxKoords] = useState([]);
-    const [tittel, setTittel] = useState(lagretData.tittel || "");
-    const [beskrivelse, setBeskrivelse] = useState(lagretData.beskrivelse || "");
+    const [tittel, setTittel] = useState(lagretData.aktivitet_tittel || "");
+    const [beskrivelse, setBeskrivelse] = useState(lagretData.aktivitet_beskrivelse || "");
     const [midlertidigDato, setMidlertidigDato] = useState(new Date());
-    const [minDeltakere, setMinDeltakere] = useState(lagretData.minDeltakere || 1);
-    const [maksDeltakere, setMaksDeltakere] = useState(lagretData.maksDeltakere || 1);
-    const [selectedVanskelighetsgrad, setSelectedVanskelighetsgrad] = useState("");
-    const [selectedTurtype, setSelectedTurtype] = useState("");
-    const [selectedVarighet, setSelectedVarighet] = useState("");
-    const [status, setStatus] = useState(lagretData.status || "");
-    const [bildeUrl, setBildeUrl] = useState(lagretData.bilder || []); 
+    const [minDeltakere, setMinDeltakere] = useState(lagretData.aktivitet_min_deltakere || 1);
+    const [maksDeltakere, setMaksDeltakere] = useState(lagretData.aktivitet_maks_deltakere || 1);
+    const [selectedVanskelighetsgrad, setSelectedVanskelighetsgrad] = useState(lagretData.vanskelighetsgrad || "");
+    const [selectedTurtype, setSelectedTurtype] = useState(lagretData.turtype || "");
+    const [selectedVarighet, setSelectedVarighet] = useState(lagretData.varighet || "");
+    const [status, setStatus] = useState(lagretData.aktivitet_status || "");
     const [tempUrl, setTempUrl] = useState("");
-    const [valgteDatoer, setValgteDatoer] = useState(
-        lagretData.datoer ? lagretData.datoer.map(d => new Date(d)) : []
-    );
+    const [valgteDatoer, setValgteDatoer] = useState([]);
+    const [bildeUrl, setBildeUrl] = useState(lagretData.bilder ? lagretData.bilder.map(bilde => bilde.aktivitet_url) : []); 
+
 
     const {
         isOpen: kalenderÅpen,
@@ -123,7 +122,7 @@ export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTe
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        if (valgteDatoer.length === 0) {
+        if (!editModus && valgteDatoer.length === 0) {
             return toast.error(t("fellestur_form.feil_minst_en_dato"));
         }
 
@@ -160,32 +159,34 @@ export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTe
         <>
         <form onSubmit={handleFormSubmit}>
 
-            {/*Turrute som skal brukes til fellestur*/}
-            {rutePunkter.length < 1  && (
+            {/*Rute/GPX. Vises ikke i editModus*/}
+            {!editModus && (
+                <>
+                {rutePunkter.length < 1 && (
+                    <div className="input-container">
+                    <GpxParser onKoordinaterLastet={handleGpxKoordinater} />
+                    </div>
+                )}
+
+                {rutePunkter?.length > 1 && gpxKoords?.length > 1 && (
                 <div className="input-container">
-                <GpxParser onKoordinaterLastet={handleGpxKoordinater} />
+                <button className="input" type="button" onClick={åpneLagTur}>
+                    Legg til Hytter eller Turmål
+                </button>
                 </div>
+                )}
+
+                {rutePunkter.length < 1 && gpxKoords.length < 1 && (
+                <div className="input-container">
+                <button className="input" type="button" onClick={åpneLagTur}>
+                    {t("tur.lag_rute")}
+                </button>
+                </div>
+                )}
+                </>
             )}
 
-            {/*Legg til hytter eller turmål ved gpx opplastning*/}
-            {rutePunkter?.length > 1 && gpxKoords?.length > 1 && (
-            <div className="input-container">
-            <button className="input" type="button" onClick={åpneLagTur}>
-                Legg til Hytter eller Turmål
-            </button>
-            </div>
-            )}
-
-            {/*Lag turrute-knapp*/}
-            {rutePunkter.length < 1 && gpxKoords.length < 1 && (
-            <div className="input-container">
-            <button className="input" type="button" onClick={åpneLagTur}>
-                {t("tur.lag_rute")}
-            </button>
-            </div>
-            )}
-
-            {rutePunkter && rutePunkter.length > 0 ? (
+            {(editModus || rutePunkter.length > 0) ? (
                 <>
             {/*Tittel på fellestur*/}
             <div className="input-container">
@@ -212,7 +213,8 @@ export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTe
 
             
 
-            {/*Valg av datoer + tidspunkt*/}
+            {/*Valg av datoer + tidspunkt. Vises ikke i editModus*/}
+            {!editModus && (
             <div className="input-container">
                 <label className="input-label">{t("fellestur_form.velg_datoer")}</label>
                 <div className="input-container-kaldender-og-vær-btn">
@@ -224,6 +226,7 @@ export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTe
                 </div>
                 <DatoListe valgteDatoer={valgteDatoer} onSlett={fjernDato} lat={rutePunkter[0][0]} lon={rutePunkter[0][1]}/>
             </div>
+            )}
             
 
             {/*Min & Maks deltakere til fellesturen*/}
