@@ -41,6 +41,19 @@ export default function KartFilterTurer({
             </label>
           </div>
 
+          {/*Turer - søkefelt*/}
+          <div className="filter-section">
+            <label>{t("felles.søk")}:</label>
+            <input
+              type="text"
+              placeholder={t("fellesturer.søk_tur")}
+              value={filter.søkeordTurer}
+              onChange={(e) =>
+                setFilter((prev) => ({ ...prev, søkeordTurer: e.target.value }))
+              }
+            />
+          </div>
+
           {/*Turer - vanskelighetsgrad*/}
           <div className="filter-section">
             <label>{t("filter.vanskelighetsgrad")}:</label>

@@ -1,4 +1,5 @@
 import { useState, Fragment } from "react";
+import { Link } from "react-router-dom";
 import { Marker, Popup, useMapEvents } from "react-leaflet";
 import { useTranslation } from "react-i18next";
 import Kart_basic, {hytteIcon, turIcon, turmålIcon} from "../components/kart/KartBasic";
@@ -58,7 +59,7 @@ export default function Kart() {
   const visMarker = zoom >= 9;
   return (
     <div>
-      <KartFilter onFilterChange={setFilter} />
+      <KartFilter onFilterChange={setFilter} fellesturer={fellesturer} />
 
       <Kart_basic center={[59.412533435582255, 9.067389041659744]} zoom={13}>
         <ZoomLevel onZoomChange={setZoom} />
@@ -72,17 +73,25 @@ export default function Kart() {
               <Fragment key={fellestur.aktivitet_id}>
                 {valgt === key && fellestur.stier?.map((sti, index) => (
                   <HoverPolyline
-                    key={sti.sti_id ?? index}
-                    punkter={sti.punkter.map(p => [p.breddegrad, p.lengdegrad])}
+                    key={index}
+                    punkter={sti.sti_punkter.map(p => [p.breddegrad, p.lengdegrad])}
                   />
                 ))}
-                {midtpunkt(fellestur.stier?.[0]?.punkter) && (
+                {midtpunkt(fellestur.stier?.[0]?.sti_punkter) && (
                   <Marker
-                    position={midtpunkt(fellestur.stier[0].punkter)}
+                    position={midtpunkt(fellestur.stier[0].sti_punkter)}
                     icon={turIcon}
-                    eventHandlers={{ click: () => toggleValgt(key) }}
+                    eventHandlers={{click: () => toggleValgt(key)}}
                   >
-                    <Popup>Fellestur</Popup>
+                    <Popup>
+                      <strong>{fellestur.aktivitet_tittel}</strong>
+                      <br />
+                      {t("kart_detaljer.turtype")}{t(`enums.turtype.${fellestur.turtype}`)}
+                      <br />
+                      {t("kart_detaljer.vanskelighetsgrad")}{t(`enums.vanskelighetsgrad.${fellestur.vanskelighetsgrad}`)}
+                      <br />
+                      <Link to={`/fellesturer/${fellestur.aktivitet_id}`}>Se detaljer</Link>
+                    </Popup>
                   </Marker>
                 )}
               </Fragment>
@@ -115,6 +124,8 @@ export default function Kart() {
                       {t("kart_detaljer.turtype")}{t(`enums.turtype.${tur.turtype}`)}
                       <br />
                       {t("kart_detaljer.vanskelighetsgrad")}{t(`enums.vanskelighetsgrad.${tur.vanskelighetsgrad}`)}
+                      <br />
+                      <Link to={`/turer/${tur.tur_id}`}>Se detaljer</Link>
                     </Popup>
                   </Marker>
                 )}
@@ -137,6 +148,8 @@ export default function Kart() {
                 {t("felles.sengeplasser")}: {hytte.sengeplasser}
                 <br />
                 {t(`enums.betjeningsgrad.${hytte.betjeningsgrad}`)}
+                <br />
+                <Link to={`/hytter/${hytte.hytte_id}`}>Se detaljer</Link>
               </Popup>
             </Marker>
           ))}

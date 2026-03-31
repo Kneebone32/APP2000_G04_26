@@ -7,11 +7,13 @@ import KartFilterTurmål from "./KartFilterTurmål";
 import KartFilterTurer from "./KartFilterTurer";
 
 //Håndterer alle kartfilter. Hele filen laget av Kay med mindre annet er spesifisert
-export default function KartFilter({ onFilterChange }) {
+export default function KartFilter({ onFilterChange, fellesturer }) {
   const [filterÅpen, setFilterÅpen] = useState(false);
   const { t } = useTranslation();
   const [filter, setFilter] = useState({
-    søkeord: "",
+    søkeordHytter: "",
+    søkeordTurer: "",
+    søkeordFellesturer: "",
     varighet: "",
     betjeningsgrad: [],
     turtype: [],
@@ -61,7 +63,9 @@ export default function KartFilter({ onFilterChange }) {
   //resetter alle filter
   const handleReset = () => {
     setFilter({
-      søkeord: "",
+      søkeordHytter: "",
+      søkeordTurer: "",
+      søkeordFellesturer: "",
       varighet: "",
       betjeningsgrad: [],
       turtype: [],
@@ -101,9 +105,10 @@ export default function KartFilter({ onFilterChange }) {
       />
 
       {/*Filter til fellesturer*/}
-      <KartFilterFellesturer 
+      <KartFilterFellesturer
         filter={filter}
         setFilter={setFilter}
+        fellesturer={fellesturer}
       />
 
       {/*Filter til turmål*/}

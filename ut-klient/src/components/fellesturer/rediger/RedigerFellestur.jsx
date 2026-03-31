@@ -34,7 +34,6 @@ export default function RedigerFellestur({fellesturer: fellesturer_prop} = {}) {
 
     const handleOppdatering = async (formData) => {
         try {
-            console.log(formData);
             await redigerFellestur(valgtData.aktivitet_id, formData);
             toast.success(t("fellesturer.oppdatert"));
             setValgtData(null); 

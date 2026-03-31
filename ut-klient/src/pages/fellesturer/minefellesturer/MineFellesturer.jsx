@@ -8,7 +8,6 @@ import { PÅMELDING_STATUS } from "../../../constants/konstanter";
 export default function MineFellesturer() {
     const { token } = useAutentisering({ autoFetch: true });
     const { mineFellesturer, mineFellesturerTurleder, loading, error } = useMineFellesturer({token});
-    console.log(mineFellesturer);
 
     const bindende = mineFellesturer.filter(tur => tur.pamelding_status === PÅMELDING_STATUS.BINDENDE);
     const interessert = mineFellesturer.filter(tur => tur.pamelding_status === PÅMELDING_STATUS.INTERESSERT);

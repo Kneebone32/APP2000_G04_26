@@ -64,9 +64,9 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
             <input
               type="text"
               placeholder={t("filter.søk_hytte")}
-              value={filter.søkeord}
+              value={filter.søkeordHytter}
               onChange={(e) =>
-                setFilter({ ...filter, søkeord: e.target.value })
+                setFilter({ ...filter, søkeordHytter: e.target.value })
               }
             />
           </div>
