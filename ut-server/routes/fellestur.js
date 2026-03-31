@@ -1,16 +1,19 @@
 import express from 'express';
+import passport from 'passport';
 import pool from '../config/db.js';
 
 const router = express.Router();
+const auth = passport.authenticate('jwt', { session: false });
 
 
 // Legger til ny aktivitet
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
+  const bruker_id = req.user.bruker_id;
+
   try {
     const {
       aktivitet_tittel,
       aktivitet_beskrivelse,
-      bruker_id,
       aktivitet_min_deltakere,
       aktivitet_maks_deltakere,
       turtype,
