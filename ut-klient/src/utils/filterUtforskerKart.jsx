@@ -12,8 +12,8 @@ export function filterHytter(hytter, filter) {
     }
 
     //Søk filter
-    if (filter.søkeord) {
-      const søkeordLower = filter.søkeord.toLowerCase();
+    if (filter.søkeordHytter) {
+      const søkeordLower = filter.søkeordHytter.toLowerCase();
       if (!hytte.navn?.toLowerCase().includes(søkeordLower)) {
         return false;
       }
@@ -57,6 +57,14 @@ export function filterTurer(turer, filter) {
       return false;
     }
 
+    //Søk filter
+    if (filter.søkeordTurer) {
+      const søk = filter.søkeordTurer.toLowerCase();
+      if (!tur.tur_navn?.toLowerCase().includes(søk)) {
+        return false;
+      }
+    }
+
     //
     if (filter.turtype?.length > 0) {
       if (!filter.turtype.includes(tur.turtype)) {
@@ -80,15 +88,34 @@ export function filterTurer(turer, filter) {
   });
 }
 
+//Returnerer ISO-ukenummer (1-53) for en dato. Laget av https://weeknumber.com/how-to/javascript + litt AI
+export const isoUke = (dato) => {
+  const d = new Date(dato);
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() + 3 - ((d.getDay() + 6) % 7));
+  const vinterSolverv = new Date(d.getFullYear(), 0, 4);
+  return 1 + Math.round(((d - vinterSolverv) / 86400000 - 3 + ((vinterSolverv.getDay() + 6) % 7)) / 7);
+};
+
 //Filterfunksjon til Fellesturer
 export function filterFellesturer(fellesturer, filter) {
   return fellesturer.filter((fellestur) => {
-    //Null check
-    //if (!fellestur.koordinater) {
-    //  return false;
-    //}
+    //Søk filter
+    if (filter.søkeordFellesturer) {
+      const søk = filter.søkeordFellesturer.toLowerCase();
+      if (!fellestur.aktivitet_tittel?.toLowerCase().includes(søk)) {
+        return false;
+      }
+    }
 
-    //TODO
+    //ukenummer. basert på startdato
+    if (filter.uke) {
+      const harDatoIUke = fellestur.datoer?.some(
+        (dato) => isoUke(dato.aktivitet_start_dato) === filter.uke
+      );
+      if (!harDatoIUke) return false;
+    }
+
     return true;
   });
 }
