@@ -164,7 +164,7 @@ export default function Kart() {
             >
               <Popup maxWidth={260} minWidth={260}>
                 <h3>{mål.navn}</h3>
-                <strong>Høyde: </strong> {mål.moh}
+                <strong>Høyde: </strong> {mål.moh} moh.
                 <br/>
                   <img
                     className="popup-bilde"

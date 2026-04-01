@@ -1,6 +1,7 @@
 import LeggTilFellestur from "../../components/fellesturer/legg-til/LeggTilFellestur";
 import RedigerFellestur from "../../components/fellesturer/rediger/RedigerFellestur";
 import SlettFellestur from "../../components/fellesturer/slett/SlettFellestur";
+import LåsDato from "../../components/fellesturer/lås-dato/LåsDato";
 //import { useFellesturer } from "../hooks/useFellesturer";
 import PageWrapper from "../../components/PageWrapper";
 import { useTranslation } from "react-i18next";
@@ -19,6 +20,8 @@ export default function FellesturModerator({fellesturer} = {}) {
             <LeggTilFellestur />
             <hr />
             <RedigerFellestur fellesturer={fellesturer} />
+            <hr />
+            <LåsDato fellesturer={fellesturer} />
             <hr />
             <SlettFellestur fellesturer={fellesturer} />
         </div>
