@@ -3,14 +3,16 @@ import { useTranslation } from "react-i18next";
 import { useModal } from "../../hooks/useModal";
 import { useEnums } from "../../hooks/useEnums";
 import { useFileUpload } from "../../hooks/useFileUpload";
-import { hentKommuneData, regnUtTotalLengde } from "../../utils/geoUtils";
+import { hentKommuneData, regnUtTotalLengde, byggPunkterMedMoh } from "../../utils/geoUtils";
 import Modal from "../../modal/Modal";
 import Nytur from "../Nytur";
 import { GpxParser } from "../GpxParser";
+import LeggTilHytterTurmål from "../fellesturer/legg-til/LeggTilHytterTurmål";
 
 export default function LeggTilTur({ onSuccess }) {
     const { t } = useTranslation();
     const { isOpen, open, close } = useModal();
+    const { isOpen: hytterÅpen, open: åpneHytter, close: lukkHytter } = useModal();
     const { enumData: vanskelighetsgrad, loadingEnum, enumErrorVanskelighetsgrad } = useEnums("vanskelighetsgrad_enum");
     const { enumData: turtype, loadingTurtype, enumErrorTurtype } = useEnums("turtype_enum");
     const { enumData: varighet, loadingVarighet, enumErrorVarighet } = useEnums("varighet_enum");
@@ -30,6 +32,7 @@ export default function LeggTilTur({ onSuccess }) {
     const [turmålITuren, setTurmålITuren] = useState([]);
     const [stierITuren, setStierITuren] = useState([]);
     const [nyeStierITuren, setNyeStierITuren] = useState([]);
+    const [gpxKoords, setGpxKoords] = useState([]);
     const [lagret, setLagret] = useState(false);
     const [totalRuteLengde, setTotalRuteLengde] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -66,12 +69,26 @@ export default function LeggTilTur({ onSuccess }) {
         }
     };
 
-    const handleGpxKoordinater = (koords) => {
+    const handleGpxKoordinater = async (koords) => {
         if (koords && koords.length >= 2) {
             setLagredeKoordinater(koords);
             setRutePunkter(koords);
             setTotalRuteLengde(regnUtTotalLengde(koords));
             setLagret(true);
+            const punkter = await byggPunkterMedMoh(koords);
+            setGpxKoords(punkter);
+
+            try {
+                const kommuneData = await hentKommuneData(koords[0][0], koords[0][1]);
+                if (kommuneData) {
+                    setFylke(kommuneData.fylkesnavn || "");
+                    setFylkeId(kommuneData.fylkesnummer || "");
+                    setKommune(kommuneData.kommunenavn || "");
+                    setKommuneId(kommuneData.kommunenummer || "");
+                }
+            } catch (error) {
+                console.error("Feil ved henting av kommune/fylke:", error);
+            }
         } else if (koords && koords.length === 1) {
             alert(t("tur.gpx_ett_punkt"));
         }
@@ -240,6 +257,11 @@ export default function LeggTilTur({ onSuccess }) {
                         {!lagredeKoordinater && (
                             <GpxParser onKoordinaterLastet={handleGpxKoordinater} />
                         )}
+                        {rutePunkter.length > 1 && gpxKoords.length > 1 && (
+                            <button type="button" onClick={åpneHytter}>
+                                Legg til Hytter eller Turmål
+                            </button>
+                        )}
                         <button type="button" onClick={open}>
                             {lagredeKoordinater ? t("tur.endre_rute") : t("tur.lag_rute")}
                         </button>
@@ -297,6 +319,19 @@ export default function LeggTilTur({ onSuccess }) {
                 </button>
                 {error && <p style={{color: 'red'}}>{error}</p>}
             </form>
+
+            <Modal show={hytterÅpen} onClose={lukkHytter} size="lg">
+                <div className="modal-map-container">
+                    <LeggTilHytterTurmål
+                        gpxKoords={gpxKoords}
+                        hytterITuren={hytterITuren}
+                        setHytterITuren={setHytterITuren}
+                        turmålITuren={turmålITuren}
+                        setTurmålITuren={setTurmålITuren}
+                        onLagre={lukkHytter}
+                    />
+                </div>
+            </Modal>
 
             <Modal show={isOpen} onClose={close} size="lg">
                 <div className="modal-map-container">
