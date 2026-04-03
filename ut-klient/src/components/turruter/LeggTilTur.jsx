@@ -1,355 +1,61 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useModal } from "../../hooks/useModal";
-import { useEnums } from "../../hooks/useEnums";
-import { useFileUpload } from "../../hooks/useFileUpload";
-import { hentKommuneData, regnUtTotalLengde, byggPunkterMedMoh } from "../../utils/geoUtils";
-import Modal from "../../modal/Modal";
-import Nytur from "../Nytur";
-import { GpxParser } from "../GpxParser";
-import LeggTilHytterTurmål from "../fellesturer/legg-til/LeggTilHytterTurmål";
+import TurForm from "./tur-form/TurForm";
 
+// Oppretter en ny tur. Laget av Olai.
 export default function LeggTilTur({ onSuccess }) {
     const { t } = useTranslation();
-    const { isOpen, open, close } = useModal();
-    const { isOpen: hytterÅpen, open: åpneHytter, close: lukkHytter } = useModal();
-    const { enumData: vanskelighetsgrad, loadingEnum, enumErrorVanskelighetsgrad } = useEnums("vanskelighetsgrad_enum");
-    const { enumData: turtype, loadingTurtype, enumErrorTurtype } = useEnums("turtype_enum");
-    const { enumData: varighet, loadingVarighet, enumErrorVarighet } = useEnums("varighet_enum");
-    const [navn, setNavn] = useState("");
-    const [selectedVanskelighetsgrad, setSelectedVanskelighetsgrad] = useState("");
-    const [selectedTurtype, setSelectedTurtype] = useState("");
-    const [selectedVarighet, setSelectedVarighet] = useState("");
-    const [fylke, setFylke] = useState("");
-    const [fylkeId, setFylkeId] = useState("");
-    const [kommune, setKommune] = useState("");
-    const [kommuneId, setKommuneId] = useState("");
-    const [beskrivelse, setBeskrivelse] = useState("");
-    const [bildeUrl, setBildeUrl] = useState([]);
-    const [rutePunkter, setRutePunkter] = useState([]);
-    const [lagredeKoordinater, setLagredeKoordinater] = useState(null);
-    const [hytterITuren, setHytterITuren] = useState([]);
-    const [turmålITuren, setTurmålITuren] = useState([]);
-    const [stierITuren, setStierITuren] = useState([]);
-    const [nyeStierITuren, setNyeStierITuren] = useState([]);
-    const [gpxKoords, setGpxKoords] = useState([]);
-    const [lagret, setLagret] = useState(false);
-    const [totalRuteLengde, setTotalRuteLengde] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const uploaderRef = useRef(null);
 
-    useFileUpload(setBildeUrl);
-
-    const handleLagreKoordinater = async (koords) => {
-        if (koords && koords.length >= 2) {
-            const startKoord = koords[0];
-            const sluttKoord = koords[koords.length - 1];
-            
-            setLagredeKoordinater(koords);
-            setTotalRuteLengde(regnUtTotalLengde(koords));
-            setLagret(true);
-            
-            try {
-                const kommuneData = await hentKommuneData(startKoord[0], startKoord[1]);
-                if (kommuneData) {
-                    setFylke(kommuneData.fylkesnavn || "");
-                    setFylkeId(kommuneData.fylkesnummer || "");
-                    setKommune(kommuneData.kommunenavn || "");
-                    setKommuneId(kommuneData.kommunenummer || "");
-                }
-            } catch (error) {
-                console.error("Feil ved henting av kommune/fylke:", error);
-            }
-            
-            close();
-
-        } else {
-            alert(t("tur.velg_minst_to_punkter"));
-        }
-    };
-
-    const handleGpxKoordinater = async (koords) => {
-        if (koords && koords.length >= 2) {
-            setLagredeKoordinater(koords);
-            setRutePunkter(koords);
-            setTotalRuteLengde(regnUtTotalLengde(koords));
-            setLagret(true);
-            const punkter = await byggPunkterMedMoh(koords);
-            setGpxKoords(punkter);
-
-            try {
-                const kommuneData = await hentKommuneData(koords[0][0], koords[0][1]);
-                if (kommuneData) {
-                    setFylke(kommuneData.fylkesnavn || "");
-                    setFylkeId(kommuneData.fylkesnummer || "");
-                    setKommune(kommuneData.kommunenavn || "");
-                    setKommuneId(kommuneData.kommunenummer || "");
-                }
-            } catch (error) {
-                console.error("Feil ved henting av kommune/fylke:", error);
-            }
-        } else if (koords && koords.length === 1) {
-            alert(t("tur.gpx_ett_punkt"));
-        }
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        if (!navn.trim() || !selectedVanskelighetsgrad || !selectedTurtype || !selectedVarighet || !lagredeKoordinater) {
-            alert(t("tur.fyll_ut_felt"));
-            return;
-        }
-
+    const handleOpprett = async (formData) => {
         try {
             setLoading(true);
             setError(null);
 
-            const startKoord = lagredeKoordinater && lagredeKoordinater.length >= 2 ? lagredeKoordinater[0] : null;
-            const sluttKoord = lagredeKoordinater && lagredeKoordinater.length >= 2 ? lagredeKoordinater[lagredeKoordinater.length - 1] : null;
-
             const response = await fetch(`${import.meta.env.VITE_API_URL}/tur`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    tur_navn: navn,
-                    tur_beskrivelse: beskrivelse,
-                    vanskelighetsgrad: selectedVanskelighetsgrad || null,
-                    varighet: selectedVarighet || null,
-                    turtype: selectedTurtype || null,
-                    fylke_id: fylkeId,
-                    kommune_id: kommuneId,
-                    punkter: lagredeKoordinater || null,
+                    tur_navn: formData.navn,
+                    tur_beskrivelse: formData.beskrivelse,
+                    vanskelighetsgrad: formData.vanskelighetsgrad || null,
+                    varighet: formData.varighet || null,
+                    turtype: formData.turtype || null,
+                    fylke_id: formData.fylkeId,
+                    kommune_id: formData.kommuneId,
+                    punkter: formData.punkter || null,
                     info_array: null,
-                    bilder: bildeUrl.length > 0 ? bildeUrl : null,
-                    hytter: hytterITuren?.map(h => h.hytte_id),
-                    turmaal: turmålITuren?.map(t => t.turmaal_id),
-                    stier: stierITuren
-                })
+                    bilder: formData.bilder.length > 0 ? formData.bilder : null,
+                    hytter: formData.hytter?.map(h => h.hytte_id),
+                    turmaal: formData.turmaal?.map(t => t.turmaal_id),
+                    stier: formData.stier,
+                }),
             });
 
-        if (!response.ok) {
-            throw new Error(`${t("tur.feil_opprettelse")}: ${response.status}`);
-        }
+            if (!response.ok) {
+                throw new Error(`${t("tur.feil_opprettelse")}: ${response.status}`);
+            }
 
-        alert(t("tur.tur_lagt_til"));
-        setNavn("");
-        setSelectedVanskelighetsgrad("");
-        setSelectedTurtype("");
-        setSelectedVarighet("");
-        setFylke("");
-        setFylkeId("");
-        setKommune("");
-        setKommuneId("");
-        setBeskrivelse("");
-        setBildeUrl([]);
-        setLagredeKoordinater(null);
-        setRutePunkter([]);
-        setHytterITuren([]);
-        setTurmålITuren([]);
-        setStierITuren([]);
-        setNyeStierITuren([]);
-        setLagret(false);
-        setTotalRuteLengde(null);
-
-        if (onSuccess) {
-            onSuccess();
+            alert(t("tur.tur_lagt_til"));
+            if (onSuccess) onSuccess();
+        } catch (err) {
+            console.error('Error: ', err);
+            setError(err.message);
+        } finally {
+            setLoading(false);
         }
-    } catch (err) {
-        console.error('Error: ', err);
-        setError(err.message);
-    } finally {
-        setLoading(false);
-    }
-};
+    };
 
     return (
         <div>
             <h2>{t("tur.legg_til_tur")}</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="navn">{t("felles.navn")}:</label>
-                    <input
-                        type="text"
-                        id="navn"
-                        value={navn}
-                        onChange={(e) => setNavn(e.target.value)}
-                        pattern="^[A-Za-zØÆÅøæå\s]{3,20}$"
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="vanskelighetsgrad">{t("tur.vanskelighetsgrad")}:</label>
-                    <select
-                        id="vanskelighetsgrad"
-                        value={selectedVanskelighetsgrad}
-                        onChange={(e) => setSelectedVanskelighetsgrad(e.target.value)}
-                        required
-                    >
-                        <option value="" disabled selected hidden></option>
-                        {vanskelighetsgrad.map((valg) => (
-                            <option key={valg} value={valg}>
-                                {valg}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-               <div>
-                    <label htmlFor="turtype">{t("tur.turtype")}:</label>
-                    <select
-                        id="turtype"
-                        value={selectedTurtype}
-                        onChange={(e) => setSelectedTurtype(e.target.value)}
-                        required
-                    >
-                        <option value="" disabled selected hidden></option>
-                        {turtype.map((valg) => (
-                            <option key={valg} value={valg}>
-                                {valg}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="varighet">{t("tur.varighet")}:</label>
-                    <select
-                        id="varighet"
-                        value={selectedVarighet}
-                        onChange={(e) => setSelectedVarighet(e.target.value)}
-                        required
-                    >
-                        <option value="" disabled selected hidden></option>
-                        {varighet.map((valg) => (
-                            <option key={valg} value={valg}>
-                                {valg}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="fylke">{t("felles.fylke")}:</label>
-                    <input
-                        type="text"
-                        id="fylke"
-                        value={fylke}
-                        onChange={(e) => setFylke(e.target.value)}
-                        readOnly
-                        placeholder={t("tur.fylke_automatisk")}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="kommune">{t("felles.kommune")}:</label>
-                    <input
-                        type="text"
-                        id="kommune"
-                        value={kommune}
-                        onChange={(e) => setKommune(e.target.value)}
-                        readOnly
-                        placeholder={t("tur.kommune_automatisk")}
-                    />
-                </div>
-                <div>
-                    <label>{t("tur.koordinater_start_slutt")}:</label>
-                    <div>
-                        {!lagredeKoordinater && (
-                            <GpxParser onKoordinaterLastet={handleGpxKoordinater} />
-                        )}
-                        {rutePunkter.length > 1 && gpxKoords.length > 1 && (
-                            <button type="button" onClick={åpneHytter}>
-                                Legg til Hytter eller Turmål
-                            </button>
-                        )}
-                        <button type="button" onClick={open}>
-                            {lagredeKoordinater ? t("tur.endre_rute") : t("tur.lag_rute")}
-                        </button>
-                    </div>
-                    {lagredeKoordinater && lagredeKoordinater.length >= 2 && (
-                        <div style={{ marginTop: '10px' }}>
-                            <p>✓ {t("tur.rute_lagret")} {lagredeKoordinater.length} {t("tur.punkter")}</p>
-                            <p>{t("tur.start")}: {(lagredeKoordinater[0][0]).toFixed(5)}, {(lagredeKoordinater[0][1]).toFixed(5)}</p>
-                            <p>{t("tur.slutt")}: {lagredeKoordinater[lagredeKoordinater.length - 1][0].toFixed(5)}, {lagredeKoordinater[lagredeKoordinater.length - 1][1].toFixed(5)}</p>
-                            {totalRuteLengde !== null && (
-                                <p>{t("tur.rutelengde") || "Rutelengde"}: {totalRuteLengde.toFixed(3)} km</p>
-                            )}
-                        </div>
-                    )}
-                </div>
-                {/*Beskrivelse av turruten*/}
-                <div className="input-container">
-                    <label className="input">{t("tur.beskrivelse")}
-                        <textarea 
-                            style={{resize: 'none', width: '100%', maxWidth: '400px'}} 
-                            rows="5" minLength="20" maxLength="1000"
-                            value={beskrivelse} onChange={(e) => setBeskrivelse(e.target.value)} 
-                            required 
-                        />
-                        <small style={{color: beskrivelse.length > 950 ? 'red' : '#666' }}>
-                            {beskrivelse.length} / 1000
-                        </small>
-                    </label>
-                </div>
-                <div>
-                    <label>{t("tur.last_opp_bilde")}:</label>
-                    <simple-file-upload
-                        accept="image/*"
-                        max-file-size="5242880"
-                        max-files="5"
-                        ref={uploaderRef}
-                        public-key={import.meta.env.VITE_SFU_PUBLIC_KEY}
-                    ></simple-file-upload>
-                    {bildeUrl.length > 0 && (
-                        <div style={{ marginTop: '10px' }}>
-                            <p>{t("tur.bilde_lastet_opp")} ({bildeUrl.length})</p>
-                            {bildeUrl.map((url, index) => (
-                                <img 
-                                    key={index}
-                                    src={`${url}?w=200&h=200&fit=fit`} 
-                                    alt={`Preview ${index + 1}`}
-                                    style={{ marginRight: '10px' }}
-                                />
-                            ))}
-                        </div>
-                    )}
-                </div>
-                <button type="submit" disabled={loading}>
-                    {loading ? t("tur.legger_til") : t("tur.legg_til_knapp")}
-                </button>
-                {error && <p style={{color: 'red'}}>{error}</p>}
-            </form>
-
-            <Modal show={hytterÅpen} onClose={lukkHytter} size="lg">
-                <div className="modal-map-container">
-                    <LeggTilHytterTurmål
-                        gpxKoords={gpxKoords}
-                        hytterITuren={hytterITuren}
-                        setHytterITuren={setHytterITuren}
-                        turmålITuren={turmålITuren}
-                        setTurmålITuren={setTurmålITuren}
-                        onLagre={lukkHytter}
-                    />
-                </div>
-            </Modal>
-
-            <Modal show={isOpen} onClose={close} size="lg">
-                <div className="modal-map-container">
-                    <Nytur 
-                        rutePunkter={rutePunkter}
-                        setRutePunkter={setRutePunkter}
-                        onLagreKoordinater={handleLagreKoordinater}
-                        hytterITuren={hytterITuren}
-                        setHytterITuren={setHytterITuren}
-                        turmålITuren={turmålITuren}
-                        setTurmålITuren={setTurmålITuren}
-                        stierITuren={stierITuren}
-                        setStierITuren={setStierITuren}
-                        nyeStier={nyeStierITuren}
-                        setNyeStier={setNyeStierITuren}
-                    />
-                </div>
-            </Modal>
+            {loading && <p>{t("tur.legger_til")}</p>}
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            <TurForm
+                onSubmitAction={handleOpprett}
+                buttonTekst={loading ? t("tur.legger_til") : t("tur.legg_til_knapp")}
+            />
         </div>
     );
 }
