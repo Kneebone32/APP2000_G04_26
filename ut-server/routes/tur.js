@@ -10,37 +10,52 @@ router.post('/', async (req, res) => {
     const {
       tur_navn,
       tur_beskrivelse,
+      bruker_id,
       turtype,
       vanskelighetsgrad,
       varighet,
+      tur_status,
       hytter,
       turmaal,
       stier,
-      bilder
+      nyeStier,
+      gpx,
+      bilder,
+      ruteLengde
     } = req.body;
 
     const result = await pool.query(
-      `SELECT tur_opprett(
-        $1, 
-        $2, 
-        $3::turtype_enum, 
-        $4::vanskelighetsgrad_old, 
-        $5::varighet_enum, 
-        $6, 
-        $7, 
-        $8, 
-        $9
+      `SELECT public.tur_opprett(
+        $1::character varying,
+        $2::text,
+        $3::integer,
+        $4::turtype_enum,
+        $5::vanskelighetsgrad_old,
+        $6::varighet_enum,
+        $7::aktivitet_status_enum,
+        $8::jsonb,
+        $9::jsonb,
+        $10::jsonb,
+        $11::jsonb,
+        $12::jsonb,
+        $13::jsonb,
+        $14::numeric
       ) AS ny_tur_id`,
       [
         tur_navn,
         tur_beskrivelse,
+        bruker_id,
         turtype,
         vanskelighetsgrad,
         varighet,
-        hytter ? JSON.stringify(hytter) : null,
-        turmaal ? JSON.stringify(turmaal) : null,
-        stier ? JSON.stringify(stier) : null,
-        bilder ? JSON.stringify(bilder) : null
+        tur_status ?? 'utkast',
+        hytter ? JSON.stringify(hytter) : '[]',
+        turmaal ? JSON.stringify(turmaal) : '[]',
+        stier ? JSON.stringify(stier) : '[]',
+        nyeStier ? JSON.stringify(nyeStier) : '[]',
+        gpx ? JSON.stringify(gpx) : '[]',
+        bilder ? JSON.stringify(bilder) : '[]',
+        ruteLengde ?? 0
       ]
     );
 
