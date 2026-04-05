@@ -135,8 +135,8 @@ router.put('/oppdater', auth, async (req, res) => {
     }
 
     await pool.query(
-      'UPDATE bruker SET bruker_navn = $1, bruker_etternavn = $2 WHERE bruker_id = $3',
-      [bruker_navn, bruker_etternavn, brukerId]
+      'SELECT public.bruker_oppdater($1, $2, $3)',
+      [brukerId, bruker_navn, bruker_etternavn]
     );
 
     res.json({ message: 'Bruker oppdatert' });
@@ -192,6 +192,37 @@ router.put('/bytt-rolle', auth, async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Kunne ikke bytte rolle' });
+  }
+});
+
+// Henter alle roller tilknyttet innlogget bruker
+router.get('/mine-roller', auth, async (req, res) => {
+  try {
+    const bruker_id = req.user.bruker_id;
+    const result = await pool.query(
+      `SELECT r.rolle_id, r.rolle_navn
+       FROM public.bruker_rolle br
+       JOIN public.rolle r ON r.rolle_id = br.rolle_id
+       WHERE br.bruker_id = $1`,
+      [bruker_id]
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke hente roller' });
+  }
+});
+
+// Henter alle tilgjengelige roller fra rolle-tabellen
+router.get('/roller', async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT rolle_id, rolle_navn FROM public.rolle ORDER BY rolle_id'
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke hente roller' });
   }
 });
 

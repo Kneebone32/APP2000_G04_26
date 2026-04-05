@@ -97,7 +97,34 @@ router.get('/:id', async (req, res) => {
 });
 
 
+// Oppdaterer tur med gitt id
+router.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { tur_navn, tur_beskrivelse, turtype, vanskelighetsgrad, varighet } = req.body;
 
+    const result = await pool.query(
+      `UPDATE tur
+       SET tur_navn = $1,
+           tur_beskrivelse = $2,
+           turtype = $3::turtype_enum,
+           vanskelighetsgrad = $4::vanskelighetsgrad_old,
+           varighet = $5::varighet_enum
+       WHERE tur_id = $6
+       RETURNING tur_id`,
+      [tur_navn, tur_beskrivelse, turtype, vanskelighetsgrad, varighet, id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Tur ikke funnet' });
+    }
+
+    res.json({ tur_id: id, message: 'Tur oppdatert' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke oppdatere tur' });
+  }
+});
 
 // Sletter tur med gitt id
 router.delete('/:id', async (req, res) => {

@@ -10,6 +10,8 @@ import fellesturRoutes from './fellestur.js';
 import brukerRoutes from './bruker.js';
 import stiRoutes from "./sti.js";
 import meldingerRoutes from './meldinger.js';
+import varselRoutes from './varsel.js';
+import anmeldelserRoutes from './anmeldelser.js';
 
 const router = express.Router();
 
@@ -22,5 +24,7 @@ router.use('/fellestur', fellesturRoutes);
 router.use('/bruker', brukerRoutes);
 router.use('/sti', stiRoutes);
 router.use('/meldinger', meldingerRoutes);
+router.use('/varsler', varselRoutes);
+router.use('/anmeldelser', anmeldelserRoutes);
 
 export default router;

@@ -43,6 +43,33 @@ router.post('/tur/:id', auth, async (req, res) => {
   }
 });
 
+// Oppdater anmeldelse for tur
+router.put('/tur/:id', auth, async (req, res) => {
+  try {
+    const bruker_id = req.user.bruker_id;
+    const tur_id = req.params.id;
+    const { rating, anmeldelse } = req.body;
+
+    const result = await pool.query(
+      `UPDATE anmeldelse_tur
+       SET rating = $1,
+           anmeldelse = $2
+       WHERE bruker_id = $3 AND tur_id = $4
+       RETURNING tur_id`,
+      [rating, anmeldelse, bruker_id, tur_id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Anmeldelse ikke funnet' });
+    }
+
+    res.json({ message: 'Anmeldelse oppdatert' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke oppdatere anmeldelse' });
+  }
+});
+
 // Slett anmeldelse for tur
 router.delete('/tur', async (req, res) => {
   try {
