@@ -85,6 +85,7 @@ router.post('/', auth, async (req, res) => {
 
 
 
+
 // Henter alle aktiviteter
 router.get('/', async (req, res) => {
   try {
@@ -96,6 +97,62 @@ router.get('/', async (req, res) => {
   }
 });
 
+
+// Oppdaterer aktivitet
+router.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const {
+      aktivitet_tittel,
+      aktivitet_beskrivelse,
+      aktivitet_min_deltakere,
+      aktivitet_maks_deltakere,
+      vanskelighetsgrad,
+      varighet,
+      turtype,
+      aktivitet_status,
+      bilder
+    } = req.body;
+
+    const result = await pool.query(
+      `SELECT public.aktivitet_oppdater(
+        $1::integer,
+        $2::character varying,
+        $3::text,
+        $4::integer,
+        $5::integer,
+        $6::vanskelighetsgrad_old,
+        $7::varighet_enum,
+        $8::turtype_enum,
+        $9::aktivitet_status_enum,
+        $10::jsonb
+      ) AS aktivitet_id`,
+      [
+        id,
+        aktivitet_tittel ?? null,
+        aktivitet_beskrivelse ?? null,
+        aktivitet_min_deltakere ?? null,
+        aktivitet_maks_deltakere ?? null,
+        vanskelighetsgrad ?? null,
+        varighet ?? null,
+        turtype ?? null,
+        aktivitet_status ?? null,
+        bilder ? JSON.stringify(bilder) : null
+      ]
+    );
+
+    const aktivitetId = result.rows[0].aktivitet_id;
+
+    res.status(200).json({
+      aktivitet_id: aktivitetId,
+      message: 'Aktivitet oppdatert'
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke oppdatere aktivitet' });
+  }
+});
 
 // Sletter aktivitet
 router.delete('/:id', async (req, res) => {
