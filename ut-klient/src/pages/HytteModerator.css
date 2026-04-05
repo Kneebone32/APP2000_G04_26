@@ -1,3 +1,10 @@
 .HytteModeratorPanel {
     margin-top: 130px;
 }
+
+.HytteFaneContainer {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
