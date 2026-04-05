@@ -14,7 +14,6 @@ router.post('/', async (req, res) => {
       turtype,
       vanskelighetsgrad,
       varighet,
-      tur_status,
       hytter,
       turmaal,
       stier,
@@ -32,14 +31,13 @@ router.post('/', async (req, res) => {
         $4::turtype_enum,
         $5::vanskelighetsgrad_old,
         $6::varighet_enum,
-        $7::aktivitet_status_enum,
+        $7::jsonb,
         $8::jsonb,
         $9::jsonb,
         $10::jsonb,
         $11::jsonb,
         $12::jsonb,
-        $13::jsonb,
-        $14::numeric
+        $13::numeric
       ) AS ny_tur_id`,
       [
         tur_navn,
@@ -48,7 +46,6 @@ router.post('/', async (req, res) => {
         turtype,
         vanskelighetsgrad,
         varighet,
-        tur_status ?? 'utkast',
         hytter ? JSON.stringify(hytter) : '[]',
         turmaal ? JSON.stringify(turmaal) : '[]',
         stier ? JSON.stringify(stier) : '[]',
