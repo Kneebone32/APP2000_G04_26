@@ -16,13 +16,21 @@ header {
     top: var(--announcement-bar-height);
     left: 0;
     width: 100%;
-    padding: 20px 10%;
     background: rgb(240, 240, 240);
+    z-index: 100;
+    margin: 0;
+}
+
+.navbar-inner {
+    max-width: 1700px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px 10%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    z-index: 100;
-    margin: 0;
+    box-sizing: border-box;
+    gap: 20px;
 }
 
 .logo {
@@ -158,6 +166,10 @@ nav .nav-close-btn {
 }
 
 @media only screen and (max-width: 1120px) {
+    .navbar-inner {
+        padding-right: 10%;
+    }
+
     header .nav-btn {
         display: block;
         margin: 0;

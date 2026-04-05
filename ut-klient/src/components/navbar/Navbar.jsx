@@ -107,6 +107,7 @@ export default function Navbar() {
   return (
     <>
     <header>
+      <div className="navbar-inner">
         <Link to="/" className="logo">UT.ut</Link>
         
         
@@ -170,6 +171,7 @@ export default function Navbar() {
           <button className="nav-btn" onClick={showNavbar}>
             <FaBars/>
           </button>
+      </div>
     </header>
 
     {/*Modal til innlogging/register*/}

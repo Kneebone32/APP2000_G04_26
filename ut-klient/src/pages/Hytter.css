@@ -4,6 +4,10 @@ Laget av Eivind
 .HyttekortContainer {
     display: flex;
     flex-wrap: wrap;
+    max-width: 1700px;
+    margin: 0px auto;
+    padding-inline: 24px;
+    box-sizing: border-box;
     justify-content: center;
     gap: 20px;
 }
