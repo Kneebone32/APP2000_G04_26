@@ -9,51 +9,30 @@ import { hentKommuneData } from "../utils/geoUtils";
 import { toast } from "react-toastify";
 import AnmeldelseListe from "../components/anmeldelser/AnmeldelseListe";
 import AnmeldelseSkjema from "../components/anmeldelser/AnmeldelseSkjema";
-import  './TurDetaljer.css';
+import './TurDetaljer.css';
 
 
 export default function TurDetaljer() {
   const { bruker, token, erAutentisert } = useAutentisering({autoFetch: true});
   const { turId } = useParams();
-  const {turAnmeldelser, turGjennomsnittsrating, leggTilTurAnmeldelse, slettTurAnmeldelse} = useAnmeldelser({token, turId});
+  const { turAnmeldelser, turGjennomsnittsrating, leggTilTurAnmeldelse, slettTurAnmeldelse } = useAnmeldelser({token, turId});
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { hentTurFraId } = useFetchTurer(false);
-  const [tur, setTur] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { turDetaljer: tur, loadingTurer: loading, errorTurer: error, turPunkter } = useFetchTurer({ hentTurID: turId, hentTurRuteID: turId });
   const [kommunenavn, setKommunenavn] = useState("");
   const [fylkesnavn, setFylkesnavn] = useState("");
 
-
   useEffect(() => {
-    const hentTur = async () => {
-      try {
-        const [data, punkter] = await Promise.all([
-          hentTurFraId(turId),
-          fetch(`${import.meta.env.VITE_API_URL}/turruter/${turId}/punkter`).then(r => r.json())
-        ]);
-        setTur(data);
-
-        if (punkter && punkter.length >= 1) {
-          try {
-            const kommuneData = await hentKommuneData(punkter[0][0], punkter[0][1]);
-            if (kommuneData) {
-              setKommunenavn(kommuneData.kommunenavn || "");
-              setFylkesnavn(kommuneData.fylkesnavn || "");
-            }
-          } catch (err) {
-          }
+    if (!turPunkter || turPunkter.length < 1) return;
+    hentKommuneData(turPunkter[0][0], turPunkter[0][1])
+      .then(data => {
+        if (data) {
+          setKommunenavn(data.kommunenavn || "");
+          setFylkesnavn(data.fylkesnavn || "");
         }
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    hentTur();
-  }, [turId]);
+      })
+      .catch(() => {});
+  }, [turPunkter]);
 
   return (
     <PageWrapper>

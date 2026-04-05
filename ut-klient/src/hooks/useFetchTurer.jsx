@@ -5,6 +5,7 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
   const [turer, setTurer] = useState([]);
   const [loadingTurer, setLoadingTurer] = useState();
   const [errorTurer, setErrorTurer] = useState(null);
+  const [turDetaljer, setTurDetaljer] = useState(null);
   const [turPunkter, setTurPunkter] = useState([]);
   const [loadingTurPunkter, setLoadingTurPunkter] = useState(true);
   const [errorTurPunkter, setErrorTurPunkter] = useState(null);
@@ -102,7 +103,9 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
         throw new Error(`HTTP error: ${response.status}`);
       }
 
-      return await response.json();
+      const data = await response.json();
+      setTurDetaljer(data);
+      return data;
     } catch (err) {
       throw new Error(err.message);
     }
@@ -133,10 +136,11 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
     if (hentTurRuteID) fetchTurRute(hentTurRuteID)
   }, [autoFetch, hentTurID, hentTurRuteID, turKort, fetchTurer, hentTurFraId, fetchTurRute, fetchTurKort]);
 
-  return { 
-    turer, 
-    loadingTurer, 
-    errorTurer, 
+  return {
+    turer,
+    turDetaljer,
+    loadingTurer,
+    errorTurer,
     turPunkter,
     loadingTurPunkter,
     errorTurPunkter,
