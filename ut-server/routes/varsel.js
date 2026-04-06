@@ -87,30 +87,30 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-// Markerer varsel som lest
+
+// Merker varsel som lest
 router.patch('/:id/lest', auth, async (req, res) => {
   try {
+    const varsel_id = req.params.id;
     const bruker_id = req.user.bruker_id;
-    const varsel_id = parseInt(req.params.id);
 
     const result = await pool.query(
-      `UPDATE public.varsel
-       SET status = 'lest'
-       WHERE varsel_id = $1 AND mottaker_id = $2 AND status = 'ulest'
-       RETURNING varsel_id`,
+      'SELECT public.varsel_sett_lest($1, $2) AS success',
       [varsel_id, bruker_id]
     );
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Varsel ikke funnet eller allerede lest' });
+    if (!result.rows[0].success) {
+      return res.status(404).json({ error: 'Fant ikke varsel, eller varselet er ikke ulest' });
     }
 
-    res.json({ varsel_id: result.rows[0].varsel_id, status: 'lest' });
+    res.json({ message: 'Varsel markert som lest' });
   } catch (err) {
-    console.error('Feil ved markering av varsel som lest:', err);
+    console.error(err);
     res.status(500).json({ error: 'Kunne ikke oppdatere varsel' });
   }
 });
+
+
 
 // Behandler en oppgave (godkjenn/avslå)
 router.post('/:id/behandle', auth, async (req, res) => {
