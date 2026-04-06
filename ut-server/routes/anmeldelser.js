@@ -71,10 +71,11 @@ router.put('/tur/:id', auth, async (req, res) => {
 });
 
 // Slett anmeldelse for tur
-router.delete('/tur', async (req, res) => {
-  try {
-    const { bruker_id, tur_id } = req.body;
+router.delete('/tur/:id', auth, async (req, res) => {
+  const bruker_id = req.user.bruker_id;
+  const tur_id = req.params.id;
 
+  try {
     await pool.query(
       'SELECT anmeldelse_tur_slett($1,$2)',
       [bruker_id, tur_id]
