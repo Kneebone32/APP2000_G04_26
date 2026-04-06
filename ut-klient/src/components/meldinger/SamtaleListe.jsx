@@ -1,7 +1,7 @@
 import './SamtaleListe.css';
 
 //Liste over alle samtalene til bruker. Laget av Kay
-export default function SamtaleListe({ samtaler, valgtId, onVelg }) {
+export default function SamtaleListe({samtaler, valgtId, onVelg}) {
     //variabler må oppdateres med samme formatet til DB
     return (
         <div className="samtale-liste">
@@ -13,23 +13,19 @@ export default function SamtaleListe({ samtaler, valgtId, onVelg }) {
 
             {/*liste over alle samtaler*/}
             {samtaler.map((samtale) => {
-                const erValgt = samtale.bruker_id === valgtId;
-                const harUlesteMeldinger = samtale.uleste > 0;
+                const erValgt = samtale.samtale_id === valgtId;
                 return (
                     <button
-                        key={samtale.bruker_id}
+                        key={samtale.samtale_id}
                         className={`samtale-rad ${erValgt ? 'samtale-rad-aktiv' : ''}`}
                         onClick={() => onVelg(samtale)}
                     >
                         <div className="samtale-rad-info">
-                            <span className="samtale-navn">{samtale.navn}</span>
+                            <span className="samtale-navn">{samtale.visningsnavn}</span>
                             {samtale.siste_melding && (
                                 <span className="samtale-forhåndsvisning">{samtale.siste_melding}</span>
                             )}
                         </div>
-                        {harUlesteMeldinger && (
-                            <span className="samtale-uleste">{samtale.uleste}</span>
-                        )}
                     </button>
                 );
             })}

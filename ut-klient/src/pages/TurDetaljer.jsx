@@ -112,8 +112,8 @@ export default function TurDetaljer() {
           loading={loading}
           error={error}
           brukerId={bruker?.bruker_id}
-          onSlett={async (brukerId) => {
-                      await slettTurAnmeldelse(turId, brukerId);
+          onSlett={async (anmeldelseBrukerId) => {
+                      await slettTurAnmeldelse(turId, anmeldelseBrukerId);
                       toast.success('Anmeldelse slettet');
                     }}
         />

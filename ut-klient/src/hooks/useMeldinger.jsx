@@ -1,15 +1,10 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 
 //Hook til meldingssystemet. Laget av Kay
-export function useMeldinger({ token, pollIntervall = 5000, autoPoll = false } = {}) {
+export function useMeldinger({token, pollIntervall = 5000, autoPoll = false} = {}) {
 
-  const [meldinger, setMeldinger] = useState([
-    {id: 1, avsender_id: 1, avsender_navn: 'Ola Nordmann', innhold: 'Hei! Blir du med på tur?', sendt_tid: new Date().toISOString()}
-  ]);
-  const [samtaler, setSamtaler] = useState([
-    {bruker_id: 1, navn: 'Ola Nordmann', siste_melding: 'Hei! Blir du med på tur?', uleste: 2},
-  ]);
-  
+  const [meldinger, setMeldinger] = useState([]);
+  const [samtaler, setSamtaler] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const intervallRef = useRef(null);
@@ -19,11 +14,10 @@ export function useMeldinger({ token, pollIntervall = 5000, autoPoll = false } =
     'Content-Type': 'application/json'
   }), [token]);
 
-  //Henter alle privatsamtaler for innlogget bruker
+  //Henter alle samtaler for innlogget bruker
   const hentSamtaler = useCallback(async () => {
     if (!token) return;
     try {
-      /*
       setError(null);
       const response = await fetch(`${import.meta.env.VITE_API_URL}/meldinger/samtaler`, {
         headers: authHeaders
@@ -31,22 +25,21 @@ export function useMeldinger({ token, pollIntervall = 5000, autoPoll = false } =
       if (!response.ok) throw new Error(`HTTP feil: ${response.status}`);
       const data = await response.json();
       setSamtaler(data);
-      */
     } catch (err) {
       setError(err.message);
     }
   }, [authHeaders, token]);
 
-  //Henter meldinger i en privatsamtale med en spesifikk bruker
-  const hentSamtale = useCallback(async (mottakerId) => {
+  //Henter meldinger i en samtale (brukeren må være medlem)
+  const hentMeldinger = useCallback(async (samtaleId) => {
     if (!token) return;
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/meldinger/pm/${mottakerId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/meldinger/samtale/${samtaleId}/meldinger`, {
         headers: authHeaders
       });
-      if (!response.ok) throw new Error("Kunne ikke hente samtalen");
+      if (!response.ok) throw new Error("Kunne ikke hente meldinger");
       const data = await response.json();
       setMeldinger(data);
     } catch (err) {
@@ -56,72 +49,57 @@ export function useMeldinger({ token, pollIntervall = 5000, autoPoll = false } =
     }
   }, [authHeaders, token]);
 
-  //Sender en privatmelding til en bruker
-  const sendMelding = useCallback(async (mottakerId, innhold) => {
+  //Finner eller oppretter en direktesamtale med en annen bruker
+  const hentEllerOpprettDirekte = useCallback(async (annenBrukerId) => {
     if (!token) return;
     try {
       setError(null);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/meldinger/pm`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/meldinger/samtale/direkte`, {
         method: 'POST',
         headers: authHeaders,
-        body: JSON.stringify({ mottaker_id: mottakerId, innhold })
+        body: JSON.stringify({ annen_bruker_id: annenBrukerId })
+      });
+      if (!response.ok) throw new Error("Kunne ikke opprette direktesamtale");
+      return await response.json();
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    }
+  }, [authHeaders, token]);
+
+  //Oppretter en ny gruppesamtale
+  const opprettSamtale = useCallback(async (brukerIds, samtalenavn = null) => {
+    if (!token) return;
+    try {
+      setError(null);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/meldinger/samtale`, {
+        method: 'POST',
+        headers: authHeaders,
+        body: JSON.stringify({ bruker_ids: brukerIds, samtale_navn: samtalenavn })
+      });
+      if (!response.ok) throw new Error("Kunne ikke opprette samtale");
+      return await response.json();
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    }
+  }, [authHeaders, token]);
+
+  //Sender en melding i en samtale
+  const sendMelding = useCallback(async (samtaleId, meldingTekst) => {
+    if (!token) return;
+    try {
+      setError(null);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/meldinger/melding`, {
+        method: 'POST',
+        headers: authHeaders,
+        body: JSON.stringify({ samtale_id: samtaleId, melding_tekst: meldingTekst })
       });
       if (!response.ok) throw new Error("Kunne ikke sende melding");
       return await response.json();
     } catch (err) {
       setError(err.message);
       throw err;
-    }
-  }, [authHeaders, token]);
-
-  //henter meldinger i en gruppesamtale
-  const hentGruppeMeldinger = useCallback(async (fellesturId) => {
-    if (!token) return;
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/meldinger/gruppe/${fellesturId}`, {
-        headers: authHeaders
-      });
-      if (!response.ok) throw new Error("Kunne ikke hente gruppemeldinger");
-      const data = await response.json();
-      setMeldinger(data);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  }, [authHeaders, token]);
-
-  //Sender en melding til en gruppesamtale
-  const sendGruppeMelding = useCallback(async (fellesturId, innhold) => {
-    if (!token) return;
-    try {
-      setError(null);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/meldinger/gruppe`, {
-        method: 'POST',
-        headers: authHeaders,
-        body: JSON.stringify({ fellestur_id: fellesturId, innhold })
-      });
-      if (!response.ok) throw new Error("Kunne ikke sende gruppemelding");
-      return await response.json();
-    } catch (err) {
-      setError(err.message);
-      throw err;
-    }
-  }, [authHeaders, token]);
-
-  //Merker en melding som lest
-  const merkSomLest = useCallback(async (meldingId) => {
-    if (!token) return;
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/meldinger/${meldingId}/lest`, {
-        method: 'PATCH',
-        headers: authHeaders
-      });
-      if (!response.ok) throw new Error("Kunne ikke merke melding som lest");
-    } catch (err) {
-      setError(err.message);
     }
   }, [authHeaders, token]);
 
@@ -152,11 +130,10 @@ export function useMeldinger({ token, pollIntervall = 5000, autoPoll = false } =
     loading,
     error,
     hentSamtaler,
-    hentSamtale,
+    hentMeldinger,
+    hentEllerOpprettDirekte,
+    opprettSamtale,
     sendMelding,
-    hentGruppeMeldinger,
-    sendGruppeMelding,
-    merkSomLest,
     startPoll,
     stopPoll
   };

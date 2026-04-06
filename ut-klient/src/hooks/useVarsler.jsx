@@ -1,8 +1,10 @@
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 
 const testVarsler = [
-    { varsel_id: 99, tittel: 'Velkommen til UT.ut![test]', varsel_kategori: 'info', status: 'ulest', opprettet_tid: new Date().toISOString(), innhold: 'Takk for at du registrerte deg. Utforsk turer, hytter og fellesturer i nærheten av deg.' },
-    { varsel_id: 200, tittel: 'Forespørsel om rolleendring[test]', varsel_kategori: 'oppgave', status: 'ulest', opprettet_tid: '2026-03-23T09:00:00.000Z', innhold: 'Bruker Ola Nordmann (ola@example.com) har bedt om å bli annonsør.' },
+    { varsel_id: 99, tittel: 'Velkommen til UT.ut![test]', varsel_kategori: 'info', type_navn: null, status: 'ulest', opprettet_tidspunkt: new Date().toISOString(), innhold: 'Takk for at du registrerte deg. Utforsk turer, hytter og fellesturer i nærheten av deg.' },
+    { varsel_id: 200, tittel: 'Forespørsel om rolleendring[test]', varsel_kategori: 'oppgave', type_navn: 'rolle_foresporsel', status: 'ulest', opprettet_tidspunkt: '2026-03-23T09:00:00.000Z', innhold: 'Bruker Ola Nordmann (ola@example.com) har bedt om å bli annonsør.' },
+    { varsel_id: 201, tittel: 'Ny fellestur bruker hytten din[test]', varsel_kategori: 'oppgave', type_navn: 'hytteeier_ny_fellestur', status: 'ulest', opprettet_tidspunkt: '2026-04-01T10:00:00.000Z', innhold: 'En fellestur planlegger å bruke hytten din. Bekreft om du har plass. Dato: 27.04.2026, Antall: 8' },
+    { varsel_id: 202, tittel: 'Booking av hytten din[test]', varsel_kategori: 'oppgave', type_navn: 'hytteeier_booking', status: 'ulest', opprettet_tidspunkt: '2026-04-02T12:00:00.000Z', innhold: 'Noen ønsker å booke hytten din. Bekreft eller avslå bookingen. Dato: 27.04.2026, Antall: 8' },
 ];
 
 //Hook til varslingssystemet. Laget av Kay
@@ -95,6 +97,23 @@ export function useVarsler({token, pollIntervall = 10000, autoPoll = false} = {}
         }
     }, [authHeaders, token]);
 
+    //Sletter et varsel
+    const slettVarsel = useCallback(async (varselId) => {
+        if (!token) return;
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/varsler/${varselId}`, {
+                method: 'DELETE',
+                headers: authHeaders
+            });
+            if (!response.ok) throw new Error('Kunne ikke slette varsel');
+            setVarsler((forrige) => forrige.filter((v) => v.varsel_id !== varselId));
+            setValgtVarsel(null);
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        }
+    }, [authHeaders, token]);
+
     //Behandler en oppgave
     const behandleOppgave = useCallback(async (varselId, beslutning) => {
         if (!token) return;
@@ -126,14 +145,13 @@ export function useVarsler({token, pollIntervall = 10000, autoPoll = false} = {}
         }
     }, []);
 
-    //Polling
+    //Starter polling for å holde varsler oppdatert. Laget med mye hjelp fra internett + AI
     const startPoll = useCallback((pollFunc) => {
         stopPoll();
         pollFunc();
         intervallRef.current = setInterval(pollFunc, pollIntervall);
     }, [pollIntervall, stopPoll]);
 
-    //auto
     useEffect(() => {
         if (autoPoll && token) {
             startPoll(hentVarsler);
@@ -151,6 +169,7 @@ export function useVarsler({token, pollIntervall = 10000, autoPoll = false} = {}
         hentVarsel,
         merkSomLest,
         sendInfoVarsel,
+        slettVarsel,
         behandleOppgave,
         startPoll,
         stopPoll

@@ -77,6 +77,7 @@ export const hentHøydeProfil = async (koords) => {
 
 //Bygger punkter med moh for lagring av Stier
 //Punkter som ikke ble samplet får moh: null
+//sampledIndices & mohByIndex er laget av AI
 export const byggPunkterMedMoh = async (koords) => {
   const høydeData = await hentHøydeProfil(koords);
   if (!høydeData) return koords.map(p => ({breddegrad: p[0], lengdegrad: p[1], moh: null}));

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { formatNorskTid } from '../../utils/datoUtils';
+import { formatMeldingTid } from '../../utils/datoUtils';
 import './MeldingsBoks.css';
 import { toast } from 'react-toastify';
 
@@ -37,18 +37,18 @@ export default function MeldingsBoks({ meldinger, loading, error, brukerId, onSe
 
                 {/*individuell meldingsboble*/}
                 {meldinger.map((melding) => {
-                    const erMinMelding = melding.avsender_id === brukerId;
+                    const erMinMelding = melding.fra_bruker === brukerId;
                     return (
                         <div
-                            key={melding.id}
+                            key={melding.melding_id}
                             className={`melding-boble ${erMinMelding ? 'melding-min' : 'melding-andres'}`}
                         >
                             {!erMinMelding && (
                                 <span className="melding-avsender">{melding.avsender_navn}</span>
                             )}
-                            <p className="melding-innhold">{melding.innhold}</p>
+                            <p className="melding-innhold">{melding.melding_tekst}</p>
                             <span className="melding-tid">
-                                {formatNorskTid(new Date(melding.sendt_tid))}
+                                {formatMeldingTid(melding.sendt_datetime)}
                             </span>
                         </div>
                     );

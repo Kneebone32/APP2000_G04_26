@@ -1,14 +1,18 @@
-import { formatNorskTid } from '../../utils/datoUtils';
+import { formatMeldingTid } from '../../utils/datoUtils';
 import { toast } from 'react-toastify';
 import OppgaveRolleEndring from './oppgaver/OppgaveRolleEndring';
+import OppgaveHytteeierNyFellestur from './oppgaver/OppgaveHytteeierNyFellestur';
+import OppgaveHytteeierBooking from './oppgaver/OppgaveHytteeierBooking';
 import './VarselDetaljer.css';
 
 const oppgaveTyper = {
     rolle_foresporsel: OppgaveRolleEndring,
+    hytteeier_ny_fellestur: OppgaveHytteeierNyFellestur,
+    hytteeier_booking: OppgaveHytteeierBooking,
 };
 
 //Viser innhold og eventuelle handlinger for et varsel. Laget av Kay
-export default function VarselDetaljer({ varsel, loading, onBehandle }) {
+export default function VarselDetaljer({ varsel, loading, onBehandle, onSlett }) {
 
     if (!varsel) {
         return (
@@ -19,7 +23,6 @@ export default function VarselDetaljer({ varsel, loading, onBehandle }) {
     }
 
     const OppgaveType = oppgaveTyper[varsel.type_navn];
-    console.log(varsel)
 
     const handleBeslutning = async (beslutning, { melding } = {}) => {
         try {
@@ -35,7 +38,7 @@ export default function VarselDetaljer({ varsel, loading, onBehandle }) {
             <div className="varsel-detaljer-header">
                 <h3 className="varsel-detaljer-tittel">{varsel.tittel}</h3>
                 <span className="varsel-detaljer-tid">
-                    {formatNorskTid(new Date(varsel.opprettet_tidspunkt))}
+                    {formatMeldingTid(varsel.opprettet_tidspunkt)}
                 </span>
             </div>
             <p className="varsel-detaljer-innhold">{varsel.innhold}</p>
@@ -47,6 +50,14 @@ export default function VarselDetaljer({ varsel, loading, onBehandle }) {
                     onBeslutning={handleBeslutning}
                 />
             )}
+
+            <button
+                className="varsel-knapp varsel-knapp-slett"
+                onClick={() => onSlett(varsel.varsel_id)}
+                disabled={loading}
+            >
+                Slett varsel
+            </button>
         </div>
     );
 }
