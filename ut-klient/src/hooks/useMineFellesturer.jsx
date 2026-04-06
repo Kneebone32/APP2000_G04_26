@@ -17,7 +17,7 @@ export function useMineFellesturer({ token } = {}) {
         try {
             setLoading(true);
             setError(null);
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/paamelding/mine`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/pamelding/mine`, {
                 headers: authHeaders
             });
             if (!response.ok) throw new Error('Kunne ikke hente dine fellesturer');
@@ -32,7 +32,7 @@ export function useMineFellesturer({ token } = {}) {
 
     //Henter fellesturer som innlogget Turleder har opprettet 
     const hentMineFellesturerTurleder = useCallback(async () => {
-        if (!token) return;
+        if (!token || token) return;
         try {
             setLoading(true);
             setError(null);

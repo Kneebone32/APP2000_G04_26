@@ -27,7 +27,7 @@ export default function MineFellesturer() {
                                 <FellesturKort
                                     key={fellestur.pamelding_dato_id}
                                     fellesturId={fellestur.aktivitet_id}
-                                    fellesturNavn={fellestur.aktivitet_tittel}
+                                    fellesturNavn={fellestur.aktivitet_navn}
                                     bildeUrl={fellestur.bilder?.[0]?.aktivitet_url}
                                     startDato={fellestur.pamelding_start_dato}
                                     sluttDato={fellestur.pamelding_slutt_dato}
@@ -47,7 +47,7 @@ export default function MineFellesturer() {
                                 <FellesturKort
                                     key={fellestur.pamelding_dato_id}
                                     fellesturId={fellestur.aktivitet_id}
-                                    fellesturNavn={fellestur.aktivitet_tittel}
+                                    fellesturNavn={fellestur.aktivitet_navn}
                                     bildeUrl={fellestur.bilder?.[0]?.aktivitet_url}
                                     startDato={fellestur.pamelding_start_dato}
                                     sluttDato={fellestur.pamelding_slutt_dato}
