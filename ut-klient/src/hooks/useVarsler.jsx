@@ -123,7 +123,7 @@ export function useVarsler({token, pollIntervall = 10000, autoPoll = false} = {}
             const response = await fetch(`${import.meta.env.VITE_API_URL}/varsler/${varselId}/behandle`, {
                 method: 'POST',
                 headers: authHeaders,
-                body: JSON.stringify({beslutning})
+                body: JSON.stringify({ beslutning: beslutning === 'godtatt' })
             });
             if (!response.ok) throw new Error('Kunne ikke behandle oppgaven');
             setVarsler((forrige) =>

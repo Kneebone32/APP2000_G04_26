@@ -22,6 +22,32 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
+// Oppretter en rolle-forespørsel
+router.post('/rolle-foresporsel', auth, async (req, res) => {
+    try {
+        const bruker_id = req.user.bruker_id;
+        const { rolle_id } = req.body;
+
+        //Finn en admin som skal motta varselet (temp)
+        const adminResult = await pool.query(
+            `SELECT br.bruker_id FROM bruker_rolle br
+             JOIN rolle r USING (rolle_id)
+             WHERE r.rolle_navn = 'admin'
+             LIMIT 1`
+        );
+        if (adminResult.rows.length === 0) {
+            return res.status(404).json({ error: 'Ingen admin funnet' });
+        }
+        const mottaker_id = adminResult.rows[0].bruker_id;
+
+        await pool.query('SELECT bruker_rolle_foresporsel_opprett($1, $2, $3)', [bruker_id, rolle_id, mottaker_id]);
+        res.status(201).json({ message: 'Forespørsel sendt' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Kunne ikke sende forespørsel' });
+    }
+});
+
 // Henter ett varsel med handling_data
 router.get('/:id', auth, async (req, res) => {
   try {
@@ -134,5 +160,9 @@ router.post('/:id/behandle', auth, async (req, res) => {
     res.status(400).json({ error: melding });
   }
 });
+
+
+
+//slett varsel
 
 export default router;
