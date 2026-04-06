@@ -171,4 +171,20 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// Henter én aktivitet basert på ID
+router.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query(
+      `SELECT aktivitet FROM aktivitet_hent() WHERE (aktivitet->>'aktivitet_id')::int = $1`,
+      [id]
+    );
+    if (result.rows.length === 0) return res.status(404).json({ error: 'Aktivitet ikke funnet' });
+    res.json(result.rows[0].aktivitet);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke hente aktivitet' });
+  }
+});
+
 export default router;

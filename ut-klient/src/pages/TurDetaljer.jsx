@@ -59,7 +59,7 @@ export default function TurDetaljer() {
                 {tur.bilder.map((bilder, index) => (
                   <img
                     key={index}
-                    src={bilder}
+                    src={bilder.tur_url}
                     alt={`${tur.tur_navn} bilde ${index + 1}`}
                     className="tur-bilde"
                   />

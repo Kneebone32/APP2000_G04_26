@@ -2,8 +2,10 @@ import PageWrapper from "../../components/PageWrapper";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useFellestur } from "../../hooks/useFellesturer";
+import { usePåmelding } from "../../hooks/usePåmelding";
 import { useAutentisering } from "../../hooks/useAutentisering";
-
+import PåmeldingKnapper from "../../components/fellesturer/påmelding/PåmeldingKnapper";
+import { formatFellesturDato } from "../../utils/datoUtils";
 
 //Detaljvisning for en fellestur. Laget av Kay
 export default function FellesturerDetaljer() {
@@ -12,13 +14,19 @@ export default function FellesturerDetaljer() {
     const { t } = useTranslation();
     const { token, erAutentisert } = useAutentisering({ autoFetch: true });
     const { fellestur, loadingFellesturer: loading, errorFellesturer: error } = useFellestur({hentTurID: fellesturId});
-   
+    const { aktivitetDatoId, setAktivitetDatoId, minPåmelding, deltakerePerDato, loading: loadingPåmelding, meldPå, meldAv } = usePåmelding({token: erAutentisert ? token : null, aktivitetId: fellesturId});
+    const maksDeltakere = fellestur?.aktivitet_maks_deltakere ?? null;
+
+    const ledigePlasserForDato = (aktivitet_dato_id) => {
+        if (maksDeltakere == null) return null;
+        return maksDeltakere - (deltakerePerDato[aktivitet_dato_id]?.bindende ?? 0);
+    };
 
     return (
         <PageWrapper>
             <div className="fellestur-detaljer">
                 <button className="TilbakeKnapp" onClick={() => navigate("/fellesturer")}>
-                    {t("fellesturer.tilbake")}
+                    {t("fellesturer.tilbake_til_fellesturer")}
                 </button>
 
                 {loading && <p>{t("fellesturer.laster")}</p>}
@@ -71,7 +79,46 @@ export default function FellesturerDetaljer() {
                         )}
 
                         <hr />
+                        {/*Startdato + sluttdato + ledige plasser*/}
+                        {fellestur.datoer?.length > 0 && (
+                            <div>
+                                <strong>Velg en dato for påmelding:</strong>
+                                <ul className="dato-liste">
+                                    {fellestur.datoer.map((dato) => {
+                                        const ledige = ledigePlasserForDato(dato.aktivitet_dato_id);
+                                        return (
+                                            <li
+                                                key={dato.aktivitet_dato_id}
+                                                className={`dato-valg${aktivitetDatoId === dato.aktivitet_dato_id ? ' valgt' : ''}`}
+                                                onClick={() => setAktivitetDatoId(dato.aktivitet_dato_id)}
+                                            >
+                                                {formatFellesturDato(dato.aktivitet_start_dato)}
+                                                {dato.aktivitet_slutt_dato && ` – ${formatFellesturDato(dato.aktivitet_slutt_dato)}`}
+                                                {ledige !== null && (
+                                                    <>
+                                                    <span>&nbsp;</span>
+                                                    <strong className="dato-ledige-plasser">
+                                                        {ledige > 0 ? `(resterende plasser: ${ledige})` : ' · Fullt'}
+                                                    </strong>
+                                                    </>
+                                                )}
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </div>
+                        )}
 
+                        {/*Påmelding/meld interesse*/}
+                        <PåmeldingKnapper
+                            aktivitetDatoId={aktivitetDatoId}
+                            minPåmelding={minPåmelding}
+                            ledigePlasser={ledigePlasserForDato(aktivitetDatoId)}
+                            antallInteresserteDeltakere={deltakerePerDato[aktivitetDatoId]?.interessert ?? 0}
+                            loading={loadingPåmelding}
+                            meldPå={meldPå}
+                            meldAv={meldAv} 
+                        />
                     </div>
                 )}
 
