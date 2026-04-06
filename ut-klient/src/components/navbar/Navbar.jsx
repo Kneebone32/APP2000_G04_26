@@ -19,7 +19,7 @@ import './Navbar.css'
 export default function Navbar() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const {bruker, erAutentisert, loggut, logginn, registrer, loading, error, token} = useAutentisering({autoFetch: true})
+  const {bruker, erAutentisert, loggut, logginn, registrer, loading, error, token, mineRoller} = useAutentisering({autoFetch: true})
   const { varsler } = useVarsler({token, autoPoll: erAutentisert});
   const { samtaler } = useMeldinger({token, autoPoll: erAutentisert});
   const [visLogginn, setVisLogginn] = useState(false);
@@ -143,7 +143,7 @@ export default function Navbar() {
                   <Link to="/minefellesturer" onClick={handleProfilKlikk} className="dropdown-valg">
                     Mine Fellesturer
                   </Link>
-                  <NavbarRoller brukerRolle={bruker?.bruker_rolle} onClick={handleProfilKlikk} />
+                  <NavbarRoller mineRoller={mineRoller} onClick={handleProfilKlikk} />
                   <button onClick={handleLoggUt} className="dropdown-valg">
                     Logg ut
                   </button>

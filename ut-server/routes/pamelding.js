@@ -120,6 +120,23 @@ router.get('/:id/deltakere', async (req, res) => {
   }
 });
 
+// Registrer bildesamtykke for en påmelding
+router.post('/:id/bildesamtykke', auth, async (req, res) => {
+  try {
+    const bruker_id = req.user.bruker_id;
+    const aktivitet_id = req.params.id;
+    const {samtykke} = req.body;
+
+    //TODO: DB-funksjon når den er klar
+
+    res.json({ message: 'Bildesamtykke registrert' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke registrere bildesamtykke' });
+  }
+});
+
+
 // Meld av (sett status til avmeldt)
 router.delete('/:id', auth, async (req, res) => {
   try {

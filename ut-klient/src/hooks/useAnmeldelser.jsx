@@ -31,7 +31,7 @@ export function useAnmeldelser({ token, hytteId, turId } = {}) {
   }, []);
 
   //Legger til en ny anmeldelse for en hytte
-  const leggTilHytteAnmeldelse = useCallback(async (hytteId, {rating, anmeldelse}, brukerNavn) => {
+  const leggTilHytteAnmeldelse = useCallback(async (hytteId, {rating, anmeldelse}, brukerNavn, brukerId) => {
     if (!token) return;
     try {
       setError(null);
@@ -41,8 +41,14 @@ export function useAnmeldelser({ token, hytteId, turId } = {}) {
         body: JSON.stringify({rating, anmeldelse})
       });
       if (!response.ok) throw new Error(`Kunne ikke legge til anmeldelse: ${response.status}`);
-      const ny = await response.json();
-      setHytteAnmeldelser(prev => [{ ...ny, bruker_navn: brukerNavn }, ...prev]);
+      const ny = {
+        bruker_id: brukerId,
+        bruker_navn: brukerNavn,
+        hytte_rating: rating,
+        hytte_anmeldelse: anmeldelse,
+        hytte_opprettet_tidspunkt: new Date().toISOString()
+      };
+      setHytteAnmeldelser(prev => [ny, ...prev]);
     } catch (err) {
       setError(err.message);
     }
@@ -98,7 +104,7 @@ export function useAnmeldelser({ token, hytteId, turId } = {}) {
   }, []);
 
   //Legger til en ny anmeldelse for en tur
-  const leggTilTurAnmeldelse = useCallback(async (turId, {rating, anmeldelse}, brukerNavn) => {
+  const leggTilTurAnmeldelse = useCallback(async (turId, {rating, anmeldelse}, brukerNavn, brukerId) => {
     if (!token) return;
     try {
       setError(null);
@@ -108,8 +114,14 @@ export function useAnmeldelser({ token, hytteId, turId } = {}) {
         body: JSON.stringify({rating, anmeldelse})
       });
       if (!response.ok) throw new Error(`Kunne ikke legge til turanmeldelse: ${response.status}`);
-      const ny = await response.json();
-      setTurAnmeldelser(prev => [{ ...ny, bruker_navn: brukerNavn }, ...prev]);
+      const ny = {
+        bruker_id: brukerId,
+        bruker_navn: brukerNavn,
+        rating,
+        anmeldelse,
+        opprettet_tidspunkt: new Date().toISOString()
+      };
+      setTurAnmeldelser(prev => [ny, ...prev]);
     } catch (err) {
       setError(err.message);
     }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useAutentisering } from '../hooks/useAutentisering';
 import { useMeldinger } from '../hooks/useMeldinger';
 import SamtaleListe from '../components/meldinger/SamtaleListe';
@@ -10,13 +11,14 @@ import './Meldinger.css';
 //Meldingsside. Viser meldinger og lar bruken chatte. Laget av Kay
 export default function Meldinger() {
     const { bruker, token, erAutentisert } = useAutentisering({ autoFetch: true });
+    const location = useLocation();
     const {
         meldinger, samtaler, loading, error,
         hentSamtaler, hentMeldinger, sendMelding,
         startPoll, stopPoll
     } = useMeldinger({ token });
 
-    const [valgtSamtale, setValgtSamtale] = useState(null);
+    const [valgtSamtale, setValgtSamtale] = useState(location.state?.samtale ?? null);
 
 
     //Henter samtalelisten når siden lastes

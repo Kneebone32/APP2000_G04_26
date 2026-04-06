@@ -45,6 +45,7 @@ router.post('/tur/:id', auth, async (req, res) => {
 
 // Oppdater anmeldelse for tur
 router.put('/tur/:id', auth, async (req, res) => {
+  
   try {
     const bruker_id = req.user.bruker_id;
     const tur_id = req.params.id;
@@ -114,7 +115,7 @@ router.post('/hytte/:id', auth, async (req, res) => {
 
     await pool.query(
       'SELECT anmeldelse_hytte_opprett($1, $2, $3, $4)',
-      [bruker_id, hytte_id, hytte_rating, hytte_anmeldelse]
+      [bruker_id, hytte_id, rating, anmeldelse]
     );
 
     res.status(201).json({ message: 'Anmeldelse opprettet' });

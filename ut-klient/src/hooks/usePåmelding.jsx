@@ -136,6 +136,16 @@ export function usePåmelding({token, aktivitetId = null} = {}) {
         }
     }, []);
 
+    //Registrerer om bruker samtykker til bildedeling i gruppechatten
+    const registrerBildesamtykke = useCallback(async (datoId, samtykker) => {
+        if (!token) return;
+        await fetch(`${import.meta.env.VITE_API_URL}/pamelding/${datoId}/bildesamtykke`, {
+            method: 'POST',
+            headers: authHeaders,
+            body: JSON.stringify({ samtykker })
+        });
+    }, [authHeaders, token]);
+
     //Melder av. setDeltakerePerDato er laget av AI
     const meldAv = useCallback(async (id) => {
         if (!token) return;
@@ -188,6 +198,7 @@ export function usePåmelding({token, aktivitetId = null} = {}) {
         hentMineFellesturer,
         hentDeltakereForDato,
         meldPå,
-        meldAv
+        meldAv,
+        registrerBildesamtykke
     };
 }

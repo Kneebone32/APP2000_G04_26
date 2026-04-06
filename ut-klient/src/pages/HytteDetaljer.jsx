@@ -115,7 +115,7 @@ export default function HytteDetaljer() {
 
               {kanSkriveAnmeldelse && (
                 <div className="hytte-anmeldelse-side">
-                  <AnmeldelseSkjema onSend={(data) => leggTilHytteAnmeldelse(hytteId, data, bruker?.bruker_navn)} loading={loading} />
+                  <AnmeldelseSkjema onSend={(data) => leggTilHytteAnmeldelse(hytteId, data, bruker?.bruker_navn, bruker?.bruker_id)} loading={loading} />
                 </div>
               )}
             </div>

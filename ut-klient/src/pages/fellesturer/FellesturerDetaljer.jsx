@@ -1,27 +1,40 @@
+import { useState } from "react";
 import PageWrapper from "../../components/PageWrapper";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useFellestur } from "../../hooks/useFellesturer";
 import { usePåmelding } from "../../hooks/usePåmelding";
+import { useMeldinger } from "../../hooks/useMeldinger";
 import { useAutentisering } from "../../hooks/useAutentisering";
 import PåmeldingKnapper from "../../components/fellesturer/påmelding/PåmeldingKnapper";
 import { formatFellesturDato } from "../../utils/datoUtils";
+import { VærvarslingUke } from "../../components/Værvarsling";
 
 //Detaljvisning for en fellestur. Laget av Kay
 export default function FellesturerDetaljer() {
     const { fellesturId } = useParams();
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const { token, erAutentisert } = useAutentisering({ autoFetch: true });
+    const { token, bruker, erAutentisert } = useAutentisering({ autoFetch: true });
     const { fellestur, loadingFellesturer: loading, errorFellesturer: error } = useFellestur({hentTurID: fellesturId});
-    const { aktivitetDatoId, setAktivitetDatoId, minPåmelding, deltakerePerDato, loading: loadingPåmelding, meldPå, meldAv } = usePåmelding({token: erAutentisert ? token : null, aktivitetId: fellesturId});
+    const { aktivitetDatoId, setAktivitetDatoId, minPåmelding, deltakerePerDato, loading: loadingPåmelding, meldPå, meldAv, registrerBildesamtykke } = usePåmelding({token: erAutentisert ? token : null, aktivitetId: fellesturId});
+    const { hentEllerOpprettDirekte } = useMeldinger({ token: erAutentisert ? token : null });
     const maksDeltakere = fellestur?.aktivitet_maks_deltakere ?? null;
+    const [visVærmelding, setVisVærmelding] = useState(false);
+    console.log(fellestur)
 
     const ledigePlasserForDato = (aktivitet_dato_id) => {
         if (maksDeltakere == null) return null;
         return maksDeltakere - (deltakerePerDato[aktivitet_dato_id]?.bindende ?? 0);
     };
 
+ 
+    const handleKontaktTurleder = async () => {
+        if (!erAutentisert || !fellestur?.oppretter?.bruker_id) return;
+        const samtale = await hentEllerOpprettDirekte(fellestur.oppretter?.bruker_id);
+        if (samtale) navigate('/meldinger', { state: { samtale } });
+    };
+    
     return (
         <PageWrapper>
             <div className="fellestur-detaljer">
@@ -78,6 +91,14 @@ export default function FellesturerDetaljer() {
                             <p><strong>Varighet :</strong> {fellestur.varighet}</p>
                         )}
 
+                        
+
+                        {erAutentisert && fellestur.oppretter?.bruker_id && fellestur.oppretter?.bruker_id !== bruker?.bruker_id && (
+                            <button className="kontakt-turleder-btn" onClick={handleKontaktTurleder}>
+                                Kontakt turleder
+                            </button>
+                        )}
+
                         <hr />
                         {/*Startdato + sluttdato + ledige plasser*/}
                         {fellestur.datoer?.length > 0 && (
@@ -110,6 +131,8 @@ export default function FellesturerDetaljer() {
                         )}
 
                         {/*Påmelding/meld interesse*/}
+
+
                         <PåmeldingKnapper
                             aktivitetDatoId={aktivitetDatoId}
                             minPåmelding={minPåmelding}
@@ -117,8 +140,26 @@ export default function FellesturerDetaljer() {
                             antallInteresserteDeltakere={deltakerePerDato[aktivitetDatoId]?.interessert ?? 0}
                             loading={loadingPåmelding}
                             meldPå={meldPå}
-                            meldAv={meldAv} 
+                            meldAv={meldAv}
+                            registrerBildesamtykke={registrerBildesamtykke}
                         />
+                        {fellestur.stier?.[0]?.sti_punkter?.[0] && (
+                            <>
+                                <hr />
+                                <button
+                                    className="værmelding-toggle"
+                                    onClick={() => setVisVærmelding(v => !v)}
+                                >
+                                    Værmelding {visVærmelding ? '▲' : '▼'}
+                                </button>
+                                {visVærmelding && (
+                                    <VærvarslingUke
+                                        latitude={fellestur.stier[0].sti_punkter[0].breddegrad}
+                                        longitude={fellestur.stier[0].sti_punkter[0].lengdegrad}
+                                    />
+                                )}
+                            </>
+                        )}
                     </div>
                 )}
 

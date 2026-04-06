@@ -8,7 +8,7 @@ export default function MeldingsBoks({ meldinger, loading, error, brukerId, onSe
     const [innhold, setInnhold] = useState('');
     const bunnRef = useRef(null);
 
-    //scroller automatisk til bunn når nye meldinger kommer inn. Utestet!
+    //scroller automatisk til bunn når nye meldinger kommer inn
     useEffect(() => {
         bunnRef.current?.scrollIntoView({behavior: 'smooth'});
     }, [meldinger]);
@@ -63,7 +63,7 @@ export default function MeldingsBoks({ meldinger, loading, error, brukerId, onSe
                     value={innhold}
                     onChange={(e) => setInnhold(e.target.value)}
                     placeholder="Skriv en melding"
-                    disabled={loading}
+                    
                 />
                 <button type="submit" disabled={!innhold.trim()}>
                     Send

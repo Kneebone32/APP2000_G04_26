@@ -1,24 +1,24 @@
 import { Link } from "react-router-dom";
 import { BRUKER_ROLLE } from "../../constants/konstanter";
 
+const ROLLE_LENKER = {
+    [BRUKER_ROLLE.ADMIN]:         { link_til: "/admin",                label: "Admin" },
+    [BRUKER_ROLLE.ANNONSØR]:      { link_til: "/annonser",             label: "Mine annonser" },
+    [BRUKER_ROLLE.TURLEDER]:      { link_til: "/turleder/fellesturer", label: "Rediger fellestur" },
+    [BRUKER_ROLLE.HYTTEEIER]:     { link_til: "/hytteeier/hytter",     label: "Rediger hytter" },
+};
+
 //rollespesifikke lenker i navbar-dropdown. Laget av Kay
-export default function NavbarRoller({ brukerRolle, onClick }) {
-    //if (brukerRolle === 'admin') {
-    if (!brukerRolle) {
-        return (
-            <Link to="/admin" onClick={onClick} className="dropdown-valg">
-                Admin
-            </Link>
-        );
-    }
+export default function NavbarRoller({mineRoller = [], onClick}) {
+    const lenker = mineRoller
+        .map((rolle) => ROLLE_LENKER[rolle.rolle_navn])
+        .filter(Boolean);
 
-    if (brukerRolle === BRUKER_ROLLE.ANNONSØR) {
-        return (
-            <Link to="/annonser" onClick={onClick} className="dropdown-valg">
-                Mine annonser
-            </Link>
-        );
-    }
+    if (lenker.length === 0) return null;
 
-    return null;
+    return lenker.map(({link_til, label}) => (
+        <Link key={link_til} to={link_til} onClick={onClick} className="dropdown-valg">
+            {label}
+        </Link>
+    ));
 }

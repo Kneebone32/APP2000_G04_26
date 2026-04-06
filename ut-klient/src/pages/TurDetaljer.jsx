@@ -100,7 +100,7 @@ export default function TurDetaljer() {
         
         {/*Fjerner AnmeldelseSkjema hvis bruker ikke er innlogget eller allerede har lagt til en anmeldelse*/}
         {erAutentisert && !turAnmeldelser.some(a => a.bruker_id === bruker?.bruker_id) && (
-          <AnmeldelseSkjema onSend={(data) => leggTilTurAnmeldelse(turId, data, bruker?.bruker_navn)} loading={loading} />
+          <AnmeldelseSkjema onSend={(data) => leggTilTurAnmeldelse(turId, data, bruker?.bruker_navn, bruker?.bruker_id)} loading={loading} />
         )}
 
         <AnmeldelseListe
