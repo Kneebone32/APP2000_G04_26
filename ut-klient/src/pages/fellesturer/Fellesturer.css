@@ -1,6 +1,25 @@
 /*
 Laget av Eivind
 */
+
+.fellesturer-søk {
+    margin-bottom: 1.5rem;
+}
+
+.fellesturer-søk input {
+    width: 100%;
+    max-width: 400px;
+    padding: 8px 14px;
+    border: 1px solid var(--border-color, #ccc);
+    border-radius: 20px;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.fellesturer-søk input:focus {
+    border-color: var(--accent-color, #2e7d32);
+}
+
 .FellesturKortContainer {
     display: flex;
     flex-wrap: wrap;

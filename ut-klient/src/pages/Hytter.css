@@ -1,6 +1,24 @@
 /*
 Laget av Eivind
 */
+.hytter-søk {
+    margin-bottom: 1.5rem;
+}
+
+.hytter-søk input {
+    width: 100%;
+    max-width: 400px;
+    padding: 8px 14px;
+    border: 1px solid var(--border-color, #ccc);
+    border-radius: 20px;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.hytter-søk input:focus {
+    border-color: var(--accent-color, #2e7d32);
+}
+
 .HyttekortContainer {
     display: flex;
     flex-wrap: wrap;

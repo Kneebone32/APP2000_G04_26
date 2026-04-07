@@ -13,8 +13,12 @@ export function filterHytter(hytter, filter) {
 
     //Søk filter
     if (filter.søkeordHytter) {
-      const søkeordLower = filter.søkeordHytter.toLowerCase();
-      if (!hytte.navn?.toLowerCase().includes(søkeordLower)) {
+
+      const søk = filter.søkeordHytter.toLowerCase().trim();
+      if (!hytte.navn?.toLowerCase().includes(søk) && 
+          !hytte.fylke_navn?.toLowerCase().includes(søk) &&
+          !hytte.kommune_navn?.toLowerCase().includes(søk)) {
+            
         return false;
       }
     }
@@ -59,8 +63,10 @@ export function filterTurer(turer, filter) {
 
     //Søk filter
     if (filter.søkeordTurer) {
-      const søk = filter.søkeordTurer.toLowerCase();
-      if (!tur.tur_navn?.toLowerCase().includes(søk)) {
+      const søk = filter.søkeordTurer.toLowerCase().trim();
+      if (!tur.tur_navn?.toLowerCase().includes(søk) &&         
+          !tur.stier?.[0]?.fylke_navn?.toLowerCase().includes(søk) &&
+          !tur.stier?.[0]?.kommune_navn?.toLowerCase().includes(søk)) {
         return false;
       }
     }
@@ -100,10 +106,16 @@ export const isoUke = (dato) => {
 //Filterfunksjon til Fellesturer
 export function filterFellesturer(fellesturer, filter) {
   return fellesturer.filter((fellestur) => {
+    
     //Søk filter
     if (filter.søkeordFellesturer) {
-      const søk = filter.søkeordFellesturer.toLowerCase();
-      if (!fellestur.aktivitet_tittel?.toLowerCase().includes(søk)) {
+      const søk = filter.søkeordFellesturer.toLowerCase().trim();
+
+      if (!fellestur.aktivitet_tittel?.toLowerCase().includes(søk) && 
+          !fellestur.stier?.[0]?.fylke_navn?.toLowerCase().includes(søk) &&
+          !fellestur.stier?.[0]?.kommune_navn?.toLowerCase().includes(søk)
+        ) {
+
         return false;
       }
     }

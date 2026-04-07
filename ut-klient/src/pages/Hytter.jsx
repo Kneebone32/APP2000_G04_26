@@ -1,3 +1,4 @@
+import { useState } from "react";
 import PageWrapper from "../components/PageWrapper";
 import HytteKort from "../components/hytter/HytteKort";
 import AnnonseKort from "../components/annonse/AnnonseKort";
@@ -15,26 +16,47 @@ export default function Hytter() {
   const { token } = useAutentisering();
   const { erHytteFavoritt, toggleHytteFavoritt } = useFavoritter({token});
   const { t } = useTranslation();
+  const [søk, setSøk] = useState('');
 
   // Filtrerer ut godkjente annonser med søkeordet "hytte".
   const hytteAnnonser = annonser.filter(a =>
     a.status === "godkjent" && a.søkeord?.includes("hytte")
   );
 
+  const filtrert = hytter.filter((hytte) => {
+    if (!søk.trim()) return true;
+    const søkeord = søk.toLowerCase().trim();
+    return (
+      hytte.navn?.toLowerCase().includes(søkeord) ||
+      hytte.fylke_navn?.toLowerCase().includes(søkeord) ||
+      hytte.kommune_navn?.toLowerCase().includes(søkeord)
+    );
+  });
+
   return (
     <PageWrapper title={t("hytter.tittel")}>
       <div className="mt-3">
+
+        <div className="hytter-søk">
+          <input
+            type="text"
+            placeholder="Søk"
+            value={søk}
+            onChange={(e) => setSøk(e.target.value)}
+          />
+        </div>
+
         {loadingHytter && <p>{t("hytter.laster")}</p>}
 
         {errorHytter && console.log(`Error: ${errorHytter}`)}
 
-        {!loadingHytter && !errorHytter && hytter.length === 0 && (
+        {!loadingHytter && !errorHytter && filtrert.length === 0 && (
           <p>{t("hytter.ingen_hytter")}</p>
         )}
 
-        {!loadingHytter && !errorHytter && hytter.length > 0 && (
+        {!loadingHytter && !errorHytter && filtrert.length > 0 && (
           <div className="HyttekortContainer">
-            {hytter.map((hytte) => (
+            {filtrert.map((hytte) => (
               <HytteKort
                 key={hytte.id}
                 hytteId={hytte.id}
