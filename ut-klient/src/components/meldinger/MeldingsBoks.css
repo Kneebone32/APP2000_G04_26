@@ -15,6 +15,19 @@
     padding: 12px 16px;
     border-bottom: 1px solid var(--border-color, #ddd);
     background-color: var(--bg-secondary, #f5f5f5);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.forlat-gruppe-btn {
+    background: transparent;
+    border: 1px solid #c62828;
+    color: #c62828;
+    border-radius: 6px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.85rem;
+    cursor: pointer;
 }
 
 .meldingsboks-header h3 {
@@ -124,4 +137,78 @@
 
 .meldingsboks-input button:hover:not(:disabled) {
     opacity: 0.85;
+}
+
+.bilde-btn {
+    background: transparent;
+    border: 1px solid var(--border-color, #ccc);
+    border-radius: 20px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.melding-opplasting {
+    padding: 8px 12px;
+    border-top: 1px solid var(--border-color, #ddd);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.melding-url-input {
+    display: flex;
+    gap: 6px;
+}
+
+.melding-url-input input {
+    flex: 1;
+    padding: 6px 10px;
+    border: 1px solid var(--border-color, #ccc);
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.melding-url-input button {
+    padding: 6px 12px;
+    background-color: var(--accent-color, #2e7d32);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.melding-bilde-preview {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background-color: var(--bg-secondary, #f5f5f5);
+    border-top: 1px solid var(--border-color, #ddd);
+}
+
+.melding-bilde-preview img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.melding-bilde-preview button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #888;
+    padding: 0;
+}
+
+.melding-bilde {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 8px;
+    margin-top: 4px;
+    object-fit: contain;
 }

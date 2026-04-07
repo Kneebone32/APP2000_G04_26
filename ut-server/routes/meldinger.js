@@ -73,12 +73,12 @@ router.post('/samtale', auth, async (req, res) => {
 router.post('/melding', auth, async (req, res) => {
   try {
     const brukerId = req.user.bruker_id;
-    const { samtale_id, melding_tekst } = req.body;
+    const { samtale_id, melding_tekst, bilde_url } = req.body;
     const result = await pool.query(
-      `INSERT INTO melding (fra_bruker, samtale_id, melding_tekst)
-       VALUES ($1, $2, $3)
+      `INSERT INTO melding (fra_bruker, samtale_id, melding_tekst, bilde_url)
+       VALUES ($1, $2, $3, $4)
        RETURNING melding_id`,
-      [brukerId, samtale_id, melding_tekst]
+      [brukerId, samtale_id, melding_tekst, bilde_url ?? null]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
@@ -88,6 +88,7 @@ router.post('/melding', auth, async (req, res) => {
 });
 
 
-//merk en melding som lest
+//TODO: forlat en gruppesamtale
+//TODO: merk en melding som lest
 
 export default router;

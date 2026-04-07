@@ -15,10 +15,12 @@ export default function Meldinger() {
     const {
         meldinger, samtaler, loading, error,
         hentSamtaler, hentMeldinger, sendMelding,
-        startPoll, stopPoll
+        startPoll, stopPoll, forlatSamtale
     } = useMeldinger({ token });
 
     const [valgtSamtale, setValgtSamtale] = useState(location.state?.samtale ?? null);
+    
+    
 
 
     //Henter samtalelisten når siden lastes
@@ -38,9 +40,16 @@ export default function Meldinger() {
         setValgtSamtale(samtale);
     };
 
-    const handleSend = async (meldingTekst) => {
+    const handleForlatSamtale = async () => {
         if (!valgtSamtale) return;
-        await sendMelding(valgtSamtale.samtale_id, meldingTekst);
+        await forlatSamtale(valgtSamtale.samtale_id);
+        stopPoll();
+        setValgtSamtale(null);
+    };
+
+    const handleSend = async (meldingTekst, bildeUrl = null) => {
+        if (!valgtSamtale) return;
+        await sendMelding(valgtSamtale.samtale_id, meldingTekst, bildeUrl);
         await hentMeldinger(valgtSamtale.samtale_id);
     };
 
@@ -63,6 +72,8 @@ export default function Meldinger() {
                             error={error}
                             brukerId={bruker?.bruker_id}
                             onSend={handleSend}
+                            antallMedlemmer={valgtSamtale.antall_medlemmer}
+                            onForlatSamtale={handleForlatSamtale}
                         />
                     ) : (
                         <div className="meldinger-ingen-valgt">

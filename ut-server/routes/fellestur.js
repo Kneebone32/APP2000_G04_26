@@ -187,4 +187,8 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+
+//Lås fellestur
+//Lås dato på fellestur
+
 export default router;

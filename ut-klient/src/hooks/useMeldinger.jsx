@@ -85,15 +85,32 @@ export function useMeldinger({token, pollIntervall = 5000, autoPoll = false} = {
     }
   }, [authHeaders, token]);
 
+  //Forlater en gruppesamtale
+  const forlatSamtale = useCallback(async (samtaleId) => {
+    if (!token) return;
+    try {
+      setError(null);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/meldinger/samtale/${samtaleId}/forlat`, {
+        method: 'DELETE',
+        headers: authHeaders
+      });
+      if (!response.ok) throw new Error('Kunne ikke forlate samtalen');
+      setSamtaler(prev => prev.filter(s => s.samtale_id !== samtaleId));
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    }
+  }, [authHeaders, token]);
+
   //Sender en melding i en samtale
-  const sendMelding = useCallback(async (samtaleId, meldingTekst) => {
+  const sendMelding = useCallback(async (samtaleId, meldingTekst, bildeUrl = null) => {
     if (!token) return;
     try {
       setError(null);
       const response = await fetch(`${import.meta.env.VITE_API_URL}/meldinger/melding`, {
         method: 'POST',
         headers: authHeaders,
-        body: JSON.stringify({ samtale_id: samtaleId, melding_tekst: meldingTekst })
+        body: JSON.stringify({ samtale_id: samtaleId, melding_tekst: meldingTekst, bilde_url: bildeUrl })
       });
       if (!response.ok) throw new Error("Kunne ikke sende melding");
       return await response.json();
@@ -134,6 +151,7 @@ export function useMeldinger({token, pollIntervall = 5000, autoPoll = false} = {
     hentEllerOpprettDirekte,
     opprettSamtale,
     sendMelding,
+    forlatSamtale,
     startPoll,
     stopPoll
   };
