@@ -81,6 +81,7 @@ export default function App() {
             <Route path="/test" element={<Test />} />
             <Route path="/test2" element={<Test2 />} />
             <Route path="/navigasjon/:turId" element={<Navigasjon />} />
+            <Route path="/navigasjon/fellestur/:fellesturId" element={<Navigasjon />} />
             <Route path="*" element={<Feilside />} />
           </Routes>
         </main>

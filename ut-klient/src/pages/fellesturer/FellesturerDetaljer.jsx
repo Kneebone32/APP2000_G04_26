@@ -1,8 +1,9 @@
 import { useState } from "react";
 import PageWrapper from "../../components/PageWrapper";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useFellestur } from "../../hooks/useFellesturer";
+import "./FellesturerDetaljer.css";
 import { usePåmelding } from "../../hooks/usePåmelding";
 import { useMeldinger } from "../../hooks/useMeldinger";
 import { useAutentisering } from "../../hooks/useAutentisering";
@@ -41,6 +42,10 @@ export default function FellesturerDetaljer() {
                 <button className="TilbakeKnapp" onClick={() => navigate("/fellesturer")}>
                     {t("fellesturer.tilbake_til_fellesturer")}
                 </button>
+
+                <Link to={`/navigasjon/fellestur/${fellesturId}`} className="navigasjon-knapp">
+                    Naviger turen
+                </Link>
 
                 {loading && <p>{t("fellesturer.laster")}</p>}
 

@@ -1,11 +1,9 @@
 import PageWrapper from "../components/PageWrapper";
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useFetchTurer } from "../hooks/useFetchTurer";
 import { useAutentisering } from "../hooks/useAutentisering";
 import { useAnmeldelser } from "../hooks/useAnmeldelser";
-import { hentKommuneData } from "../utils/geoUtils";
 import { toast } from "react-toastify";
 import AnmeldelseListe from "../components/anmeldelser/AnmeldelseListe";
 import AnmeldelseSkjema from "../components/anmeldelser/AnmeldelseSkjema";
@@ -18,21 +16,8 @@ export default function TurDetaljer() {
   const { turAnmeldelser, turGjennomsnittsrating, leggTilTurAnmeldelse, slettTurAnmeldelse } = useAnmeldelser({token, turId});
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { turDetaljer: tur, loadingTurer: loading, errorTurer: error, turPunkter } = useFetchTurer({ hentTurID: turId, hentTurRuteID: turId });
-  const [kommunenavn, setKommunenavn] = useState("");
-  const [fylkesnavn, setFylkesnavn] = useState("");
+  const { turDetaljer: tur, loadingTurer: loading, errorTurer: error} = useFetchTurer({ hentTurID: turId, hentTurRuteID: turId });
 
-  useEffect(() => {
-    if (!turPunkter || turPunkter.length < 1) return;
-    hentKommuneData(turPunkter[0][0], turPunkter[0][1])
-      .then(data => {
-        if (data) {
-          setKommunenavn(data.kommunenavn || "");
-          setFylkesnavn(data.fylkesnavn || "");
-        }
-      })
-      .catch(() => {});
-  }, [turPunkter]);
 
   return (
     <PageWrapper>
@@ -43,6 +28,10 @@ export default function TurDetaljer() {
         >
           {t("turer.tilbake_til_turer")}
         </button>
+
+        <Link to={`/navigasjon/${turId}`} className="navigasjon-knapp">
+          Naviger turen
+        </Link>
 
         {loading && <p>{t("turer.laster_detaljer")}</p>}
 
@@ -67,16 +56,12 @@ export default function TurDetaljer() {
               </div>
             )}
 
-            {tur.tur_omrade && (
-              <p><strong>{t("felles.lokasjon")}:</strong> {tur.tur_omrade}</p>
+            {tur.stier[0]?.kommune_navn && (
+              <p><strong>{t("felles.kommune")}:</strong> {tur.stier[0]?.kommune_navn}</p>
             )}
 
-            {kommunenavn && (
-              <p><strong>{t("felles.kommune")}:</strong> {kommunenavn}</p>
-            )}
-
-            {fylkesnavn && (
-              <p><strong>{t("felles.fylke")}:</strong> {fylkesnavn}</p>
+            {tur.stier[0]?.fylke_navn && (
+              <p><strong>{t("felles.fylke")}:</strong> {tur.stier[0]?.fylke_navn}</p>
             )}
 
             {tur.vanskelighetsgrad && (
@@ -91,8 +76,8 @@ export default function TurDetaljer() {
               <p><strong>{t("tur.varighet")}:</strong> {t(`enums.varighet.${tur.varighet}`)}</p>
             )}
 
-            {tur.beskrivelse && (
-              <p><strong>{t("tur.beskrivelse")}:</strong> {tur.beskrivelse}</p>
+            {tur.tur_beskrivelse && (
+              <p><strong>{t("tur.beskrivelse")}:</strong> {tur.tur_beskrivelse}</p>
             )}
 
           </div>

@@ -2,7 +2,7 @@ import { useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { Marker, Popup, useMapEvents } from "react-leaflet";
 import { useTranslation } from "react-i18next";
-import Kart_basic, {hytteIcon, turIcon, turmålIcon} from "../components/kart/KartBasic";
+import Kart_basic, {hytteIcon, turIcon, turmålIcon, fellesTurIconFleksibel, fellesTurIconFull} from "../components/kart/KartBasic";
 import KartFilter from "../components/kart/KartFilter";
 import { useFetchHytter } from "../hooks/useFetchHytter";
 import { useTurmål }  from "../hooks/useTurmål";
@@ -80,7 +80,7 @@ export default function Kart() {
                 {midtpunkt(fellestur.stier?.[0]?.sti_punkter) && (
                   <Marker
                     position={midtpunkt(fellestur.stier[0].sti_punkter)}
-                    icon={turIcon}
+                    icon={fellestur.datoer?.length > 1 ? fellesTurIconFleksibel : turIcon}
                     eventHandlers={{click: () => toggleValgt(key)}}
                   >
                     <Popup>

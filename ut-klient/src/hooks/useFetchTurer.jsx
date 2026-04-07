@@ -104,6 +104,7 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
       }
 
       const data = await response.json();
+      console.log(data)
       setTurDetaljer(data);
       return data;
     } catch (err) {

@@ -9,6 +9,8 @@ import markerNumber4 from "../../assets/kart/marker4.png";
 import markerNumber5 from "../../assets/kart/marker5.png";
 import markerNumber6 from "../../assets/kart/marker6.png";
 import turStartMarker from "../../assets/kart/tur.png";
+import tur_full from "../../assets/kart/tur_full.png";
+import tur_flex from "../../assets/kart/tur_flex.png";
 import cameraIcon from "../../assets/kart/camera.png";
 import FlyTilPosisjon from "../navigasjon/NavigasjonFinnPosisjon";
 import "leaflet/dist/leaflet.css";
@@ -17,7 +19,7 @@ import "./KartBasic.css";
 //kartikon for hytter
 export const hytteIcon = new Icon({
     iconUrl: hytteMarker,
-    iconSize: [36, 36],
+    iconSize: [38, 38],
     iconAnchor: [12, 12],
     className: 'no-scale-marker'
 });
@@ -25,28 +27,34 @@ export const hytteIcon = new Icon({
 //kartikon for turstart
 export const turIcon = new Icon({
     iconUrl: turStartMarker, 
-    iconSize: [36, 36],
+    iconSize: [38, 38],
     className: 'no-scale-marker'
 });
 
 //kartikon for turmål
 export const turmålIcon = new Icon({
     iconUrl: cameraIcon, 
-    iconSize: [36, 36],
+    iconSize: [38, 38],
     iconAnchor: [21, 21],
     className: 'no-scale-marker'
 });
 
 //kartikon for fellestur fast startdato
 export const fellesTurIcon = new Icon({
-    iconUrl: null, 
+    iconUrl: turStartMarker, 
     iconSize: [42, 42],
     className: 'no-scale-marker'
 });
 
 //kartikon for fellestur med fleksibel startdato
 export const fellesTurIconFleksibel = new Icon({
-    iconUrl: null, 
+    iconUrl: tur_flex, 
+    iconSize: [42, 42],
+    className: 'no-scale-marker'
+});
+
+export const fellesTurIconFull = new Icon({
+    iconUrl: tur_full, 
     iconSize: [42, 42],
     className: 'no-scale-marker'
 });
