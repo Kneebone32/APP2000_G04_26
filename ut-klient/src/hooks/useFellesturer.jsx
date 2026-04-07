@@ -96,6 +96,45 @@ export function useFellestur({autoFetch = false, hentTurID = null, token = null}
   }, [authHeaders]);
 
 
+  //Låser en fellestur
+  const låsFellestur = useCallback(async (id) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/fellestur/${id}/las/fellestur`, {
+        method: 'POST',
+        headers: authHeaders,
+      });
+      if (!response.ok) throw new Error('Kunne ikke låse fellesturen');
+      return await response.json();
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, [authHeaders]);
+
+  //Låser en dato for en fellestur
+  const låsDato = useCallback(async (fellesturId, aktivitetDatoId) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/fellestur/${fellesturId}/las/dato`, {
+        method: 'POST',
+        headers: authHeaders,
+        body: JSON.stringify({ aktivitet_dato_id: aktivitetDatoId }),
+      });
+      if (!response.ok) throw new Error('Kunne ikke låse datoen');
+      return await response.json();
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, [authHeaders]);
+
   //Sletter en fellestur
   const slettFellestur = useCallback(async (id) => {
     try{
@@ -130,6 +169,8 @@ export function useFellestur({autoFetch = false, hentTurID = null, token = null}
     opprettFellestur,
     redigerFellestur,
     hentFellesturFraId,
-    slettFellestur
+    slettFellestur,
+    låsFellestur,
+    låsDato
   };
 }

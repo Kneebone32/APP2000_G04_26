@@ -11,7 +11,7 @@ import './LåsDato.css';
 //Låser en dato for en fellestur. Laget av Kay
 //fellesturer-prop brukes av turleder for å begrense søk til egne turer
 export default function LåsDato({fellesturer: fellesturer_prop} = {}) {
-    const { fellesturer: fellesturer_alle, hentFellesturFraId } = useFellestur({autoFetch: !fellesturer_prop});
+    const { fellesturer: fellesturer_alle, hentFellesturFraId, låsDato } = useFellestur({autoFetch: !fellesturer_prop});
     const { isOpen: værvarselÅpen, open: åpneVærvarsel, close: lukkVærvarsel } = useModal();
     const [valgtData, setValgtData] = useState(null);
     const [lasterFellestur, setLasterFellestur] = useState(false);
@@ -20,7 +20,6 @@ export default function LåsDato({fellesturer: fellesturer_prop} = {}) {
     const fellesturer = fellesturer_prop ?? fellesturer_alle;
 
     
-
     const handleSøkSelect = async (id) => {
         if (!id) {
             setValgtData(null);
@@ -45,8 +44,7 @@ export default function LåsDato({fellesturer: fellesturer_prop} = {}) {
         if (!valgtDato) return;
         setLaster(true);
         try {
-            //TODO: legge til i useFellesturer /fellestur/:id/las-dato
-            
+            await låsDato(valgtData.aktivitet_id, valgtDato.aktivitet_dato_id);
             toast.success(`Dato låst: ${formatNorskdato(new Date(valgtDato.aktivitet_slutt_dato))}`);
             setValgtData(null);
             setValgtDato(null);
@@ -57,7 +55,6 @@ export default function LåsDato({fellesturer: fellesturer_prop} = {}) {
         }
     };
 
-    //TODO: må oppdateres til å passe med gpx og nye stier
     const datoer = valgtData?.datoer;
     const breddegrad = valgtData?.stier?.[0]?.sti_punkter?.[0].breddegrad;
     const lengdegrad = valgtData?.stier?.[0]?.sti_punkter?.[0].lengdegrad;

@@ -71,8 +71,7 @@ export default function MineFellesturer() {
                                     fellesturId={fellestur.aktivitet_id}
                                     fellesturNavn={fellestur.aktivitet_tittel}
                                     bildeUrl={fellestur.bilder?.[0]?.aktivitet_url}
-                                    startDato={fellestur.datoer?.[0]?.aktivitet_start_dato}
-                                    sluttDato={fellestur.datoer?.[0]?.aktivitet_slutt_dato}
+                                    dato={fellestur.datoer}
                                 />
                             ))}
                         </div>
