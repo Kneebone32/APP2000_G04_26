@@ -7,6 +7,23 @@ import pool from '../config/db.js';
 const router = express.Router();
 const auth = passport.authenticate('jwt', { session: false });
 
+
+// Henter hytte_id-er for innlogget hytteeier
+router.get('/mine', auth, async (req, res) => {
+  try {
+    const brukerId = req.user.bruker_id;
+    const result = await pool.query(
+      'SELECT hytte_id FROM hytte_eier WHERE bruker_id = $1',
+      [brukerId]
+    );
+    res.json(result.rows.map(r => r.hytte_id));
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke hente hytter' });
+  }
+});
+
+
 // Henter alle hytter til kartet
 router.get('/', async (req, res) => {
   try {
@@ -255,5 +272,8 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ error: 'Kunne ikke slette hytte' });
   }
 });
+
+
+
 
 export default router;

@@ -9,19 +9,20 @@ import AnnouncementBar from "./components/AnnouncementBar";
 import Home from "./pages/Home";
 import Turer from "./pages/Turer";
 import TurDetaljer from "./pages/TurDetaljer";
-import Hytter from "./pages/Hytter";
-import HytteDetaljer from "./pages/HytteDetaljer";
+import Hytter from "./pages/hytter/Hytter";
+import HytteDetaljer from "./pages/hytter/HytteDetaljer";
 import Kart from "./pages/Kart";
 import Fellesturer from "./pages/fellesturer/Fellesturer";
 import FellesturerDetaljer from "./pages/fellesturer/FellesturerDetaljer";
 import Annonser from "./pages/Annonser";
 import Profil from "./pages/Profil";
 import Admin from "./pages/Admin";
-import HytteModerator from "./pages/HytteModerator";
+import HytteModerator from "./pages/hytter/HytteModerator";
 import TurModerator from "./pages/TurModerator";
 import AnnonseModerator from "./pages/AnnonseModerator";
 import FellesturModerator from "./pages/fellesturer/FellesturModerator";
 import TurlederFellesturPanel from "./pages/fellesturer/TurlederFellesturPanel";
+import HytteeierHytterPanel from "./pages/hytter/HytteeierHytterPanel";
 import TurmålModerator from "./pages/turmål/TurmålModerator";
 import Feilside from "./pages/Feilside";
 import Favoritter from "./pages/favoritter/Favoritter";
@@ -76,6 +77,10 @@ export default function App() {
 
             <Route element={<ProtectedRoute rolle={BRUKER_ROLLE.TURLEDER} />}>
               <Route path="/turleder/fellesturer" element={<TurlederFellesturPanel />} />
+            </Route>
+
+            <Route element={<ProtectedRoute rolle={BRUKER_ROLLE.HYTTEEIER} />}>
+              <Route path="/hytteeier/hytter" element={<HytteeierHytterPanel />} />
             </Route>
 
             <Route path="/test" element={<Test />} />

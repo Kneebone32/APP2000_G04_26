@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 
 // Hook for hytteendepunkter: liste, kort, enkelthytte og sletting. Laget av Olai med mindre annet er spesifisert.
-export function useFetchHytter({autoFetch = false, hentHytteID = null, hytteKort = false} = {}) {
+export function useFetchHytter({autoFetch = false, hentHytteID = null, hytteKort = false, token = null} = {}) {
   const [hytter, setHytter] = useState([]);
+  const [mineHytteIder, setMineHytteIder] = useState([]);
   const [loading, setLoading] = useState();
   const [error, setError] = useState(null);
 
@@ -60,6 +61,25 @@ export function useFetchHytter({autoFetch = false, hentHytteID = null, hytteKort
     }
   }, []);
 
+  // Henter hytte_id-er for innlogget hytteeier
+  const hentMineHytter = useCallback(async () => {
+    if (!token) return;
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/mine`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+      const data = await response.json();
+      setMineHytteIder(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [token]);
+
   // Sletter hytte på backend og oppdaterer lokal state.
   const deleteHytte = useCallback (async (id) => {
     try {
@@ -84,7 +104,8 @@ export function useFetchHytter({autoFetch = false, hentHytteID = null, hytteKort
     if (autoFetch) fetchHytter();
     if (hytteKort) fetchHytteKort();
     if (hentHytteID) hentHytteFraId(hentHytteID);
-  }, [autoFetch, hentHytteID, hytteKort, fetchHytter, hentHytteFraId, fetchHytteKort]);
+    if (token) hentMineHytter();
+  }, [autoFetch, hentHytteID, hytteKort, token, fetchHytter, hentHytteFraId, fetchHytteKort, hentMineHytter]);
 
   return { 
     hytter, 
@@ -93,6 +114,8 @@ export function useFetchHytter({autoFetch = false, hentHytteID = null, hytteKort
     refetch: fetchHytter,
     deleteHytte,
     hentHytteFraId,
-    fetchHytteKort
+    fetchHytteKort,
+    hentMineHytter,
+    mineHytteIder
   };
 }

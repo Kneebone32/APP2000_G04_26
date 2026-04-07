@@ -1,11 +1,11 @@
 import { useState } from "react";
-import PageWrapper from "../components/PageWrapper";
-import HytteKort from "../components/hytter/HytteKort";
-import AnnonseKort from "../components/annonse/AnnonseKort";
-import { useFetchHytter } from "../hooks/useFetchHytter";
-import { useFetchAnnonser } from "../hooks/useFetchAnnonser";
-import { useFavoritter } from "../hooks/useFavoritter";
-import { useAutentisering } from "../hooks/useAutentisering";
+import PageWrapper from "../../components/PageWrapper";
+import HytteKort from "../../components/hytter/HytteKort";
+import AnnonseKort from "../../components/annonse/AnnonseKort";
+import { useFetchHytter } from "../../hooks/useFetchHytter";
+import { useFetchAnnonser } from "../../hooks/useFetchAnnonser";
+import { useFavoritter } from "../../hooks/useFavoritter";
+import { useAutentisering } from "../../hooks/useAutentisering";
 import { useTranslation } from "react-i18next";
 import "./Hytter.css";
 

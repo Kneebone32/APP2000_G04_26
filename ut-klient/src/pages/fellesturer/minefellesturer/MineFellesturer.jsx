@@ -11,6 +11,7 @@ export default function MineFellesturer() {
 
     const bindende = mineFellesturer.filter(tur => tur.pamelding_status === PÅMELDING_STATUS.BINDENDE);
     const interessert = mineFellesturer.filter(tur => tur.pamelding_status === PÅMELDING_STATUS.INTERESSERT);
+    console.log(mineFellesturer)
 
     return (
         <PageWrapper>

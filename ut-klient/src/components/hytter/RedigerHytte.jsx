@@ -4,9 +4,10 @@ import { useFetchHytter } from "../../hooks/useFetchHytter";
 import HytteForm from "./hytte-form/HytteForm";
 
 // Lar bruker søke opp en hytte, hente eksisterende data og oppdatere den. Laget av Olai.
-export default function RedigerHytte({ onSuccess }) {
+export default function RedigerHytte({ onSuccess, hytter: hytter_prop }) {
     const { t } = useTranslation();
-    const { hytter, hentHytteFraId } = useFetchHytter({ autoFetch: true });
+    const { hytter: hytter_alle, hentHytteFraId } = useFetchHytter({ autoFetch: !hytter_prop });
+    const hytter = hytter_prop ?? hytter_alle;
 
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedId, setSelectedId] = useState(null);
@@ -16,7 +17,7 @@ export default function RedigerHytte({ onSuccess }) {
 
     // Filtrerer søkeresultat på hytte-ID eller navn.
     const filteredHytter = hytter.filter(hytte =>
-        hytte.hytte_id?.toString().includes(searchTerm) ||
+        hytte.id?.toString().includes(searchTerm) ||
         hytte.navn?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -124,11 +125,11 @@ export default function RedigerHytte({ onSuccess }) {
                         // Velger hytte fra datalist og lagrer ID for videre henting/redigering.
                         setSearchTerm(e.target.value);
                         const matchedHytte = filteredHytter.find(
-                            h => `ID: ${h.hytte_id} - ${h.navn}` === e.target.value ||
-                                h.hytte_id?.toString() === e.target.value
+                            h => `ID: ${h.id} - ${h.navn}` === e.target.value ||
+                                h.id?.toString() === e.target.value
                         );
                         if (matchedHytte) {
-                            setSelectedId(matchedHytte.hytte_id.toString());
+                            setSelectedId(matchedHytte.id.toString());
                         } else {
                             setSelectedId(null);
                         }
@@ -137,7 +138,7 @@ export default function RedigerHytte({ onSuccess }) {
                 />
                 <datalist id="hytter-rediger-list">
                     {filteredHytter.map((hytte) => (
-                        <option key={hytte.hytte_id} value={`ID: ${hytte.hytte_id} - ${hytte.navn}`} />
+                        <option key={hytte.id} value={`ID: ${hytte.id} - ${hytte.navn}`} />
                     ))}
                 </datalist>
             </div>

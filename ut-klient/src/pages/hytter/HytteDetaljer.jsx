@@ -1,14 +1,14 @@
-import PageWrapper from "../components/PageWrapper";
+import PageWrapper from "../../components/PageWrapper";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useAutentisering } from '../hooks/useAutentisering';
-import { useFetchHytter } from "../hooks/useFetchHytter";
-import { useAnmeldelser } from "../hooks/useAnmeldelser";
+import { useAutentisering } from '../../hooks/useAutentisering';
+import { useFetchHytter } from "../../hooks/useFetchHytter";
+import { useAnmeldelser } from "../../hooks/useAnmeldelser";
 import { toast } from "react-toastify";
-import AnmeldelseListe from "../components/anmeldelser/AnmeldelseListe";
-import AnmeldelseSkjema from "../components/anmeldelser/AnmeldelseSkjema";
-import EmblaCarousel from "../components/EmblaCarousel";
+import AnmeldelseListe from "../../components/anmeldelser/AnmeldelseListe";
+import AnmeldelseSkjema from "../../components/anmeldelser/AnmeldelseSkjema";
+import EmblaCarousel from "../../components/EmblaCarousel";
 import  './HytteDetaljer.css';
 
 // Viser detaljside for én valgt hytte basert på ID fra URL. Laget av Olai

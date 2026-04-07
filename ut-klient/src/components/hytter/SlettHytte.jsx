@@ -3,10 +3,12 @@ import { useFetchHytter } from "../../hooks/useFetchHytter";
 import { useTranslation } from "react-i18next";
 
 // Lar bruker søke opp en hytte og slette den etter bekreftelse. Laget av Olai.
-export default function SlettHytte({ onSuccess }) {
+export default function SlettHytte({onSuccess, hytter: hytter_prop}) {
     const { t } = useTranslation();
-    const { hytter, deleteHytte } = useFetchHytter({ autoFetch: true });
+    const { hytter: hytter_alle, deleteHytte } = useFetchHytter({autoFetch: !hytter_prop});
+    const hytter = hytter_prop ?? hytter_alle;
     const [selectedId, setSelectedId] = useState(null);
+    
 
     // Sletter valgt hytte hvis bruker bekrefter i dialogen.
     const handleSlettHytte = async () => {
@@ -37,7 +39,7 @@ export default function SlettHytte({ onSuccess }) {
 
     // Filtrerer forslagene i datalisten basert på ID eller navn.
     const filteredHytter = hytter.filter(hytte => 
-        hytte.hytte_id?.toString().includes(searchTerm) ||
+        hytte.id?.toString().includes(searchTerm) ||
         hytte.navn?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -58,10 +60,10 @@ export default function SlettHytte({ onSuccess }) {
                             setSearchTerm(e.target.value);
                             const matchedHytte = hytter.find(h => 
                                 `ID: ${h.hytte_id} - ${h.navn}` === e.target.value ||
-                                h.hytte_id?.toString() === e.target.value
+                                h.id?.toString() === e.target.value
                             );
                             if (matchedHytte) {
-                                setSelectedId(matchedHytte.hytte_id.toString());
+                                setSelectedId(matchedHytte.id.toString());
                             } else {
                                 setSelectedId("");
                             }
@@ -70,7 +72,7 @@ export default function SlettHytte({ onSuccess }) {
                     />
                     <datalist id="hytter-list">
                         {filteredHytter.map((hytte) => (
-                            <option key={hytte.hytte_id} value={`ID: ${hytte.hytte_id} - ${hytte.navn}`} />
+                            <option key={hytte.hytte_id} value={`ID: ${hytte.id} - ${hytte.navn}`} />
                         ))}
                     </datalist>
             </div>
