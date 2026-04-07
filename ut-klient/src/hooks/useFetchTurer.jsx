@@ -6,9 +6,6 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
   const [loadingTurer, setLoadingTurer] = useState();
   const [errorTurer, setErrorTurer] = useState(null);
   const [turDetaljer, setTurDetaljer] = useState(null);
-  const [turPunkter, setTurPunkter] = useState([]);
-  const [loadingTurPunkter, setLoadingTurPunkter] = useState(true);
-  const [errorTurPunkter, setErrorTurPunkter] = useState(null);
 
   // Henter alle turrutene
   const fetchTurer = useCallback (async () => {
@@ -22,6 +19,7 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
       }
 
       const data = await response.json();
+      console.log(data)
       setTurer(data);
     } catch (err) {
       setErrorTurer(err.message);
@@ -43,6 +41,7 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
       }
 
       const data = await response.json();
+      
       setTurer(data);
     } catch (err) {
       setErrorTurer(err.message);
@@ -104,7 +103,6 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
       }
 
       const data = await response.json();
-      console.log(data)
       setTurDetaljer(data);
       return data;
     } catch (err) {
@@ -113,43 +111,24 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
   }, []);
 
   // Henter GPS-punktene for en turrute basert på ID. Laget av Kay
-  const fetchTurRute = useCallback(async (tur_id) => {
-      try {
-        setLoadingTurPunkter(true);
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/tur/${tur_id}/punkter`);
-        if (!response.ok) console.log("Kunne ikke hente tur");
-        
-        const data = await response.json();
-        setTurPunkter(data);
 
-      } catch (err) {
-        setErrorTurPunkter(err.message);
-      } finally {
-        setLoadingTurPunkter(false);
-      }
-    }, []);
 
   // Kjører valgte hentefunksjoner automatisk ut fra hook-innstillingene.
   useEffect(() => {
     if (autoFetch) fetchTurer();
     if (hentTurID) hentTurFraId(hentTurID);
     if (turKort) fetchTurKort();
-    if (hentTurRuteID) fetchTurRute(hentTurRuteID)
-  }, [autoFetch, hentTurID, hentTurRuteID, turKort, fetchTurer, hentTurFraId, fetchTurRute, fetchTurKort]);
+  }, [autoFetch, hentTurID, hentTurRuteID, turKort, fetchTurer, hentTurFraId, fetchTurKort]);
 
   return {
     turer,
     turDetaljer,
     loadingTurer,
     errorTurer,
-    turPunkter,
-    loadingTurPunkter,
-    errorTurPunkter,
     refetch: fetchTurer,
     fetchTurKort,
     deleteTur,
     opptaterTur,
     hentTurFraId,
-    fetchTurRute
   };
 }

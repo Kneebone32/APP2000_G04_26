@@ -126,6 +126,7 @@ export function useAutentisering({autoFetch = true} = {}) {
       }
 
       await fetchProfil();
+      window.dispatchEvent(new CustomEvent('profilOppdatert'));
     } catch (err) {
       setError(err.message);
       throw err;
@@ -233,6 +234,13 @@ export function useAutentisering({autoFetch = true} = {}) {
     window.addEventListener('autentiseringEndret', handleAutentiseringEndret);
     return () => window.removeEventListener('autentiseringEndret', handleAutentiseringEndret);
   }, []);
+
+  //Synkroniser profilendringer på tvers av instanser
+  useEffect(() => {
+    const handleProfilOppdatert = () => { if (token) fetchProfil(); };
+    window.addEventListener('profilOppdatert', handleProfilOppdatert);
+    return () => window.removeEventListener('profilOppdatert', handleProfilOppdatert);
+  }, [token, fetchProfil]);
 
   return {
     bruker,

@@ -7,8 +7,10 @@ import './PåmeldingKnapper.css';
 export default function PåmeldingKnapper({aktivitetDatoId, minPåmelding, ledigePlasser, antallInteresserteDeltakere, loading, meldPå, meldAv, registrerBildesamtykke}) {
 
     const [visModal, setVisModal] = useState(false);
+    
     const status = minPåmelding?.pamelding_status ?? null;
     const fullBooket = ledigePlasser !== null && ledigePlasser <= 0;
+    
 
     if (!aktivitetDatoId) return <p className="påmelding-ingen-dato">Velg en dato for å melde deg på</p>;
 

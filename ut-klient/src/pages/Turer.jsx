@@ -14,7 +14,6 @@ export default function Turer() {
   const { token } = useAutentisering();
   const { erTurFavoritt, toggleTurFavoritt } = useFavoritter({token});
   const [søk, setSøk] = useState('');
-  console.log(turer)
 
   const filtrert = turer.filter((tur) => {
     if (!søk.trim()) return true;
