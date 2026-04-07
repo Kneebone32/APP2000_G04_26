@@ -163,6 +163,6 @@ router.post('/:id/behandle', auth, async (req, res) => {
 
 
 
-//slett varsel
+//TODO: slett varsel
 
 export default router;

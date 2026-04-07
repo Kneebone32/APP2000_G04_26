@@ -188,7 +188,7 @@ router.get('/:id', async (req, res) => {
 });
 
 
-//Lås fellestur
-//Lås dato på fellestur
+//TODO: Lås fellestur (ingen flere påmeldinger. Enten via Turleder eller når ant. påmeldte = maks deltakere)
+//TODO: Lås dato på fellestur (går fra fleksibel til fast startdato på valgt dato)
 
 export default router;

@@ -12,11 +12,12 @@ const auth = passport.authenticate('jwt', { session: false });
 router.get('/mine', auth, async (req, res) => {
   try {
     const brukerId = req.user.bruker_id;
+    //TODO: funksjon i DB
     const result = await pool.query(
-      'SELECT hytte_id FROM hytte_eier WHERE bruker_id = $1',
+      'SELECT hytte_id FROM hytte_eier WHERE bruker_id = $1', 
       [brukerId]
     );
-    res.json(result.rows.map(r => r.hytte_id));
+    res.json(result.rows.map(r => r.hytte_id)); 
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Kunne ikke hente hytter' });
