@@ -14,7 +14,7 @@ router.get('/mine', auth, async (req, res) => {
     const brukerId = req.user.bruker_id;
     //TODO: funksjon i DB
     const result = await pool.query(
-      'SELECT hytte_id FROM hytte_eier WHERE bruker_id = $1', 
+      'SELECT * FROM public.hytte_hent_for_eier($1)', 
       [brukerId]
     );
     res.json(result.rows.map(r => r.hytte_id)); 
