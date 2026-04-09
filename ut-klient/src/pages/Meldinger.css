@@ -1,9 +1,12 @@
-/*Laget av Kay*/
+/*Laget av Kay og Eivind*/
 .meldinger-side {
     display: flex;
     flex-direction: column;
     height: calc(100dvh - var(--navbar-height) - 50px); /*Pagewrapper legger på en rar padding/margin på bunnen*/
     margin-top: 5px;
+    max-width: 1700px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .meldinger-layout {

@@ -10,6 +10,7 @@ import { useAutentisering } from "../../hooks/useAutentisering";
 import PåmeldingKnapper from "../../components/fellesturer/påmelding/PåmeldingKnapper";
 import { formatFellesturDato } from "../../utils/datoUtils";
 import { VærvarslingUke } from "../../components/Værvarsling";
+import EmblaCarousel from "../../components/EmblaCarousel";
 
 //Detaljvisning for en fellestur. Laget av Kay
 export default function FellesturerDetaljer() {
@@ -38,7 +39,7 @@ export default function FellesturerDetaljer() {
     
     return (
         <PageWrapper>
-            <div className="fellestur-detaljer">
+            <div className="fellesturer FellesturerDetaljerSide">
                 <button className="TilbakeKnapp" onClick={() => navigate("/fellesturer")}>
                     {t("fellesturer.tilbake_til_fellesturer")}
                 </button>
@@ -52,51 +53,42 @@ export default function FellesturerDetaljer() {
                 {error && console.log(`Error: ${error}`)}
 
                 {!loading && !error && fellestur && (
-                    <div>
+                    <div className="fellestur-detaljer">
                         <h2>{fellestur.aktivitet_tittel}</h2>
 
-                        {fellestur.bilder?.length > 0 && (
-                            <div className="fellestur-bilder">
-                                {fellestur.bilder.map((bilde, index) => (
-                                    <img
-                                        key={index}
-                                        src={bilde.aktivitet_url}
-                                        alt={`${fellestur.aktivitet_tittel} bilde ${index + 1}`}
-                                        className="fellestur-bilde"
-                                    />
-                                ))}
+                        {fellestur.bilder && fellestur.bilder.length > 0 && (
+                            <EmblaCarousel slides={fellestur.bilder} options={{ loop: true }} />
+                        )}
+
+                            <div className="fellestur-info">
+                                {fellestur.aktivitet_beskrivelse && (
+                                    <p><strong>{t("tur.beskrivelse")}:</strong> {fellestur.aktivitet_beskrivelse}</p>
+                                )}
+
+                                {fellestur.aktivitet_status && (
+                                    <p><strong>Status:</strong> {t(`enums.aktivitet_status.${fellestur.aktivitet_status}`)}</p>
+                                )}
+
+                                {fellestur.aktivitet_min_deltakere && (
+                                    <p><strong>{t("fellestur_form.min_deltakere")}:</strong> {fellestur.aktivitet_min_deltakere}</p>
+                                )}
+
+                                {fellestur.aktivitet_maks_deltakere && (
+                                    <p><strong>{t("fellestur_form.maks_deltakere")}:</strong> {fellestur.aktivitet_maks_deltakere}</p>
+                                )}
+
+                                {fellestur.turtype && (
+                                    <p><strong>Turtype :</strong> {fellestur.turtype}</p>
+                                )}
+
+                                {fellestur.vanskelighetsgrad && (
+                                    <p><strong>Vanskelighetsgrad :</strong> {fellestur.vanskelighetsgrad}</p>
+                                )}
+
+                                {fellestur.varighet && (
+                                    <p><strong>Varighet :</strong> {fellestur.varighet}</p>
+                                )}
                             </div>
-                        )}
-
-                        {fellestur.aktivitet_beskrivelse && (
-                            <p><strong>{t("tur.beskrivelse")}:</strong> {fellestur.aktivitet_beskrivelse}</p>
-                        )}
-
-                        {fellestur.aktivitet_status && (
-                            <p><strong>Status:</strong> {t(`enums.aktivitet_status.${fellestur.aktivitet_status}`)}</p>
-                        )}
-
-                        {fellestur.aktivitet_min_deltakere && (
-                            <p><strong>{t("fellestur_form.min_deltakere")}:</strong> {fellestur.aktivitet_min_deltakere}</p>
-                        )}
-
-                        {fellestur.aktivitet_maks_deltakere && (
-                            <p><strong>{t("fellestur_form.maks_deltakere")}:</strong> {fellestur.aktivitet_maks_deltakere}</p>
-                        )}
-
-                        {fellestur.turtype && (
-                            <p><strong>Turtype :</strong> {fellestur.turtype}</p>
-                        )}
-
-                        {fellestur.vanskelighetsgrad && (
-                            <p><strong>Vanskelighetsgrad :</strong> {fellestur.vanskelighetsgrad}</p>
-                        )}
-
-                        {fellestur.varighet && (
-                            <p><strong>Varighet :</strong> {fellestur.varighet}</p>
-                        )}
-
-                        
 
                         {erAutentisert && fellestur.oppretter?.bruker_id && fellestur.oppretter?.bruker_id !== bruker?.bruker_id && (
                             <button className="kontakt-turleder-btn" onClick={handleKontaktTurleder}>

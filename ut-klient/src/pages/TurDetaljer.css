@@ -2,6 +2,13 @@
     font-family: poppins, sans-serif;
 }
 
+.TurDetaljerSide {
+    max-width: 1700px;
+    margin: 0 auto;
+    padding-inline: 24px;
+    box-sizing: border-box;
+}
+
 .TilbakeKnapp {
     border-radius: 10px;
     border: 0.25px solid black;
@@ -46,6 +53,37 @@
 .Turer p {
     font-size: 20px;
     margin-left: 10px;
+}
+
+.tur-info-og-anmeldelse {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    margin-top: 16px;
+}
+
+.tur-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.tur-anmeldelse-side {
+    width: min(420px, 100%);
+    flex-shrink: 0;
+}
+
+.tur-anmeldelse-side .anmeldelse-skjema {
+    margin-top: 0;
+}
+
+@media (max-width: 900px) {
+    .tur-info-og-anmeldelse {
+        flex-direction: column;
+    }
+
+    .tur-anmeldelse-side {
+        width: 100%;
+    }
 }
 
 .Adkomst, .Passerfor, .Tilgjengelighet, .Flerefilter{

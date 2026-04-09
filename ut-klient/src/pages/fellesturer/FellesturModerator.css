@@ -1,0 +1,6 @@
+.FellesturModeratorPanel {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    max-width: 1700px;
+}

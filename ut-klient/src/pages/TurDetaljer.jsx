@@ -7,6 +7,7 @@ import { useAnmeldelser } from "../hooks/useAnmeldelser";
 import { toast } from "react-toastify";
 import AnmeldelseListe from "../components/anmeldelser/AnmeldelseListe";
 import AnmeldelseSkjema from "../components/anmeldelser/AnmeldelseSkjema";
+import EmblaCarousel from "../components/EmblaCarousel";
 import './TurDetaljer.css';
 
 
@@ -17,11 +18,12 @@ export default function TurDetaljer() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { turDetaljer: tur, loadingTurer: loading, errorTurer: error} = useFetchTurer({ hentTurID: turId, hentTurRuteID: turId });
+  const kanSkriveAnmeldelse = erAutentisert && !turAnmeldelser.some((a) => a.bruker_id === bruker?.bruker_id);
 
 
   return (
     <PageWrapper>
-      <div className="Turer">
+      <div className="Turer TurDetaljerSide">
         <button 
           className="TilbakeKnapp" 
           onClick={() => navigate("/turer")}
@@ -43,50 +45,47 @@ export default function TurDetaljer() {
           <div className="tur-detaljer">
             <h2>{tur.tur_navn}</h2>
 
-            {tur.bilder && tur.bilder.length > 0 && (
-              <div className="tur-bilder">
-                {tur.bilder.map((bilder, index) => (
-                  <img
-                    key={index}
-                    src={bilder.tur_url}
-                    alt={`${tur.tur_navn} bilde ${index + 1}`}
-                    className="tur-bilde"
-                  />
-                ))}
+           {tur.bilder && tur.bilder.length > 0 && (
+              <EmblaCarousel slides={tur.bilder} options={{ loop: true }} />
+            )}
+
+            <div className="tur-info-og-anmeldelse">
+              <div className="tur-info">
+                {tur.stier[0]?.kommune_navn && (
+                  <p><strong>{t("felles.kommune")}:</strong> {tur.stier[0]?.kommune_navn}</p>
+                )}
+
+                {tur.stier[0]?.fylke_navn && (
+                  <p><strong>{t("felles.fylke")}:</strong> {tur.stier[0]?.fylke_navn}</p>
+                )}
+
+                {tur.vanskelighetsgrad && (
+                  <p><strong>{t("felles.vanskelighetsgrad")}:</strong> {t(`enums.vanskelighetsgrad.${tur.vanskelighetsgrad}`)}</p>
+                )}
+
+                {tur.turtype && (
+                  <p><strong>{t("tur.turtype")}:</strong> {t(`enums.turtype.${tur.turtype}`)}</p>
+                )}
+
+                {tur.varighet && (
+                  <p><strong>{t("tur.varighet")}:</strong> {t(`enums.varighet.${tur.varighet}`)}</p>
+                )}
+
+                {tur.tur_beskrivelse && (
+                  <p><strong>{t("tur.beskrivelse")}:</strong> {tur.tur_beskrivelse}</p>
+                )}
               </div>
-            )}
 
-            {tur.stier[0]?.kommune_navn && (
-              <p><strong>{t("felles.kommune")}:</strong> {tur.stier[0]?.kommune_navn}</p>
-            )}
-
-            {tur.stier[0]?.fylke_navn && (
-              <p><strong>{t("felles.fylke")}:</strong> {tur.stier[0]?.fylke_navn}</p>
-            )}
-
-            {tur.vanskelighetsgrad && (
-              <p><strong>{t("felles.vanskelighetsgrad")}:</strong> {t(`enums.vanskelighetsgrad.${tur.vanskelighetsgrad}`)}</p>
-            )}
-
-            {tur.turtype && (
-              <p><strong>{t("tur.turtype")}:</strong> {t(`enums.turtype.${tur.turtype}`)}</p>
-            )}
-
-            {tur.varighet && (
-              <p><strong>{t("tur.varighet")}:</strong> {t(`enums.varighet.${tur.varighet}`)}</p>
-            )}
-
-            {tur.tur_beskrivelse && (
-              <p><strong>{t("tur.beskrivelse")}:</strong> {tur.tur_beskrivelse}</p>
-            )}
-
+              {kanSkriveAnmeldelse && (
+                <div className="tur-anmeldelse-side">
+                  <AnmeldelseSkjema onSend={(data) => leggTilTurAnmeldelse(turId, data, bruker?.bruker_navn, bruker?.bruker_id)} loading={loading} />
+                </div>
+              )}
           </div>
-        )}
-        
-        {/*Fjerner AnmeldelseSkjema hvis bruker ikke er innlogget eller allerede har lagt til en anmeldelse*/}
-        {erAutentisert && !turAnmeldelser.some(a => a.bruker_id === bruker?.bruker_id) && (
-          <AnmeldelseSkjema onSend={(data) => leggTilTurAnmeldelse(turId, data, bruker?.bruker_navn, bruker?.bruker_id)} loading={loading} />
-        )}
+        </div>
+      )}
+
+        <hr />
 
         <AnmeldelseListe
           anmeldelser={turAnmeldelser}

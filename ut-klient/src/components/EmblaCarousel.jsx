@@ -37,7 +37,19 @@ const EmblaCarousel = (props) => {
 
   const getImageSrc = (slide) => {
     if (!slide) return ''
-    return typeof slide === 'string' ? slide : slide?.url
+
+    if (typeof slide === 'string') {
+      return slide
+    }
+
+    return (
+      slide?.url ||
+      slide?.tur_url ||
+      slide?.bilde_url ||
+      slide?.hovedbilde_url ||
+      slide?.aktivitet_url ||
+      ''
+    )
   }
 
   return (
