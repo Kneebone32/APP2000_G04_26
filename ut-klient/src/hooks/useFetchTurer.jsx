@@ -19,7 +19,6 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
       }
 
       const data = await response.json();
-      console.log(data)
       setTurer(data);
     } catch (err) {
       setErrorTurer(err.message);

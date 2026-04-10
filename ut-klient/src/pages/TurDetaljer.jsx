@@ -74,6 +74,10 @@ export default function TurDetaljer() {
                 {tur.tur_beskrivelse && (
                   <p><strong>{t("tur.beskrivelse")}:</strong> {tur.tur_beskrivelse}</p>
                 )}
+
+                {tur.lengde && (
+                  <p><strong>Rutelengde :</strong> {tur.rute_lengde.toFixed(2)} KM</p>
+                )}
               </div>
 
               {kanSkriveAnmeldelse && (

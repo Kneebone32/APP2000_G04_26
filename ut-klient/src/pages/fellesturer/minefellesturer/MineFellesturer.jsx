@@ -11,7 +11,6 @@ export default function MineFellesturer() {
 
     const bindende = mineFellesturer.filter(tur => tur.pamelding_status === PÅMELDING_STATUS.BINDENDE);
     const interessert = mineFellesturer.filter(tur => tur.pamelding_status === PÅMELDING_STATUS.INTERESSERT);
-    console.log(mineFellesturer)
 
     return (
         <PageWrapper>
@@ -68,11 +67,11 @@ export default function MineFellesturer() {
                         <div className="FellesturKortContainer">
                             {mineFellesturerTurleder.map((fellestur) => (
                                 <FellesturKort
-                                    key={fellestur.aktivitet_id}
-                                    fellesturId={fellestur.aktivitet_id}
-                                    fellesturNavn={fellestur.aktivitet_tittel}
-                                    bildeUrl={fellestur.bilder?.[0]?.aktivitet_url}
-                                    dato={fellestur.datoer}
+                                    key={fellestur.aktivitet.aktivitet_id}
+                                    fellesturId={fellestur.aktivitet.aktivitet_id}
+                                    fellesturNavn={fellestur.aktivitet.aktivitet_tittel}
+                                    bildeUrl={fellestur.aktivitet.bilder?.[0]?.aktivitet_url}
+                                    dato={fellestur.aktivitet.datoer}
                                 />
                             ))}
                         </div>

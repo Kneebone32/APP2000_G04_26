@@ -32,7 +32,7 @@ export function useMineFellesturer({ token } = {}) {
 
     //Henter fellesturer som innlogget Turleder har opprettet 
     const hentMineFellesturerTurleder = useCallback(async () => {
-        if (!token || token) return;
+        if (!token) return;
         try {
             setLoading(true);
             setError(null);

@@ -15,7 +15,6 @@ export default function HytteModerator() {
     const { hytter, mineHytteIder, refetch } = useFetchHytter({hytteKort: true, token});
 
     const mineHytter = hytter.filter(hytte => mineHytteIder.includes(hytte.id));
-    console.log(hytter)
 
     return (
         <PageWrapper>

@@ -5,6 +5,21 @@ import pool from '../config/db.js';
 const router = express.Router();
 const auth = passport.authenticate('jwt', { session: false });
 
+//Henter fellesturer som innlogget bruker har opprettet
+router.get('/mine', auth, async (req, res) => {
+  const bruker_id = req.user.bruker_id;
+  try {
+    const result = await pool.query(
+      `SELECT aktivitet FROM aktivitet_hent() WHERE (aktivitet->'oppretter'->>'bruker_id')::int = $1::int`,
+      [bruker_id]
+    );
+    if (result.rows.length === 0) return res.status(404).json({ error: 'Aktivitet ikke funnet' });
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke hente aktivitet' });
+  }
+});
 
 // Legger til ny aktivitet
 router.post('/', auth, async (req, res) => {
@@ -29,6 +44,7 @@ router.post('/', auth, async (req, res) => {
       bilder,
       ruteLengde
     } = req.body;
+
 
     const result = await pool.query(
       `SELECT public.aktivitet_opprett(
@@ -100,6 +116,7 @@ router.get('/', async (req, res) => {
 
 // Oppdaterer aktivitet
 router.put('/:id', async (req, res) => {
+
   try {
     const { id } = req.params;
 

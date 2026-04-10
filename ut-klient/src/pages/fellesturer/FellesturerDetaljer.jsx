@@ -88,6 +88,10 @@ export default function FellesturerDetaljer() {
                                 {fellestur.varighet && (
                                     <p><strong>Varighet :</strong> {fellestur.varighet}</p>
                                 )}
+
+                                {fellestur.lengde && (
+                                    <p><strong>Rutelengde :</strong> {fellestur.lengde.toFixed(2)} KM</p>
+                                )}
                             </div>
 
                         {erAutentisert && fellestur.oppretter?.bruker_id && fellestur.oppretter?.bruker_id !== bruker?.bruker_id && (
