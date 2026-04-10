@@ -23,7 +23,6 @@ export default function FellesturerDetaljer() {
     const { hentEllerOpprettDirekte } = useMeldinger({ token: erAutentisert ? token : null });
     const maksDeltakere = fellestur?.aktivitet_maks_deltakere ?? null;
     const [visVærmelding, setVisVærmelding] = useState(false);
-    console.log(fellestur)
 
     const ledigePlasserForDato = (aktivitet_dato_id) => {
         if (maksDeltakere == null) return null;

@@ -44,7 +44,6 @@ export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4
   const [objektRekkefølge, setObjektRekkefølge] = useState([]);
   const [stierRekkefølge, setStierRekkefølge] = useState([]);
   const [pendingNyStiPunkter, setPendingNyStiPunkter] = useState([]);
-  console.log(rutePunkter)
 
 
   //Ser om det finnes en Sti mellom to punkter
