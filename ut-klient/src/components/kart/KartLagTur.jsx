@@ -44,6 +44,7 @@ export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4
   const [objektRekkefølge, setObjektRekkefølge] = useState([]);
   const [stierRekkefølge, setStierRekkefølge] = useState([]);
   const [pendingNyStiPunkter, setPendingNyStiPunkter] = useState([]);
+  console.log(rutePunkter)
 
 
   //Ser om det finnes en Sti mellom to punkter
@@ -87,8 +88,8 @@ export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4
           nyeRutePunkter.push(...stiData.punkter);
           nyeStier.push({ sti_id: stiData.sti_id, er_revers: stiData.er_revers });
         } else {
-          nyeRutePunkter.push([fra.breddegrad, fra.lengdegrad]);
-          nyeRutePunkter.push([til.breddegrad, til.lengdegrad]);
+          nyeRutePunkter.push([parseFloat(fra.breddegrad), parseFloat(fra.lengdegrad)]);
+          nyeRutePunkter.push([parseFloat(til.breddegrad), parseFloat(til.lengdegrad)]);
         }
       }
     }
@@ -197,7 +198,7 @@ export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4
       ];
       setNyeStier(prev => [...prev, nySti]);
       setPendingNyStiPunkter([]);
-      const nyttPunkt = [hytte.breddegrad, hytte.lengdegrad];
+      const nyttPunkt = [parseFloat(hytte.breddegrad), parseFloat(hytte.lengdegrad)];
       setRutePunkter(prev => [...prev, nyttPunkt]);
     } else {
       const stiData = finnRuteMellomPunkter(forrigeObjekt, hytte);
@@ -240,7 +241,7 @@ export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4
       ];
       setNyeStier(prev => [...prev, nySti]);
       setPendingNyStiPunkter([]);
-      const nyttPunkt = [turmål.breddegrad, turmål.lengdegrad];
+      const nyttPunkt = [parseFloat(turmål.breddegrad), parseFloat(turmål.lengdegrad)];
       setRutePunkter(prev => [...prev, nyttPunkt]);
     } else {
       const stiData = finnRuteMellomPunkter(forrigeObjekt, turmål);
