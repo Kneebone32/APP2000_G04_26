@@ -38,6 +38,7 @@ export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4
   const { hytter } = useFetchHytter({autoFetch: true});
   const { turmål } = useTurmål({autoFetch: true});
   const { stier } = useStier({autoFetch: true});
+  
 
   const [forrigeObjekt, setForrigeObjekt] = useState(null);
   const [objektRekkefølge, setObjektRekkefølge] = useState([]);
@@ -188,15 +189,7 @@ export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4
       return;
     }
 
-    const stiData = finnRuteMellomPunkter(forrigeObjekt, hytte);
-
-    if (stiData) {
-      setRutePunkter(prev => [...prev, ...stiData.punkter]);
-      const oppdatertStier = [...stierRekkefølge, { sti_id: stiData.sti_id, er_revers: stiData.er_revers }];
-      setStierRekkefølge(oppdatertStier);
-      setStierITuren(oppdatertStier);
-      setPendingNyStiPunkter([]);
-    } else if (pendingNyStiPunkter.length > 0) {
+    if (pendingNyStiPunkter.length > 0) {
       const nySti = [
         [forrigeObjekt.breddegrad, forrigeObjekt.lengdegrad],
         ...pendingNyStiPunkter,
@@ -207,8 +200,16 @@ export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4
       const nyttPunkt = [hytte.breddegrad, hytte.lengdegrad];
       setRutePunkter(prev => [...prev, nyttPunkt]);
     } else {
-      const nyttPunkt = [event.latlng.lat, event.latlng.lng];
-      setRutePunkter(prev => [...prev, nyttPunkt]);
+      const stiData = finnRuteMellomPunkter(forrigeObjekt, hytte);
+      if (stiData) {
+        setRutePunkter(prev => [...prev, ...stiData.punkter]);
+        const oppdatertStier = [...stierRekkefølge, { sti_id: stiData.sti_id, er_revers: stiData.er_revers }];
+        setStierRekkefølge(oppdatertStier);
+        setStierITuren(oppdatertStier);
+      } else {
+        const nyttPunkt = [event.latlng.lat, event.latlng.lng];
+        setRutePunkter(prev => [...prev, nyttPunkt]);
+      }
     }
 
     setForrigeObjekt(hytte);
@@ -231,15 +232,7 @@ export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4
       return;
     }
 
-    const stiData = finnRuteMellomPunkter(forrigeObjekt, turmål);
-
-    if (stiData) {
-      setRutePunkter(prev => [...prev, ...stiData.punkter]);
-      const oppdatertStier = [...stierRekkefølge, { sti_id: stiData.sti_id, er_revers: stiData.er_revers }];
-      setStierRekkefølge(oppdatertStier);
-      setStierITuren(oppdatertStier);
-      setPendingNyStiPunkter([]);
-    } else if (pendingNyStiPunkter.length > 0) {
+    if (pendingNyStiPunkter.length > 0) {
       const nySti = [
         [forrigeObjekt.breddegrad, forrigeObjekt.lengdegrad],
         ...pendingNyStiPunkter,
@@ -250,8 +243,16 @@ export default function KartLagTur({ rutePunkter, setRutePunkter, center = [59.4
       const nyttPunkt = [turmål.breddegrad, turmål.lengdegrad];
       setRutePunkter(prev => [...prev, nyttPunkt]);
     } else {
-      const nyttPunkt = [event.latlng.lat, event.latlng.lng];
-      setRutePunkter(prev => [...prev, nyttPunkt]);
+      const stiData = finnRuteMellomPunkter(forrigeObjekt, turmål);
+      if (stiData) {
+        setRutePunkter(prev => [...prev, ...stiData.punkter]);
+        const oppdatertStier = [...stierRekkefølge, { sti_id: stiData.sti_id, er_revers: stiData.er_revers }];
+        setStierRekkefølge(oppdatertStier);
+        setStierITuren(oppdatertStier);
+      } else {
+        const nyttPunkt = [event.latlng.lat, event.latlng.lng];
+        setRutePunkter(prev => [...prev, nyttPunkt]);
+      }
     }
 
     setForrigeObjekt(turmål);
