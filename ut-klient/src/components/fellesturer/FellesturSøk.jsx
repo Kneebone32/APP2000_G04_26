@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 //Søker etter eksisterende fellesturer. Laget av Kay
-//TODO: må oppdateres når jeg får tested sammen med backend. Feltene må endres (tur.fellestur_id)
 export default function FellesturSøk({ fellesturer, onSelect, lagretTittel = "" }) {
     const { t } = useTranslation();
     const [søk, setSøk] = useState(lagretTittel);

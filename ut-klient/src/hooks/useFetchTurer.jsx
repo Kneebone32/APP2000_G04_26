@@ -109,8 +109,6 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
     }
   }, []);
 
-  // Henter GPS-punktene for en turrute basert på ID. Laget av Kay
-
 
   // Kjører valgte hentefunksjoner automatisk ut fra hook-innstillingene.
   useEffect(() => {

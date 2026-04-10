@@ -52,7 +52,7 @@ export default function TurNavigasjon({turId, fellesturId}) {
         toast.success(t("navigasjon.startet"));
     };
 
-    //liten fix for å unngå at bruker blir sendt tilbake for tidlig. liker ikke denne, finn en annen løsning hvis tid.TODO
+    //liten fix for å unngå at bruker blir sendt tilbake for tidlig. liker ikke denne, finn en annen løsning hvis tid.
     useEffect(() => {
         if (loading) harHentet.current = true;
     }, [loading]);

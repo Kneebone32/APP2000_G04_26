@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 
 //Hook til fellesturer. Laget av Kay
-//TODO: må oppdateres når jeg får tested sammen med backend
 export function useFellestur({autoFetch = false, hentTurID = null, token = null} = {}) {
 
   const authHeaders = useMemo(() => ({

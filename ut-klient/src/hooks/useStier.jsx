@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-//Hook til turmål. Laget av Kay
-//TODO: må oppdateres når jeg får tested sammen med backend
+//Hook til Stier. Laget av Kay
 export function useStier({autoFetch = false} = {}) {
   const [stier, setStier] = useState([]);
   const [loading, setLoading] = useState(autoFetch);

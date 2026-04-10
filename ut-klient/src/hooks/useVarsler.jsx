@@ -1,12 +1,5 @@
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 
-const testVarsler = [
-    { varsel_id: 99, tittel: 'Velkommen til UT.ut![test]', varsel_kategori: 'info', type_navn: null, status: 'ulest', opprettet_tidspunkt: new Date().toISOString(), innhold: 'Takk for at du registrerte deg. Utforsk turer, hytter og fellesturer i nærheten av deg.' },
-    { varsel_id: 200, tittel: 'Forespørsel om rolleendring[test]', varsel_kategori: 'oppgave', type_navn: 'rolle_foresporsel', status: 'ulest', opprettet_tidspunkt: '2026-03-23T09:00:00.000Z', innhold: 'Bruker Ola Nordmann (ola@example.com) har bedt om å bli annonsør.' },
-    { varsel_id: 201, tittel: 'Ny fellestur bruker hytten din[test]', varsel_kategori: 'oppgave', type_navn: 'hytteeier_ny_fellestur', status: 'ulest', opprettet_tidspunkt: '2026-04-01T10:00:00.000Z', innhold: 'En fellestur planlegger å bruke hytten din. Bekreft om du har plass. Dato: 27.04.2026, Antall: 8' },
-    { varsel_id: 202, tittel: 'Booking av hytten din[test]', varsel_kategori: 'oppgave', type_navn: 'hytteeier_booking', status: 'ulest', opprettet_tidspunkt: '2026-04-02T12:00:00.000Z', innhold: 'Noen ønsker å booke hytten din. Bekreft eller avslå bookingen. Dato: 27.04.2026, Antall: 8' },
-];
-
 //Hook til varslingssystemet. Laget av Kay
 export function useVarsler({token, pollIntervall = 10000, autoPoll = false} = {}) {
 
@@ -31,7 +24,7 @@ export function useVarsler({token, pollIntervall = 10000, autoPoll = false} = {}
             });
             if (!response.ok) throw new Error(`HTTP feil: ${response.status}`);
             const data = await response.json();
-            setVarsler([...testVarsler, ...data]);
+            setVarsler(data);
         } catch (err) {
             setError(err.message);
         }

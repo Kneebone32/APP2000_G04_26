@@ -12,7 +12,6 @@ const auth = passport.authenticate('jwt', { session: false });
 router.get('/mine', auth, async (req, res) => {
   try {
     const brukerId = req.user.bruker_id;
-    //TODO: funksjon i DB
     const result = await pool.query(
       'SELECT * FROM public.hytte_hent_for_eier($1)', 
       [brukerId]

@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
 //Hook til turmål. Laget av Kay
-//TODO: må oppdateres når jeg får tested sammen med backend
 export function useTurmål({autoFetch = false, hentTurmålID = null} = {}) {
   const [turmål, setTurmål] = useState([]);
   const [loading, setLoading] = useState(autoFetch);

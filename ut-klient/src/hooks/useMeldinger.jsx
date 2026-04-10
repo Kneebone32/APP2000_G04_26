@@ -110,7 +110,7 @@ export function useMeldinger({token, pollIntervall = 5000, autoPoll = false} = {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/meldinger/melding`, {
         method: 'POST',
         headers: authHeaders,
-        body: JSON.stringify({ samtale_id: samtaleId, melding_tekst: meldingTekst, bilde_url: bildeUrl })
+        body: JSON.stringify({samtale_id: samtaleId, melding_tekst: meldingTekst, bilde_url: bildeUrl})
       });
       if (!response.ok) throw new Error("Kunne ikke sende melding");
       return await response.json();
