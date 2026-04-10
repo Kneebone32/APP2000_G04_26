@@ -1,11 +1,13 @@
+import {FORESPØRSEL_STATUS} from "../../../constants/konstanter";
+
 //Håndterer hytteeier-bekreftelse/avslag på booking. Laget av Kay
 export default function OppgaveHytteeierBooking({varsel, loading, onBeslutning}) {
-    const erBehandlet = varsel.status === 'godtatt' || varsel.status === 'avvist';
+    const erBehandlet = varsel.foresporsel_status === FORESPØRSEL_STATUS.GODKJENT || varsel.foresporsel_status === FORESPØRSEL_STATUS.AVSLÅTT;
 
     if (erBehandlet) {
         return (
             <p className="varsel-detaljer-behandlet">
-                {varsel.status === 'godtatt' ? 'Du bekreftet bookingen' : 'Du avslo bookingen'}
+                {varsel.foresporsel_status === FORESPØRSEL_STATUS.GODKJENT ? 'Du bekreftet bookingen' : 'Du avslo bookingen'}
             </p>
         );
     }

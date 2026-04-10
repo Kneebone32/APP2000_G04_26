@@ -31,4 +31,11 @@ export const PÅMELDING_STATUS = {
     AVMELDT: 'avmeldt'
 };
 
+//Varsel Oppgavestatus
+export const FORESPØRSEL_STATUS = {
+    PENDING: 'pending',
+    AVSLÅTT: 'avslatt',
+    GODKJENT: 'godkjent'
+};
+
 

@@ -13,7 +13,6 @@ const oppgaveTyper = {
 
 //Viser innhold og eventuelle handlinger for et varsel. Laget av Kay
 export default function VarselDetaljer({ varsel, loading, onBehandle, onSlett }) {
-
     if (!varsel) {
         return (
             <div className="varsel-detaljer varsel-detaljer-tom">

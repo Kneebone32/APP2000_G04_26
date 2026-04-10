@@ -114,7 +114,7 @@ export function useVarsler({token, pollIntervall = 10000, autoPoll = false} = {}
         }
     }, [authHeaders, token]);
 
-    //Behandler en oppgave
+    //Behandler en oppgave. optimistisk oppdatering ble kaotisk. refactor hvis tid
     const behandleOppgave = useCallback(async (varselId, beslutning) => {
         if (!token) return;
         try {
@@ -123,13 +123,18 @@ export function useVarsler({token, pollIntervall = 10000, autoPoll = false} = {}
             const response = await fetch(`${import.meta.env.VITE_API_URL}/varsler/${varselId}/behandle`, {
                 method: 'POST',
                 headers: authHeaders,
-                body: JSON.stringify({ beslutning: beslutning === 'godtatt' })
+                body: JSON.stringify({beslutning: beslutning === 'godtatt'})
             });
             if (!response.ok) throw new Error('Kunne ikke behandle oppgaven');
+            const nyForespørselStatus = beslutning === 'godtatt' ? 'godkjent' : 'avslatt';
             setVarsler((forrige) =>
-                forrige.map((varsel) => varsel.varsel_id === varselId ? {...varsel, status: beslutning} : varsel)
+                forrige.map((varsel) => varsel.varsel_id === varselId
+                    ? {...varsel, status: 'behandlet', foresporsel_status: nyForespørselStatus}
+                    : varsel)
             );
-            setValgtVarsel((forrige) => forrige ? {...forrige, status: beslutning} : null);
+            setValgtVarsel((forrige) => forrige
+                ? {...forrige, status: 'behandlet', foresporsel_status: nyForespørselStatus}
+                : null);
         } catch (err) {
             setError(err.message);
             throw err;

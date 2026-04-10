@@ -1,20 +1,23 @@
+import {FORESPØRSEL_STATUS} from "../../../constants/konstanter";
+
 //Håndterer hytteeier-varsler for ny fellestur. Laget av Kay
 export default function OppgaveHytteeierNyFellestur({ varsel, loading, onBeslutning }) {
-    const erBehandlet = varsel.status === 'behandlet' || varsel.status === 'godtatt' || varsel.status === 'avvist';
-    //{varsel.status === 'godtatt' ? 'Du bekreftet at du har plass' : 'Du meldte at du ikke har plass'}
+    const erBehandlet = varsel.status === 'behandlet';
 
     if (erBehandlet) {
         return (
             <div className="varsel-detaljer-behandlet">
-                <span>Er behandlet. HUSK: Legg til mer info her (avslått/godkjent)</span>
+                {varsel.foresporsel_status === FORESPØRSEL_STATUS.GODKJENT ? 'Du bekreftet at du har plass' : 'Du meldte at du ikke har plass'}
+                {varsel.foresporsel_status === FORESPØRSEL_STATUS.GODKJENT && (
                 <button
                     className="varsel-knapp varsel-knapp-avvis"
-                    onClick={() => onBeslutning('avvist', { melding: 'Avslått – hyttebestillinger vil ikke forekomme' })}
+                    onClick={() => onBeslutning('avvist', { melding: 'Avslått. hyttebestillinger vil ikke forekomme' })}
                     disabled={loading}
                     style={{margin: "1rem "}}
                 >
                     Trekk bekreftelse
                 </button>
+                )}
             </div>
         );
     }

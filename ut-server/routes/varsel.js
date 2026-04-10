@@ -48,46 +48,8 @@ router.post('/rolle-foresporsel', auth, async (req, res) => {
     }
 });
 
-// Henter ett varsel med handling_data
-router.get('/:id', auth, async (req, res) => {
-  try {
-    const bruker_id = req.user.bruker_id;
-    const varsel_id = parseInt(req.params.id);
 
-    const varselResult = await pool.query(
-      `SELECT v.*, vt.type_navn, vt.varsel_kategori
-       FROM public.varsel v
-       JOIN public.varsel_type vt ON vt.type_id = v.type_id
-       WHERE v.varsel_id = $1 AND v.mottaker_id = $2`,
-      [varsel_id, bruker_id]
-    );
 
-    if (varselResult.rows.length === 0) {
-      return res.status(404).json({ error: 'Varsel ikke funnet' });
-    }
-
-    const varsel = varselResult.rows[0];
-    let handling_data = null;
-
-    if (varsel.referanse_type === 'bruker_rolle_foresporsel') {
-      const forespørselResult = await pool.query(
-        `SELECT f.foresporsel_id, b.bruker_navn, b.bruker_etternavn, b.bruker_epost,
-                r.rolle_id, r.rolle_navn, f.status, f.opprettet_tidspunkt
-         FROM public.bruker_rolle_foresporsel f
-         JOIN public.bruker b ON b.bruker_id = f.bruker_id
-         JOIN public.rolle r ON r.rolle_id = f.rolle_id
-         WHERE f.foresporsel_id = $1`,
-        [varsel.referanse_id]
-      );
-      handling_data = forespørselResult.rows[0] ?? null;
-    }
-
-    res.json({ ...varsel, handling_data });
-  } catch (err) {
-    console.error('Feil ved henting av varsel:', err);
-    res.status(500).json({ error: 'Kunne ikke hente varsel' });
-  }
-});
 
 // Oppretter nytt varsel (internt)
 router.post('/', auth, async (req, res) => {
@@ -158,6 +120,24 @@ router.post('/:id/behandle', auth, async (req, res) => {
     console.error('Feil ved behandling av varsel-oppgave:', err);
     const melding = err.message ?? 'Kunne ikke behandle oppgave';
     res.status(400).json({ error: melding });
+  }
+});
+
+//Henter ett varsel
+router.get('/:id', auth, async (req, res) => {
+  try {
+    const bruker_id = req.user.bruker_id;
+    const varsel_id = parseInt(req.params.id);
+    
+    const result = await pool.query(
+      `SELECT * FROM public.varsel_hent_alle($1) WHERE varsel_id = $2`,
+      [bruker_id, varsel_id]
+    );
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error('Feil ved henting av varsel:', err);
+    res.status(500).json({ error: 'Kunne ikke hente varsel' });
   }
 });
 
