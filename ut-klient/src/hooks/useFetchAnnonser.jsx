@@ -1,10 +1,15 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 // Hook for annonseendepunkter: liste, kort, enkelannonse og CRUD. Laget av Olai
-export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, annonseKort = false } = {}) {
+export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, annonseKort = false, token = null } = {}) {
   const [annonser, setAnnonser] = useState([]);
   const [loadingAnnonser, setLoadingAnnonser] = useState(false);
   const [errorAnnonser, setErrorAnnonser] = useState(null);
+
+  const authHeaders = useMemo(() => ({
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  }), [token]);
 
   const fetchAnnonser = useCallback(async () => {
     try {
@@ -63,7 +68,7 @@ export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, anno
 
     const response = await fetch(`${import.meta.env.VITE_API_URL}/annonser/${id}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: authHeaders,
       body: JSON.stringify(data),
     });
 
@@ -74,13 +79,14 @@ export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, anno
     const oppdatert = await response.json();
     setAnnonser(prev => prev.map(a => a.annonse_id === parseInt(id) ? { ...a, ...oppdatert } : a));
     return oppdatert;
-  }, []);
+  }, [authHeaders]);
 
   // Sletter en annonse og oppdaterer lokal state.
   const slettAnnonse = useCallback(async (id) => {
 
     const response = await fetch(`${import.meta.env.VITE_API_URL}/annonser/${id}`, {
       method: "DELETE",
+      headers: authHeaders,
     });
 
     if (!response.ok) {
@@ -89,13 +95,14 @@ export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, anno
 
     setAnnonser(prev => prev.filter(a => a.annonse_id !== parseInt(id)));
     return await response.json();
-  }, []);
+  }, [authHeaders]);
 
   // Godkjenner en ventende annonse og oppdaterer lokal state.
   const godkjennAnnonse = useCallback(async (id) => {
 
     const response = await fetch(`${import.meta.env.VITE_API_URL}/annonser/${id}/godkjenn`, {
       method: "PUT",
+      headers: authHeaders,
     });
 
     if (!response.ok) {
@@ -104,13 +111,14 @@ export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, anno
 
     setAnnonser(prev => prev.map(a => a.annonse_id === parseInt(id) ? { ...a, status: "godkjent" } : a));
     return await response.json();
-  }, []);
+  }, [authHeaders]);
 
   // Avviser en ventende annonse og oppdaterer lokal state.
   const avvisAnnonse = useCallback(async (id) => {
 
     const response = await fetch(`${import.meta.env.VITE_API_URL}/annonser/${id}/avvis`, {
       method: "PUT",
+      headers: authHeaders,
     });
 
     if (!response.ok) {
@@ -119,7 +127,7 @@ export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, anno
 
     setAnnonser(prev => prev.map(a => a.annonse_id === parseInt(id) ? { ...a, status: "avvist" } : a));
     return await response.json();
-  }, []);
+  }, [authHeaders]);
 
   // Henter visnings- og klikkstatistikk for en annonse.
   const hentStatistikk = useCallback(async (id) => {

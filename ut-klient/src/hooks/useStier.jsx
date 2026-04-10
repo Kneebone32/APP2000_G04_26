@@ -1,8 +1,14 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 //Hook til Stier. Laget av Kay
-export function useStier({autoFetch = false} = {}) {
+export function useStier({autoFetch = false, token = null} = {}) {
   const [stier, setStier] = useState([]);
+
+  const authHeaders = useMemo(() => ({
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  }), [token]);
+  
   const [loading, setLoading] = useState(autoFetch);
   const [error, setError] = useState(null);
 
@@ -32,7 +38,7 @@ export function useStier({autoFetch = false} = {}) {
 
       const response = await fetch(`${import.meta.env.VITE_API_URL}/sti`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: authHeaders,
         body: JSON.stringify(data)
       });
 
@@ -45,7 +51,7 @@ export function useStier({autoFetch = false} = {}) {
     } finally {
         setLoading(false);
     }
-  }, []);
+  }, [authHeaders]);
 
 
 

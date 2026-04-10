@@ -1,8 +1,14 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 // Hook for hytteendepunkter: liste, kort, enkelthytte og sletting. Laget av Olai med mindre annet er spesifisert.
 export function useFetchHytter({autoFetch = false, hentHytteID = null, hytteKort = false, token = null} = {}) {
   const [hytter, setHytter] = useState([]);
+
+  const authHeaders = useMemo(() => ({
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  }), [token]);
+  
   const [mineHytteIder, setMineHytteIder] = useState([]);
   const [loading, setLoading] = useState();
   const [error, setError] = useState(null);
@@ -84,7 +90,8 @@ export function useFetchHytter({autoFetch = false, hentHytteID = null, hytteKort
   const deleteHytte = useCallback (async (id) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: authHeaders
       });
 
       if (!response.ok) {
@@ -92,12 +99,12 @@ export function useFetchHytter({autoFetch = false, hentHytteID = null, hytteKort
       }
 
       setHytter(prevHytte => prevHytte.filter(hytte => hytte.hytte_id !== id));
-      
+
       return await response.json();
     } catch (err) {
       throw new Error(err.message);
     }
-  }, []);
+  }, [authHeaders]);
 
   // Kjører automatisk henting basert på hvilke flagg som er satt.
   useEffect(() => {

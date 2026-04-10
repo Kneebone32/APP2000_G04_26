@@ -1,8 +1,14 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 //Hook til turmål. Laget av Kay
-export function useTurmål({autoFetch = false, hentTurmålID = null} = {}) {
+export function useTurmål({autoFetch = false, hentTurmålID = null, token = null} = {}) {
   const [turmål, setTurmål] = useState([]);
+
+  const authHeaders = useMemo(() => ({
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  }), [token]);
+  
   const [loading, setLoading] = useState(autoFetch);
   const [error, setError] = useState(null);
 
@@ -49,7 +55,7 @@ export function useTurmål({autoFetch = false, hentTurmålID = null} = {}) {
 
       const response = await fetch(`${import.meta.env.VITE_API_URL}/turmaal`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: authHeaders,
         body: JSON.stringify(data)
       });
 
@@ -62,7 +68,7 @@ export function useTurmål({autoFetch = false, hentTurmålID = null} = {}) {
     } finally {
         setLoading(false);
     }
-  }, []);
+  }, [authHeaders]);
 
   //Opptaterer en turmål
   const redigerTurmål = useCallback(async (id, data) => {
@@ -72,7 +78,7 @@ export function useTurmål({autoFetch = false, hentTurmålID = null} = {}) {
 
       const response = await fetch(`${import.meta.env.VITE_API_URL}/turmaal/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: authHeaders,
         body: JSON.stringify(data)
       });
 
@@ -85,7 +91,7 @@ export function useTurmål({autoFetch = false, hentTurmålID = null} = {}) {
     } finally {
         setLoading(false);
     }
-  }, []);
+  }, [authHeaders]);
 
 
   //Sletter en turmål
@@ -94,8 +100,11 @@ export function useTurmål({autoFetch = false, hentTurmålID = null} = {}) {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/turmaal/${id}`, { method: 'DELETE' });
-    if (!response.ok) throw new Error("Kunne ikke slette turmålet");
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/turmaal/${id}`, {
+        method: 'DELETE',
+        headers: authHeaders
+      });
+      if (!response.ok) throw new Error("Kunne ikke slette turmålet");
 
       setTurmål(prev => prev.filter(m => m.turmål !== id));
     } catch (err){
@@ -104,7 +113,7 @@ export function useTurmål({autoFetch = false, hentTurmålID = null} = {}) {
     } finally {
         setLoading(false);
     }
-  }, []);
+  }, [authHeaders]);
 
 
   useEffect(() => {

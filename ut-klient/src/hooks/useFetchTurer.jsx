@@ -1,8 +1,14 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 // Hook til turruter. Laget av Olai med mindre annet er spesifisert
-export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteID = null, turKort = null}  = {}) {
+export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteID = null, turKort = null, token = null}  = {}) {
   const [turer, setTurer] = useState([]);
+
+  const authHeaders = useMemo(() => ({
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  }), [token]);
+  
   const [loadingTurer, setLoadingTurer] = useState();
   const [errorTurer, setErrorTurer] = useState(null);
   const [turDetaljer, setTurDetaljer] = useState(null);
@@ -55,7 +61,7 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/tur/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: authHeaders,
         body: JSON.stringify(data)
       });
 
@@ -71,13 +77,14 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
     } catch (err) {
       throw new Error(err.message);
     }
-  }, []);
+  }, [authHeaders]);
 
   // Sletter en turrute
   const deleteTur = useCallback (async (id) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/tur/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: authHeaders
       });
 
       if (!response.ok) {
@@ -85,12 +92,12 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
       }
 
       setTurer(prevTur => prevTur.filter(tur => tur.turrute_id !== id));
-      
+
       return await response.json();
     } catch (err) {
       throw new Error(err.message);
     }
-  }, []);
+  }, [authHeaders]);
 
   // Henter en turrute basert på ID
   const hentTurFraId = useCallback(async (id) => {
