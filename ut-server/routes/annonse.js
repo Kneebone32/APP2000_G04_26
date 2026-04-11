@@ -23,14 +23,14 @@ router.post('/', auth, async (req, res) => {
         } = req.body;
 
         const result = await pool.query(
-            `SELECT public.annonse_opprett($1, $2, $3, $4, $5, $6, $7, $8, $9) AS annonse_id`,
+            `SELECT public.annonse_opprett($1, $2, $3, $4, $5, $6::text[], $7, $8, $9) AS annonse_id`,
             [
                 bruker_id,
                 annonse_navn,
                 tittel,
                 beskrivelse,
                 bilde_url,
-                sokeord,
+                sokeord, 
                 start_dato,
                 slutt_dato,
                 status || 'inaktiv'
