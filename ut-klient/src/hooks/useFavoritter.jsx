@@ -19,7 +19,7 @@ export function useFavoritter({ token } = {}) {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/favoritter`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/favoritter/hytter`, {
         headers: authHeaders
       });
       if (!response.ok) throw new Error(`Kunne ikke hente favoritter: ${response.status}`);
@@ -45,7 +45,7 @@ export function useFavoritter({ token } = {}) {
     });
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/favoritter/${hytteId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/favoritter/hytter/${hytteId}`, {
         method: erFavoritt ? 'DELETE' : 'POST',
         headers: authHeaders
       });
@@ -70,12 +70,12 @@ export function useFavoritter({ token } = {}) {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/tur/favoritter`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/favoritter/turer`, {
         headers: authHeaders
       });
       if (!response.ok) throw new Error(`Kunne ikke hente turfavoritter: ${response.status}`);
       const data = await response.json();
-      setTurFavoritter(new Set(data.map(f => f.turrute_id)));
+      setTurFavoritter(new Set(data.map(f => f.tur_id)));
     } catch (err) {
       setError(err.message);
     } finally {
@@ -96,7 +96,7 @@ export function useFavoritter({ token } = {}) {
     });
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/tur/favoritter/${turId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/favoritter/turer/${turId}`, {
         method: erFavoritt ? 'DELETE' : 'POST',
         headers: authHeaders
       });

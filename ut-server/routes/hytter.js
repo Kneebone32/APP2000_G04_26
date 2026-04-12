@@ -46,44 +46,6 @@ router.get('/kort', async (req, res) => {
   }
 });
 
-// Henter alle favoritthytter til en bruker
-router.get('/favoritter', auth, async (req, res) => {
-  try {
-    const brukerId = req.user.bruker_id;
-    const result = await pool.query('SELECT hytte_id FROM favoritt_hytte WHERE bruker_id = $1', [brukerId]);
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Kunne ikke hente favoritter' });
-  }
-});
-
-// Legger til en hytte i favoritter
-router.post('/favoritter/:id', auth, async (req, res) => {
-  try {
-    const brukerId = req.user.bruker_id;
-    const hytteId = req.params.id;
-    await pool.query('INSERT INTO favoritt_hytte (bruker_id, hytte_id) VALUES ($1, $2) ON CONFLICT DO NOTHING', [brukerId, hytteId]);
-    res.status(201).json({ message: 'Favoritt lagt til' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Kunne ikke legge til favoritt' });
-  }
-});
-
-// Fjerner en hytte fra favoritter
-router.delete('/favoritter/:id', auth, async (req, res) => {
-  try {
-    const brukerId = req.user.bruker_id;
-    const hytteId = req.params.id;
-    await pool.query('DELETE FROM favoritt_hytte WHERE bruker_id = $1 AND hytte_id = $2', [brukerId, hytteId]);
-    res.json({ message: 'Favoritt fjernet' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Kunne ikke fjerne favoritt' });
-  }
-});
-
 // Henter anmeldelser for en hytte
 router.get('/:id/anmeldelser', async (req, res) => {
   try {
