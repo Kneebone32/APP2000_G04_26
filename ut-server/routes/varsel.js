@@ -143,6 +143,21 @@ router.get('/:id', auth, async (req, res) => {
 
 
 
-//TODO: slett varsel
+// Slett varsel
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const varsel_id = req.params.id;
+
+    await pool.query(
+      'SELECT public.varsel_slett($1)',
+      [varsel_id]
+    );
+
+    res.json({ message: 'Varsel slettet' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke slette varsel' });
+  }
+});
 
 export default router;
