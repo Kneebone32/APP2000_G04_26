@@ -14,7 +14,7 @@ import varselRoutes from './varsel.js';
 import anmeldelserRoutes from './anmeldelser.js';
 import pamelding from './pamelding.js';
 import annonseRoutes from './annonse.js';
-import favorittRoutes from './favoritt.js';
+import favorittRoutes from './favoritter.js';
 
 const router = express.Router();
 
