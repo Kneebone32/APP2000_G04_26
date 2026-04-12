@@ -42,9 +42,12 @@ router.post('/', auth, async (req, res) => {
       nyeStier,
       gpx,
       bilder,
-      ruteLengde
+      ruteLengde,
+      pris,
+      rabatt_pris,
+      rabatt_frist,
+      avbestillingsfrist_dager
     } = req.body;
-
 
     const result = await pool.query(
       `SELECT public.aktivitet_opprett(
@@ -64,7 +67,11 @@ router.post('/', auth, async (req, res) => {
         $14::jsonb,
         $15::jsonb,
         $16::jsonb,
-        $17::numeric
+        $17::numeric,
+        $18::numeric,
+        $19::numeric,
+        $20::timestamp,
+        $21::integer
       ) AS ny_aktivitet_id`,
       [
         aktivitet_tittel,
@@ -83,7 +90,11 @@ router.post('/', auth, async (req, res) => {
         nyeStier ? JSON.stringify(nyeStier) : '[]',
         gpx ? JSON.stringify(gpx) : '[]',
         bilder ? JSON.stringify(bilder) : '[]',
-        ruteLengde ?? 0
+        ruteLengde ?? 0,
+        pris ?? null,
+        rabatt_pris ?? null,
+        rabatt_frist ?? null,
+        avbestillingsfrist_dager ?? null
       ]
     );
 
