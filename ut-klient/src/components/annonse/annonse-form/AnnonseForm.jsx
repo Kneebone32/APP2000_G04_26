@@ -1,27 +1,31 @@
 import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useEnums } from "../../../hooks/useEnums";
 import { useFileUpload } from "../../../hooks/useFileUpload";
 import TempBilde from "../../TempBilde";
 import SøkeordDropdown from "../SøkeordDropdown";
 import "./AnnonseForm.css";
 
+const SØKEORD_VALG = ["hytte", "turer", "turmaal", "fellestur"];
+
 // Delt skjema for LeggTilAnnonse og RedigerAnnonse. Laget av Olai.
 export default function AnnonseForm({ lagretData = {}, onSubmitAction, buttonTekst }) {
   const { t } = useTranslation();
   const uploaderRef = useRef(null);
-  const { enumData: søkeordValg } = useEnums("annonse_søkeord_enum");
+  const søkeordValg = SØKEORD_VALG;
 
-  const [annonserNavn, setAnnonserNavn] = useState(lagretData.annonserNavn || "");
+  const [annonserNavn, setAnnonserNavn] = useState(lagretData.annonse_navn || "");
   const [tittel, setTittel] = useState(lagretData.tittel || "");
   const [beskrivelse, setBeskrivelse] = useState(lagretData.beskrivelse || lagretData.tekst || "");
-  const [bildeUrl, setBildeUrl] = useState(lagretData.bilder || []);
+  const [bildeUrl, setBildeUrl] = useState(lagretData.bilde_url || "");
   const [tempUrl, setTempUrl] = useState("");
-  const [søkeord, setSøkeord] = useState(lagretData.søkeord || []);
-  const [startDato, setStartDato] = useState(lagretData.startDato ? lagretData.startDato.slice(0, 10) : "");
-  const [sluttDato, setSluttDato] = useState(lagretData.sluttDato ? lagretData.sluttDato.slice(0, 10) : "");
+  const [søkeord, setSøkeord] = useState(lagretData.sokeord || lagretData.søkeord || []);
+  const [startDato, setStartDato] = useState(lagretData.start_dato ? lagretData.start_dato.slice(0, 10) : "");
+  const [sluttDato, setSluttDato] = useState(lagretData.slutt_dato ? lagretData.slutt_dato.slice(0, 10) : "");
 
-  useFileUpload(setBildeUrl);
+  // useFileUpload gir tilbake en array - vi tar bare første URL som string.
+  useFileUpload((urls) => {
+    if (Array.isArray(urls) && urls.length > 0) setBildeUrl(urls[0]);
+  });
 
   // Legger til eller fjerner et søkeord fra listen.
   const handleToggleSøkeord = (ord) => {
@@ -30,11 +34,11 @@ export default function AnnonseForm({ lagretData = {}, onSubmitAction, buttonTek
     );
   };
 
-  // Legger til en midlertidig bilde-URL manuelt i bilde-listen. Laget av Kay.
+  // Legger til en midlertidig bilde-URL manuelt. Laget av Kay.
   const handleLeggTilBilde = (e) => {
     e.preventDefault();
     if (tempUrl.trim() !== "") {
-      setBildeUrl([...bildeUrl, tempUrl]);
+      setBildeUrl(tempUrl.trim());
       setTempUrl("");
     }
   };
@@ -53,13 +57,13 @@ export default function AnnonseForm({ lagretData = {}, onSubmitAction, buttonTek
     }
 
     onSubmitAction({
-      annonserNavn: annonserNavn.trim(),
+      annonse_navn: annonserNavn.trim(),
       tittel: tittel.trim(),
       beskrivelse: beskrivelse.trim(),
-      bildeUrl: bildeUrl,
-      søkeord: søkeord,
-      startDato: startDato || null,
-      sluttDato: sluttDato || null,
+      bilde_url: bildeUrl,
+      sokeord: søkeord,
+      start_dato: startDato || null,
+      slutt_dato: sluttDato || null,
     });
   };
 
@@ -144,17 +148,14 @@ export default function AnnonseForm({ lagretData = {}, onSubmitAction, buttonTek
           ref={uploaderRef}
           public-key={import.meta.env.VITE_SFU_PUBLIC_KEY}
         ></simple-file-upload>
-        {bildeUrl.length > 0 && (
+        {bildeUrl && (
           <div className="AnnonseFormBildeForhandsvisning">
-            <p>{t("hytter.bilde_lastet_opp")} ({bildeUrl.length})</p>
-            {bildeUrl.map((url, index) => (
-              <img
-                key={index}
-                src={url.includes("simplefileupload") ? `${url}?w=200&h=200&fit=fit` : url}
-                alt={`Preview ${index + 1}`}
-                className="AnnonseFormBilde"
-              />
-            ))}
+            <p>{t("hytter.bilde_lastet_opp")}</p>
+            <img
+              src={bildeUrl.includes("simplefileupload") ? `${bildeUrl}?w=200&h=200&fit=fit` : bildeUrl}
+              alt="Forhåndsvisning"
+              className="AnnonseFormBilde"
+            />
           </div>
         )}
         <TempBilde tempUrl={tempUrl} setTempUrl={setTempUrl} onLeggTil={handleLeggTilBilde} />

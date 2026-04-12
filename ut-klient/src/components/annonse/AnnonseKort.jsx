@@ -22,9 +22,9 @@ export default function AnnonseKort({ annonse }) {
   return (
     <div className="Annonsekort" onClick={handleKlikk}>
       <div className="AnnonseHovedkort">
-        {annonse.bildeUrl && (
+        {annonse.bilde_url && (
           <img
-            src={annonse.bildeUrl}
+            src={annonse.bilde_url}
             alt={annonse.tittel || "Annonsebilde"}
             className="Annonsebilde"
           />
@@ -32,18 +32,18 @@ export default function AnnonseKort({ annonse }) {
 
         <div className="AnnonsekortBody">
           <h3 className="AnnonsekortTitle">{annonse.tittel || "Uten tittel"}</h3>
-          <p className="AnnonsekortText">{annonse.beskrivelse || annonse.tekst || ""}</p>
-          <p className="AnnonsekortMeta">Annonser: {annonse.annonserNavn || annonse.annonser_navn || "Ukjent"}</p>
-          {(annonse.startDato || annonse.start_dato) && (
+          <p className="AnnonsekortText">{annonse.beskrivelse || ""}</p>
+          <p className="AnnonsekortMeta">Annonsør: {annonse.annonse_navn || "Ukjent"}</p>
+          {annonse.start_dato && (
             <p className="AnnonsekortMeta">
-              Periode: {(annonse.startDato || annonse.start_dato)?.slice(0, 10)}
+              Periode: {annonse.start_dato?.slice(0, 10)}
               {" – "}
-              {(annonse.sluttDato || annonse.slutt_dato)?.slice(0, 10) || "–"}
+              {annonse.slutt_dato?.slice(0, 10) || "–"}
             </p>
           )}
-          {annonse.søkeord?.length > 0 && (
+          {annonse.sokeord?.length > 0 && (
             <div className="AnnonsekortSøkeord">
-              {annonse.søkeord.map(ord => (
+              {annonse.sokeord.map(ord => (
                 <span key={ord} className="AnnonsekortTag">{ord}</span>
               ))}
             </div>

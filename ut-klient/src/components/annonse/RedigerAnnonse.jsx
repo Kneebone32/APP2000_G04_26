@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { useFetchAnnonser } from "../../hooks/useFetchAnnonser";
 import AnnonseForm from "./annonse-form/AnnonseForm";
 
 // Lar bruker søke opp en annonse, hente eksisterende data og oppdatere den. Laget av Olai.
 export default function RedigerAnnonse({ onSuccess }) {
-    const { annonser, loadingAnnonser, errorAnnonser, hentAnnonseFraId, oppdaterAnnonse } = useFetchAnnonser({ autoFetch: true });
+    const token = localStorage.getItem("token");
+    const { annonser, loadingAnnonser, errorAnnonser, hentAnnonseFraId, oppdaterAnnonse } = useFetchAnnonser({ autoFetch: true, token });
 
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedId, setSelectedId] = useState(null);
@@ -33,14 +35,13 @@ export default function RedigerAnnonse({ onSuccess }) {
                 const annonse = await hentAnnonseFraId(selectedId);
 
                 setLagretData({
-                    annonserNavn: annonse.annonser_navn || annonse.annonserNavn || "",
+                    annonse_navn: annonse.annonse_navn || "",
                     tittel: annonse.tittel || "",
                     beskrivelse: annonse.beskrivelse || annonse.tekst || "",
-                    kategori: annonse.kategori || "",
-                    bilder: annonse.bilder?.map(b => b.url || b) || (annonse.bildeUrl ? [annonse.bildeUrl] : []),
-                    startDato: annonse.start_dato || annonse.startDato || "",
-                    sluttDato: annonse.slutt_dato || annonse.sluttDato || "",
-                    søkeord: annonse.søkeord || [],
+                    bilde_url: annonse.bilde_url || [],
+                    start_dato: annonse.start_dato || "",
+                    slutt_dato: annonse.slutt_dato || "",
+                    sokeord: annonse.sokeord || [],
                 });
             } catch (err) {
                 setError("Kunne ikke hente annonsedata");
@@ -61,7 +62,7 @@ export default function RedigerAnnonse({ onSuccess }) {
 
             await oppdaterAnnonse(selectedId, formData);
 
-            alert("Annonse oppdatert");
+            toast.success("Annonse oppdatert!");
             setLagretData(null);
             setSelectedId(null);
             setSearchTerm("");
@@ -69,7 +70,7 @@ export default function RedigerAnnonse({ onSuccess }) {
             if (onSuccess) onSuccess();
         } catch (err) {
             console.error("Error: ", err);
-            setError("Kunne ikke oppdatere annonsen");
+            toast.error("Kunne ikke oppdatere annonsen: " + err.message);
         } finally {
             setLoading(false);
         }

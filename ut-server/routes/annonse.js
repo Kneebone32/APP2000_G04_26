@@ -6,8 +6,29 @@ const router = express.Router();
 const auth = passport.authenticate('jwt', { session: false });
 
 
+// Hent alle annonser Laget av AI
+router.get('/', async (_req, res) => {
+    try {
+        const result = await pool.query(
+            `SELECT a.annonse_id, a.bruker_id, a.annonse_navn, a.tittel, a.beskrivelse, a.bilde_url,
+                    a.start_dato, a.slutt_dato, a.status, a.opprettet_dato,
+                    COALESCE(ARRAY_AGG(s.navn) FILTER (WHERE s.navn IS NOT NULL), '{}') AS sokeord
+             FROM annonse a
+             LEFT JOIN annonse_sokeord_kobling k ON a.annonse_id = k.annonse_id
+             LEFT JOIN annonse_sokeord s ON k.sokeord_id = s.sokeord_id
+             GROUP BY a.annonse_id
+             ORDER BY a.opprettet_dato DESC`
+        );
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Kunne ikke hente annonser' });
+    }
+});
+
 // Opprett annonse
 router.post('/', auth, async (req, res) => {
+    console.log(req.body);
     try {
         const bruker_id = req.user.bruker_id;
 
@@ -99,6 +120,55 @@ router.post('/:id/klikk', async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Kunne ikke registrere klikk' });
+    }
+});
+
+// Oppdater annonse laget av AI.
+router.put('/:id', auth, async (req, res) => {
+    const client = await pool.connect();
+    try {
+        const annonse_id = req.params.id;
+        const bruker_id = req.user.bruker_id;
+
+        const { annonse_navn, tittel, beskrivelse, bilde_url, sokeord, start_dato, slutt_dato } = req.body;
+
+        await client.query('BEGIN');
+
+        const result = await client.query(
+            `UPDATE annonse
+             SET annonse_navn = $1, tittel = $2, beskrivelse = $3, bilde_url = $4,
+                 start_dato = $5, slutt_dato = $6
+             WHERE annonse_id = $7 AND bruker_id = $8
+             RETURNING *`,
+            [annonse_navn, tittel, beskrivelse, bilde_url, start_dato, slutt_dato, annonse_id, bruker_id]
+        );
+
+        if (result.rows.length === 0) {
+            await client.query('ROLLBACK');
+            return res.status(404).json({ error: 'Annonse ikke funnet eller du har ikke tilgang' });
+        }
+
+        await client.query(
+            `DELETE FROM annonse_sokeord_kobling WHERE annonse_id = $1`,
+            [annonse_id]
+        );
+
+        if (sokeord && sokeord.length > 0) {
+            await client.query(
+                `INSERT INTO annonse_sokeord_kobling (annonse_id, sokeord_id)
+                 SELECT $1, s.sokeord_id FROM annonse_sokeord s WHERE s.navn = ANY($2::text[])`,
+                [annonse_id, sokeord]
+            );
+        }
+
+        await client.query('COMMIT');
+        res.json(result.rows[0]);
+    } catch (err) {
+        await client.query('ROLLBACK');
+        console.error(err);
+        res.status(500).json({ error: 'Kunne ikke oppdatere annonse' });
+    } finally {
+        client.release();
     }
 });
 

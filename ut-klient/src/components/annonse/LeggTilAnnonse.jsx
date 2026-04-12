@@ -1,31 +1,33 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import AnnonseForm from "./annonse-form/AnnonseForm";
 
 // Oppretter en ny annonse. Laget av Olai.
 export default function LeggTilAnnonse({ onSuccess }) {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const handleOpprett = async (formData) => {
     try {
       setLoading(true);
-      setError(null);
 
+      const token = localStorage.getItem("token");
       const response = await fetch(`${import.meta.env.VITE_API_URL}/annonser`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-            formData 
-        }),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
         throw new Error(`Feil ved opprettelse: ${response.status}`);
       }
 
+      toast.success("Annonse opprettet!");
       if (onSuccess) onSuccess();
     } catch (err) {
-      setError(err.message);
+      toast.error("Kunne ikke opprette annonsen: " + err.message);
     } finally {
       setLoading(false);
     }
@@ -34,8 +36,6 @@ export default function LeggTilAnnonse({ onSuccess }) {
   return (
     <div>
       <h2>Legg til annonse</h2>
-      {loading && <p>Lagrer annonse...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
       <AnnonseForm
         onSubmitAction={handleOpprett}
         buttonTekst={loading ? "Lagrer..." : "Legg til annonse"}

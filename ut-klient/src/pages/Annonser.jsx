@@ -6,7 +6,7 @@ import "./Annonser.css";
 
 // Viser oversikt over alle annonser som kort. Laget av Olai.
 export default function Annonser() {
-  const { annonser, loadingAnnonser, errorAnnonser } = useFetchAnnonser({ annonseKort: true });
+  const { annonser, loadingAnnonser, errorAnnonser } = useFetchAnnonser({ autoFetch: true });
   const { t } = useTranslation();
 
   return (

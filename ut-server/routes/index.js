@@ -13,6 +13,7 @@ import meldingerRoutes from './meldinger.js';
 import varselRoutes from './varsel.js';
 import anmeldelserRoutes from './anmeldelser.js';
 import pamelding from './pamelding.js';
+import annonseRoutes from './annonse.js';
 
 const router = express.Router();
 
@@ -28,5 +29,6 @@ router.use('/meldinger', meldingerRoutes);
 router.use('/varsler', varselRoutes);
 router.use('/anmeldelser', anmeldelserRoutes);
 router.use('/pamelding', pamelding);
+router.use('/annonser', annonseRoutes);
 
 export default router;
