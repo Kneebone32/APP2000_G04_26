@@ -124,12 +124,19 @@ router.get('/:id/deltakere', async (req, res) => {
 router.post('/:id/bildesamtykke', auth, async (req, res) => {
   try {
     const bruker_id = req.user.bruker_id;
-    const aktivitet_id = req.params.id;
-    const {samtykke} = req.body;
+    const aktivitet_dato_id = req.params.id; // endret fra aktivitet_id
+    const { samtykke } = req.body;
 
-    //TODO: DB-funksjon når den er klar
+    const result = await pool.query(
+      `SELECT *
+       FROM public.pamelding_sett_bilde_samtykke($1, $2, $3)`,
+      [bruker_id, aktivitet_dato_id, samtykke]
+    );
 
-    res.json({ message: 'Bildesamtykke registrert' });
+    res.json({
+      message: 'Bildesamtykke registrert',
+      data: result.rows[0]
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Kunne ikke registrere bildesamtykke' });
