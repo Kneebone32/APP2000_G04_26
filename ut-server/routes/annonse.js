@@ -172,4 +172,22 @@ router.put('/:id', auth, async (req, res) => {
     }
 });
 
+
+// Slett annonse
+router.delete('/:id', auth, async (req, res) => {
+    try {
+        const annonse_id = req.params.id;
+
+        await pool.query(
+            `SELECT public.annonse_slett($1)`,
+            [annonse_id]
+        );
+
+        res.json({ message: 'Annonse slettet' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Kunne ikke slette annonse' });
+    }
+});
+
 export default router;
