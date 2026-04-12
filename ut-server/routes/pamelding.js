@@ -124,12 +124,19 @@ router.get('/:id/deltakere', async (req, res) => {
 router.post('/:id/bildesamtykke', auth, async (req, res) => {
   try {
     const bruker_id = req.user.bruker_id;
-    const aktivitet_id = req.params.id;
-    const {samtykke} = req.body;
+    const aktivitet_dato_id = req.params.id; // endret fra aktivitet_id
+    const { samtykke } = req.body;
 
-    //TODO: DB-funksjon når den er klar
+    const result = await pool.query(
+      `SELECT *
+       FROM public.pamelding_sett_bilde_samtykke($1, $2, $3)`,
+      [bruker_id, aktivitet_dato_id, samtykke]
+    );
 
-    res.json({ message: 'Bildesamtykke registrert' });
+    res.json({
+      message: 'Bildesamtykke registrert',
+      data: result.rows[0]
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Kunne ikke registrere bildesamtykke' });
@@ -153,47 +160,6 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 
-// Lås / åpne påmelding for en aktivitetsdato
-router.patch('/dato/:aktivitet_dato_id/pamelding-last', auth, async (req, res) => {
-  try {
-    const aktivitet_dato_id = req.params.aktivitet_dato_id;
-    const { er_last } = req.body;
 
-    const result = await pool.query(
-      `SELECT *
-       FROM public.aktivitet_dato_sett_pamelding_last($1, $2)`,
-      [aktivitet_dato_id, er_last]
-    );
-
-    res.json({
-      message: er_last ? 'Påmelding låst' : 'Påmelding åpnet',
-      data: result.rows[0]
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Kunne ikke oppdatere lås for påmelding' });
-  }
-});
-
-// Velg fast dato for aktivitet
-router.patch('/dato/:aktivitet_dato_id/velg-fast', auth, async (req, res) => {
-  try {
-    const aktivitet_dato_id = req.params.aktivitet_dato_id;
-
-    const result = await pool.query(
-      `SELECT *
-       FROM public.aktivitet_dato_velg_fast_dato($1)`,
-      [aktivitet_dato_id]
-    );
-
-    res.json({
-      message: 'Fast dato valgt',
-      data: result.rows[0]
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Kunne ikke velge fast dato' });
-  }
-});
 
 export default router;
