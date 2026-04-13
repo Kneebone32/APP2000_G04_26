@@ -159,25 +159,25 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
-// Lås / åpne påmelding for en aktivitetsdato
-router.patch('/dato/:aktivitet_dato_id/pamelding-last', auth, async (req, res) => {
+// Lås / åpne påmelding for hele aktiviteten
+router.patch('/:aktivitet_id/pamelding-last', auth, async (req, res) => {
   try {
-    const aktivitet_dato_id = req.params.aktivitet_dato_id;
+    const aktivitet_id = req.params.aktivitet_id;
     const { er_last } = req.body;
 
     const result = await pool.query(
       `SELECT *
-       FROM public.aktivitet_dato_sett_pamelding_last($1, $2)`,
-      [aktivitet_dato_id, er_last]
+       FROM public.aktivitet_sett_pamelding_last($1, $2)`,
+      [aktivitet_id, er_last]
     );
 
     res.json({
-      message: er_last ? 'Påmelding låst' : 'Påmelding åpnet',
-      data: result.rows[0]
+      message: er_last ? 'Påmelding låst for hele aktiviteten' : 'Påmelding åpnet',
+      data: result.rows
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Kunne ikke oppdatere lås for påmelding' });
+    res.status(500).json({ error: 'Kunne ikke oppdatere lås for aktivitet' });
   }
 });
 
