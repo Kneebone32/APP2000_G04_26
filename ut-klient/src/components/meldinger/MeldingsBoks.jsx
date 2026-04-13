@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { formatMeldingTid } from '../../utils/datoUtils';
 import { useFileUpload } from '../../hooks/useFileUpload';
 import './MeldingsBoks.css';
@@ -13,13 +13,14 @@ export default function MeldingsBoks({ meldinger, loading, error, brukerId, onSe
     const bunnRef = useRef(null);
 
     //bilder i chatten
-    const setBildeUrl = (urls) => {
+    const setBildeUrl = useCallback((urls) => {
         if (urls && urls.length > 0) {
             setBildeUrlRaw(urls[0]);
             setVisOpplasting(false);
         }
-    };
-    useFileUpload(setBildeUrl);
+    }, []);
+    
+    useFileUpload(setBildeUrl, visOpplasting);
 
     //scroller automatisk til bunn når nye meldinger kommer inn
     useEffect(() => {
