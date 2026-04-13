@@ -219,49 +219,4 @@ router.get('/:id', async (req, res) => {
 
 
 
-//TODO: Lås fellestur (ingen flere påmeldinger. Enten via Turleder eller når ant. påmeldte = maks deltakere)
-// Lås / åpne påmelding for en aktivitetsdato
-router.patch('/dato/:aktivitet_dato_id/pamelding-last', auth, async (req, res) => {
-  try {
-    const aktivitet_dato_id = req.params.aktivitet_dato_id;
-    const { er_last } = req.body;
-
-    const result = await pool.query(
-      `SELECT *
-       FROM public.aktivitet_dato_sett_pamelding_last($1, $2)`,
-      [aktivitet_dato_id, er_last]
-    );
-
-    res.json({
-      message: er_last ? 'Påmelding låst' : 'Påmelding åpnet',
-      data: result.rows[0]
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Kunne ikke oppdatere lås for påmelding' });
-  }
-});
-
-//TODO: Lås dato på fellestur (går fra fleksibel til fast startdato på valgt dato)
-// Velg fast dato for aktivitet
-router.patch('/dato/:aktivitet_dato_id/velg-fast', auth, async (req, res) => {
-  try {
-    const aktivitet_dato_id = req.params.aktivitet_dato_id;
-
-    const result = await pool.query(
-      `SELECT *
-       FROM public.aktivitet_dato_velg_fast_dato($1)`,
-      [aktivitet_dato_id]
-    );
-
-    res.json({
-      message: 'Fast dato valgt',
-      data: result.rows[0]
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Kunne ikke velge fast dato' });
-  }
-});
-
 export default router;
