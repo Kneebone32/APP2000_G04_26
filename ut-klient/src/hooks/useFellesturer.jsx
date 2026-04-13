@@ -60,7 +60,7 @@ export function useFellestur({autoFetch = false, hentTurID = null, token = null}
         body: JSON.stringify(data)
       });
 
-      if (!response.ok) throw new Error("Kunne ikke lagre turen");
+      if (!response.ok) throw new Error("Kunne ikke lagre fellesturen");
 
       return await response.json();
     } catch (err){

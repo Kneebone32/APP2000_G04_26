@@ -161,14 +161,14 @@ export default function Navbar() {
             <button onClick={toggleSpråk} className="språk-toggle" title="Bytt språk">
                 <span className={`fi fi-${i18n.language === "en" ? "no" : "gb"}`}></span>
             </button>
-            <button className="nav-btn nav-close-btn" onClick={showNavbar}>
+            <button className="nav-btn nav-close-btn" onClick={showNavbar} title="lukk navbar" aria-label="lukk navbar">
               <FaTimes/>
             </button>
 
 
 
           </nav>
-          <button className="nav-btn" onClick={showNavbar}>
+          <button className="nav-btn" onClick={showNavbar} title="Vis navbar" aria-label="Vis navbar">
             <FaBars/>
           </button>
       </div>

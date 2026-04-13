@@ -68,6 +68,7 @@
 
 .melding-min {
     align-self: flex-end;
+    opacity: 0.9;
     background-color: var(--accent-color, #2e7d32);
     color: #fff;
     border-bottom-right-radius: 2px;
@@ -94,8 +95,9 @@
 
 .melding-tid {
     font-size: 0.7rem;
-    opacity: 0.6;
+    opacity: 0.8;
     align-self: flex-end;
+    color: #030303;
 }
 
 .meldingsboks-input {

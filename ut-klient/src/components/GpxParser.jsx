@@ -46,6 +46,7 @@ return (
         accept=".gpx" 
         onChange={handleFileChange} 
         className="gpx-filopplasting-input"
+        aria-label='last opp GPX fil'
       />
       </div>
     </div>

@@ -138,6 +138,7 @@ export default function MeldingsBoks({ meldinger, loading, error, brukerId, onSe
                     value={innhold}
                     onChange={(e) => setInnhold(e.target.value)}
                     placeholder="Skriv en melding"
+                    aria-label='Skriv en melding'
                 />
                 <button
                     type="button"

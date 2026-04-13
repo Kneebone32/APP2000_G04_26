@@ -43,6 +43,7 @@ export default function Hytter() {
             placeholder="Søk"
             value={søk}
             onChange={(e) => setSøk(e.target.value)}
+            aria-label="Søk etter hytter"
           />
         </div>
 

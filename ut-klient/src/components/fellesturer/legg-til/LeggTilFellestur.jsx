@@ -18,7 +18,7 @@ export default function LeggTilFellestur() {
             toast.success("Fellestur opprettet!");
             navigate(`/fellesturer/${result.aktivitet_id}`);
         } catch (err) {
-            console.log(err);
+            toast.error(err.message);
         }
     };
 

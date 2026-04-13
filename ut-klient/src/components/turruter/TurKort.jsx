@@ -58,7 +58,9 @@ export default function TurKort({turId, turNavn, vanskelighetsgrad, bildeUrl, tu
                             />
                         )}
                         {onToggleFavoritt && (
-                            <button className="favoritt-knapp" onClick={(e) => handleFavoritt(e, () => setVisLogginn(true), () => onToggleFavoritt?.(turId))}>
+                            <button className="favoritt-knapp" onClick={(e) => handleFavoritt(e, () => setVisLogginn(true), () => onToggleFavoritt?.(turId))}
+                                aria-label={erFavoritt ? "Fjern fra favoritter" : "Legg til i favoritter"}
+                                title={erFavoritt ? "Fjern fra favoritter" : "Legg til i favoritter"}>
                                 {erFavoritt ? <FaHeart className="favoritt-ikon aktiv" /> : <FaRegHeart className="favoritt-ikon" />}
                             </button>
                         )}

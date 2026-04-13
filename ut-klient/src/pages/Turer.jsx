@@ -35,6 +35,7 @@ export default function Turer() {
             placeholder="Søk"
             value={søk}
             onChange={(e) => setSøk(e.target.value)}
+            aria-label="Søk etter turer"
           />
         </div>
 

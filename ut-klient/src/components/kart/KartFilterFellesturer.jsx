@@ -50,7 +50,7 @@ export default function KartFilterFellesturer({ filter, setFilter, fellesturer =
           
           {/*Fellestur - søkefelt*/}
           <div className="filter-section">
-            <label>{t("felles.søk")}:</label>
+            <label>{t("felles.søk")}:
             <input
               type="text"
               placeholder={t("fellesturer.søk_fellestur")}
@@ -59,6 +59,7 @@ export default function KartFilterFellesturer({ filter, setFilter, fellesturer =
                 setFilter((prev) => ({ ...prev, søkeordFellesturer: e.target.value }))
               }
             />
+            </label>
           </div>
 
 

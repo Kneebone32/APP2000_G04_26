@@ -24,13 +24,13 @@ export default function Fellesturer() {
   return (
     <PageWrapper title={t("fellesturer.tittel")}>
       <div className="mt-3">
-
         <div className="fellesturer-søk">
           <input
             type="text"
             placeholder="Søk"
             value={søk}
             onChange={(e) => setSøk(e.target.value)}
+            aria-label="Søk etter fellesturer"
           />
         </div>
 

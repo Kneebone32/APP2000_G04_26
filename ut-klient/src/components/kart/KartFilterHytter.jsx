@@ -60,7 +60,7 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
 
           {/*Hytte - søkefelt*/}
           <div className="filter-section">
-            <label>{t("felles.søk")}:</label>
+            <label>{t("felles.søk")}:
             <input
               type="text"
               placeholder={t("filter.søk_hytte")}
@@ -69,11 +69,12 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
                 setFilter({ ...filter, søkeordHytter: e.target.value })
               }
             />
+            </label>
           </div>
 
           {/*Hytte - prisnivå*/}
           <div className="filter-section">
-            <label>{t("filter.prisnivå")}: {filter.prisnivå[0]} kr - {filter.prisnivå[1]} kr</label>
+            <label>{t("filter.prisnivå")}: {filter.prisnivå[0]} kr - {filter.prisnivå[1]} kr
             <div className="range-slider-container">
               <input
                 type="range"
@@ -92,11 +93,12 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
                 className="range-slider range-slider-max"
               />
             </div>
+            </label>
           </div>
 
             {/*Hytte - betjeningsgrad*/}
             <div className="filter-section">
-              <label>{t("filter.betjeningsgrad")}:</label>
+              <label>{t("filter.betjeningsgrad")}:
               <div className="checkbox-group">
 
                 {!loadingEnum && !enumError && betjeningsgradEnum.map((grad) => (
@@ -110,6 +112,7 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
                   </label>
                 ))}
               </div>
+              </label>
             </div>
 
           {/*Hytte - fasiliteter*/}
