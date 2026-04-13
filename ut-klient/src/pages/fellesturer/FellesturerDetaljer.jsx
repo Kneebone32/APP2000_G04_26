@@ -27,6 +27,7 @@ export default function FellesturerDetaljer() {
 
     const valgtDato = fellestur?.datoer?.find(d => d.aktivitet_dato_status === DATO_STATUS.VALGT) ?? null;
     const synligeDatoer = fellestur?.datoer?.filter(d => d.aktivitet_dato_status !== DATO_STATUS.AVLYST) ?? [];
+    const erRabattGyldig = fellestur?.rabatt_frist ? new Date(fellestur.rabatt_frist) > new Date() : false;
 
     useEffect(() => {
         if (valgtDato) setAktivitetDatoId(valgtDato.aktivitet_dato_id);
@@ -104,12 +105,16 @@ export default function FellesturerDetaljer() {
                                     <p><strong>Pris :</strong> {fellestur.pris} Kr</p>
                                 )}
 
+                                {fellestur.rabatt_frist && erRabattGyldig && (
+                                <>
                                 {fellestur.rabatt_pris && (
                                     <p><strong>Pris med rabatt :</strong> {fellestur.rabatt_pris} Kr</p>
                                 )}
 
                                 {fellestur.rabatt_frist && (
                                     <p><strong>Siste frist for rabatt :</strong> {formatFellesturDato(fellestur.rabatt_frist)}</p>
+                                )}
+                                </>
                                 )}
                             </div>
                         {erAutentisert && (
@@ -140,7 +145,8 @@ export default function FellesturerDetaljer() {
                                                 {dato.er_last_for_pamelding && (
                                                     <strong className="dato-stengt"> · Påmelding stengt</strong>
                                                 )}
-                {ledige !== null && !dato.er_last_for_pamelding && (
+                                                
+                                                {ledige !== null && !dato.er_last_for_pamelding && (
                                                     <>
                                                     <span>&nbsp;</span>
                                                     <strong className="dato-ledige-plasser">
@@ -167,6 +173,7 @@ export default function FellesturerDetaljer() {
                             meldPå={meldPå}
                             meldAv={meldAv}
                             registrerBildesamtykke={registrerBildesamtykke}
+                    erLastForPamelding={synligeDatoer.find(d => d.aktivitet_dato_id === aktivitetDatoId)?.er_last_for_pamelding ?? false}
                         />
                         </>
                         )}

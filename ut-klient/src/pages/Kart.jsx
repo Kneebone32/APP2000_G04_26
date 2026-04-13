@@ -80,7 +80,7 @@ export default function Kart() {
                 {midtpunkt(fellestur.stier?.[0]?.sti_punkter) && (
                   <Marker
                     position={midtpunkt(fellestur.stier[0].sti_punkter)}
-                    icon={fellestur.datoer?.length > 1 ? fellesTurIconFleksibel : turIcon}
+                    icon={fellestur.datoer?.some(d => d.er_last_for_pamelding) ? fellesTurIconFull : fellestur.datoer?.length > 1 ? fellesTurIconFleksibel : turIcon}
                     eventHandlers={{click: () => toggleValgt(key)}}
                   >
                     <Popup>

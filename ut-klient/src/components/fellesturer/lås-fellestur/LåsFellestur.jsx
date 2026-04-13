@@ -2,59 +2,59 @@ import { useState } from "react";
 import { useFellestur } from "../../../hooks/useFellesturer";
 import { usePåmelding } from "../../../hooks/usePåmelding";
 import { useAutentisering } from "../../../hooks/useAutentisering";
+import { useModal } from "../../../hooks/useModal";
 import FellesturSøk from "../FellesturSøk";
-import { formatNorskdato } from "../../../utils/datoUtils";
+import ConfirmModal from "../../ConfirmModal";
 import { DATO_STATUS } from "../../../constants/konstanter";
-import { toast } from "react-toastify";
-import "../lås-dato/LåsDato.css";
+import { toast } from 'react-toastify';
+import '../lås-dato/LåsDato.css';
 
-//Låser/åpner påmelding for datoer på en fellestur. Laget av Kay
+//Låser påmelding for en fellestur. Laget av Kay
 //fellesturer-prop brukes av turleder for å begrense søk til egne turer
 export default function LåsFellestur({fellesturer: fellesturer_prop} = {}) {
     const { token } = useAutentisering({ autoFetch: false });
     const { fellesturer: fellesturer_alle, hentFellesturFraId } = useFellestur({ autoFetch: !fellesturer_prop });
     const { låsPåmelding } = usePåmelding({ token });
     const [valgtData, setValgtData] = useState(null);
+    const [erLåst, setErLåst] = useState(false);
     const [lasterFellestur, setLasterFellestur] = useState(false);
-    const [lasterDatoId, setLasterDatoId] = useState(null);
+    const [laster, setLaster] = useState(false);
+    const { isOpen: visBekreft, open: åpneBekreft, close: lukkBekreft } = useModal();
     const fellesturer = fellesturer_prop ?? fellesturer_alle;
 
+
     const handleSøkSelect = async (id) => {
-        if (!id) { setValgtData(null); return; }
+        if (!id) {
+            setValgtData(null);
+            setErLåst(false);
+            return;
+        }
         setLasterFellestur(true);
         try {
             const data = await hentFellesturFraId(id);
             setValgtData(data);
+            setErLåst(data?.datoer[0]?.er_last_for_pamelding ?? false);
         } catch (err) {
-            toast.error("Kunne ikke hente fellestur: " + err.message);
+            toast.error('Kunne ikke hente fellestur: ' + err.message);
             setValgtData(null);
         } finally {
             setLasterFellestur(false);
         }
     };
 
-    const handleToggleLås = async (dato) => {
-        setLasterDatoId(dato.aktivitet_dato_id);
-        const nyVerdi = !dato.er_last_for_pamelding;
+    const handleLåsFellestur = async () => {
+        if (!valgtData) return;
+        setLaster(true);
         try {
-            const result = await låsPåmelding(dato.aktivitet_dato_id, nyVerdi);
-            setValgtData(prev => ({
-                ...prev,
-                datoer: prev.datoer.map(d =>
-                    d.aktivitet_dato_id === result.aktivitet_dato_id
-                        ? { ...d, er_last_for_pamelding: result.er_last_for_pamelding }
-                        : d
-                )
-            }));
-            toast.success(nyVerdi ? "Påmelding stengt" : "Påmelding åpnet");
+            await låsPåmelding(valgtData.aktivitet_id, true);
+            setErLåst(true);
+            toast.success('Påmelding låst');
         } catch (err) {
-            toast.error("Kunne ikke oppdatere: " + err.message);
+            toast.error('Kunne ikke låse: ' + err.message);
         } finally {
-            setLasterDatoId(null);
+            setLaster(false);
         }
     };
-
-    const synligeDatoer = valgtData?.datoer?.filter(d => d.aktivitet_dato_status !== DATO_STATUS.AVLYST) ?? [];
 
     return (
         <div className="fellestur-form-container">
@@ -63,30 +63,44 @@ export default function LåsFellestur({fellesturer: fellesturer_prop} = {}) {
             <FellesturSøk
                 fellesturer={fellesturer}
                 onSelect={handleSøkSelect}
-                lagretTittel={valgtData?.aktivitet_tittel}
+                lagretTittel={valgtData?.aktivitet_tittel ?? ""}
             />
 
-            {!lasterFellestur && valgtData && synligeDatoer.length > 0 && (
-                <ul className="låsdato-liste">
-                    {synligeDatoer.map((dato) => (
-                        <li key={dato.aktivitet_dato_id} className="låsdato-label">
-                            <span>{formatNorskdato(new Date(dato.aktivitet_start_dato))}</span>
-                            <span>{dato.er_last_for_pamelding ? " · Påmelding stengt" : " · Påmelding åpen"}</span>
-                            <button
-                                type="button"
-                                onClick={() => handleToggleLås(dato)}
-                                disabled={lasterDatoId === dato.aktivitet_dato_id}
-                            >
-                                {dato.er_last_for_pamelding ? "Åpne påmelding" : "Steng påmelding"}
-                            </button>
-                        </li>
-                    ))}
-                </ul>
+            {/*Startdato må være valgt før bruker kan låse fellestur*/}
+            {!lasterFellestur && valgtData && (
+                <>
+                    <p>
+                        <strong>Fellestur:</strong> {valgtData.aktivitet_tittel}
+                    </p>
+                    {valgtData.datoer?.some(d => d.aktivitet_dato_status === DATO_STATUS.FORESLATT) ? (
+                        <p>Du må låse en startdato før du kan låse påmelding.</p>
+                    ) : erLåst ? (
+                        <p><strong>Status:</strong> Påmelding stengt</p>
+                    ) : (
+                        <button
+                            type="button"
+                            onClick={åpneBekreft}
+                            disabled={laster}
+                        >
+                            Steng påmelding
+                        </button>
+                    )}
+                </>
             )}
 
             {!lasterFellestur && !valgtData && (
-                <p>Velg en fellestur for å låse påmelding.</p>
+                <p>Velg en fellestur for å låse påmelding</p>
             )}
+
+            <ConfirmModal
+                show={visBekreft}
+                onClose={lukkBekreft}
+                onConfirm={() => { lukkBekreft(); handleLåsFellestur(); }}
+                tittel="Steng påmelding"
+                melding={`Er du sikker på at du vil stenge påmelding for "${valgtData?.aktivitet_tittel}"?`}
+                confirmTekst="Steng"
+                knappFarge="blå"
+            />
         </div>
     );
 }

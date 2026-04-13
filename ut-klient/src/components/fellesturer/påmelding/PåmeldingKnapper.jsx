@@ -4,7 +4,7 @@ import { PÅMELDING_STATUS } from '../../../constants/konstanter';
 import './PåmeldingKnapper.css';
 
 //Viser påmeldingsknapper basert på brukerens påmeldings-status. Laget av Kay
-export default function PåmeldingKnapper({aktivitetDatoId, minPåmelding, ledigePlasser, antallInteresserteDeltakere, loading, meldPå, meldAv, registrerBildesamtykke}) {
+export default function PåmeldingKnapper({aktivitetDatoId, minPåmelding, ledigePlasser, antallInteresserteDeltakere, loading, meldPå, meldAv, registrerBildesamtykke, erLastForPamelding = false}) {
 
     const [visModal, setVisModal] = useState(false);
     
@@ -41,7 +41,7 @@ export default function PåmeldingKnapper({aktivitetDatoId, minPåmelding, ledig
     return (
         <div className="påmelding-knapper">
 
-            {ledigePlasser !== null && (
+            {ledigePlasser !== null && !erLastForPamelding && (
                 <p className="ledige-plasser">
                     {ledigePlasser > 0 ? `${ledigePlasser} ledige plasser` : 'Fullt'}
                 </p>
@@ -56,14 +56,14 @@ export default function PåmeldingKnapper({aktivitetDatoId, minPåmelding, ledig
                     <button
                         className="påmelding-btn interessert"
                         onClick={() => handleMeldPå(PÅMELDING_STATUS.INTERESSERT)}
-                        disabled={loading}
+                        disabled={loading || fullBooket || erLastForPamelding}
                     >
                         Jeg er interessert
                     </button>
                     <button
                         className="påmelding-btn bindende"
                         onClick={() => setVisModal(true)}
-                        disabled={fullBooket}
+                        disabled={fullBooket || erLastForPamelding}
                     >
                         Meld meg på
                     </button>
@@ -95,13 +95,15 @@ export default function PåmeldingKnapper({aktivitetDatoId, minPåmelding, ledig
             {status === PÅMELDING_STATUS.BINDENDE && (
                 <>
                     <p className="påmelding-status bindende">Du er påmeldt</p>
-                    <button
-                        className="påmelding-btn avmeld"
-                        onClick={handleMeldAv}
-                        disabled={loading}
-                    >
-                        Meld meg av
-                    </button>
+                    {!erLastForPamelding && (
+                        <button
+                            className="påmelding-btn avmeld"
+                            onClick={handleMeldAv}
+                            disabled={loading}
+                        >
+                            Meld meg av
+                        </button>
+                    )}
                 </>
             )}
 
@@ -109,13 +111,6 @@ export default function PåmeldingKnapper({aktivitetDatoId, minPåmelding, ledig
             {status === PÅMELDING_STATUS.FRISTILT && (
                 <>
                     <p className="påmelding-status fristilt">Du er fristilt fra denne turen</p>
-                    <button
-                        className="påmelding-btn bindende"
-                        onClick={() => setVisModal(true)}
-                        disabled={fullBooket}
-                    >
-                        Meld meg på igjen
-                    </button>
                 </>
             )}
 
@@ -130,7 +125,7 @@ export default function PåmeldingKnapper({aktivitetDatoId, minPåmelding, ledig
                         </p>
                         <div className="samtykke-knapper">
                             <button className="samtykke-btn bekreft" onClick={() => handleBindendeMeldPå(true)} disabled={loading}>
-                                Jeg samtykker – meld meg på
+                                Jeg samtykker. Meld meg på
                             </button>
 
                             <button className="samtykke-btn uten-samtykke" onClick={() => handleBindendeMeldPå(false)} disabled={loading}>

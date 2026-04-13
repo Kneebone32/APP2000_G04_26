@@ -146,13 +146,13 @@ export function usePåmelding({token, aktivitetId = null} = {}) {
         });
     }, [authHeaders, token]);
 
-    //Låser eller åpner påmelding for en aktivitetsdato
-    const låsPåmelding = useCallback(async (aktivitetDatoId, erLast) => {
+    //Låser påmelding for en hel aktivitet
+    const låsPåmelding = useCallback(async (aktivitetId, erLast) => {
         if (!token) return;
         try {
             setLoading(true);
             setError(null);
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/pamelding/dato/${aktivitetDatoId}/pamelding-last`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/pamelding/${aktivitetId}/pamelding-last`, {
                 method: 'PATCH',
                 headers: authHeaders,
                 body: JSON.stringify({ er_last: erLast })
