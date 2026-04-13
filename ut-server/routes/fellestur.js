@@ -14,7 +14,8 @@ router.get('/mine', auth, async (req, res) => {
       [bruker_id]
     );
     if (result.rows.length === 0) return res.status(404).json({ error: 'Aktivitet ikke funnet' });
-    res.json(result.rows);
+
+    res.json(result.rows.map(row => row.aktivitet));
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Kunne ikke hente aktivitet' });
@@ -215,8 +216,5 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-
-//TODO: Lås fellestur (ingen flere påmeldinger. Enten via Turleder eller når ant. påmeldte = maks deltakere)
-//TODO: Lås dato på fellestur (går fra fleksibel til fast startdato på valgt dato)
 
 export default router;

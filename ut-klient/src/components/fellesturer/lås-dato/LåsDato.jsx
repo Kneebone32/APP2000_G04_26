@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useFellestur } from "../../../hooks/useFellesturer";
+import { usePåmelding } from "../../../hooks/usePåmelding";
 import { useModal } from "../../../hooks/useModal";
+import { useAutentisering } from "../../../hooks/useAutentisering";
 import FellesturSøk from "../FellesturSøk";
 import { formatNorskdato } from "../../../utils/datoUtils";
 import { VærvarselDagDetaljert, VærvarslingUke } from "../../Værvarsling";
@@ -11,7 +13,9 @@ import './LåsDato.css';
 //Låser en dato for en fellestur. Laget av Kay
 //fellesturer-prop brukes av turleder for å begrense søk til egne turer
 export default function LåsDato({fellesturer: fellesturer_prop} = {}) {
-    const { fellesturer: fellesturer_alle, hentFellesturFraId, låsDato } = useFellestur({autoFetch: !fellesturer_prop});
+    const { token } = useAutentisering({ autoFetch: false });
+    const { fellesturer: fellesturer_alle, hentFellesturFraId } = useFellestur({autoFetch: !fellesturer_prop});
+    const { velgFastDato } = usePåmelding({ token });
     const { isOpen: værvarselÅpen, open: åpneVærvarsel, close: lukkVærvarsel } = useModal();
     const [valgtData, setValgtData] = useState(null);
     const [lasterFellestur, setLasterFellestur] = useState(false);
@@ -44,7 +48,7 @@ export default function LåsDato({fellesturer: fellesturer_prop} = {}) {
         if (!valgtDato) return;
         setLaster(true);
         try {
-            await låsDato(valgtData.aktivitet_id, valgtDato.aktivitet_dato_id);
+            await velgFastDato(valgtDato.aktivitet_dato_id);
             toast.success(`Dato låst: ${formatNorskdato(new Date(valgtDato.aktivitet_slutt_dato))}`);
             setValgtData(null);
             setValgtDato(null);

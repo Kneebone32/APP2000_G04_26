@@ -146,6 +146,47 @@ export function usePåmelding({token, aktivitetId = null} = {}) {
         });
     }, [authHeaders, token]);
 
+    //Låser eller åpner påmelding for en aktivitetsdato
+    const låsPåmelding = useCallback(async (aktivitetDatoId, erLast) => {
+        if (!token) return;
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/pamelding/dato/${aktivitetDatoId}/pamelding-last`, {
+                method: 'PATCH',
+                headers: authHeaders,
+                body: JSON.stringify({ er_last: erLast })
+            });
+            if (!response.ok) throw new Error('Kunne ikke oppdatere lås for påmelding');
+            return await response.json();
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }, [authHeaders, token]);
+
+    //Velger fast dato for en aktivitetsdato
+    const velgFastDato = useCallback(async (aktivitetDatoId) => {
+        if (!token) return;
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/pamelding/dato/${aktivitetDatoId}/velg-fast`, {
+                method: 'PATCH',
+                headers: authHeaders
+            });
+            if (!response.ok) throw new Error('Kunne ikke velge fast dato');
+            return await response.json();
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }, [authHeaders, token]);
+
     //Melder av. setDeltakerePerDato er laget av AI
     const meldAv = useCallback(async (id) => {
         if (!token) return;
@@ -199,6 +240,8 @@ export function usePåmelding({token, aktivitetId = null} = {}) {
         hentDeltakereForDato,
         meldPå,
         meldAv,
-        registrerBildesamtykke
+        registrerBildesamtykke,
+        låsPåmelding,
+        velgFastDato
     };
 }

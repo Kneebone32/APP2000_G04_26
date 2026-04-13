@@ -46,7 +46,11 @@ export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTe
     const [status, setStatus] = useState(lagretData.aktivitet_status || "");
     const [tempUrl, setTempUrl] = useState("");
     const [valgteDatoer, setValgteDatoer] = useState([]);
-    const [bildeUrl, setBildeUrl] = useState(lagretData.bilder ? lagretData.bilder.map(bilde => bilde.aktivitet_url) : []); 
+    const [bildeUrl, setBildeUrl] = useState(lagretData.bilder ? lagretData.bilder.map(bilde => bilde.aktivitet_url) : []);
+    const [avbestillingsfrist, setAvbestillingsfrist] = useState(lagretData.avbestillingsfrist ?? 0);
+    const [pris, setPris] = useState(lagretData.pris ?? 0);
+    const [rabattPris, setRabattPris] = useState(lagretData.rabatt_pris ?? null);
+    const [rabattFrist, setRabattFrist] = useState(lagretData.rabatt_frist ? new Date(lagretData.rabatt_frist) : null);
 
 
     const {
@@ -125,6 +129,18 @@ export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTe
         if (!editModus && valgteDatoer.length === 0) {
             return toast.error(t("fellestur_form.feil_minst_en_dato"));
         }
+        if (rabattPris !== null && rabattPris >= pris) {
+            return toast.error("Rabatt pris må være lavere enn ordinær pris");
+        }
+        if (rabattFrist && rabattPris === null) {
+            return toast.error("Sett en rabatt pris før du setter rabattfrist");
+        }
+        if (rabattFrist && valgteDatoer.length > 0) {
+            const sisteDato = new Date(Math.max(...valgteDatoer.map(d => d.getTime())));
+            if (rabattFrist >= sisteDato) {
+                return toast.error("Rabatt frist må være før siste valgte dato");
+            }
+        }
 
         const nyeStierMedMoh = await Promise.all(
             nyeStierITuren.map(rute => byggPunkterMedMoh(rute))
@@ -149,7 +165,11 @@ export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTe
                 aktivitet_start_dato: d.toISOString(),
                 aktivitet_slutt_dato:d.toISOString()
             })),
-            bilder: bildeUrl
+            bilder: bildeUrl,
+            avbestillingsfrist_dager: avbestillingsfrist,
+            pris: pris,
+            rabatt_pris: rabattPris,
+            rabatt_frist: rabattFrist ? rabattFrist.toISOString() : null
         };
         
         onSubmitAction(fellesturData);
@@ -201,7 +221,7 @@ export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTe
                 <label className="input">{t("fellestur_form.beskrivelse")}
                     <textarea 
                         style={{resize: 'none', width: '100%', maxWidth: '400px'}} 
-                        rows="5" minLength="10" maxLength="1000"
+                        rows="5" minLength="20" maxLength="1000"
                         value={beskrivelse} onChange={(e) => setBeskrivelse(e.target.value)} 
                         required 
                     />
@@ -241,6 +261,69 @@ export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTe
             {/*Mulighet for å legge til en bildeurl. KUN til testing. HUSK å fjerne*/}
             <TempBilde  tempUrl={tempUrl} setTempUrl={setTempUrl} onLeggTil={handleLeggTilBilde} />
 
+
+            {/*Avbestillingsfrist dager*/}
+            <div className="input-container">
+                <label className="input">
+                    Avbestillingsfrist for påmeldte (antall dager)
+                    <input
+                        type="number"
+                        value={avbestillingsfrist}
+                        onChange={(e) => setAvbestillingsfrist(e.target.value)}
+                        min="0"
+                        max="1000"
+                        required
+                    />
+                </label>
+            </div>
+
+            {/*Pris*/}
+            <div className="input-container">
+                <label className="input">
+                    Pris (kr)
+                    <input
+                        type="number"
+                        value={pris}
+                        onChange={(e) => setPris(e.target.value === "" ? 0 : Number(e.target.value))}
+                        min="0"
+                        required
+                    />
+                </label>
+            </div>
+
+            {/*Rabatt pris*/}
+            <div className="input-container">
+                <label className="input">
+                    Rabatt pris (kr) – valgfri
+                    <input
+                        type="number"
+                        value={rabattPris}
+                        onChange={(e) => setRabattPris(e.target.value === "" ? null : Number(e.target.value))}
+                        min="0"
+                    />
+                </label>
+            </div>
+
+            {/*Rabatt frist (dato)*/}
+            {rabattPris !== null && (
+            <div className="input-container">
+                <label className="input">
+                    Rabattfrist
+                    <DatePicker
+                        selected={rabattFrist}
+                        onChange={(dato) => setRabattFrist(dato)}
+                        locale="nb"
+                        dateFormat="dd.MM.yyyy HH:mm"
+                        showTimeSelect
+                        timeFormat="HH:mm"
+                        timeIntervals={15}
+                        minDate={new Date()}
+                        className="input"
+                    />
+                </label>
+            </div>
+            )}
+
                 <div className="input-container">
                     <label className="input">{t("tur.vanskelighetsgrad")}:</label>
                     <select
@@ -257,6 +340,7 @@ export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTe
                         ))}
                     </select>
                 </div>
+                
                 
                 {/*Turtype*/}
                <div className="input-container">

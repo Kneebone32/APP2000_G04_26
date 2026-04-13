@@ -147,10 +147,11 @@ router.get('/:id', auth, async (req, res) => {
 router.delete('/:id', auth, async (req, res) => {
   try {
     const varsel_id = req.params.id;
+    const bruker_id = req.user.bruker_id;
 
     await pool.query(
-      'SELECT public.varsel_slett($1)',
-      [varsel_id]
+      'SELECT public.varsel_slett($1, $2)',
+      [varsel_id, bruker_id]
     );
 
     res.json({ message: 'Varsel slettet' });

@@ -67,11 +67,11 @@ export default function MineFellesturer() {
                         <div className="FellesturKortContainer">
                             {mineFellesturerTurleder.map((fellestur) => (
                                 <FellesturKort
-                                    key={fellestur.aktivitet.aktivitet_id}
-                                    fellesturId={fellestur.aktivitet.aktivitet_id}
-                                    fellesturNavn={fellestur.aktivitet.aktivitet_tittel}
-                                    bildeUrl={fellestur.aktivitet.bilder?.[0]?.aktivitet_url}
-                                    dato={fellestur.aktivitet.datoer}
+                                    key={fellestur.aktivitet_id}
+                                    fellesturId={fellestur.aktivitet_id}
+                                    fellesturNavn={fellestur.aktivitet_tittel}
+                                    bildeUrl={fellestur.bilder?.[0]?.aktivitet_url}
+                                    dato={fellestur.datoer}
                                 />
                             ))}
                         </div>

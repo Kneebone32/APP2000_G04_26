@@ -31,6 +31,13 @@ export const PÅMELDING_STATUS = {
     AVMELDT: 'avmeldt'
 };
 
+//Aktivitetsdato status
+export const DATO_STATUS = {
+    FORESLATT: 'foreslatt',
+    VALGT: 'valgt',
+    AVLYST: 'avlyst'
+};
+
 //Varsel Oppgavestatus
 export const FORESPØRSEL_STATUS = {
     PENDING: 'pending',

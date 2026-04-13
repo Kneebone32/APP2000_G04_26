@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PageWrapper from "../../components/PageWrapper";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -9,6 +9,7 @@ import { useMeldinger } from "../../hooks/useMeldinger";
 import { useAutentisering } from "../../hooks/useAutentisering";
 import PåmeldingKnapper from "../../components/fellesturer/påmelding/PåmeldingKnapper";
 import { formatFellesturDato } from "../../utils/datoUtils";
+import { DATO_STATUS } from "../../constants/konstanter";
 import { VærvarslingUke } from "../../components/Værvarsling";
 import EmblaCarousel from "../../components/EmblaCarousel";
 
@@ -23,6 +24,13 @@ export default function FellesturerDetaljer() {
     const { hentEllerOpprettDirekte } = useMeldinger({ token: erAutentisert ? token : null });
     const maksDeltakere = fellestur?.aktivitet_maks_deltakere ?? null;
     const [visVærmelding, setVisVærmelding] = useState(false);
+
+    const valgtDato = fellestur?.datoer?.find(d => d.aktivitet_dato_status === DATO_STATUS.VALGT) ?? null;
+    const synligeDatoer = fellestur?.datoer?.filter(d => d.aktivitet_dato_status !== DATO_STATUS.AVLYST) ?? [];
+
+    useEffect(() => {
+        if (valgtDato) setAktivitetDatoId(valgtDato.aktivitet_dato_id);
+    }, [valgtDato, setAktivitetDatoId]);
 
     const ledigePlasserForDato = (aktivitet_dato_id) => {
         if (maksDeltakere == null) return null;
@@ -91,9 +99,22 @@ export default function FellesturerDetaljer() {
                                 {fellestur.lengde && (
                                     <p><strong>Rutelengde :</strong> {fellestur.lengde.toFixed(2)} KM</p>
                                 )}
-                            </div>
 
-                        {erAutentisert && fellestur.oppretter?.bruker_id && fellestur.oppretter?.bruker_id !== bruker?.bruker_id && (
+                                {fellestur.pris && (
+                                    <p><strong>Pris :</strong> {fellestur.pris} Kr</p>
+                                )}
+
+                                {fellestur.rabatt_pris && (
+                                    <p><strong>Pris med rabatt :</strong> {fellestur.rabatt_pris} Kr</p>
+                                )}
+
+                                {fellestur.rabatt_frist && (
+                                    <p><strong>Siste frist for rabatt :</strong> {formatFellesturDato(fellestur.rabatt_frist)}</p>
+                                )}
+                            </div>
+                        {erAutentisert && (
+                        <>
+                         {fellestur.oppretter?.bruker_id && fellestur.oppretter?.bruker_id !== bruker?.bruker_id && (
                             <button className="kontakt-turleder-btn" onClick={handleKontaktTurleder}>
                                 Kontakt turleder
                             </button>
@@ -101,21 +122,25 @@ export default function FellesturerDetaljer() {
 
                         <hr />
                         {/*Startdato + sluttdato + ledige plasser*/}
-                        {fellestur.datoer?.length > 0 && (
+                        {synligeDatoer.length > 0 && (
                             <div>
-                                <strong>Velg en dato for påmelding:</strong>
+                                <strong>{valgtDato ? 'Bekreftet dato:' : 'Velg en dato for påmelding:'}</strong>
                                 <ul className="dato-liste">
-                                    {fellestur.datoer.map((dato) => {
+                                    {synligeDatoer.map((dato) => {
+                                        const erValgt = dato.aktivitet_dato_status === DATO_STATUS.VALGT;
                                         const ledige = ledigePlasserForDato(dato.aktivitet_dato_id);
                                         return (
                                             <li
                                                 key={dato.aktivitet_dato_id}
-                                                className={`dato-valg${aktivitetDatoId === dato.aktivitet_dato_id ? ' valgt' : ''}`}
-                                                onClick={() => setAktivitetDatoId(dato.aktivitet_dato_id)}
+                                                className={`dato-valg${aktivitetDatoId === dato.aktivitet_dato_id ? ' valgt' : ''}${erValgt ? ' dato-bekreftet' : ''}`}
+                                                onClick={() => !erValgt && setAktivitetDatoId(dato.aktivitet_dato_id)}
                                             >
                                                 {formatFellesturDato(dato.aktivitet_start_dato)}
                                                 {dato.aktivitet_slutt_dato && ` – ${formatFellesturDato(dato.aktivitet_slutt_dato)}`}
-                                                {ledige !== null && (
+                                                {dato.er_last_for_pamelding && (
+                                                    <strong className="dato-stengt"> · Påmelding stengt</strong>
+                                                )}
+                {ledige !== null && !dato.er_last_for_pamelding && (
                                                     <>
                                                     <span>&nbsp;</span>
                                                     <strong className="dato-ledige-plasser">
@@ -143,6 +168,8 @@ export default function FellesturerDetaljer() {
                             meldAv={meldAv}
                             registrerBildesamtykke={registrerBildesamtykke}
                         />
+                        </>
+                        )}
                         {fellestur.stier?.[0]?.sti_punkter?.[0] && (
                             <>
                                 <hr />
@@ -152,6 +179,7 @@ export default function FellesturerDetaljer() {
                                 >
                                     Værmelding {visVærmelding ? '▲' : '▼'}
                                 </button>
+
                                 {visVærmelding && (
                                     <VærvarslingUke
                                         latitude={fellestur.stier[0].sti_punkter[0].breddegrad}
