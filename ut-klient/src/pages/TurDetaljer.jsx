@@ -51,6 +51,10 @@ export default function TurDetaljer() {
 
             <div className="tur-info-og-anmeldelse">
               <div className="tur-info">
+                {tur.hoyeste_punkt_moh && (
+                  <p><strong>Høyeste punktet på turen:</strong> {tur.hoyeste_punkt_moh} moh</p>
+                )}
+
                 {tur.stier[0]?.kommune_navn && (
                   <p><strong>{t("felles.kommune")}:</strong> {tur.stier[0]?.kommune_navn}</p>
                 )}
@@ -58,7 +62,6 @@ export default function TurDetaljer() {
                 {tur.stier[0]?.fylke_navn && (
                   <p><strong>{t("felles.fylke")}:</strong> {tur.stier[0]?.fylke_navn}</p>
                 )}
-
                 {tur.vanskelighetsgrad && (
                   <p><strong>{t("felles.vanskelighetsgrad")}:</strong> {t(`enums.vanskelighetsgrad.${tur.vanskelighetsgrad}`)}</p>
                 )}
