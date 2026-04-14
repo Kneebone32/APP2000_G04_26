@@ -137,12 +137,12 @@ export function usePåmelding({token, aktivitetId = null} = {}) {
     }, []);
 
     //Registrerer om bruker samtykker til bildedeling i gruppechatten
-    const registrerBildesamtykke = useCallback(async (datoId, samtykker) => {
+    const registrerBildesamtykke = useCallback(async (datoId, samtykke) => {
         if (!token) return;
         await fetch(`${import.meta.env.VITE_API_URL}/pamelding/${datoId}/bildesamtykke`, {
             method: 'POST',
             headers: authHeaders,
-            body: JSON.stringify({ samtykker })
+            body: JSON.stringify({samtykke})
         });
     }, [authHeaders, token]);
 

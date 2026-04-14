@@ -129,6 +129,9 @@ export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTe
         if (!editModus && valgteDatoer.length === 0) {
             return toast.error(t("fellestur_form.feil_minst_en_dato"));
         }
+        if (pris < 1) {
+            return toast.error("Pris må være større enn 0");
+        }
         if (rabattPris !== null && rabattPris >= pris) {
             return toast.error("Rabatt pris må være lavere enn ordinær pris");
         }

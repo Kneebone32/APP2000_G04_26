@@ -126,6 +126,7 @@ export default function FellesturerDetaljer() {
                         )}
 
                         <hr />
+
                         {/*Startdato + sluttdato + ledige plasser*/}
                         {synligeDatoer.length > 0 && (
                             <div>
@@ -162,8 +163,6 @@ export default function FellesturerDetaljer() {
                         )}
 
                         {/*Påmelding/meld interesse*/}
-
-
                         <PåmeldingKnapper
                             aktivitetDatoId={aktivitetDatoId}
                             minPåmelding={minPåmelding}
@@ -173,7 +172,7 @@ export default function FellesturerDetaljer() {
                             meldPå={meldPå}
                             meldAv={meldAv}
                             registrerBildesamtykke={registrerBildesamtykke}
-                    erLastForPamelding={synligeDatoer.find(d => d.aktivitet_dato_id === aktivitetDatoId)?.er_last_for_pamelding ?? false}
+                            erLastForPamelding={synligeDatoer.find(d => d.aktivitet_dato_id === aktivitetDatoId)?.er_last_for_pamelding ?? false}
                         />
                         </>
                         )}

@@ -25,8 +25,8 @@ export default function PåmeldingKnapper({aktivitetDatoId, minPåmelding, ledig
 
     const handleBindendeMeldPå = async (samtykker) => {
         setVisModal(false);
-        if (!samtykker) await registrerBildesamtykke(aktivitetDatoId, false);
         await handleMeldPå(PÅMELDING_STATUS.BINDENDE);
+        await registrerBildesamtykke(aktivitetDatoId, samtykker);
     };
 
     const handleMeldAv = async () => {
