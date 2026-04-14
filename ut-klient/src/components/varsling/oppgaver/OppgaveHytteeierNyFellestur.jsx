@@ -11,7 +11,7 @@ export default function OppgaveHytteeierNyFellestur({ varsel, loading, onBeslutn
                 {varsel.foresporsel_status === FORESPØRSEL_STATUS.GODKJENT && (
                 <button
                     className="varsel-knapp varsel-knapp-avvis"
-                    onClick={() => onBeslutning('avvist', { melding: 'Avslått. hyttebestillinger vil ikke forekomme' })}
+                    onClick={() => onBeslutning(false, { melding: 'Avslått. hyttebestillinger vil ikke forekomme' })}
                     disabled={loading}
                     style={{margin: "1rem "}}
                 >
@@ -26,14 +26,14 @@ export default function OppgaveHytteeierNyFellestur({ varsel, loading, onBeslutn
         <div className="varsel-detaljer-handlinger">
             <button
                 className="varsel-knapp varsel-knapp-godta"
-                onClick={() => onBeslutning('godtatt', { melding: 'Bekreftet. Hyttebestillinger kan forekomme' })}
+                onClick={() => onBeslutning(true, { melding: 'Bekreftet. Hyttebestillinger kan forekomme' })}
                 disabled={loading}
             >
                 Jeg har plass
             </button>
             <button
                 className="varsel-knapp varsel-knapp-avvis"
-                onClick={() => onBeslutning('avvist', { melding: 'Avslått. Hyttebestillinger vil ikke forekomme' })}
+                onClick={() => onBeslutning(false, { melding: 'Avslått. Hyttebestillinger vil ikke forekomme' })}
                 disabled={loading}
             >
                 Jeg har ikke plass

@@ -20,9 +20,6 @@ export default function Meldinger() {
 
     const [valgtSamtale, setValgtSamtale] = useState(location.state?.samtale ?? null);
     
-    
-
-
     //Henter samtalelisten når siden lastes
     useEffect(() => {
         if (erAutentisert) hentSamtaler();
@@ -74,6 +71,7 @@ export default function Meldinger() {
                             onSend={handleSend}
                             antallMedlemmer={valgtSamtale.antall_medlemmer}
                             onForlatSamtale={handleForlatSamtale}
+                            bildesamtykke={valgtSamtale.bilde_samtykke_tillatt}
                         />
                     ) : (
                         <div className="meldinger-ingen-valgt">

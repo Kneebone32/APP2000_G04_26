@@ -2,7 +2,6 @@ import './SamtaleListe.css';
 
 //Liste over alle samtalene til bruker. Laget av Kay
 export default function SamtaleListe({samtaler, valgtId, onVelg}) {
-    //variabler må oppdateres med samme formatet til DB
     return (
         <div className="samtale-liste">
             <h3 className="samtale-liste-tittel">Meldinger</h3>

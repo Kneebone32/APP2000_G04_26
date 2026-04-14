@@ -90,8 +90,8 @@ export function useMeldinger({token, pollIntervall = 5000, autoPoll = false} = {
     if (!token) return;
     try {
       setError(null);
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/meldinger/samtale/${samtaleId}/forlat`, {
-        method: 'DELETE',
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/meldinger/${samtaleId}/forlat`, {
+        method: 'PUT',
         headers: authHeaders
       });
       if (!response.ok) throw new Error('Kunne ikke forlate samtalen');

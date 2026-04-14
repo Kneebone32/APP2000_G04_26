@@ -18,14 +18,14 @@ export default function OppgaveRolleEndring({varsel, loading, onBeslutning}) {
         <div className="varsel-detaljer-handlinger">
             <button
                 className="varsel-knapp varsel-knapp-godta"
-                onClick={() => onBeslutning('godtatt', { melding: 'Rolleendring godtatt' })}
+                onClick={() => onBeslutning(true, { melding: 'Rolleendring godtatt' })}
                 disabled={loading}
             >
                 Godta rolleendring
             </button>
             <button
                 className="varsel-knapp varsel-knapp-avvis"
-                onClick={() => onBeslutning('avvist', { melding: 'Rolleendring avvist' })}
+                onClick={() => onBeslutning(false, { melding: 'Rolleendring avvist' })}
                 disabled={loading}
             >
                 Avvis

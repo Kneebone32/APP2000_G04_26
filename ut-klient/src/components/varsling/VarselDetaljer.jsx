@@ -8,7 +8,7 @@ import './VarselDetaljer.css';
 const oppgaveTyper = {
     rolle_foresporsel: OppgaveRolleEndring,
     hytteeier_ny_fellestur: OppgaveHytteeierNyFellestur,
-    hytteeier_booking: OppgaveHytteeierBooking,
+    hytteeier_booking_sendt: OppgaveHytteeierBooking,
 };
 
 //Viser innhold og eventuelle handlinger for et varsel. Laget av Kay
@@ -26,7 +26,7 @@ export default function VarselDetaljer({ varsel, loading, onBehandle, onSlett })
     const handleBeslutning = async (beslutning, { melding } = {}) => {
         try {
             await onBehandle(varsel.varsel_id, beslutning);
-            toast.success(melding ?? (beslutning === 'godtatt' ? 'Godtatt' : 'Avvist'));
+            toast.success(melding ?? (beslutning ? 'Godtatt' : 'Avvist'));
         } catch {
             toast.error('Noe gikk galt');
         }

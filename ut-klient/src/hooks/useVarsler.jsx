@@ -116,10 +116,10 @@ export function useVarsler({token, pollIntervall = 10000, autoPoll = false} = {}
             const response = await fetch(`${import.meta.env.VITE_API_URL}/varsler/${varselId}/behandle`, {
                 method: 'POST',
                 headers: authHeaders,
-                body: JSON.stringify({beslutning: beslutning === 'godtatt'})
+                body: JSON.stringify({beslutning})
             });
             if (!response.ok) throw new Error('Kunne ikke behandle oppgaven');
-            const nyForespørselStatus = beslutning === 'godtatt' ? 'godkjent' : 'avslatt';
+            const nyForespørselStatus = beslutning ? 'godkjent' : 'avslatt';
             setVarsler((forrige) =>
                 forrige.map((varsel) => varsel.varsel_id === varselId
                     ? {...varsel, status: 'behandlet', foresporsel_status: nyForespørselStatus}

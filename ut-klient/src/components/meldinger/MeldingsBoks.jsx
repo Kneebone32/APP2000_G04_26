@@ -5,12 +5,15 @@ import './MeldingsBoks.css';
 import { toast } from 'react-toastify';
 
 //Chat-box for en samtale (PM eller gruppe). Laget av Kay
-export default function MeldingsBoks({ meldinger, loading, error, brukerId, onSend, tittel, antallMedlemmer, onForlatSamtale }) {
+export default function MeldingsBoks({meldinger, loading, error, brukerId, onSend, tittel, antallMedlemmer, onForlatSamtale, bildesamtykke}) {
     const [innhold, setInnhold] = useState('');
     const [bildeUrl, setBildeUrlRaw] = useState(null);
     const [visOpplasting, setVisOpplasting] = useState(false);
     const [tempUrl, setTempUrl] = useState('');
     const bunnRef = useRef(null);
+
+    //Bildedeling er på for PM. Styrt av bildesamtykke for grupper (3+)
+    const bildedeling = antallMedlemmer > 2 ? bildesamtykke : true;
 
     //bilder i chatten
     const setBildeUrl = useCallback((urls) => {
@@ -19,7 +22,7 @@ export default function MeldingsBoks({ meldinger, loading, error, brukerId, onSe
             setVisOpplasting(false);
         }
     }, []);
-    
+
     useFileUpload(setBildeUrl, visOpplasting);
 
     //scroller automatisk til bunn når nye meldinger kommer inn
@@ -106,6 +109,7 @@ export default function MeldingsBoks({ meldinger, loading, error, brukerId, onSe
                             placeholder="bilde-URL"
                             value={tempUrl}
                             onChange={(e) => setTempUrl(e.target.value)}
+                            disabled={!bildedeling}
                         />
                         
                         <button
@@ -117,6 +121,7 @@ export default function MeldingsBoks({ meldinger, loading, error, brukerId, onSe
                                     setVisOpplasting(false);
                                 }
                             }}
+                            disabled={!bildedeling}
                         >
                             Legg til
                         </button>
@@ -141,11 +146,13 @@ export default function MeldingsBoks({ meldinger, loading, error, brukerId, onSe
                     placeholder="Skriv en melding"
                     aria-label='Skriv en melding'
                 />
+                
                 <button
                     type="button"
                     className="bilde-btn"
                     onClick={() => setVisOpplasting(vis => !vis)}
-                    title="Last opp bilde"
+                    title={bildedeling ? "Last opp bilde" : "Bildedeling er deaktivert i denne gruppen"}
+                    disabled={!bildedeling}
                 >
                     Bilde
                 </button>
