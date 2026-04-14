@@ -106,20 +106,20 @@ router.put('/:id/forlat', auth, async (req, res) => {
   }
 });
 
-// Marker én melding som lest
+// Marker én samtale som lest
 router.put('/melding/:id/lest', auth, async (req, res) => {
   try {
-    const melding_id = req.params.id;
+    const samtale_id = req.params.id;
 
     await pool.query(
-      'SELECT melding_sett_lest($1)',
-      [melding_id]
+      'SELECT samtale_sett_lest($1)',
+      [samtale_id]
     );
 
-    res.json({ message: 'Melding markert som lest' });
+    res.json({ message: 'Samtale markert som lest' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Kunne ikke markere melding som lest' });
+    res.status(500).json({ error: 'Kunne ikke markere samtale som lest' });
   }
 });
 

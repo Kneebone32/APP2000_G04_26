@@ -102,6 +102,19 @@ export function useMeldinger({token, pollIntervall = 5000, autoPoll = false} = {
     }
   }, [authHeaders, token]);
 
+  //Markerer alle meldinger i en samtale som lest
+  const markerSamtaleLest = useCallback(async (samtaleId) => {
+    if (!token) return;
+    try {
+      await fetch(`${import.meta.env.VITE_API_URL}/meldinger/melding/${samtaleId}/lest`, {
+        method: 'PUT',
+        headers: authHeaders
+      });
+    } catch {
+      // feil her skal ikke blokkere bruker
+    }
+  }, [authHeaders, token]);
+
   //Sender en melding i en samtale
   const sendMelding = useCallback(async (samtaleId, meldingTekst, bildeUrl = null) => {
     if (!token) return;
@@ -152,6 +165,7 @@ export function useMeldinger({token, pollIntervall = 5000, autoPoll = false} = {
     opprettSamtale,
     sendMelding,
     forlatSamtale,
+    markerSamtaleLest,
     startPoll,
     stopPoll
   };

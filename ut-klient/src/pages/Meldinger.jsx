@@ -15,7 +15,7 @@ export default function Meldinger() {
     const {
         meldinger, samtaler, loading, error,
         hentSamtaler, hentMeldinger, sendMelding,
-        startPoll, stopPoll, forlatSamtale
+        startPoll, stopPoll, forlatSamtale, markerSamtaleLest
     } = useMeldinger({ token });
 
     const [valgtSamtale, setValgtSamtale] = useState(location.state?.samtale ?? null);
@@ -35,6 +35,7 @@ export default function Meldinger() {
     const handleVelgSamtale = (samtale) => {
         stopPoll();
         setValgtSamtale(samtale);
+        markerSamtaleLest(samtale.samtale_id);
     };
 
     const handleForlatSamtale = async () => {
