@@ -24,6 +24,7 @@ import FellesturModerator from "./pages/fellesturer/FellesturModerator";
 import TurlederFellesturPanel from "./pages/fellesturer/TurlederFellesturPanel";
 import HytteeierHytterPanel from "./pages/hytter/HytteeierHytterPanel";
 import TurmålModerator from "./pages/turmål/TurmålModerator";
+import ArtikkelModerator from "./pages/ArtikkelModerator";
 import Feilside from "./pages/Feilside";
 import Favoritter from "./pages/favoritter/Favoritter";
 import MineFellesturer from "./pages/fellesturer/minefellesturer/MineFellesturer";
@@ -73,6 +74,7 @@ export default function App() {
               <Route path="/admin/annonser" element={<AnnonseModerator />} />
               <Route path="/admin/fellesturer" element={<FellesturModerator />} />
               <Route path="/admin/turmål" element={<TurmålModerator />} />
+              <Route path="/admin/artikler" element={<ArtikkelModerator />} />
             </Route>
 
             <Route element={<ProtectedRoute rolle={BRUKER_ROLLE.TURLEDER} />}>

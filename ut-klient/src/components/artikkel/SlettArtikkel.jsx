@@ -6,14 +6,14 @@ import ArtikkelSøk from './ArtikkelSøk';
 import ConfirmModal from '../ConfirmModal';
 import { toast } from 'react-toastify';
 import '../fellesturer/fellestur-form/FellesturForm.css';
+import './Artikkel.css';
 
-// Sletter en artikkel. Laget av Kay
+//Sletter en artikkel. Laget av Kay
 export default function SlettArtikkel() {
     const { token } = useAutentisering({autoFetch: false});
-    const { artikler, loading, slettArtikkel } = useArtikkel({autoFetch: true, token});
+    const { artikler, slettArtikkel } = useArtikkel({autoFetch: true, token});
     const { isOpen, open, close } = useModal();
     const [valgtSlug, setValgtSlug] = useState('');
-
 
     const handleSlett = async () => {
         try {
@@ -39,7 +39,7 @@ export default function SlettArtikkel() {
             />
 
             <div className="input-container">
-                <button className="lagre-btn" onClick={open} disabled={!valgtSlug || loading}>
+                <button className="artikkel-lagre-btn" onClick={open} disabled={!valgtSlug}>
                     Slett artikkel
                 </button>
             </div>
