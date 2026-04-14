@@ -3,12 +3,15 @@ import { toast } from 'react-toastify';
 import OppgaveRolleEndring from './oppgaver/OppgaveRolleEndring';
 import OppgaveHytteeierNyFellestur from './oppgaver/OppgaveHytteeierNyFellestur';
 import OppgaveHytteeierBooking from './oppgaver/OppgaveHytteeierBooking';
+import OppgaveAnnonseForespørsel from './oppgaver/OppgaveAnnonseForespørsel';
 import './VarselDetaljer.css';
 
 const oppgaveTyper = {
     rolle_foresporsel: OppgaveRolleEndring,
     hytteeier_ny_fellestur: OppgaveHytteeierNyFellestur,
     hytteeier_booking_sendt: OppgaveHytteeierBooking,
+    annonse_foresporsel: OppgaveAnnonseForespørsel
+
 };
 
 //Viser innhold og eventuelle handlinger for et varsel. Laget av Kay
