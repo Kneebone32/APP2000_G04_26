@@ -28,44 +28,43 @@ router.get('/', async (_req, res) => {
 
 // Opprett annonse
 router.post('/', auth, async (req, res) => {
-    console.log(req.body);
-    try {
-        const bruker_id = req.user.bruker_id;
+  try {
+    const bruker_id = req.user.bruker_id;
 
-        const {
-            annonse_navn,
-            tittel,
-            beskrivelse,
-            bilde_url,
-            sokeord,
-            start_dato,
-            slutt_dato,
-            status
-        } = req.body;
+    const {
+      mottaker_id,
+      annonse_navn,
+      tittel,
+      beskrivelse,
+      bilde_url,
+      sokeord,
+      start_dato,
+      slutt_dato
+    } = req.body;
 
-        const result = await pool.query(
-            `SELECT public.annonse_opprett($1, $2, $3, $4, $5, $6::text[], $7, $8, $9) AS annonse_id`,
-            [
-                bruker_id,
-                annonse_navn,
-                tittel,
-                beskrivelse,
-                bilde_url,
-                sokeord, 
-                start_dato,
-                slutt_dato,
-                status || 'inaktiv'
-            ]
-        );
+    const result = await pool.query(
+      `SELECT public.annonse_opprett($1, $2, $3, $4, $5, $6, $7::text[], $8, $9) AS annonse_id`,
+      [
+        bruker_id,
+        mottaker_id,
+        annonse_navn,
+        tittel,
+        beskrivelse,
+        bilde_url,
+        sokeord,
+        start_dato,
+        slutt_dato
+      ]
+    );
 
-        res.status(201).json({
-            message: 'Annonse opprettet',
-            annonse_id: result.rows[0].annonse_id
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Kunne ikke opprette annonse' });
-    }
+    res.status(201).json({
+      message: 'Annonse opprettet',
+      annonse_id: result.rows[0].annonse_id
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke opprette annonse' });
+  }
 });
 
 // Hent én annonse
