@@ -45,4 +45,11 @@ export const FORESPØRSEL_STATUS = {
     GODKJENT: 'godkjent'
 };
 
+//Artikkel-slugs
+export const ARTIKKEL_SLUG = {
+    OM_OSS: 'om-oss',
+    KONTAKT: 'kontakt',
+    FAQ: 'faq'
+};
+
 
