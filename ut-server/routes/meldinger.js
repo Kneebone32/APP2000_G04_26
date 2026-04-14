@@ -88,7 +88,39 @@ router.post('/melding', auth, async (req, res) => {
 });
 
 
-//TODO: forlat en gruppesamtale
-//TODO: merk en melding som lest
+// Forlat samtale
+router.put('/:id/forlat', auth, async (req, res) => {
+  try {
+    const samtale_id = req.params.id;
+    const bruker_id = req.user.bruker_id;
+
+    await pool.query(
+      'SELECT public.samtale_forlat($1, $2)',
+      [samtale_id, bruker_id]
+    );
+
+    res.json({ message: 'Forlot samtalen' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke forlate samtalen' });
+  }
+});
+
+// Marker én melding som lest
+router.put('/melding/:id/lest', auth, async (req, res) => {
+  try {
+    const melding_id = req.params.id;
+
+    await pool.query(
+      'SELECT melding_sett_lest($1)',
+      [melding_id]
+    );
+
+    res.json({ message: 'Melding markert som lest' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke markere melding som lest' });
+  }
+});
 
 export default router;
