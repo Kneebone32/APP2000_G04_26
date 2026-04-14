@@ -41,12 +41,20 @@ export default function Admin() {
         {t("fellesturer.gå_til_admin")}
         </button>
                 
-        {/*Turmål*/}        
-        <button 
+        {/*Turmål*/}
+        <button
         className="AdminKnapp"
         onClick={() => navigate('/admin/turmål')}
         >
         {t("turmål.gå_til_admin")}
+        </button>
+
+        {/*Artikler*/}
+        <button
+        className="AdminKnapp"
+        onClick={() => navigate('/admin/artikler')}
+        >
+        Administrer Artikler
         </button>
     </div>
   );

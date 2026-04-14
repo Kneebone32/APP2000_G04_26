@@ -1,0 +1,38 @@
+/*Laget av AI*/
+.artikkel-modal-innhold {
+    padding: 0.5rem 1.5rem 1.5rem;
+    line-height: 1.7;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.artikkel-modal-innhold h1,
+.artikkel-modal-innhold h2,
+.artikkel-modal-innhold h3 {
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.artikkel-modal-innhold p {
+    margin-bottom: 0.75rem;
+}
+
+.artikkel-modal-innhold ul,
+.artikkel-modal-innhold ol {
+    padding-left: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.artikkel-modal-innhold a {
+    color: var(--farge-grønn, #2e7d32);
+}
+
+.artikkel-modal-status {
+    color: #888;
+    font-style: italic;
+    padding: 1rem 0;
+}
+
+.artikkel-modal-feil {
+    color: #c0392b;
+}
