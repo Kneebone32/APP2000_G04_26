@@ -13,7 +13,6 @@ export const BRUKER_ROLLE = {
 export const ANNONSE_FANER = ["Legg til",
     "Rediger",
     "Slett",
-    "Godkjenn",
     "Statistikk"
 ];
 
