@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAutentisering } from '../hooks/useAutentisering';
 import { useVarsler } from '../hooks/useVarsler';
 import VarselListe from '../components/varsling/VarselListe';
@@ -11,18 +11,10 @@ export default function Varsler() {
     const { token, erAutentisert } = useAutentisering({ autoFetch: true });
     const {
         varsler, valgtVarsel, setValgtVarsel, loading, error,
-        hentVarsler, hentVarsel, merkSomLest, slettVarsel, behandleOppgave,
-        startPoll, stopPoll
-    } = useVarsler({ token });
-
+        hentVarsel, merkSomLest, slettVarsel, behandleOppgave
+    } = useVarsler({ token, autoPoll: erAutentisert });
+    
     const [valgtId, setValgtId] = useState(null);
-
-    //Starter polling av varslerlisten
-    useEffect(() => {
-        if (!erAutentisert) return;
-        startPoll(hentVarsler);
-        return () => stopPoll();
-    }, [erAutentisert, startPoll, stopPoll, hentVarsler]);
 
     const handleVelgVarsel = async (varsel) => {
         setValgtId(varsel.varsel_id);

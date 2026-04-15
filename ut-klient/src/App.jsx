@@ -32,7 +32,7 @@ import Meldinger from "./pages/Meldinger";
 import Varsler from "./pages/Varsler";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Test from "./pages/Test";
-import Test2 from "./pages/Test2";
+import Sti from "./pages/Sti";
 import Navigasjon from "./pages/Navigasjon";
 
 
@@ -75,6 +75,7 @@ export default function App() {
               <Route path="/admin/fellesturer" element={<FellesturModerator />} />
               <Route path="/admin/turmål" element={<TurmålModerator />} />
               <Route path="/admin/artikler" element={<ArtikkelModerator />} />
+              <Route path="/sti" element={<Sti />} />
             </Route>
 
             <Route element={<ProtectedRoute rolle={BRUKER_ROLLE.TURLEDER} />}>
@@ -86,7 +87,6 @@ export default function App() {
             </Route>
 
             <Route path="/test" element={<Test />} />
-            <Route path="/test2" element={<Test2 />} />
             <Route path="/navigasjon/:turId" element={<Navigasjon />} />
             <Route path="/navigasjon/fellestur/:fellesturId" element={<Navigasjon />} />
             <Route path="*" element={<Feilside />} />
