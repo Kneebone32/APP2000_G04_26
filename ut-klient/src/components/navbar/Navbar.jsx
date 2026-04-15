@@ -11,6 +11,8 @@ import Logginn from "../autentisering/Logginn";
 import { toast } from "react-toastify";
 import RegisterBruker from "../autentisering/RegistrerBruker";
 import NavbarRoller from "./NavbarRoller";
+import ArtikkelModal from "../artikkel/modal/ArtikkelModal";
+import { ARTIKKEL_SLUG } from "../../constants/konstanter";
 import { useVarsler } from "../../hooks/useVarsler";
 import { useMeldinger } from "../../hooks/useMeldinger";
 import 'flag-icons/css/flag-icons.min.css';
@@ -117,6 +119,8 @@ export default function Navbar() {
             <Link to="/kart" className="Kart" onClick={closeNavbar}>{t("nav.kart")}</Link>
             <Link to="/fellesturer" className="Fellesturer" onClick={closeNavbar}>{t("nav.fellesturer")}</Link>
             <Link to="/annonser" className="Annonser" onClick={closeNavbar}>{t("nav.annonser")}</Link>
+            <ArtikkelModal slug={ARTIKKEL_SLUG.OM_OSS} lenkeTekst="Om oss" lenkeKlasseNavn="" />
+            <ArtikkelModal slug={ARTIKKEL_SLUG.KONTAKT} lenkeTekst="Kontakt" lenkeKlasseNavn="" />
 
           {/*Bruker på navbar*/}
           {erAutentisert ? (
