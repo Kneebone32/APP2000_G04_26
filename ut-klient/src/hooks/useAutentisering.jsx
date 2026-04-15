@@ -8,6 +8,7 @@ export function useAutentisering({autoFetch = true} = {}) {
   const [error, setError] = useState(null);
   const [roller, setRoller] = useState([]);
   const [mineRoller, setMineRoller] = useState([]);
+  const [lasterRoller, setLasterRoller] = useState(!!localStorage.getItem('token'));
 
 
   //Henter profil ut fra token
@@ -198,11 +199,15 @@ export function useAutentisering({autoFetch = true} = {}) {
 
   //Henter rollene til innlogget bruker
   const hentMineRoller = useCallback(async () => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/bruker/mine-roller`, {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    if (!response.ok) throw new Error('Kunne ikke hente brukerens roller');
-    return await response.json();
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/bruker/mine-roller`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!response.ok) throw new Error('Kunne ikke hente brukerens roller');
+      return await response.json();
+    } finally {
+      setLasterRoller(false);
+    }
   }, [token]);
 
   //Logg ut
@@ -256,6 +261,7 @@ export function useAutentisering({autoFetch = true} = {}) {
     byttRolle,
     roller,
     mineRoller,
+    lasterRoller,
     hentRoller,
     hentMineRoller,
     refetch: fetchProfil
