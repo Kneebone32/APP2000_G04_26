@@ -26,7 +26,7 @@ export default function Navbar() {
   const [visRegistrer, setVisRegistrer] = useState(false);
   const [visBrukerMeny, setVisBrukerMeny] = useState(false);
   const ulestVarsler = varsler.filter(varsel => varsel.status === 'ulest').length;
-  const ulesteMeldinger = samtaler.filter(samtale => samtale.uleste > 0).length;
+  const ulesteMeldinger = samtaler.filter(samtale => Number(samtale.antall_uleste_meldinger) > 0).length;
 
   const toggleSpråk = () => {
   const nyttSpråk = i18n.language === "no" ? "en" : "no";

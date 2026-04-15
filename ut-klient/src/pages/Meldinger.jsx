@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAutentisering } from '../hooks/useAutentisering';
 import { useMeldinger } from '../hooks/useMeldinger';
@@ -12,28 +12,15 @@ import './Meldinger.css';
 export default function Meldinger() {
     const { bruker, token, erAutentisert } = useAutentisering({ autoFetch: true });
     const location = useLocation();
+    const [valgtSamtale, setValgtSamtale] = useState(location.state?.samtale ?? null);
     const {
         meldinger, samtaler, loading, error,
-        hentSamtaler, hentMeldinger, sendMelding,
-        startPoll, stopPoll, forlatSamtale, markerSamtaleLest
-    } = useMeldinger({ token });
+        hentMeldinger, sendMelding, forlatSamtale, markerSamtaleLest
+    } = useMeldinger({ token, autoFetch: erAutentisert, valgtSamtaleId: valgtSamtale?.samtale_id });
 
-    const [valgtSamtale, setValgtSamtale] = useState(location.state?.samtale ?? null);
-    
-    //Henter samtalelisten når siden lastes
-    useEffect(() => {
-        if (erAutentisert) hentSamtaler();
-    }, [erAutentisert, hentSamtaler]);
-
-    //Starter polling når en samtale velges
-    useEffect(() => {
-        if (!valgtSamtale) return;
-        startPoll(() => hentMeldinger(valgtSamtale.samtale_id));
-        return () => stopPoll();
-    }, [valgtSamtale, startPoll, stopPoll, hentMeldinger]);
+    console.log(samtaler)
 
     const handleVelgSamtale = (samtale) => {
-        stopPoll();
         setValgtSamtale(samtale);
         markerSamtaleLest(samtale.samtale_id);
     };
@@ -41,7 +28,6 @@ export default function Meldinger() {
     const handleForlatSamtale = async () => {
         if (!valgtSamtale) return;
         await forlatSamtale(valgtSamtale.samtale_id);
-        stopPoll();
         setValgtSamtale(null);
     };
 
@@ -54,7 +40,7 @@ export default function Meldinger() {
     return (
         <PageWrapper>
         <div className="meldinger-side">
-            
+
             <div className="meldinger-layout">
                 <SamtaleListe
                     samtaler={samtaler}
@@ -81,7 +67,7 @@ export default function Meldinger() {
                     )}
                 </div>
             </div>
-            
+
         </div>
         </PageWrapper>
     );

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 
 //Hook til meldingssystemet. Laget av Kay
-export function useMeldinger({token, pollIntervall = 5000, autoPoll = false} = {}) {
+export function useMeldinger({token, pollIntervall = 5000, autoPoll = false, autoFetch = false, valgtSamtaleId = null} = {}) {
 
   const [meldinger, setMeldinger] = useState([]);
   const [samtaler, setSamtaler] = useState([]);
@@ -110,10 +110,11 @@ export function useMeldinger({token, pollIntervall = 5000, autoPoll = false} = {
         method: 'PUT',
         headers: authHeaders
       });
+      await hentSamtaler();
     } catch {
       // feil her skal ikke blokkere bruker
     }
-  }, [authHeaders, token]);
+  }, [authHeaders, token, hentSamtaler]);
 
   //Sender en melding i en samtale
   const sendMelding = useCallback(async (samtaleId, meldingTekst, bildeUrl = null) => {
@@ -133,6 +134,7 @@ export function useMeldinger({token, pollIntervall = 5000, autoPoll = false} = {
     }
   }, [authHeaders, token]);
 
+  //Stopper polling. Laget med mye hjelp fra internett + AI
   const stopPoll = useCallback(() => {
     if (intervallRef.current) {
       clearInterval(intervallRef.current);
@@ -147,12 +149,24 @@ export function useMeldinger({token, pollIntervall = 5000, autoPoll = false} = {
     intervallRef.current = setInterval(pollFunc, pollIntervall);
   }, [pollIntervall, stopPoll]);
 
+  //Henter samtalelisten ved oppstart
   useEffect(() => {
-    if (autoPoll && token) {
-      startPoll(hentSamtaler);
+    if ((autoFetch || autoPoll) && token) {
+      if (autoPoll) {
+        startPoll(hentSamtaler);
+      } else {
+        hentSamtaler();
+      }
     }
     return () => stopPoll();
-  }, [autoPoll, token, hentSamtaler, startPoll, stopPoll]);
+  }, [autoFetch, autoPoll, token, hentSamtaler, startPoll, stopPoll]);
+
+  //Starter polling av meldinger når en samtale er valgt
+  useEffect(() => {
+    if (!valgtSamtaleId) return;
+    startPoll(() => hentMeldinger(valgtSamtaleId));
+    return () => stopPoll();
+  }, [valgtSamtaleId, startPoll, stopPoll, hentMeldinger]);
 
   return {
     meldinger,

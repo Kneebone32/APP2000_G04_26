@@ -25,6 +25,9 @@ export default function SamtaleListe({samtaler, valgtId, onVelg}) {
                                 <span className="samtale-forhåndsvisning">{samtale.siste_melding}</span>
                             )}
                         </div>
+                        {Number(samtale.antall_uleste_meldinger) > 0 && (
+                            <span className="samtale-uleste">{Number(samtale.antall_uleste_meldinger)}</span>
+                        )}
                     </button>
                 );
             })}
