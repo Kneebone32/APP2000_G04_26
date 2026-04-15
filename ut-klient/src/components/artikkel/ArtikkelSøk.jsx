@@ -33,7 +33,7 @@ export default function ArtikkelSøk({artikler, onSelect, lagretTittel = ''}) {
                     onChange={e => {
                         setSøk(e.target.value);
                         setVisDropdown(true);
-                        if (e.target.value === '') onSelect('', '');
+                        if (e.target.value === '') onSelect(null, '');
                     }}
                     onFocus={() => setVisDropdown(true)}
                 />
@@ -47,7 +47,7 @@ export default function ArtikkelSøk({artikler, onSelect, lagretTittel = ''}) {
                                 key={a.artikkel_slug}
                                 onClick={() => {
                                     setSøk(a.artikkel_tittel);
-                                    onSelect(a.artikkel_slug, a.artikkel_tittel);
+                                    onSelect(a.artikkel_id, a.artikkel_tittel);
                                     setVisDropdown(false);
                                 }}
                             >

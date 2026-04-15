@@ -11,22 +11,25 @@ export default function RedigerArtikkel() {
     const { token } = useAutentisering({ autoFetch: false });
     const { artikler, loading, redigerArtikkel } = useArtikkel({ autoFetch: true, token });
 
-    const [valgtSlug, setValgtSlug] = useState('');
+    const [valgtId, setValgtId] = useState(null);
+    const [slug, setSlug] = useState('');
     const [tittel, setTittel] = useState('');
     const [innhold, setInnhold] = useState('');
 
-    const handleVelg = (slug) => {
-        const artikkel = artikler.find(a => a.artikkel_slug === slug);
-        if (!artikkel) { setValgtSlug(''); return; }
-        setValgtSlug(slug);
+    const handleVelg = (id) => {
+        const artikkel = artikler.find(a => a.artikkel_id === id);
+        console.log(artikkel)
+        if (!artikkel) { setValgtId(null); return; }
+        setValgtId(id);
         setTittel(artikkel.artikkel_tittel);
         setInnhold(artikkel.artikkel_innhold ?? '');
+        setSlug(artikkel.artikkel_slug);
     };
 
     const handleLagre = async () => {
-        if (!valgtSlug) return;
+        if (!valgtId) return;
         try {
-            await redigerArtikkel(valgtSlug, { artikkel_tittel: tittel, artikkel_innhold: innhold });
+            await redigerArtikkel(valgtId, { artikkel_tittel: tittel, artikkel_innhold: innhold, artikkel_slug: slug });
             toast.success('Artikkel lagret');
         } catch {
             toast.error('Kunne ikke lagre artikkelen');
@@ -40,10 +43,10 @@ export default function RedigerArtikkel() {
             <ArtikkelSøk
                 artikler={artikler}
                 onSelect={handleVelg}
-                lagretTittel={artikler.find(a => a.artikkel_slug === valgtSlug)?.artikkel_tittel ?? ''}
+                lagretTittel={artikler.find(a => a.artikkel_id === valgtId)?.artikkel_tittel ?? ''}
             />
 
-            {valgtSlug && (
+            {valgtId && (
                 <ArtikkelForm
                     tittel={tittel}
                     onTittelChange={setTittel}

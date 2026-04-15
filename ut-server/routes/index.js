@@ -15,6 +15,7 @@ import anmeldelserRoutes from './anmeldelser.js';
 import pamelding from './pamelding.js';
 import annonseRoutes from './annonse.js';
 import favorittRoutes from './favoritter.js';
+import artikkelRoutes from './artikkel.js'
 
 const router = express.Router();
 
@@ -32,5 +33,6 @@ router.use('/anmeldelser', anmeldelserRoutes);
 router.use('/pamelding', pamelding);
 router.use('/annonser', annonseRoutes);
 router.use('/favoritter', favorittRoutes);
+router.use('/artikkel', artikkelRoutes);
 
 export default router;

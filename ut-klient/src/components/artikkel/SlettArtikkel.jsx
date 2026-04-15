@@ -13,12 +13,12 @@ export default function SlettArtikkel() {
     const { token } = useAutentisering({autoFetch: false});
     const { artikler, slettArtikkel } = useArtikkel({autoFetch: true, token});
     const { isOpen, open, close } = useModal();
-    const [valgtSlug, setValgtSlug] = useState('');
+    const [valgtId, setValgtId] = useState(null);
 
     const handleSlett = async () => {
         try {
-            await slettArtikkel(valgtSlug);
-            setValgtSlug('');
+            await slettArtikkel(valgtId);
+            setValgtId(null);
             close();
             toast.success('Artikkel slettet');
         } catch {
@@ -26,7 +26,7 @@ export default function SlettArtikkel() {
         }
     };
 
-    const valgtTittel = artikler.find(a => a.artikkel_slug === valgtSlug)?.artikkel_tittel ?? '';
+    const valgtTittel = artikler.find(a => a.artikkel_id === valgtId)?.artikkel_tittel ?? '';
 
     return (
         <div className="fellestur-form-container">
@@ -34,12 +34,12 @@ export default function SlettArtikkel() {
 
             <ArtikkelSøk
                 artikler={artikler}
-                onSelect={(slug) => setValgtSlug(slug)}
+                onSelect={(id) => setValgtId(id)}
                 lagretTittel={valgtTittel}
             />
 
             <div className="input-container">
-                <button className="artikkel-lagre-btn" onClick={open} disabled={!valgtSlug}>
+                <button className="artikkel-lagre-btn" onClick={open} disabled={!valgtId}>
                     Slett artikkel
                 </button>
             </div>
