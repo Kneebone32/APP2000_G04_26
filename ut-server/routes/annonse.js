@@ -26,6 +26,20 @@ router.get('/', async (_req, res) => {
     }
 });
 
+// Hent alle annonser
+router.get('/', async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM public.annonse_hent_alle()'
+    );
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke hente annonser' });
+  }
+});
+
 // Opprett annonse
 router.post('/', auth, async (req, res) => {
   try {
