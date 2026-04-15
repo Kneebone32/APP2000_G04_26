@@ -31,8 +31,19 @@ router.post('/', auth, async (req, res) => {
   try {
     const bruker_id = req.user.bruker_id;
 
+    //Finn en admin som skal motta varselet (temp)
+    const adminResult = await pool.query(
+        `SELECT br.bruker_id FROM bruker_rolle br
+         JOIN rolle r USING (rolle_id)
+         WHERE r.rolle_navn = 'admin'
+         LIMIT 1`
+    );
+    if (adminResult.rows.length === 0) {
+        return res.status(404).json({ error: 'Ingen admin funnet' });
+    }
+    const mottaker_id = adminResult.rows[0].bruker_id;
+
     const {
-      mottaker_id,
       annonse_navn,
       tittel,
       beskrivelse,
