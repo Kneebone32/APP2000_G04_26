@@ -9,7 +9,8 @@ import passport from 'passport';
 const router = express.Router();
 const auth = passport.authenticate('jwt', { session: false });
 
-const JWT_SECRET = process.env.JWT_SECRET || 'hemmelig_nøkkel_endre_meg';
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) throw new Error('JWT_SECRET mangler i miljøvariabler');
 const SALT_ROUNDS = 10;
 
 // Registrer ny bruker

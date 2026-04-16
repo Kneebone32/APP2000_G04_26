@@ -4,7 +4,8 @@ import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import pool from './db.js';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'hemmelig_nøkkel_endre_meg';
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) throw new Error('JWT_SECRET mangler i miljøvariabler');
 
 passport.use(
   new JwtStrategy(
