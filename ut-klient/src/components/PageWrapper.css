@@ -3,10 +3,9 @@ Laget av Eivind
 */
 .Page {
     padding: 20px;
-    margin: auto;
+    margin: 0 auto;
+    margin-top: var(--navbar-height);
     align-content: center;
-    position: relative;
-    top: var(--navbar-height);
     max-width: 1700px;
 }
 

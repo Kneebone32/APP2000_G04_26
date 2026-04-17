@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from "./components/navbar/Navbar";
 import AnnouncementBar from "./components/AnnouncementBar";
+import Footer from "./components/Footer";
 //import "./components/AnnouncementBar.css";
 
 import Home from "./pages/Home";
@@ -92,6 +93,7 @@ export default function App() {
             <Route path="*" element={<Feilside />} />
           </Routes>
         </main>
+        <Footer />
       </div>
     </Router>
   );
