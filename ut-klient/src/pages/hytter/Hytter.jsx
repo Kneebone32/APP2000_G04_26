@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import PageWrapper from "../../components/PageWrapper";
 import HytteKort from "../../components/hytter/HytteKort";
 import AnnonseKort from "../../components/annonse/AnnonseKort";
@@ -12,15 +12,18 @@ import "./Hytter.css";
 // Viser oversikt over alle hytter som kort. Laget av Olai.
 export default function Hytter() {
   const { hytter, loadingHytter, errorHytter } = useFetchHytter({hytteKort: true});
-  const { annonser } = useFetchAnnonser({ annonseKort: true });
+  const { annonser } = useFetchAnnonser({ autoFetch: true });
   const { token } = useAutentisering();
   const { erHytteFavoritt, toggleHytteFavoritt } = useFavoritter({token});
   const { t } = useTranslation();
   const [søk, setSøk] = useState('');
 
-  // Filtrerer ut godkjente annonser med søkeordet "hytte".
+  const iDag = new Date();
   const hytteAnnonser = annonser.filter(a =>
-    a.status === "godkjent" && a.søkeord?.includes("hytte")
+    a.status !== "avvist" &&
+    a.sokeord?.includes("hytte") &&
+    new Date(a.start_dato) <= iDag &&
+    new Date(a.slutt_dato) >= iDag
   );
 
   const filtrert = hytter.filter((hytte) => {
@@ -32,6 +35,16 @@ export default function Hytter() {
       hytte.kommune_navn?.toLowerCase().includes(søkeord)
     );
   });
+
+  // Blander annonser inn på tilfeldige posisjoner blant hyttekortene.
+  const blandaListe = useMemo(() => {
+    const liste = filtrert.map(h => ({ type: 'hytte', data: h }));
+    hytteAnnonser.forEach(a => {
+      const pos = Math.floor(Math.random() * (liste.length + 1));
+      liste.splice(pos, 0, { type: 'annonse', data: a });
+    });
+    return liste;
+  }, [filtrert, hytteAnnonser]);
 
   return (
     <PageWrapper title={t("hytter.tittel")}>
@@ -57,23 +70,24 @@ export default function Hytter() {
 
         {!loadingHytter && !errorHytter && filtrert.length > 0 && (
           <div className="HyttekortContainer">
-            {filtrert.map((hytte) => (
-              <HytteKort
-                key={hytte.id}
-                hytteId={hytte.id}
-                hytteNavn={hytte.navn}
-                pris={hytte.pris}
-                sengeplasser={hytte.sengeplasser}
-                fylkeId={hytte.fylke_navn}
-                kommuneId={hytte.kommune_navn}
-                bildeUrl={hytte.hovedbilde_url}
-                erFavoritt={erHytteFavoritt(hytte.id)}
-                onToggleFavoritt={toggleHytteFavoritt}
-              />
-            ))}
-            {hytteAnnonser.map((annonse) => (
-              <AnnonseKort key={`annonse-${annonse.annonse_id}`} annonse={annonse} />
-            ))}
+            {blandaListe.map((innslag) =>
+              innslag.type === 'annonse' ? (
+                <AnnonseKort key={`annonse-${innslag.data.annonse_id}`} annonse={innslag.data} />
+              ) : (
+                <HytteKort
+                  key={innslag.data.id}
+                  hytteId={innslag.data.id}
+                  hytteNavn={innslag.data.navn}
+                  pris={innslag.data.pris}
+                  sengeplasser={innslag.data.sengeplasser}
+                  fylkeId={innslag.data.fylke_navn}
+                  kommuneId={innslag.data.kommune_navn}
+                  bildeUrl={innslag.data.hovedbilde_url}
+                  erFavoritt={erHytteFavoritt(innslag.data.id)}
+                  onToggleFavoritt={toggleHytteFavoritt}
+                />
+              )
+            )}
           </div>
         )}
       </div>

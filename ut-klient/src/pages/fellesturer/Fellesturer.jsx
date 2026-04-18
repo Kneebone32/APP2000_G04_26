@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import PageWrapper from "../../components/PageWrapper";
 import FellesturKort from "../../components/fellesturer/FellesturKort";
+import AnnonseKort from "../../components/annonse/AnnonseKort";
 import { useFellestur } from "../../hooks/useFellesturer";
+import { useFetchAnnonser } from "../../hooks/useFetchAnnonser";
 import { useTranslation } from "react-i18next";
 import "./Fellesturer.css";
 
@@ -9,7 +11,16 @@ import "./Fellesturer.css";
 export default function Fellesturer() {
   const { t } = useTranslation();
   const { fellesturer, loadingFellesturer, errorFellesturer } = useFellestur({autoFetch: true});
+  const { annonser } = useFetchAnnonser({ autoFetch: true });
   const [søk, setSøk] = useState('');
+
+  const iDag = new Date();
+  const fellesturAnnonser = annonser.filter(a =>
+    a.status !== "avvist" &&
+    a.sokeord?.includes("fellestur") &&
+    new Date(a.start_dato) <= iDag &&
+    new Date(a.slutt_dato) >= iDag
+  );
 
   const filtrert = fellesturer.filter((fellestur) => {
     if (!søk.trim()) return true;
@@ -20,6 +31,16 @@ export default function Fellesturer() {
       fellestur.stier?.[0]?.kommune_navn?.toLowerCase().includes(søkeord)
     );
   });
+
+  // Blander annonser inn på tilfeldige posisjoner blant fellesturkortene.
+  const blandaListe = useMemo(() => {
+    const liste = filtrert.map(f => ({ type: 'fellestur', data: f }));
+    fellesturAnnonser.forEach(a => {
+      const pos = Math.floor(Math.random() * (liste.length + 1));
+      liste.splice(pos, 0, { type: 'annonse', data: a });
+    });
+    return liste;
+  }, [filtrert, fellesturAnnonser]);
 
   return (
     <PageWrapper title={t("fellesturer.tittel")}>
@@ -43,15 +64,19 @@ export default function Fellesturer() {
         )}
         {!loadingFellesturer && !errorFellesturer && filtrert.length > 0 && (
           <div className="FellesturKortContainer">
-            {filtrert.map((fellestur) => (
-              <FellesturKort
-                key={fellestur.aktivitet_id}
-                fellesturId={fellestur.aktivitet_id}
-                fellesturNavn={fellestur.aktivitet_tittel}
-                dato={fellestur.datoer}
-                bildeUrl={fellestur.bilder[0]?.aktivitet_url}
-              />
-              ))}
+            {blandaListe.map((innslag) =>
+              innslag.type === 'annonse' ? (
+                <AnnonseKort key={`annonse-${innslag.data.annonse_id}`} annonse={innslag.data} />
+              ) : (
+                <FellesturKort
+                  key={innslag.data.aktivitet_id}
+                  fellesturId={innslag.data.aktivitet_id}
+                  fellesturNavn={innslag.data.aktivitet_tittel}
+                  dato={innslag.data.datoer}
+                  bildeUrl={innslag.data.bilder[0]?.aktivitet_url}
+                />
+              )
+            )}
           </div>
         )}
       </div>
