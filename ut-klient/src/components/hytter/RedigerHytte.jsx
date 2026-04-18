@@ -6,7 +6,7 @@ import HytteForm from "./hytte-form/HytteForm";
 // Lar bruker søke opp en hytte, hente eksisterende data og oppdatere den. Laget av Olai.
 export default function RedigerHytte({ onSuccess, hytter: hytter_prop }) {
     const { t } = useTranslation();
-    const { hytter: hytter_alle, hentHytteFraId } = useFetchHytter({ autoFetch: !hytter_prop });
+    const { hytter: hytter_alle, hentHytteFraId } = useFetchHytter({ hytteKort: !hytter_prop });
     const hytter = hytter_prop ?? hytter_alle;
 
     const [searchTerm, setSearchTerm] = useState("");

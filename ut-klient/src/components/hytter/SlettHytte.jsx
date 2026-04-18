@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 // Lar bruker søke opp en hytte og slette den etter bekreftelse. Laget av Olai.
 export default function SlettHytte({onSuccess, hytter: hytter_prop}) {
     const { t } = useTranslation();
-    const { hytter: hytter_alle, deleteHytte } = useFetchHytter({autoFetch: !hytter_prop});
+    const { hytter: hytter_alle, deleteHytte } = useFetchHytter({hytteKort: !hytter_prop});
     const hytter = hytter_prop ?? hytter_alle;
     const [selectedId, setSelectedId] = useState(null);
     
