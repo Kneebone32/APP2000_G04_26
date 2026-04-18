@@ -77,38 +77,6 @@ export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, toke
     return await response.json();
   }, [authHeaders]);
 
-  // Godkjenner en ventende annonse og oppdaterer lokal state.
-  const godkjennAnnonse = useCallback(async (id) => {
-
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/annonser/${id}/godkjenn`, {
-      method: "PUT",
-      headers: authHeaders,
-    });
-
-    if (!response.ok) {
-      throw new Error(`Feil ved godkjenning: ${response.status}`);
-    }
-
-    setAnnonser(prev => prev.map(a => a.annonse_id === parseInt(id) ? { ...a, status: "godkjent" } : a));
-    return await response.json();
-  }, [authHeaders]);
-
-  // Avviser en ventende annonse og oppdaterer lokal state.
-  const avvisAnnonse = useCallback(async (id) => {
-
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/annonser/${id}/avvis`, {
-      method: "PUT",
-      headers: authHeaders,
-    });
-
-    if (!response.ok) {
-      throw new Error(`Feil ved avvisning: ${response.status}`);
-    }
-
-    setAnnonser(prev => prev.map(a => a.annonse_id === parseInt(id) ? { ...a, status: "avvist" } : a));
-    return await response.json();
-  }, [authHeaders]);
-
   // Henter visnings- og klikkstatistikk for en annonse.
   const hentStatistikk = useCallback(async (id) => {
 
@@ -133,8 +101,6 @@ export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, toke
     hentAnnonseFraId,
     oppdaterAnnonse,
     slettAnnonse,
-    godkjennAnnonse,
-    avvisAnnonse,
     hentStatistikk,
   };
 }
