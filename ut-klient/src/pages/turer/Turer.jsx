@@ -1,12 +1,13 @@
 import { useState, useMemo } from "react";
-import PageWrapper from "../components/PageWrapper";
-import TurKort from "../components/turruter/TurKort";
-import AnnonseKort from "../components/annonse/AnnonseKort";
-import { useFetchTurer } from "../hooks/useFetchTurer";
-import { useFetchAnnonser } from "../hooks/useFetchAnnonser";
-import { useFavoritter } from "../hooks/useFavoritter";
-import { useAutentisering } from "../hooks/useAutentisering";
+import PageWrapper from "../../components/PageWrapper";
+import TurKort from "../../components/turruter/TurKort";
+import AnnonseKort from "../../components/annonse/AnnonseKort";
+import { useFetchTurer } from "../../hooks/useFetchTurer";
+import { useFetchAnnonser } from "../../hooks/useFetchAnnonser";
+import { useFavoritter } from "../../hooks/useFavoritter";
+import { useAutentisering } from "../../hooks/useAutentisering";
 import { useTranslation } from "react-i18next";
+import { blandInnAnnonser } from "../../utils/blandAnnonser";
 import "./Turer.css";
 
 //Basert på Hytter.jsx. Laget av Kay og Olai
@@ -36,15 +37,10 @@ export default function Turer() {
     );
   });
 
-  // Blander annonser inn på tilfeldige posisjoner blant turkortene.
-  const blandaListe = useMemo(() => {
-    const liste = filtrert.map(t => ({ type: 'tur', data: t }));
-    turAnnonser.forEach(a => {
-      const pos = Math.floor(Math.random() * (liste.length + 1));
-      liste.splice(pos, 0, { type: 'annonse', data: a });
-    });
-    return liste;
-  }, [filtrert, turAnnonser]);
+  const blandaListe = useMemo(
+    () => blandInnAnnonser(filtrert, turAnnonser, 'tur'),
+    [filtrert, turAnnonser]
+  );
 
   return (
     <PageWrapper title={t("turer.tittel")}>

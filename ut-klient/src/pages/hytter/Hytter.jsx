@@ -7,6 +7,7 @@ import { useFetchAnnonser } from "../../hooks/useFetchAnnonser";
 import { useFavoritter } from "../../hooks/useFavoritter";
 import { useAutentisering } from "../../hooks/useAutentisering";
 import { useTranslation } from "react-i18next";
+import { blandInnAnnonser } from "../../utils/blandAnnonser";
 import "./Hytter.css";
 
 // Viser oversikt over alle hytter som kort. Laget av Olai.
@@ -36,15 +37,10 @@ export default function Hytter() {
     );
   });
 
-  // Blander annonser inn på tilfeldige posisjoner blant hyttekortene.
-  const blandaListe = useMemo(() => {
-    const liste = filtrert.map(h => ({ type: 'hytte', data: h }));
-    hytteAnnonser.forEach(a => {
-      const pos = Math.floor(Math.random() * (liste.length + 1));
-      liste.splice(pos, 0, { type: 'annonse', data: a });
-    });
-    return liste;
-  }, [filtrert, hytteAnnonser]);
+  const blandaListe = useMemo(
+    () => blandInnAnnonser(filtrert, hytteAnnonser, 'hytte'),
+    [filtrert, hytteAnnonser]
+  );
 
   return (
     <PageWrapper title={t("hytter.tittel")}>

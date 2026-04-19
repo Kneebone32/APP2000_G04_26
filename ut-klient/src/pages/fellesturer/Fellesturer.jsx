@@ -5,6 +5,7 @@ import AnnonseKort from "../../components/annonse/AnnonseKort";
 import { useFellestur } from "../../hooks/useFellesturer";
 import { useFetchAnnonser } from "../../hooks/useFetchAnnonser";
 import { useTranslation } from "react-i18next";
+import { blandInnAnnonser } from "../../utils/blandAnnonser";
 import "./Fellesturer.css";
 
 //Basert på Hytter.jsx. Laget av Kay og Olai
@@ -32,15 +33,10 @@ export default function Fellesturer() {
     );
   });
 
-  // Blander annonser inn på tilfeldige posisjoner blant fellesturkortene.
-  const blandaListe = useMemo(() => {
-    const liste = filtrert.map(f => ({ type: 'fellestur', data: f }));
-    fellesturAnnonser.forEach(a => {
-      const pos = Math.floor(Math.random() * (liste.length + 1));
-      liste.splice(pos, 0, { type: 'annonse', data: a });
-    });
-    return liste;
-  }, [filtrert, fellesturAnnonser]);
+  const blandaListe = useMemo(
+    () => blandInnAnnonser(filtrert, fellesturAnnonser, 'fellestur'),
+    [filtrert, fellesturAnnonser]
+  );
 
   return (
     <PageWrapper title={t("fellesturer.tittel")}>
