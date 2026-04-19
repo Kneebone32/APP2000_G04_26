@@ -1,11 +1,13 @@
 import { useState } from "react";
+import { useAutentisering } from "../../hooks/useAutentisering";
 import { useFetchHytter } from "../../hooks/useFetchHytter";
 import { useTranslation } from "react-i18next";
 
 // Lar bruker søke opp en hytte og slette den etter bekreftelse. Laget av Olai.
 export default function SlettHytte({onSuccess, hytter: hytter_prop}) {
     const { t } = useTranslation();
-    const { hytter: hytter_alle, deleteHytte } = useFetchHytter({hytteKort: !hytter_prop});
+    const { token } = useAutentisering({ autoFetch: true });
+    const { hytter: hytter_alle, deleteHytte } = useFetchHytter({ hytteKort: !hytter_prop, token });
     const hytter = hytter_prop ?? hytter_alle;
     const [selectedId, setSelectedId] = useState(null);
     

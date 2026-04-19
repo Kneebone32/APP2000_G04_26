@@ -1,12 +1,14 @@
 ﻿import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useAutentisering } from "../../hooks/useAutentisering";
 import { useFetchHytter } from "../../hooks/useFetchHytter";
 import HytteForm from "./hytte-form/HytteForm";
 
 // Lar bruker søke opp en hytte, hente eksisterende data og oppdatere den. Laget av Olai.
 export default function RedigerHytte({ onSuccess, hytter: hytter_prop }) {
     const { t } = useTranslation();
-    const { hytter: hytter_alle, hentHytteFraId } = useFetchHytter({ hytteKort: !hytter_prop });
+    const { token } = useAutentisering({ autoFetch: true });
+    const { hytter: hytter_alle, hentHytteFraId, oppdaterHytte } = useFetchHytter({ hytteKort: !hytter_prop, token });
     const hytter = hytter_prop ?? hytter_alle;
 
     const [searchTerm, setSearchTerm] = useState("");
@@ -71,29 +73,21 @@ export default function RedigerHytte({ onSuccess, hytter: hytter_prop }) {
             setLoading(true);
             setError(null);
 
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/${selectedId}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    hytte_id: Number(selectedId),
-                    hytte_navn: formData.navn,
-                    hytte_beskrivelse: formData.beskrivelse,
-                    hytte_sengeplasser: formData.sengeplasser,
-                    hytte_pris: formData.pris,
-                    fylke_nummer: formData.fylkeId,
-                    kommune_nummer: formData.kommuneId,
-                    hytte_breddegrad: formData.koordinat[0],
-                    hytte_lengdegrad: formData.koordinat[1],
-                    hytte_moh: formData.moh,
-                    hytte_betjeningsgrad: formData.betjeningsgrad,
-                    info_tab: formData.fasiliteter.length > 0 ? formData.fasiliteter.map((f) => f.id) : null,
-                    bilder: formData.bilder.length > 0 ? formData.bilder : null,
-                }),
+            await oppdaterHytte(selectedId, {
+                hytte_id: Number(selectedId),
+                hytte_navn: formData.navn,
+                hytte_beskrivelse: formData.beskrivelse,
+                hytte_sengeplasser: formData.sengeplasser,
+                hytte_pris: formData.pris,
+                fylke_nummer: formData.fylkeId,
+                kommune_nummer: formData.kommuneId,
+                hytte_breddegrad: formData.koordinat[0],
+                hytte_lengdegrad: formData.koordinat[1],
+                hytte_moh: formData.moh,
+                hytte_betjeningsgrad: formData.betjeningsgrad,
+                info_tab: formData.fasiliteter.length > 0 ? formData.fasiliteter.map((f) => f.id) : null,
+                bilder: formData.bilder.length > 0 ? formData.bilder : null,
             });
-
-            if (!response.ok) {
-                throw new Error(`${t("hytter.feil_oppdatering")}: ${response.status}`);
-            }
 
             alert(t("hytter.hytte_oppdatert"));
             setLagretData(null);

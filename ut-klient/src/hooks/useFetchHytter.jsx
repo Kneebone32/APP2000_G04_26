@@ -86,6 +86,48 @@ export function useFetchHytter({autoFetch = false, hentHytteID = null, hytteKort
     }
   }, [token]);
 
+  // Oppretter en ny hytte på backend.
+  const opprettHytte = useCallback(async (data) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter`, {
+        method: 'POST',
+        headers: authHeaders,
+        body: JSON.stringify(data)
+      });
+      if (!response.ok) throw new Error(`Feil ved opprettelse: ${response.status}`);
+      return await response.json();
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, [authHeaders]);
+
+  // Oppdaterer en eksisterende hytte på backend.
+  const oppdaterHytte = useCallback(async (id, data) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/${id}`, {
+        method: 'PUT',
+        headers: authHeaders,
+        body: JSON.stringify(data)
+      });
+      if (!response.ok) throw new Error(`Feil ved oppdatering: ${response.status}`);
+      const result = await response.json();
+      setHytter(prev => prev.map(h => h.id === parseInt(id) ? { ...h, ...data } : h));
+      return result;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, [authHeaders]);
+
   // Sletter hytte på backend og oppdaterer lokal state.
   const deleteHytte = useCallback (async (id) => {
     try {
@@ -114,11 +156,13 @@ export function useFetchHytter({autoFetch = false, hentHytteID = null, hytteKort
     if (token) hentMineHytter();
   }, [autoFetch, hentHytteID, hytteKort, token, fetchHytter, hentHytteFraId, fetchHytteKort, hentMineHytter]);
 
-  return { 
-    hytter, 
-    loading, 
-    error, 
+  return {
+    hytter,
+    loading,
+    error,
     refetch: fetchHytter,
+    opprettHytte,
+    oppdaterHytte,
     deleteHytte,
     hentHytteFraId,
     fetchHytteKort,
