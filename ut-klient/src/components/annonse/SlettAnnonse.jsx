@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useAutentisering } from "../../hooks/useAutentisering";
 import { useFetchAnnonser } from "../../hooks/useFetchAnnonser";
 import { useModal } from "../../hooks/useModal";
 import ConfirmModal from "../ConfirmModal";
 
 // Lar bruker søke opp en annonse og slette den etter bekreftelse. Laget av Olai.
 export default function SlettAnnonse({ onSuccess }) {
-    const token = localStorage.getItem("token");
+    const { token } = useAutentisering({ autoFetch: true });
     const { annonser, loadingAnnonser, slettAnnonse } = useFetchAnnonser({ autoFetch: true, token });
     const { isOpen, open, close } = useModal();
     const [selectedId, setSelectedId] = useState(null);

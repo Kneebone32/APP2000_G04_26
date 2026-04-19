@@ -43,6 +43,26 @@ export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, toke
     }
   }, []);
 
+  // Oppretter en ny annonse på backend.
+  const opprettAnnonse = useCallback(async (data) => {
+    try {
+      setLoadingAnnonser(true);
+      setErrorAnnonser(null);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/annonser`, {
+        method: "POST",
+        headers: authHeaders,
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) throw new Error(`Feil ved opprettelse: ${response.status}`);
+      return await response.json();
+    } catch (err) {
+      setErrorAnnonser(err.message);
+      throw err;
+    } finally {
+      setLoadingAnnonser(false);
+    }
+  }, [authHeaders]);
+
   // Oppdaterer en annonse med PUT og oppdaterer lokal state.
   const oppdaterAnnonse = useCallback(async (id, data) => {
 
@@ -98,6 +118,7 @@ export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, toke
     loadingAnnonser,
     errorAnnonser,
     refetch: fetchAnnonser,
+    opprettAnnonse,
     hentAnnonseFraId,
     oppdaterAnnonse,
     slettAnnonse,
