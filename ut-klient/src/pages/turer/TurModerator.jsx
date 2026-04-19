@@ -10,7 +10,7 @@ import './TurModerator.css';
 // Administrasjonsside for å legge til, redigere og slette turruter. Laget av Olai
 export default function TurModerator() {
     const [aktivFane, setAktivFane] = useState("Legg til");
-    const { refetch } = useFetchTurer(true);
+    const { refetch } = useFetchTurer({});
     const { t } = useTranslation();
     return (
         <div className="TurModeratorPanel">

@@ -56,8 +56,31 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
   }, []);
 
 
+  // Legger til en ny turrute
+  const opprettTur = useCallback(async (data) => {
+    try {
+      setLoadingTurer(true);
+      setErrorTurer(null);
+
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/tur`, {
+        method: 'POST',
+        headers: authHeaders,
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) throw new Error(`Feil ved opprettelse: ${response.status}`);
+
+      return await response.json();
+    } catch (err) {
+      setErrorTurer(err.message);
+      throw err;
+    } finally {
+      setLoadingTurer(false);
+    }
+  }, [authHeaders]);
+
   // Oppdaterer en turrute
-  const opptaterTur = useCallback (async (id, data) => {
+  const oppdaterTur = useCallback (async (id, data) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/tur/${id}`, {
         method: 'PUT',
@@ -131,8 +154,9 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
     errorTurer,
     refetch: fetchTurer,
     fetchTurKort,
+    opprettTur,
     deleteTur,
-    opptaterTur,
+    oppdaterTur,
     hentTurFraId,
   };
 }

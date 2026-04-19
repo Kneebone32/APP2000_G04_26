@@ -7,7 +7,7 @@ import TurForm from "./tur-form/TurForm";
 // Lar bruker søke opp en tur, hente eksisterende data og oppdatere den. Laget av Olai.
 export default function RedigerTur({ onSuccess }) {
     const { t } = useTranslation();
-    const { turer, hentTurFraId, opptaterTur } = useFetchTurer({ autoFetch: true });
+    const { turer, hentTurFraId, oppdaterTur } = useFetchTurer({ autoFetch: true });
 
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedId, setSelectedId] = useState(null);
@@ -79,7 +79,7 @@ export default function RedigerTur({ onSuccess }) {
             setLoading(true);
             setError(null);
 
-            await opptaterTur(selectedId, {
+            await oppdaterTur(selectedId, {
                 tur_navn: formData.navn,
                 beskrivelse: formData.beskrivelse,
                 vanskelighetsgrad: formData.vanskelighetsgrad,

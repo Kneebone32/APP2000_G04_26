@@ -10,7 +10,7 @@ import AnmeldelseSkjema from "../../components/anmeldelser/AnmeldelseSkjema";
 import EmblaCarousel from "../../components/EmblaCarousel";
 import './TurDetaljer.css';
 
-
+// Viser detaljside for én valgt tur basert på ID fra URL. Laget av Olai
 export default function TurDetaljer() {
   const { bruker, token, erAutentisert } = useAutentisering({autoFetch: true});
   const { turId } = useParams();

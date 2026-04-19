@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { blandInnAnnonser } from "../../utils/blandAnnonser";
 import "./Turer.css";
 
-//Basert på Hytter.jsx. Laget av Kay og Olai
+// Viser oversikt over alle turer som kort. Laget av Kay og Olai
 export default function Turer() {
   const { t } = useTranslation();
   const { turer, loadingTurer, errorTurer } = useFetchTurer({autoFetch: true}); //turKort: true
