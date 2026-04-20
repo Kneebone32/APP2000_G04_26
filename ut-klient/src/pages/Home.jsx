@@ -1,32 +1,32 @@
-import { useMemo, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { FaMap, FaArrowRight, FaCamera } from 'react-icons/fa';
-import norddalsfjorden from '../assets/norddalsfjorden.jpg';
-import graddiselva from '../assets/graddiselva.jpg';
-import lyngenfjorden from '../assets/lyngenfjorden.jpg';
-import Sokefelt from '../components/navbar/Sokefelt';
-import TurKort from '../components/turruter/TurKort';
-import FellesturKort from '../components/fellesturer/FellesturKort';
-import { useFetchTurer } from '../hooks/useFetchTurer';
-import { useFellestur } from '../hooks/useFellesturer';
-import { DATO_STATUS } from '../constants/konstanter';
-import './Home.css';
+import { useMemo, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { FaMap, FaArrowRight, FaCamera } from "react-icons/fa";
+import norddalsfjorden from "../assets/norddalsfjorden.jpg";
+import graddiselva from "../assets/graddiselva.jpg";
+import lyngenfjorden from "../assets/lyngenfjorden.jpg";
+import Sokefelt from "../components/navbar/Sokefelt";
+import TurKort from "../components/turruter/TurKort";
+import FellesturKort from "../components/fellesturer/FellesturKort";
+import { useFetchTurer } from "../hooks/useFetchTurer";
+import { useFellestur } from "../hooks/useFellesturer";
+import { DATO_STATUS } from "../constants/konstanter";
+import "./Home.css";
 
 // Legg til flere bilder her — hvert objekt har bildefil og kreditering
 const HERO_BILDER = [
   {
     src: norddalsfjorden,
-    kreditering: 'By Ximonic (Simo Räsänen) - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=48042325',
+    kreditering: "By Ximonic (Simo Räsänen) - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=48042325",
   },
 
   {
     src: graddiselva,
-    kreditering: 'By Ximonic (Simo Räsänen) - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=114190112',
+    kreditering: "By Ximonic (Simo Räsänen) - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=114190112",
   },
 
   {
     src: lyngenfjorden,
-    kreditering: 'By Ximonic, Simo Räsänen - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=15528145',
+    kreditering: "By Ximonic, Simo Räsänen - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=15528145",
   },
 ];
 
@@ -48,9 +48,7 @@ export default function Home() {
 
   const kommendeFellesturer = fellesturer
     .filter((f) => {
-      const aktive = (f.datoer ?? []).filter(
-        (d) => d.aktivitet_dato_status !== DATO_STATUS.AVLYST
-      );
+      const aktive = (f.datoer ?? []).filter((d) => d.aktivitet_dato_status !== DATO_STATUS.AVLYST);
       const valgt = aktive.find((d) => d.aktivitet_dato_status === DATO_STATUS.VALGT);
       const bruk = valgt ?? aktive[0];
       if (!bruk) return false;
@@ -58,8 +56,8 @@ export default function Home() {
     })
     .sort((a, b) => {
       const hentDato = (f) => {
-        const aktive = (f.datoer ?? []).filter(d => d.aktivitet_dato_status !== DATO_STATUS.AVLYST);
-        const bruk = aktive.find(d => d.aktivitet_dato_status === DATO_STATUS.VALGT) ?? aktive[0];
+        const aktive = (f.datoer ?? []).filter((d) => d.aktivitet_dato_status !== DATO_STATUS.AVLYST);
+        const bruk = aktive.find((d) => d.aktivitet_dato_status === DATO_STATUS.VALGT) ?? aktive[0];
         return new Date(bruk.aktivitet_start_dato);
       };
       return hentDato(a) - hentDato(b);
@@ -69,16 +67,11 @@ export default function Home() {
   return (
     <div className="home">
       {/* Hero-seksjon */}
-      <section
-        className="home-hero"
-        style={{ backgroundImage: `url(${heroBilde.src})` }}
-      >
+      <section className="home-hero" style={{ backgroundImage: `url(${heroBilde.src})` }}>
         <div className="home-hero-overlay" />
         <div className="home-hero-innhold">
           <h1 className="home-hero-tittel">Finn din neste tur</h1>
-          <p className="home-hero-undertittel">
-            Søk blant turer, hytter og turmål i hele Utopia
-          </p>
+          <p className="home-hero-undertittel">Søk blant turer, hytter og turmål i hele Utopia</p>
           <div className="home-hero-sok">
             <Sokefelt />
           </div>

@@ -11,16 +11,13 @@ import "./Fellesturer.css";
 //Basert på Hytter.jsx. Laget av Kay og Olai
 export default function Fellesturer() {
   const { t } = useTranslation();
-  const { fellesturer, loadingFellesturer, errorFellesturer } = useFellestur({autoFetch: true});
+  const { fellesturer, loadingFellesturer, errorFellesturer } = useFellestur({ autoFetch: true });
   const { annonser } = useFetchAnnonser({ autoFetch: true });
-  const [søk, setSøk] = useState('');
+  const [søk, setSøk] = useState("");
 
   const iDag = new Date();
-  const fellesturAnnonser = annonser.filter(a =>
-    a.status !== "avvist" &&
-    a.sokeord?.includes("fellestur") &&
-    new Date(a.start_dato) <= iDag &&
-    new Date(a.slutt_dato) >= iDag
+  const fellesturAnnonser = annonser.filter(
+    (a) => a.status !== "avvist" && a.sokeord?.includes("fellestur") && new Date(a.start_dato) <= iDag && new Date(a.slutt_dato) >= iDag,
   );
 
   const filtrert = fellesturer.filter((fellestur) => {
@@ -33,35 +30,24 @@ export default function Fellesturer() {
     );
   });
 
-  const blandaListe = useMemo(
-    () => blandInnAnnonser(filtrert, fellesturAnnonser, 'fellestur'),
-    [filtrert, fellesturAnnonser]
-  );
+  const blandaListe = useMemo(() => blandInnAnnonser(filtrert, fellesturAnnonser, "fellestur"), [filtrert, fellesturAnnonser]);
 
   return (
     <PageWrapper title={t("fellesturer.tittel")}>
       <div className="mt-3">
         <div className="fellesturer-søk">
-          <input
-            type="text"
-            placeholder="Søk"
-            value={søk}
-            onChange={(e) => setSøk(e.target.value)}
-            aria-label="Søk etter fellesturer"
-          />
+          <input type="text" placeholder="Søk" value={søk} onChange={(e) => setSøk(e.target.value)} aria-label="Søk etter fellesturer" />
         </div>
 
         {loadingFellesturer && <p>{t("fellesturer.laster")}</p>}
 
         {errorFellesturer && console.log(`Error: ${errorFellesturer}`)}
 
-        {!loadingFellesturer && !errorFellesturer && filtrert.length === 0 && (
-          <p>{t("fellesturer.ingen_turer")}</p>
-        )}
+        {!loadingFellesturer && !errorFellesturer && filtrert.length === 0 && <p>{t("fellesturer.ingen_turer")}</p>}
         {!loadingFellesturer && !errorFellesturer && filtrert.length > 0 && (
           <div className="FellesturKortContainer">
             {blandaListe.map((innslag) =>
-              innslag.type === 'annonse' ? (
+              innslag.type === "annonse" ? (
                 <AnnonseKort key={`annonse-${innslag.data.annonse_id}`} annonse={innslag.data} />
               ) : (
                 <FellesturKort
@@ -71,7 +57,7 @@ export default function Fellesturer() {
                   dato={innslag.data.datoer}
                   bildeUrl={innslag.data.bilder[0]?.aktivitet_url}
                 />
-              )
+              ),
             )}
           </div>
         )}

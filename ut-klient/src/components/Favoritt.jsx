@@ -1,10 +1,10 @@
 //Håndterer klikk på favorittikon. Laget av Kay
 export const handleFavoritt = (e, openLogginn, onToggleFavoritt) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!localStorage.getItem('token')) {
-        openLogginn();
-        return;
-    }
-    onToggleFavoritt();
+  if (!localStorage.getItem("token")) {
+    openLogginn();
+    return;
+  }
+  onToggleFavoritt();
 };

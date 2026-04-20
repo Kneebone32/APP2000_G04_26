@@ -12,19 +12,16 @@ import "./Hytter.css";
 
 // Viser oversikt over alle hytter som kort. Laget av Olai.
 export default function Hytter() {
-  const { hytter, loadingHytter, errorHytter } = useFetchHytter({hytteKort: true});
+  const { hytter, loadingHytter, errorHytter } = useFetchHytter({ hytteKort: true });
   const { annonser } = useFetchAnnonser({ autoFetch: true });
   const { token } = useAutentisering();
-  const { erHytteFavoritt, toggleHytteFavoritt } = useFavoritter({token});
+  const { erHytteFavoritt, toggleHytteFavoritt } = useFavoritter({ token });
   const { t } = useTranslation();
-  const [søk, setSøk] = useState('');
+  const [søk, setSøk] = useState("");
 
   const iDag = new Date();
-  const hytteAnnonser = annonser.filter(a =>
-    a.status !== "avvist" &&
-    a.sokeord?.includes("hytte") &&
-    new Date(a.start_dato) <= iDag &&
-    new Date(a.slutt_dato) >= iDag
+  const hytteAnnonser = annonser.filter(
+    (a) => a.status !== "avvist" && a.sokeord?.includes("hytte") && new Date(a.start_dato) <= iDag && new Date(a.slutt_dato) >= iDag,
   );
 
   const filtrert = hytter.filter((hytte) => {
@@ -37,37 +34,25 @@ export default function Hytter() {
     );
   });
 
-  const blandaListe = useMemo(
-    () => blandInnAnnonser(filtrert, hytteAnnonser, 'hytte'),
-    [filtrert, hytteAnnonser]
-  );
+  const blandaListe = useMemo(() => blandInnAnnonser(filtrert, hytteAnnonser, "hytte"), [filtrert, hytteAnnonser]);
 
   return (
     <PageWrapper title={t("hytter.tittel")}>
       <div className="mt-3">
-
         <div className="hytter-søk">
-          <input
-            type="text"
-            placeholder="Søk"
-            value={søk}
-            onChange={(e) => setSøk(e.target.value)}
-            aria-label="Søk etter hytter"
-          />
+          <input type="text" placeholder="Søk" value={søk} onChange={(e) => setSøk(e.target.value)} aria-label="Søk etter hytter" />
         </div>
 
         {loadingHytter && <p>{t("hytter.laster")}</p>}
 
         {errorHytter && console.log(`Error: ${errorHytter}`)}
 
-        {!loadingHytter && !errorHytter && filtrert.length === 0 && (
-          <p>{t("hytter.ingen_hytter")}</p>
-        )}
+        {!loadingHytter && !errorHytter && filtrert.length === 0 && <p>{t("hytter.ingen_hytter")}</p>}
 
         {!loadingHytter && !errorHytter && filtrert.length > 0 && (
           <div className="HyttekortContainer">
             {blandaListe.map((innslag) =>
-              innslag.type === 'annonse' ? (
+              innslag.type === "annonse" ? (
                 <AnnonseKort key={`annonse-${innslag.data.annonse_id}`} annonse={innslag.data} />
               ) : (
                 <HytteKort
@@ -82,7 +67,7 @@ export default function Hytter() {
                   erFavoritt={erHytteFavoritt(innslag.data.id)}
                   onToggleFavoritt={toggleHytteFavoritt}
                 />
-              )
+              ),
             )}
           </div>
         )}

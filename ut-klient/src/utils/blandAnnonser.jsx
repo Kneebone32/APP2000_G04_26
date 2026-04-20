@@ -5,7 +5,7 @@ export function blandInnAnnonser(items, annonser, type, intervall = 3) {
   items.forEach((item, i) => {
     liste.push({ type, data: item });
     if ((i + 1) % intervall === 0 && annonseIndex < annonser.length) {
-      liste.push({ type: 'annonse', data: annonser[annonseIndex++] });
+      liste.push({ type: "annonse", data: annonser[annonseIndex++] });
     }
   });
   return liste;

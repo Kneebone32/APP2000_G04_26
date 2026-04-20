@@ -16,16 +16,12 @@ export default function Annonser() {
 
         {errorAnnonser && console.log(`Error: ${errorAnnonser}`)}
 
-        {!loadingAnnonser && !errorAnnonser && annonser.length === 0 && (
-          <p>{t("annonse.ingen_funnet")}</p>
-        )}
+        {!loadingAnnonser && !errorAnnonser && annonser.length === 0 && <p>{t("annonse.ingen_funnet")}</p>}
 
         {!loadingAnnonser && !errorAnnonser && annonser.length > 0 && (
           <div className="AnnonsekortContainer">
             {annonser.map((annonse) => (
-              <AnnonseKort 
-              key={annonse.id || annonse.annonse_id} 
-              annonse={annonse} />
+              <AnnonseKort key={annonse.id || annonse.annonse_id} annonse={annonse} />
             ))}
           </div>
         )}

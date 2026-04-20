@@ -17,7 +17,7 @@ export default function AnnonseModerator() {
       <h1>Annonser</h1>
 
       <div className="AnnonseFaneContainer">
-        {ANNONSE_FANER.map(fane => (
+        {ANNONSE_FANER.map((fane) => (
           <button
             key={fane}
             className={`btn ${aktivFane === fane ? "btn-primary" : "btn-outline-primary"}`}
@@ -28,21 +28,13 @@ export default function AnnonseModerator() {
         ))}
       </div>
 
-      {aktivFane === "Legg til" && (
-        <LeggTilAnnonse onSuccess={refetch} />
-      )}
+      {aktivFane === "Legg til" && <LeggTilAnnonse onSuccess={refetch} />}
 
-      {aktivFane === "Rediger" && (
-        <RedigerAnnonse onSuccess={refetch} />
-      )}
+      {aktivFane === "Rediger" && <RedigerAnnonse onSuccess={refetch} />}
 
-      {aktivFane === "Slett" && (
-        <SlettAnnonse onSuccess={refetch} />
-      )}
+      {aktivFane === "Slett" && <SlettAnnonse onSuccess={refetch} />}
 
-      {aktivFane === "Statistikk" && (
-        <AnnonseStatistikk />
-      )}
+      {aktivFane === "Statistikk" && <AnnonseStatistikk />}
     </div>
   );
 }

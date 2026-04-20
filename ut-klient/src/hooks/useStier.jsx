@@ -1,14 +1,17 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 //Hook til Stier. Laget av Kay
-export function useStier({autoFetch = false, token = null} = {}) {
+export function useStier({ autoFetch = false, token = null } = {}) {
   const [stier, setStier] = useState([]);
 
-  const authHeaders = useMemo(() => ({
-    'Authorization': `Bearer ${token}`,
-    'Content-Type': 'application/json'
-  }), [token]);
-  
+  const authHeaders = useMemo(
+    () => ({
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    }),
+    [token],
+  );
+
   const [loading, setLoading] = useState(autoFetch);
   const [error, setError] = useState(null);
 
@@ -22,47 +25,47 @@ export function useStier({autoFetch = false, token = null} = {}) {
 
       setStier(data);
     } catch (err) {
-        setError(err.message);
-        throw err;
+      setError(err.message);
+      throw err;
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   }, []);
 
-
   //Lager en ny Sti
-  const opprettSti = useCallback(async (data) => {
-    try{
-      setLoading(true);
-      setError(null);
+  const opprettSti = useCallback(
+    async (data) => {
+      try {
+        setLoading(true);
+        setError(null);
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/sti`, {
-        method: 'POST',
-        headers: authHeaders,
-        body: JSON.stringify(data)
-      });
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/sti`, {
+          method: "POST",
+          headers: authHeaders,
+          body: JSON.stringify(data),
+        });
 
-      if (!response.ok) throw new Error("Kunne ikke lagre stien");
+        if (!response.ok) throw new Error("Kunne ikke lagre stien");
 
-      return await response.json();
-    } catch (err){
+        return await response.json();
+      } catch (err) {
         setError("er: " + err.message);
         throw err;
-    } finally {
+      } finally {
         setLoading(false);
-    }
-  }, [authHeaders]);
-
-
+      }
+    },
+    [authHeaders],
+  );
 
   useEffect(() => {
     if (autoFetch) fetchStier();
   }, [autoFetch, fetchStier]);
-  
-  return { 
-    stier: stier, 
-    loading, 
-    error, 
-    opprettSti
+
+  return {
+    stier: stier,
+    loading,
+    error,
+    opprettSti,
   };
 }

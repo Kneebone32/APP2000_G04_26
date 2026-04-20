@@ -1,56 +1,49 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import useEmblaCarousel from 'embla-carousel-react'
-import { Thumb } from './EmblaCarouselThumbsButton'
-import './embla.css'
+import React, { useState, useEffect, useCallback } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import { Thumb } from "./EmblaCarouselThumbsButton";
+import "./embla.css";
 
 const EmblaCarousel = (props) => {
-  const { slides, options } = props
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  const [emblaMainRef, emblaMainApi] = useEmblaCarousel(options)
+  const { slides, options } = props;
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [emblaMainRef, emblaMainApi] = useEmblaCarousel(options);
   const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
-    containScroll: 'keepSnaps',
-    dragFree: true
-  })
-  const safeSlides = Array.isArray(slides) ? slides : []
+    containScroll: "keepSnaps",
+    dragFree: true,
+  });
+  const safeSlides = Array.isArray(slides) ? slides : [];
 
   const onThumbClick = useCallback(
     (index) => {
-      if (!emblaMainApi || !emblaThumbsApi) return
-      emblaMainApi.scrollTo(index)
+      if (!emblaMainApi || !emblaThumbsApi) return;
+      emblaMainApi.scrollTo(index);
     },
-    [emblaMainApi, emblaThumbsApi]
-  )
+    [emblaMainApi, emblaThumbsApi],
+  );
 
   const onSelect = useCallback(() => {
-    if (!emblaMainApi || !emblaThumbsApi) return
-    const currentIndex = emblaMainApi.selectedScrollSnap()
-    setSelectedIndex(currentIndex)
-    emblaThumbsApi.scrollTo(currentIndex)
-  }, [emblaMainApi, emblaThumbsApi, setSelectedIndex])
+    if (!emblaMainApi || !emblaThumbsApi) return;
+    const currentIndex = emblaMainApi.selectedScrollSnap();
+    setSelectedIndex(currentIndex);
+    emblaThumbsApi.scrollTo(currentIndex);
+  }, [emblaMainApi, emblaThumbsApi, setSelectedIndex]);
 
   useEffect(() => {
-    if (!emblaMainApi) return
-    onSelect()
+    if (!emblaMainApi) return;
+    onSelect();
 
-    emblaMainApi.on('select', onSelect).on('reinit', onSelect)
-  }, [emblaMainApi, onSelect])
+    emblaMainApi.on("select", onSelect).on("reinit", onSelect);
+  }, [emblaMainApi, onSelect]);
 
   const getImageSrc = (slide) => {
-    if (!slide) return ''
+    if (!slide) return "";
 
-    if (typeof slide === 'string') {
-      return slide
+    if (typeof slide === "string") {
+      return slide;
     }
 
-    return (
-      slide?.url ||
-      slide?.tur_url ||
-      slide?.bilde_url ||
-      slide?.hovedbilde_url ||
-      slide?.aktivitet_url ||
-      ''
-    )
-  }
+    return slide?.url || slide?.tur_url || slide?.bilde_url || slide?.hovedbilde_url || slide?.aktivitet_url || "";
+  };
 
   return (
     <div className="embla">
@@ -58,11 +51,7 @@ const EmblaCarousel = (props) => {
         <div className="embla__container">
           {safeSlides.map((slide, index) => (
             <div className="embla__slide" key={index}>
-              <img 
-                src={getImageSrc(slide)} 
-                alt={`Slide ${index + 1}`}
-                className="embla__slide__image"
-              />
+              <img src={getImageSrc(slide)} alt={`Slide ${index + 1}`} className="embla__slide__image" />
             </div>
           ))}
         </div>
@@ -86,7 +75,7 @@ const EmblaCarousel = (props) => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default EmblaCarousel
+export default EmblaCarousel;

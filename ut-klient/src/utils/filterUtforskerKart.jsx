@@ -3,22 +3,18 @@
 export function filterHytter(hytter, filter) {
   return hytter.filter((hytte) => {
     //Null checks
-    if (
-      !hytte.breddegrad ||
-      !hytte.lengdegrad ||
-      !hytte.betjeningsgrad
-    ) {
+    if (!hytte.breddegrad || !hytte.lengdegrad || !hytte.betjeningsgrad) {
       return false;
     }
 
     //Søk filter
     if (filter.søkeordHytter) {
-
       const søk = filter.søkeordHytter.toLowerCase().trim();
-      if (!hytte.navn?.toLowerCase().includes(søk) && 
-          !hytte.fylke_navn?.toLowerCase().includes(søk) &&
-          !hytte.kommune_navn?.toLowerCase().includes(søk)) {
-            
+      if (
+        !hytte.navn?.toLowerCase().includes(søk) &&
+        !hytte.fylke_navn?.toLowerCase().includes(søk) &&
+        !hytte.kommune_navn?.toLowerCase().includes(søk)
+      ) {
         return false;
       }
     }
@@ -40,13 +36,18 @@ export function filterHytter(hytter, filter) {
 
     //Fasiliteter filter
     if (filter.fasiliteter?.length > 0) {
-      const harAlleValgteFasiliteter = 
-          filter.fasiliteter.every((valgtFasilitet) =>                  //alle de valgte fasilitetene
-          hytte.fasiliteter.verdier.some((hytteFasilitet) =>            //sjekker om hytten har de valgte fasilitetene
-          hytteFasilitet.toLowerCase() === valgtFasilitet.navn.toLowerCase() //sammenligner på navnet
-      ))
+      const harAlleValgteFasiliteter = filter.fasiliteter.every(
+        (
+          valgtFasilitet, //alle de valgte fasilitetene
+        ) =>
+          hytte.fasiliteter.verdier.some(
+            (
+              hytteFasilitet, //sjekker om hytten har de valgte fasilitetene
+            ) => hytteFasilitet.toLowerCase() === valgtFasilitet.navn.toLowerCase(), //sammenligner på navnet
+          ),
+      );
 
-      if(!harAlleValgteFasiliteter) return false;
+      if (!harAlleValgteFasiliteter) return false;
     }
 
     return true;
@@ -64,9 +65,11 @@ export function filterTurer(turer, filter) {
     //Søk filter
     if (filter.søkeordTurer) {
       const søk = filter.søkeordTurer.toLowerCase().trim();
-      if (!tur.tur_navn?.toLowerCase().includes(søk) &&         
-          !tur.stier?.[0]?.fylke_navn?.toLowerCase().includes(søk) &&
-          !tur.stier?.[0]?.kommune_navn?.toLowerCase().includes(søk)) {
+      if (
+        !tur.tur_navn?.toLowerCase().includes(søk) &&
+        !tur.stier?.[0]?.fylke_navn?.toLowerCase().includes(søk) &&
+        !tur.stier?.[0]?.kommune_navn?.toLowerCase().includes(søk)
+      ) {
         return false;
       }
     }
@@ -106,25 +109,22 @@ export const isoUke = (dato) => {
 //Filterfunksjon til Fellesturer
 export function filterFellesturer(fellesturer, filter) {
   return fellesturer.filter((fellestur) => {
-    
     //Søk filter
     if (filter.søkeordFellesturer) {
       const søk = filter.søkeordFellesturer.toLowerCase().trim();
 
-      if (!fellestur.aktivitet_tittel?.toLowerCase().includes(søk) && 
-          !fellestur.stier?.[0]?.fylke_navn?.toLowerCase().includes(søk) &&
-          !fellestur.stier?.[0]?.kommune_navn?.toLowerCase().includes(søk)
-        ) {
-
+      if (
+        !fellestur.aktivitet_tittel?.toLowerCase().includes(søk) &&
+        !fellestur.stier?.[0]?.fylke_navn?.toLowerCase().includes(søk) &&
+        !fellestur.stier?.[0]?.kommune_navn?.toLowerCase().includes(søk)
+      ) {
         return false;
       }
     }
 
     //ukenummer. basert på startdato
     if (filter.uke) {
-      const harDatoIUke = fellestur.datoer?.some(
-        (dato) => isoUke(dato.aktivitet_start_dato) === filter.uke
-      );
+      const harDatoIUke = fellestur.datoer?.some((dato) => isoUke(dato.aktivitet_start_dato) === filter.uke);
       if (!harDatoIUke) return false;
     }
 

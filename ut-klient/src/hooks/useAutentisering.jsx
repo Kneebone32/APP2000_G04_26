@@ -1,15 +1,14 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 
 //Hook til autentisering av bruker. Laget av Kay
-export function useAutentisering({autoFetch = true} = {}) {
+export function useAutentisering({ autoFetch = true } = {}) {
   const [bruker, setBruker] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [token, setToken] = useState(localStorage.getItem("token"));
   const [loading, setLoading] = useState(autoFetch);
   const [error, setError] = useState(null);
   const [roller, setRoller] = useState([]);
   const [mineRoller, setMineRoller] = useState([]);
-  const [lasterRoller, setLasterRoller] = useState(!!localStorage.getItem('token'));
-
+  const [lasterRoller, setLasterRoller] = useState(!!localStorage.getItem("token"));
 
   //Henter profil ut fra token
   const fetchProfil = useCallback(async () => {
@@ -21,13 +20,13 @@ export function useAutentisering({autoFetch = true} = {}) {
     try {
       setLoading(true);
       setError(null);
-      
+
       const response = await fetch(`${import.meta.env.VITE_API_URL}/bruker/meg`, {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       if (!response.ok) {
-        throw new Error('Uautorisert');
+        throw new Error("Uautorisert");
       }
 
       const data = await response.json();
@@ -36,12 +35,11 @@ export function useAutentisering({autoFetch = true} = {}) {
       setError(err.message);
       setToken(null);
       setBruker(null);
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
     } finally {
       setLoading(false);
     }
   }, [token]);
-
 
   //Innlogging
   const logginn = useCallback(async (bruker_epost, bruker_passord) => {
@@ -50,21 +48,21 @@ export function useAutentisering({autoFetch = true} = {}) {
       setError(null);
 
       const response = await fetch(`${import.meta.env.VITE_API_URL}/bruker/logginn`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bruker_epost, bruker_passord })
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bruker_epost, bruker_passord }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Logg inn feilet');
+        throw new Error(errorData.error || "Logg inn feilet");
       }
 
       const data = await response.json();
       setToken(data.token);
       setBruker(data.bruker);
-      localStorage.setItem('token', data.token);
-      window.dispatchEvent(new CustomEvent('autentiseringEndret', {detail: {token: data.token}}));
+      localStorage.setItem("token", data.token);
+      window.dispatchEvent(new CustomEvent("autentiseringEndret", { detail: { token: data.token } }));
 
       return data;
     } catch (err) {
@@ -82,21 +80,21 @@ export function useAutentisering({autoFetch = true} = {}) {
       setError(null);
 
       const response = await fetch(`${import.meta.env.VITE_API_URL}/bruker/registrer`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bruker_navn, bruker_etternavn, bruker_epost, bruker_passord })
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bruker_navn, bruker_etternavn, bruker_epost, bruker_passord }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'registrering feilet');
+        throw new Error(errorData.error || "registrering feilet");
       }
 
       const data = await response.json();
       setToken(data.token);
       setBruker(data.bruker);
-      localStorage.setItem('token', data.token);
-      
+      localStorage.setItem("token", data.token);
+
       return data;
     } catch (err) {
       setError(err.message);
@@ -107,93 +105,102 @@ export function useAutentisering({autoFetch = true} = {}) {
   }, []);
 
   //Oppdater profil
-  const redigerProfil = useCallback(async (bruker_navn, bruker_etternavn) => {
-    try {
-      setLoading(true);
-      setError(null);
+  const redigerProfil = useCallback(
+    async (bruker_navn, bruker_etternavn) => {
+      try {
+        setLoading(true);
+        setError(null);
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/bruker/oppdater`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ bruker_navn, bruker_etternavn })
-      });
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/bruker/oppdater`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ bruker_navn, bruker_etternavn }),
+        });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Oppdatering feilet');
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Oppdatering feilet");
+        }
+
+        await fetchProfil();
+        window.dispatchEvent(new CustomEvent("profilOppdatert"));
+      } catch (err) {
+        setError(err.message);
+        throw err;
+      } finally {
+        setLoading(false);
       }
-
-      await fetchProfil();
-      window.dispatchEvent(new CustomEvent('profilOppdatert'));
-    } catch (err) {
-      setError(err.message);
-      throw err;
-    } finally {
-      setLoading(false);
-    }
-  }, [token, fetchProfil]);
+    },
+    [token, fetchProfil],
+  );
 
   //Bytt passord
-  const byttPassord = useCallback(async (gammelt_passord, nytt_passord) => {
-    try {
-      setLoading(true);
-      setError(null);
+  const byttPassord = useCallback(
+    async (gammelt_passord, nytt_passord) => {
+      try {
+        setLoading(true);
+        setError(null);
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/bruker/bytt-passord`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({gammelt_passord, nytt_passord})
-      });
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/bruker/bytt-passord`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ gammelt_passord, nytt_passord }),
+        });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error);
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error);
+        }
+      } catch (err) {
+        setError(err.message);
+        throw err;
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      setError(err.message);
-      throw err;
-    } finally {
-      setLoading(false);
-    }
-  }, [token]);
+    },
+    [token],
+  );
 
   //sender søknad om rollebytte via varselsystemet
-  const byttRolle = useCallback(async (rolle_id) => {
-    try {
-      setLoading(true);
-      setError(null);
+  const byttRolle = useCallback(
+    async (rolle_id) => {
+      try {
+        setLoading(true);
+        setError(null);
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/varsler/rolle-foresporsel`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ rolle_id })
-      });
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/varsler/rolle-foresporsel`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ rolle_id }),
+        });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error);
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error);
+        }
+      } catch (err) {
+        setError(err.message);
+        throw err;
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      setError(err.message);
-      throw err;
-    } finally {
-      setLoading(false);
-    }
-  }, [token]);
+    },
+    [token],
+  );
 
   //Henter alle tilgjengelige roller fra DB
   const hentRoller = useCallback(async () => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/bruker/roller`);
-    if (!response.ok) throw new Error('Kunne ikke hente roller');
+    if (!response.ok) throw new Error("Kunne ikke hente roller");
     return await response.json();
   }, []);
 
@@ -201,9 +208,9 @@ export function useAutentisering({autoFetch = true} = {}) {
   const hentMineRoller = useCallback(async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/bruker/mine-roller`, {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
-      if (!response.ok) throw new Error('Kunne ikke hente brukerens roller');
+      if (!response.ok) throw new Error("Kunne ikke hente brukerens roller");
       return await response.json();
     } finally {
       setLasterRoller(false);
@@ -214,17 +221,20 @@ export function useAutentisering({autoFetch = true} = {}) {
   const loggut = useCallback(() => {
     setToken(null);
     setBruker(null);
-    localStorage.removeItem('token');
-    window.dispatchEvent(new CustomEvent('autentiseringEndret', { detail: { token: null } }));
+    localStorage.removeItem("token");
+    window.dispatchEvent(new CustomEvent("autentiseringEndret", { detail: { token: null } }));
   }, []);
-
 
   //autofetch hvis token eksisterer
   useEffect(() => {
     if (autoFetch && token) {
       fetchProfil();
-      hentRoller().then(setRoller).catch(() => {});
-      hentMineRoller().then(setMineRoller).catch(() => {});
+      hentRoller()
+        .then(setRoller)
+        .catch(() => {});
+      hentMineRoller()
+        .then(setMineRoller)
+        .catch(() => {});
     } else if (autoFetch) {
       setLoading(false);
     }
@@ -236,15 +246,17 @@ export function useAutentisering({autoFetch = true} = {}) {
       setToken(e.detail.token);
       if (!e.detail.token) setBruker(null);
     };
-    window.addEventListener('autentiseringEndret', handleAutentiseringEndret);
-    return () => window.removeEventListener('autentiseringEndret', handleAutentiseringEndret);
+    window.addEventListener("autentiseringEndret", handleAutentiseringEndret);
+    return () => window.removeEventListener("autentiseringEndret", handleAutentiseringEndret);
   }, []);
 
   //Synkroniser profilendringer på tvers av instanser
   useEffect(() => {
-    const handleProfilOppdatert = () => { if (token) fetchProfil(); };
-    window.addEventListener('profilOppdatert', handleProfilOppdatert);
-    return () => window.removeEventListener('profilOppdatert', handleProfilOppdatert);
+    const handleProfilOppdatert = () => {
+      if (token) fetchProfil();
+    };
+    window.addEventListener("profilOppdatert", handleProfilOppdatert);
+    return () => window.removeEventListener("profilOppdatert", handleProfilOppdatert);
   }, [token, fetchProfil]);
 
   return {
@@ -252,7 +264,7 @@ export function useAutentisering({autoFetch = true} = {}) {
     token,
     loading,
     error,
-    erAutentisert: !!bruker, 
+    erAutentisert: !!bruker,
     logginn,
     registrer,
     loggut,
@@ -264,6 +276,6 @@ export function useAutentisering({autoFetch = true} = {}) {
     lasterRoller,
     hentRoller,
     hentMineRoller,
-    refetch: fetchProfil
+    refetch: fetchProfil,
   };
 }

@@ -3,20 +3,20 @@ import RedigerProfil from "../components/profil/rediger/RedigerProfil";
 import RedigerPassord from "../components/profil/rediger/RedigerPassord";
 import RedigerRolle from "../components/profil/rediger/RedigerRolle";
 import { useTranslation } from "react-i18next";
-import './Profil.css';
+import "./Profil.css";
 
 export default function Profil() {
   const { t } = useTranslation();
 
   return (
     <div className="profil-container">
-      <PageWrapper title={t("sider.profil")} >
+      <PageWrapper title={t("sider.profil")}>
         <hr />
-        <RedigerProfil/>
+        <RedigerProfil />
         <hr />
-        <RedigerRolle/>
+        <RedigerRolle />
         <hr />
-        <RedigerPassord/>
+        <RedigerPassord />
       </PageWrapper>
     </div>
   );

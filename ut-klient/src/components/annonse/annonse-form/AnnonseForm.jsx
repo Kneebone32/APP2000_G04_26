@@ -29,9 +29,7 @@ export default function AnnonseForm({ lagretData = {}, onSubmitAction, buttonTek
 
   // Legger til eller fjerner et søkeord fra listen.
   const handleToggleSøkeord = (ord) => {
-    setSøkeord(prev =>
-      prev.includes(ord) ? prev.filter(s => s !== ord) : [...prev, ord]
-    );
+    setSøkeord((prev) => (prev.includes(ord) ? prev.filter((s) => s !== ord) : [...prev, ord]));
   };
 
   // Legger til en midlertidig bilde-URL manuelt. Laget av Kay.
@@ -94,49 +92,35 @@ export default function AnnonseForm({ lagretData = {}, onSubmitAction, buttonTek
       </div>
 
       <div className="input-container">
-        <label className="input">{t("fellestur_form.beskrivelse")}
+        <label className="input">
+          {t("fellestur_form.beskrivelse")}
           <textarea
             className="AnnonseFormTekstomrade"
-            rows="5" minLength="20" maxLength="1000"
+            rows="5"
+            minLength="20"
+            maxLength="1000"
             value={beskrivelse}
             onChange={(e) => setBeskrivelse(e.target.value)}
             required
           />
-          <small className={beskrivelse.length > 950 ? 'AnnonseFormTegnteller--advarsel' : 'AnnonseFormTegnteller'}>
+          <small className={beskrivelse.length > 950 ? "AnnonseFormTegnteller--advarsel" : "AnnonseFormTegnteller"}>
             {beskrivelse.length} / 1000
           </small>
         </label>
       </div>
 
       <div>
-        <SøkeordDropdown
-          overskrift={t("annonse.søkeord")}
-          alleValg={søkeordValg}
-          valgteOrd={søkeord}
-          onToggle={handleToggleSøkeord}
-        />
+        <SøkeordDropdown overskrift={t("annonse.søkeord")} alleValg={søkeordValg} valgteOrd={søkeord} onToggle={handleToggleSøkeord} />
       </div>
 
       <div>
         <label htmlFor="annonse-start">{t("annonse.startdato")}</label>
-        <input
-          type="date"
-          id="annonse-start"
-          value={startDato}
-          onChange={(e) => setStartDato(e.target.value)}
-          required
-        />
+        <input type="date" id="annonse-start" value={startDato} onChange={(e) => setStartDato(e.target.value)} required />
       </div>
 
       <div>
         <label htmlFor="annonse-slutt">{t("annonse.sluttdato")}</label>
-        <input
-          type="date"
-          id="annonse-slutt"
-          value={sluttDato}
-          onChange={(e) => setSluttDato(e.target.value)}
-          required
-        />
+        <input type="date" id="annonse-slutt" value={sluttDato} onChange={(e) => setSluttDato(e.target.value)} required />
       </div>
 
       <div>

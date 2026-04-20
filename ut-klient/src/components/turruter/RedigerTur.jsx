@@ -18,9 +18,7 @@ export default function RedigerTur({ onSuccess }) {
   const [lagretData, setLagretData] = useState(null);
 
   const filteredTurer = turer.filter(
-    (tur) =>
-      tur.tur_id?.toString().includes(searchTerm) ||
-      tur.tur_navn?.toLowerCase().includes(searchTerm.toLowerCase()),
+    (tur) => tur.tur_id?.toString().includes(searchTerm) || tur.tur_navn?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   useEffect(() => {
@@ -36,9 +34,7 @@ export default function RedigerTur({ onSuccess }) {
 
         const [tur, punkterRes] = await Promise.all([
           hentTurFraId(selectedId),
-          fetch(
-            `${import.meta.env.VITE_API_URL}/turruter/${selectedId}/punkter`,
-          ).then((r) => (r.ok ? r.json() : [])),
+          fetch(`${import.meta.env.VITE_API_URL}/turruter/${selectedId}/punkter`).then((r) => (r.ok ? r.json() : [])),
         ]);
 
         let fylke = "";
@@ -46,10 +42,7 @@ export default function RedigerTur({ onSuccess }) {
 
         if (punkterRes && punkterRes.length >= 2) {
           try {
-            const kommuneData = await hentKommuneData(
-              punkterRes[0][0],
-              punkterRes[0][1],
-            );
+            const kommuneData = await hentKommuneData(punkterRes[0][0], punkterRes[0][1]);
             if (kommuneData) {
               fylke = kommuneData.fylkesnavn || "";
               kommune = kommuneData.kommunenavn || "";
@@ -126,9 +119,7 @@ export default function RedigerTur({ onSuccess }) {
           maxLength={50}
           onChange={(e) => {
             setSearchTerm(e.target.value);
-            const matchedTur = filteredTurer.find(
-              (tur) => `ID: ${tur.tur_id} - ${tur.tur_navn}` === e.target.value,
-            );
+            const matchedTur = filteredTurer.find((tur) => `ID: ${tur.tur_id} - ${tur.tur_navn}` === e.target.value);
             if (matchedTur) {
               setSelectedId(matchedTur.tur_id.toString());
             } else {
@@ -139,10 +130,7 @@ export default function RedigerTur({ onSuccess }) {
         />
         <datalist id="turer-rediger-list">
           {filteredTurer.map((tur) => (
-            <option
-              key={tur.tur_id}
-              value={`ID: ${tur.tur_id} - ${tur.tur_navn}`}
-            />
+            <option key={tur.tur_id} value={`ID: ${tur.tur_id} - ${tur.tur_navn}`} />
           ))}
         </datalist>
       </div>
@@ -151,13 +139,7 @@ export default function RedigerTur({ onSuccess }) {
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       {selectedId && !loading && lagretData && (
-        <TurForm
-          key={selectedId}
-          lagretData={lagretData}
-          onSubmitAction={handleOppdater}
-          buttonTekst={t("tur.oppdater_knapp")}
-          editModus
-        />
+        <TurForm key={selectedId} lagretData={lagretData} onSubmitAction={handleOppdater} buttonTekst={t("tur.oppdater_knapp")} editModus />
       )}
     </div>
   );

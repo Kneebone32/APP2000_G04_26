@@ -1,7 +1,7 @@
 import PageWrapper from "../components/PageWrapper";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import './Admin.css';
+import "./Admin.css";
 
 // Hovedside for administrator med navigasjonsknapper til ulike adminseksjoner. Laget av Olai og Kay.
 export default function Admin() {
@@ -11,51 +11,33 @@ export default function Admin() {
   return (
     <div className="admin-container">
       <PageWrapper title={t("sider.admin")} />
-      {/*Hytter*/} 
-      <button 
-        className="AdminKnapp"
-        onClick={() => navigate('/admin/hytter')}
-      >
+      {/*Hytter*/}
+      <button className="AdminKnapp" onClick={() => navigate("/admin/hytter")}>
         {t("admin.gå_til_hytte")}
       </button>
-      {/*Turruter*/} 
-      <button 
-        className="AdminKnapp"
-        onClick={() => navigate('/admin/turer')}
-        >
+      {/*Turruter*/}
+      <button className="AdminKnapp" onClick={() => navigate("/admin/turer")}>
         {t("admin.gå_til_tur")}
-        </button>
+      </button>
 
-        <button
-        className="AdminKnapp"
-        onClick={() => navigate('/admin/annonser')}
-        >
+      <button className="AdminKnapp" onClick={() => navigate("/admin/annonser")}>
         {t("admin.gå_til_annonser")}
-        </button>
+      </button>
 
-        {/*Fellesturer*/}  
-        <button 
-        className="AdminKnapp"
-        onClick={() => navigate('/admin/fellesturer')}
-        >
+      {/*Fellesturer*/}
+      <button className="AdminKnapp" onClick={() => navigate("/admin/fellesturer")}>
         {t("fellesturer.gå_til_admin")}
-        </button>
-                
-        {/*Turmål*/}
-        <button
-        className="AdminKnapp"
-        onClick={() => navigate('/admin/turmål')}
-        >
-        {t("turmål.gå_til_admin")}
-        </button>
+      </button>
 
-        {/*Artikler*/}
-        <button
-        className="AdminKnapp"
-        onClick={() => navigate('/admin/artikler')}
-        >
+      {/*Turmål*/}
+      <button className="AdminKnapp" onClick={() => navigate("/admin/turmål")}>
+        {t("turmål.gå_til_admin")}
+      </button>
+
+      {/*Artikler*/}
+      <button className="AdminKnapp" onClick={() => navigate("/admin/artikler")}>
         {t("admin.gå_til_artikler")}
-        </button>
+      </button>
     </div>
   );
 }

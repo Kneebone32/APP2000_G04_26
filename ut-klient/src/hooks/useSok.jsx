@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 
 export function useSok(q, { debounceMs = 300, minLengde = 2 } = {}) {
   const [resultater, setResultater] = useState([]);
@@ -26,11 +26,11 @@ export function useSok(q, { debounceMs = 300, minLengde = 2 } = {}) {
         setError(null);
         const url = `${import.meta.env.VITE_API_URL}/sok?q=${encodeURIComponent(sokestreng)}`;
         const response = await fetch(url, { signal: controller.signal });
-        if (!response.ok) throw new Error('Søk feilet');
+        if (!response.ok) throw new Error("Søk feilet");
         const data = await response.json();
         setResultater(data);
       } catch (err) {
-        if (err.name !== 'AbortError') setError(err.message);
+        if (err.name !== "AbortError") setError(err.message);
       } finally {
         setLoading(false);
       }

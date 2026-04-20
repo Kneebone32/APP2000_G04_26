@@ -1,35 +1,35 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 //Hook for å hente Enums ut fra DB. Laget av Kay
 export const useEnums = (enumNavn) => {
-    const [enumData, setEnumData] = useState([]);
-    const [loadingEnum, setLoadingEnum] = useState(true);
-    const [enumError, setEnumError] = useState(null);
+  const [enumData, setEnumData] = useState([]);
+  const [loadingEnum, setLoadingEnum] = useState(true);
+  const [enumError, setEnumError] = useState(null);
 
-    useEffect(() => {
-        if (!enumNavn) return; //null check
-        
-        const fetchEnum = async () => {
-            setLoadingEnum(true);
+  useEffect(() => {
+    if (!enumNavn) return; //null check
 
-            try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/enums/${enumNavn}`);
-                if (!response.ok) (console.log(`Fant ikke ${enumNavn}`)); 
+    const fetchEnum = async () => {
+      setLoadingEnum(true);
 
-                const result = await response.json();
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/enums/${enumNavn}`);
+        if (!response.ok) console.log(`Fant ikke ${enumNavn}`);
 
-                setEnumData(result);
-                setEnumError(null);
-            } catch (err) {
-                console.error("Enum err:", err);
-                setEnumError(err.message);
-            } finally {
-                setLoadingEnum(false);
-            }
-        };
+        const result = await response.json();
 
-        fetchEnum();
-    }, [enumNavn]); //refetch når enumNavn byttes
+        setEnumData(result);
+        setEnumError(null);
+      } catch (err) {
+        console.error("Enum err:", err);
+        setEnumError(err.message);
+      } finally {
+        setLoadingEnum(false);
+      }
+    };
 
-    return {enumData, loadingEnum, enumError};
+    fetchEnum();
+  }, [enumNavn]); //refetch når enumNavn byttes
+
+  return { enumData, loadingEnum, enumError };
 };

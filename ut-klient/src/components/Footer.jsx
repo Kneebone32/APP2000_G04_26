@@ -15,18 +15,10 @@ const Footer = () => {
           <h3>{t("footer.kontakt_oss")}</h3>
           <ul className="footer-links-list">
             <li>
-              <ArtikkelModal
-                slug={ARTIKKEL_SLUG.OM_OSS}
-                lenkeTekst={t("footer.om_oss")}
-                lenkeKlasseNavn="footer-link-button"
-              />
+              <ArtikkelModal slug={ARTIKKEL_SLUG.OM_OSS} lenkeTekst={t("footer.om_oss")} lenkeKlasseNavn="footer-link-button" />
             </li>
             <li>
-              <ArtikkelModal
-                slug={ARTIKKEL_SLUG.KONTAKT}
-                lenkeTekst={t("footer.kontakt")}
-                lenkeKlasseNavn="footer-link-button"
-              />
+              <ArtikkelModal slug={ARTIKKEL_SLUG.KONTAKT} lenkeTekst={t("footer.kontakt")} lenkeKlasseNavn="footer-link-button" />
             </li>
           </ul>
         </section>
@@ -34,18 +26,37 @@ const Footer = () => {
         <section className="footer-column">
           <h3>{t("footer.snarveier")}</h3>
           <ul className="footer-links-list">
-            <li><Link to="/turer" className="footer-link">{t("nav.turer")}</Link></li>
-            <li><Link to="/hytter" className="footer-link">{t("nav.hytter")}</Link></li>
-            <li><Link to="/fellesturer" className="footer-link">{t("nav.fellesturer")}</Link></li>
-            <li><Link to="/kart" className="footer-link">{t("nav.kart")}</Link></li>
-            <li><Link to="/annonser" className="footer-link">{t("nav.annonser")}</Link></li>
+            <li>
+              <Link to="/turer" className="footer-link">
+                {t("nav.turer")}
+              </Link>
+            </li>
+            <li>
+              <Link to="/hytter" className="footer-link">
+                {t("nav.hytter")}
+              </Link>
+            </li>
+            <li>
+              <Link to="/fellesturer" className="footer-link">
+                {t("nav.fellesturer")}
+              </Link>
+            </li>
+            <li>
+              <Link to="/kart" className="footer-link">
+                {t("nav.kart")}
+              </Link>
+            </li>
+            <li>
+              <Link to="/annonser" className="footer-link">
+                {t("nav.annonser")}
+              </Link>
+            </li>
           </ul>
         </section>
 
         <section className="footer-column">
           <h3>{t("footer.følg_oss")}</h3>
-          <div className="footer-socials">
-          </div>
+          <div className="footer-socials"></div>
         </section>
       </div>
     </footer>

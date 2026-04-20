@@ -5,40 +5,34 @@ import RedigerTur from "../../components/turruter/RedigerTur";
 import { useFetchTurer } from "../../hooks/useFetchTurer";
 import { useTranslation } from "react-i18next";
 import { TUR_FANER } from "../../constants/konstanter";
-import './TurModerator.css';
+import "./TurModerator.css";
 
 // Administrasjonsside for å legge til, redigere og slette turruter. Laget av Olai
 export default function TurModerator() {
-    const [aktivFane, setAktivFane] = useState("Legg til");
-    const { refetch } = useFetchTurer({});
-    const { t } = useTranslation();
-    return (
-        <div className="TurModeratorPanel">
-            <h1>{t("tur.tittel")}</h1>
+  const [aktivFane, setAktivFane] = useState("Legg til");
+  const { refetch } = useFetchTurer({});
+  const { t } = useTranslation();
+  return (
+    <div className="TurModeratorPanel">
+      <h1>{t("tur.tittel")}</h1>
 
-            <div className="TurFaneContainer">
-                {TUR_FANER.map(fane => (
-                    <button
-                        key={fane}
-                        className={`btn ${aktivFane === fane ? "btn-primary" : "btn-outline-primary"}`}
-                        onClick={() => setAktivFane(fane)}
-                    >
-                        {fane}
-                    </button>
-                ))}
-            </div>
+      <div className="TurFaneContainer">
+        {TUR_FANER.map((fane) => (
+          <button
+            key={fane}
+            className={`btn ${aktivFane === fane ? "btn-primary" : "btn-outline-primary"}`}
+            onClick={() => setAktivFane(fane)}
+          >
+            {fane}
+          </button>
+        ))}
+      </div>
 
-            {aktivFane === "Legg til" && (
-                <LeggTilTur onSuccess={refetch} />
-            )}
+      {aktivFane === "Legg til" && <LeggTilTur onSuccess={refetch} />}
 
-            {aktivFane === "Rediger" && (
-                <RedigerTur onSuccess={refetch} />
-            )}
+      {aktivFane === "Rediger" && <RedigerTur onSuccess={refetch} />}
 
-            {aktivFane === "Slett" && (
-                <SlettTur onSuccess={refetch} />
-            )}
-        </div>
-    );
+      {aktivFane === "Slett" && <SlettTur onSuccess={refetch} />}
+    </div>
+  );
 }

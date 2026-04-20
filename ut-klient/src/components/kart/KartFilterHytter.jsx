@@ -15,9 +15,9 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
   const handleMinChange = (e) => {
     const newMin = parseInt(e.target.value);
     if (newMin <= filter.prisnivå[1]) {
-      setFilter({ 
-        ...filter, 
-        prisnivå: [newMin, filter.prisnivå[1]] 
+      setFilter({
+        ...filter,
+        prisnivå: [newMin, filter.prisnivå[1]],
       });
     }
   };
@@ -26,19 +26,16 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
   const handleMaxChange = (e) => {
     const newMax = parseInt(e.target.value);
     if (newMax >= filter.prisnivå[0]) {
-      setFilter({ 
-        ...filter, 
-        prisnivå: [filter.prisnivå[0], newMax] 
+      setFilter({
+        ...filter,
+        prisnivå: [filter.prisnivå[0], newMax],
       });
     }
   };
 
   return (
     <div className="kart-filter-section">
-      <button
-        className="filter-toggle-button"
-        onClick={() => setHytterFilterUtvidet(!hytterFilterUtvidet)}
-      >
+      <button className="filter-toggle-button" onClick={() => setHytterFilterUtvidet(!hytterFilterUtvidet)}>
         {hytterFilterUtvidet ? "✕" : "☰"} {t("filter.hytter")}
       </button>
 
@@ -47,82 +44,77 @@ export default function KartFilterHytter({ filter, setFilter, handleCheckboxChan
           {/*Hytte - vis hytter*/}
           <div className="hytter-kart-toggle">
             <label>
-              <input
-                type="checkbox"
-                checked={filter.visHytter}
-                onChange={(e) =>
-                  setFilter({ ...filter, visHytter: e.target.checked })
-                }
-              />{" "}
+              <input type="checkbox" checked={filter.visHytter} onChange={(e) => setFilter({ ...filter, visHytter: e.target.checked })} />{" "}
               {t("filter.vis_hytter")}
             </label>
           </div>
 
           {/*Hytte - søkefelt*/}
           <div className="filter-section">
-            <label>{t("felles.søk")}:
-            <input
-              type="text"
-              placeholder={t("filter.søk_hytte")}
-              value={filter.søkeordHytter}
-              onChange={(e) =>
-                setFilter({ ...filter, søkeordHytter: e.target.value })
-              }
-            />
+            <label>
+              {t("felles.søk")}:
+              <input
+                type="text"
+                placeholder={t("filter.søk_hytte")}
+                value={filter.søkeordHytter}
+                onChange={(e) => setFilter({ ...filter, søkeordHytter: e.target.value })}
+              />
             </label>
           </div>
 
           {/*Hytte - prisnivå*/}
           <div className="filter-section">
-            <label>{t("filter.prisnivå")}: {filter.prisnivå[0]} kr - {filter.prisnivå[1]} kr
-            <div className="range-slider-container">
-              <input
-                type="range"
-                min="0"
-                max="1000"
-                value={filter.prisnivå[0]}
-                onChange={handleMinChange}
-                className="range-slider range-slider-min"
-              />
-              <input
-                type="range"
-                min="0"
-                max="1000"
-                value={filter.prisnivå[1]}
-                onChange={handleMaxChange}
-                className="range-slider range-slider-max"
-              />
-            </div>
+            <label>
+              {t("filter.prisnivå")}: {filter.prisnivå[0]} kr - {filter.prisnivå[1]} kr
+              <div className="range-slider-container">
+                <input
+                  type="range"
+                  min="0"
+                  max="1000"
+                  value={filter.prisnivå[0]}
+                  onChange={handleMinChange}
+                  className="range-slider range-slider-min"
+                />
+                <input
+                  type="range"
+                  min="0"
+                  max="1000"
+                  value={filter.prisnivå[1]}
+                  onChange={handleMaxChange}
+                  className="range-slider range-slider-max"
+                />
+              </div>
             </label>
           </div>
 
-            {/*Hytte - betjeningsgrad*/}
-            <div className="filter-section">
-              <label>{t("filter.betjeningsgrad")}:
+          {/*Hytte - betjeningsgrad*/}
+          <div className="filter-section">
+            <label>
+              {t("filter.betjeningsgrad")}:
               <div className="checkbox-group">
-
-                {!loadingEnum && !enumError && betjeningsgradEnum.map((grad) => (
-                  <label key={grad}>
-                    <input
-                      type="checkbox"
-                      checked={filter.betjeningsgrad.includes(grad)}
-                      onChange={() => handleCheckboxChange("betjeningsgrad", grad)}
-                    />{" "}
-                    {grad} 
-                  </label>
-                ))}
+                {!loadingEnum &&
+                  !enumError &&
+                  betjeningsgradEnum.map((grad) => (
+                    <label key={grad}>
+                      <input
+                        type="checkbox"
+                        checked={filter.betjeningsgrad.includes(grad)}
+                        onChange={() => handleCheckboxChange("betjeningsgrad", grad)}
+                      />{" "}
+                      {grad}
+                    </label>
+                  ))}
               </div>
-              </label>
-            </div>
+            </label>
+          </div>
 
           {/*Hytte - fasiliteter*/}
-          <FasiliteterDropdown 
+          <FasiliteterDropdown
             overskrift={t("filter.fasiliteter")}
             alleValg={kategorier.fasilitet}
             valgteFasiliteter={filter.fasiliteter}
             onToggle={(fasilitet_navn) => handleCheckboxChange("fasiliteter", fasilitet_navn)}
           />
-          
         </>
       )}
     </div>

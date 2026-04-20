@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { BRUKER_ROLLE } from "./constants/konstanter";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./components/navbar/Navbar";
 import AnnouncementBar from "./components/AnnouncementBar";
 import Footer from "./components/Footer";
@@ -36,7 +36,6 @@ import Test from "./pages/Test";
 import Sti from "./pages/Sti";
 import Navigasjon from "./pages/Navigasjon";
 
-
 // Hovedkomponent som setter opp routing for hele applikasjonen. Laget av Olai og Kay.
 export default function App() {
   return (
@@ -57,9 +56,8 @@ export default function App() {
             <Route path="/fellesturer" element={<Fellesturer />} />
             <Route path="/fellesturer/:fellesturId" element={<FellesturerDetaljer />} />
 
-            
             <Route path="/annonser" element={<Annonser />} />
-            
+
             <Route element={<ProtectedRoute />}>
               <Route path="/profil" element={<Profil />} />
               <Route path="/meldinger" element={<Meldinger />} />

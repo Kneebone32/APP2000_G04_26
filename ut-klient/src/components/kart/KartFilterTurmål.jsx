@@ -8,12 +8,7 @@ export default function KartFilterTurmål({ filter, setFilter }) {
 
   return (
     <div className="kart-filter-section">
-      <button
-        className="filter-toggle-button"
-        onClick={() =>
-          setTurmålFilterUtvidet(!turmålFilterUtvidet)
-        }
-      >
+      <button className="filter-toggle-button" onClick={() => setTurmålFilterUtvidet(!turmålFilterUtvidet)}>
         {turmålFilterUtvidet ? "✕" : "☰"} {t("filter.turmål")}
       </button>
 
@@ -22,14 +17,8 @@ export default function KartFilterTurmål({ filter, setFilter }) {
           {/*Turmål - vis turmål*/}
           <div className="turmål-kart-toggle">
             <label>
-              <input
-                type="checkbox"
-                checked={filter.visTurmål}
-                onChange={(e) =>
-                  setFilter({ ...filter, visTurmål: e.target.checked })
-                }
-              />{" "}
-               {t("filter.vis_turmål")}
+              <input type="checkbox" checked={filter.visTurmål} onChange={(e) => setFilter({ ...filter, visTurmål: e.target.checked })} />{" "}
+              {t("filter.vis_turmål")}
             </label>
           </div>
         </>

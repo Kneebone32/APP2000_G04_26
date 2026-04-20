@@ -22,7 +22,7 @@ export default function KartFilter({ onFilterChange, fellesturer }) {
     visHytter: true,
     visFellesturer: false,
     visTurmål: true,
-    visTurer: true
+    visTurer: true,
   });
 
   //Oppdaterer når filter endrer seg
@@ -33,7 +33,7 @@ export default function KartFilter({ onFilterChange, fellesturer }) {
   //Dispatcher event når filter åpnes for å lukke navbar
   useEffect(() => {
     if (filterÅpen) {
-      const event = new CustomEvent('kartFilterOpened');
+      const event = new CustomEvent("kartFilterOpened");
       document.dispatchEvent(event);
     }
   }, [filterÅpen]);
@@ -44,9 +44,9 @@ export default function KartFilter({ onFilterChange, fellesturer }) {
       setFilterÅpen(false);
     };
 
-    document.addEventListener('navbarOpened', handleNavbarOpen);
+    document.addEventListener("navbarOpened", handleNavbarOpen);
     return () => {
-      document.removeEventListener('navbarOpened', handleNavbarOpen);
+      document.removeEventListener("navbarOpened", handleNavbarOpen);
     };
   }, []);
 
@@ -54,9 +54,7 @@ export default function KartFilter({ onFilterChange, fellesturer }) {
   const handleCheckboxChange = (filterType, value) => {
     setFilter((prev) => ({
       ...prev,
-      [filterType]: prev[filterType].includes(value)
-        ? prev[filterType].filter((v) => v !== value)
-        : [...prev[filterType], value],
+      [filterType]: prev[filterType].includes(value) ? prev[filterType].filter((v) => v !== value) : [...prev[filterType], value],
     }));
   };
 
@@ -71,57 +69,39 @@ export default function KartFilter({ onFilterChange, fellesturer }) {
       turtype: [],
       fasiliteter: [],
       prisnivå: [0, 1000],
-      vanskelighetsgrad:"",
+      vanskelighetsgrad: "",
       visHytter: true,
       visFellesturer: false,
       visTurmål: true,
-      visTurer: true
+      visTurer: true,
     });
   };
 
   return (
     <>
       {/*Knapp for å åpne/lukke filter*/}
-      <button 
-        className="filter-main-toggle"
-        onClick={() => setFilterÅpen(!filterÅpen)}
-      >
+      <button className="filter-main-toggle" onClick={() => setFilterÅpen(!filterÅpen)}>
         {filterÅpen ? "✕" : "☰"}
       </button>
 
-    <div className={`kart-filter-wrapper ${filterÅpen ? 'filter-åpen' : ''}`}>
-      {/*Filter til hytter*/}
-      <KartFilterHytter 
-        filter={filter}
-        setFilter={setFilter}
-        handleCheckboxChange={handleCheckboxChange}
-      />
+      <div className={`kart-filter-wrapper ${filterÅpen ? "filter-åpen" : ""}`}>
+        {/*Filter til hytter*/}
+        <KartFilterHytter filter={filter} setFilter={setFilter} handleCheckboxChange={handleCheckboxChange} />
 
-      {/*Filter til fellesturer*/}
-      <KartFilterTurer 
-        filter={filter}
-        setFilter={setFilter}
-        handleCheckboxChange={handleCheckboxChange}
-      />
+        {/*Filter til fellesturer*/}
+        <KartFilterTurer filter={filter} setFilter={setFilter} handleCheckboxChange={handleCheckboxChange} />
 
-      {/*Filter til fellesturer*/}
-      <KartFilterFellesturer
-        filter={filter}
-        setFilter={setFilter}
-        fellesturer={fellesturer}
-      />
+        {/*Filter til fellesturer*/}
+        <KartFilterFellesturer filter={filter} setFilter={setFilter} fellesturer={fellesturer} />
 
-      {/*Filter til turmål*/}
-      <KartFilterTurmål
-        filter={filter}
-        setFilter={setFilter}
-      />     
+        {/*Filter til turmål*/}
+        <KartFilterTurmål filter={filter} setFilter={setFilter} />
 
-      {/*Reset filter*/}
-      <button className="reset-button" onClick={handleReset}>
-        {t("felles.nullstill")}
-      </button>
-    </div>
+        {/*Reset filter*/}
+        <button className="reset-button" onClick={handleReset}>
+          {t("felles.nullstill")}
+        </button>
+      </div>
     </>
   );
 }

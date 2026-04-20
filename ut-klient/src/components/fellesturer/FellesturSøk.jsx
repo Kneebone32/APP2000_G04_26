@@ -3,65 +3,67 @@ import { useTranslation } from "react-i18next";
 
 //Søker etter eksisterende fellesturer. Laget av Kay
 export default function FellesturSøk({ fellesturer, onSelect, lagretTittel = "" }) {
-    const { t } = useTranslation();
-    const [søk, setSøk] = useState(lagretTittel);
-    const [visDropdown, setVisDropdown] = useState(false);
-    const dropdownRef = useRef(null);
+  const { t } = useTranslation();
+  const [søk, setSøk] = useState(lagretTittel);
+  const [visDropdown, setVisDropdown] = useState(false);
+  const dropdownRef = useRef(null);
 
-    const filterFellesturer = fellesturer?.filter(tur =>
-        tur.aktivitet_tittel?.toLowerCase().includes(søk?.toLowerCase()) ||   //søk på tittel
-        tur.aktivitet_id?.toString().includes(søk)                 //søk på ID
+  const filterFellesturer =
+    fellesturer?.filter(
+      (tur) =>
+        tur.aktivitet_tittel?.toLowerCase().includes(søk?.toLowerCase()) || //søk på tittel
+        tur.aktivitet_id?.toString().includes(søk), //søk på ID
     ) || [];
 
-    //Lukker dropdown når bruker klikker på utsiden
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setVisDropdown(false);
-            }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+  //Lukker dropdown når bruker klikker på utsiden
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setVisDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
-    return (
-        <div className="input-container søk" ref={dropdownRef}>
-            <label className="input">
-                {t("fellesturer.søk_fellestur")}
-                <input
-                    type="text"
-                    placeholder={t("fellesturer.søk_placeholder")}
-                    value={søk}
-                    onChange={(e) => {
-                        setSøk(e.target.value);
-                        setVisDropdown(true);
-                        if (e.target.value === "") onSelect(0, "");
-                    }}
-                    onFocus={() => setVisDropdown(true)}
-                    required
-                />
-            </label>
+  return (
+    <div className="input-container søk" ref={dropdownRef}>
+      <label className="input">
+        {t("fellesturer.søk_fellestur")}
+        <input
+          type="text"
+          placeholder={t("fellesturer.søk_placeholder")}
+          value={søk}
+          onChange={(e) => {
+            setSøk(e.target.value);
+            setVisDropdown(true);
+            if (e.target.value === "") onSelect(0, "");
+          }}
+          onFocus={() => setVisDropdown(true)}
+          required
+        />
+      </label>
 
-            {visDropdown && (
-                <ul className="søkeresultater">
-                    {filterFellesturer.length > 0 ? (
-                        filterFellesturer.map((tur) => (
-                            <li
-                                key={tur.aktivitet_id}
-                                onClick={() => {
-                                    setSøk(tur.aktivitet_tittel);
-                                    onSelect(tur.aktivitet_id, tur.aktivitet_tittel);
-                                    setVisDropdown(false);
-                                }}
-                            >
-                                <span className="tur-id">#{tur.aktivitet_id}</span> {tur.aktivitet_tittel}
-                            </li>
-                        ))
-                    ) : (
-                        <li className="ingen-resultater">{t("fellesturer.ingen_resultater")}</li>
-                    )}
-                </ul>
-            )}
-        </div>
-    );
+      {visDropdown && (
+        <ul className="søkeresultater">
+          {filterFellesturer.length > 0 ? (
+            filterFellesturer.map((tur) => (
+              <li
+                key={tur.aktivitet_id}
+                onClick={() => {
+                  setSøk(tur.aktivitet_tittel);
+                  onSelect(tur.aktivitet_id, tur.aktivitet_tittel);
+                  setVisDropdown(false);
+                }}
+              >
+                <span className="tur-id">#{tur.aktivitet_id}</span> {tur.aktivitet_tittel}
+              </li>
+            ))
+          ) : (
+            <li className="ingen-resultater">{t("fellesturer.ingen_resultater")}</li>
+          )}
+        </ul>
+      )}
+    </div>
+  );
 }

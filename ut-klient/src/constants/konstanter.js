@@ -2,19 +2,15 @@
 
 //bruker_roller fra databasen
 export const BRUKER_ROLLE = {
-    ADMIN: 'admin',
-    TURLEDER: 'turleder',
-    HYTTEEIER: 'hytteeier',
-    ANNONSØR: 'annonsør',
-    VANLIGBRUKER: 'vanligbruker'
+  ADMIN: "admin",
+  TURLEDER: "turleder",
+  HYTTEEIER: "hytteeier",
+  ANNONSØR: "annonsør",
+  VANLIGBRUKER: "vanligbruker",
 };
 
 //Faner i AnnonseModerator
-export const ANNONSE_FANER = ["Legg til",
-    "Rediger",
-    "Slett",
-    "Statistikk"
-];
+export const ANNONSE_FANER = ["Legg til", "Rediger", "Slett", "Statistikk"];
 
 //Faner i HytteModerator
 export const HYTTE_FANER = ["Legg til", "Rediger", "Slett"];
@@ -24,31 +20,29 @@ export const TUR_FANER = ["Legg til", "Rediger", "Slett"];
 
 //Fellestur påmeldingsstatus
 export const PÅMELDING_STATUS = {
-    INTERESSERT: 'interessert',
-    BINDENDE: 'bindende',
-    FRISTILT: 'fristilt',
-    AVMELDT: 'avmeldt'
+  INTERESSERT: "interessert",
+  BINDENDE: "bindende",
+  FRISTILT: "fristilt",
+  AVMELDT: "avmeldt",
 };
 
 //Aktivitetsdato status
 export const DATO_STATUS = {
-    FORESLATT: 'foreslatt',
-    VALGT: 'valgt',
-    AVLYST: 'avlyst'
+  FORESLATT: "foreslatt",
+  VALGT: "valgt",
+  AVLYST: "avlyst",
 };
 
 //Varsel Oppgavestatus
 export const FORESPØRSEL_STATUS = {
-    PENDING: 'pending',
-    AVSLÅTT: 'avslatt',
-    GODKJENT: 'godkjent'
+  PENDING: "pending",
+  AVSLÅTT: "avslatt",
+  GODKJENT: "godkjent",
 };
 
 //Artikkel-slugs
 export const ARTIKKEL_SLUG = {
-    OM_OSS: 'om-oss',
-    KONTAKT: 'kontakt',
-    FAQ: 'faq'
+  OM_OSS: "om-oss",
+  KONTAKT: "kontakt",
+  FAQ: "faq",
 };
-
-

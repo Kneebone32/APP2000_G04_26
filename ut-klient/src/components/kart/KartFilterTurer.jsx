@@ -3,22 +3,15 @@ import { useTranslation } from "react-i18next";
 import { useEnums } from "../../hooks/useEnums";
 
 //Alle kartfilter til Turer. Hele filen laget av Kay med mindre annet er spesifisert
-export default function KartFilterTurer({
-  filter,
-  setFilter,
-  handleCheckboxChange,
-}) {
+export default function KartFilterTurer({ filter, setFilter, handleCheckboxChange }) {
   const [turerFilterUtvidet, setTurerFilterUtvidet] = useState(false);
   const { t } = useTranslation();
   const { enumData: vanskelighetsgrad, loadingEnum } = useEnums("vanskelighetsgrad_enum");
-  const { enumData: varighet} = useEnums("varighet_enum");
+  const { enumData: varighet } = useEnums("varighet_enum");
 
   return (
     <div className="kart-filter-section">
-      <button
-        className="filter-toggle-button"
-        onClick={() => setTurerFilterUtvidet(!turerFilterUtvidet)}
-      >
+      <button className="filter-toggle-button" onClick={() => setTurerFilterUtvidet(!turerFilterUtvidet)}>
         {turerFilterUtvidet ? "✕" : "☰"} {t("filter.turer")}
       </button>
 
@@ -30,12 +23,14 @@ export default function KartFilterTurer({
               <input
                 type="checkbox"
                 checked={filter.visTurer}
-                onChange={(e) => {const checked = e.target.checked; //fjerner fellesturer hvis turer blir vist på kartet
-                    setFilter((prev) => ({
+                onChange={(e) => {
+                  const checked = e.target.checked; //fjerner fellesturer hvis turer blir vist på kartet
+                  setFilter((prev) => ({
                     ...prev,
                     visTurer: checked,
                     visFellesturer: checked ? false : prev.visFellesturer,
-                  }));}}
+                  }));
+                }}
               />{" "}
               {t("filter.vis_turer")}
             </label>
@@ -43,15 +38,14 @@ export default function KartFilterTurer({
 
           {/*Turer - søkefelt*/}
           <div className="filter-section">
-            <label>{t("felles.søk")}:
-            <input
-              type="text"
-              placeholder={t("fellesturer.søk_tur")}
-              value={filter.søkeordTurer}
-              onChange={(e) =>
-                setFilter((prev) => ({ ...prev, søkeordTurer: e.target.value }))
-              }
-            />
+            <label>
+              {t("felles.søk")}:
+              <input
+                type="text"
+                placeholder={t("fellesturer.søk_tur")}
+                value={filter.søkeordTurer}
+                onChange={(e) => setFilter((prev) => ({ ...prev, søkeordTurer: e.target.value }))}
+              />
             </label>
           </div>
 
@@ -60,12 +54,7 @@ export default function KartFilterTurer({
             <label>{t("filter.vanskelighetsgrad")}:</label>
 
             {!loadingEnum && (
-              <select
-                value={filter.vanskelighetsgrad}
-                onChange={(e) =>
-                  setFilter({ ...filter, vanskelighetsgrad: e.target.value })
-                }
-              >
+              <select value={filter.vanskelighetsgrad} onChange={(e) => setFilter({ ...filter, vanskelighetsgrad: e.target.value })}>
                 <option value="" disabled selected hidden></option>
                 {vanskelighetsgrad.map((valg) => (
                   <option key={valg} value={valg}>
@@ -76,7 +65,7 @@ export default function KartFilterTurer({
             )}
           </div>
 
-          {/*Turer - Turtype - Ble laget før jeg la til useEnums. Fiks hvis tid*/ }
+          {/*Turer - Turtype - Ble laget før jeg la til useEnums. Fiks hvis tid*/}
           <div className="filter-section">
             <label>{t("filter.type")}:</label>
             <div className="checkbox-group">
@@ -114,12 +103,7 @@ export default function KartFilterTurer({
             <label>{t("kart_detaljer.varighet")}</label>
 
             {!loadingEnum && (
-              <select
-                value={filter.varighet}
-                onChange={(e) =>
-                  setFilter({ ...filter, varighet: e.target.value })
-                }
-              >
+              <select value={filter.varighet} onChange={(e) => setFilter({ ...filter, varighet: e.target.value })}>
                 <option value="" disabled selected hidden></option>
                 {varighet.map((valg) => (
                   <option key={valg} value={valg}>

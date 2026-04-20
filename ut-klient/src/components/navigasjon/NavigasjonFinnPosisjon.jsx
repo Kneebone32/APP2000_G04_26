@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect} from "react";
+import { useState, useRef, useEffect } from "react";
 import { useMap, useMapEvents } from "react-leaflet";
-import L from 'leaflet';
+import L from "leaflet";
 import { FiNavigation } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
 import "./NavigasjonFinnPosisjon.css";
@@ -22,7 +22,6 @@ export default function FlyTilPosisjon() {
     }
   }, []);
 
-
   useMapEvents({
     //hvis koordinater er funnet
     locationfound(e) {
@@ -31,13 +30,13 @@ export default function FlyTilPosisjon() {
       setLoading(false);
     },
     //error. kanskje sende melding til bruker?
-    locationerror(){
+    locationerror() {
       setLoading(false);
     },
     //hvis bruker drar på kartet
     dragstart() {
       setErFunnet(false);
-    }
+    },
   });
 
   const handleLocate = (e) => {
@@ -47,14 +46,10 @@ export default function FlyTilPosisjon() {
   };
 
   return (
-    <div className="leaflet-bottom leaflet-right" style={{border: 'none', marginBottom: '90px'}} ref={posisjonsKnappContainerRef}>
+    <div className="leaflet-bottom leaflet-right" style={{ border: "none", marginBottom: "90px" }} ref={posisjonsKnappContainerRef}>
       <div className="leaflet-control leaflet-bar">
         <button className="posisjons-knapp" onClick={handleLocate} title={t("navigasjon.bruk_din_posisjon")}>
-            <FiNavigation 
-            className={`pos-ikon ${loading ? 'puls-effekt' : ''}`}
-            size={22}
-            fill={erFunnet && !loading ? "#0a0a0a" : "none"}
-            />
+          <FiNavigation className={`pos-ikon ${loading ? "puls-effekt" : ""}`} size={22} fill={erFunnet && !loading ? "#0a0a0a" : "none"} />
         </button>
       </div>
     </div>

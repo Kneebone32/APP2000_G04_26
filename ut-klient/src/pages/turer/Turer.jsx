@@ -13,18 +13,15 @@ import "./Turer.css";
 // Viser oversikt over alle turer som kort. Laget av Kay og Olai
 export default function Turer() {
   const { t } = useTranslation();
-  const { turer, loadingTurer, errorTurer } = useFetchTurer({autoFetch: true}); //turKort: true
+  const { turer, loadingTurer, errorTurer } = useFetchTurer({ autoFetch: true }); //turKort: true
   const { annonser } = useFetchAnnonser({ autoFetch: true });
   const { token } = useAutentisering();
-  const { erTurFavoritt, toggleTurFavoritt } = useFavoritter({token});
-  const [søk, setSøk] = useState('');
+  const { erTurFavoritt, toggleTurFavoritt } = useFavoritter({ token });
+  const [søk, setSøk] = useState("");
 
   const iDag = new Date();
-  const turAnnonser = annonser.filter(a =>
-    a.status !== "avvist" &&
-    a.sokeord?.includes("turer") &&
-    new Date(a.start_dato) <= iDag &&
-    new Date(a.slutt_dato) >= iDag
+  const turAnnonser = annonser.filter(
+    (a) => a.status !== "avvist" && a.sokeord?.includes("turer") && new Date(a.start_dato) <= iDag && new Date(a.slutt_dato) >= iDag,
   );
 
   const filtrert = turer.filter((tur) => {
@@ -37,36 +34,24 @@ export default function Turer() {
     );
   });
 
-  const blandaListe = useMemo(
-    () => blandInnAnnonser(filtrert, turAnnonser, 'tur'),
-    [filtrert, turAnnonser]
-  );
+  const blandaListe = useMemo(() => blandInnAnnonser(filtrert, turAnnonser, "tur"), [filtrert, turAnnonser]);
 
   return (
     <PageWrapper title={t("turer.tittel")}>
       <div className="mt-3">
-
         <div className="turer-søk">
-          <input
-            type="text"
-            placeholder="Søk"
-            value={søk}
-            onChange={(e) => setSøk(e.target.value)}
-            aria-label="Søk etter turer"
-          />
+          <input type="text" placeholder="Søk" value={søk} onChange={(e) => setSøk(e.target.value)} aria-label="Søk etter turer" />
         </div>
 
         {loadingTurer && <p>{t("turer.laster")}</p>}
 
         {errorTurer && console.log(`Error: ${errorTurer}`)}
 
-        {!loadingTurer && !errorTurer && filtrert.length === 0 && (
-          <p>{t("turer.ingen_turer")}</p>
-        )}
+        {!loadingTurer && !errorTurer && filtrert.length === 0 && <p>{t("turer.ingen_turer")}</p>}
         {!loadingTurer && !errorTurer && filtrert.length > 0 && (
           <div className="TurKortContainer">
             {blandaListe.map((innslag) =>
-              innslag.type === 'annonse' ? (
+              innslag.type === "annonse" ? (
                 <AnnonseKort key={`annonse-${innslag.data.annonse_id}`} annonse={innslag.data} />
               ) : (
                 <TurKort
@@ -82,7 +67,7 @@ export default function Turer() {
                   erFavoritt={erTurFavoritt(innslag.data.tur_id)}
                   onToggleFavoritt={toggleTurFavoritt}
                 />
-              )
+              ),
             )}
           </div>
         )}

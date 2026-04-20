@@ -23,10 +23,7 @@ export default function LeggTilAnnonse({ onSuccess }) {
   return (
     <div>
       <h2>{t("annonse.legg_til_tittel")}</h2>
-      <AnnonseForm
-        onSubmitAction={handleOpprett}
-        buttonTekst={loading ? t("felles.lagrer") : t("annonse.legg_til_tittel")}
-      />
+      <AnnonseForm onSubmitAction={handleOpprett} buttonTekst={loading ? t("felles.lagrer") : t("annonse.legg_til_tittel")} />
     </div>
   );
 }

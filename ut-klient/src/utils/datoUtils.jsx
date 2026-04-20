@@ -18,7 +18,7 @@ export const formatNorskdato = (dato) => {
     month: "2-digit",
     year: "numeric",
     hour: "2-digit",
-    minute: "2-digit"
+    minute: "2-digit",
   });
 };
 
@@ -26,7 +26,7 @@ export const formatNorskdato = (dato) => {
 export const formatNorskTid = (tid) => {
   return tid.toLocaleTimeString("nb-NO", {
     hour: "2-digit",
-    minute: "2-digit"
+    minute: "2-digit",
   });
 };
 
@@ -34,31 +34,24 @@ export const formatNorskTid = (tid) => {
 export const formatMeldingTid = (dato) => {
   const d = new Date(dato);
   const iDag = new Date();
-  const erIDag = d.getDate() === iDag.getDate() &&
-    d.getMonth() === iDag.getMonth() &&
-    d.getFullYear() === iDag.getFullYear();
+  const erIDag = d.getDate() === iDag.getDate() && d.getMonth() === iDag.getMonth() && d.getFullYear() === iDag.getFullYear();
 
   if (erIDag) {
     return d.toLocaleTimeString("nb-NO", { hour: "2-digit", minute: "2-digit" });
   }
-  const dag = String(d.getDate()).padStart(2, '0');
-  const måned = String(d.getMonth() + 1).padStart(2, '0');
-  const time = String(d.getHours()).padStart(2, '0');
-  const minutt = String(d.getMinutes()).padStart(2, '0');
+  const dag = String(d.getDate()).padStart(2, "0");
+  const måned = String(d.getMonth() + 1).padStart(2, "0");
+  const time = String(d.getHours()).padStart(2, "0");
+  const minutt = String(d.getMinutes()).padStart(2, "0");
   return `${dag}.${måned} ${time}:${minutt}`;
 };
 
-
 export const formatFellesturDato = (dato) => {
-    return new Date(dato).toLocaleString("nb-NO", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-    });
-}
-
-
-
-
+  return new Date(dato).toLocaleString("nb-NO", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};

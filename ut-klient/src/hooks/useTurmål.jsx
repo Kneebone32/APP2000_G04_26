@@ -1,14 +1,17 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 //Hook til turmål. Laget av Kay
-export function useTurmål({autoFetch = false, hentTurmålID = null, token = null} = {}) {
+export function useTurmål({ autoFetch = false, hentTurmålID = null, token = null } = {}) {
   const [turmål, setTurmål] = useState([]);
 
-  const authHeaders = useMemo(() => ({
-    'Authorization': `Bearer ${token}`,
-    'Content-Type': 'application/json'
-  }), [token]);
-  
+  const authHeaders = useMemo(
+    () => ({
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    }),
+    [token],
+  );
+
   const [loading, setLoading] = useState(autoFetch);
   const [error, setError] = useState(null);
 
@@ -22,16 +25,15 @@ export function useTurmål({autoFetch = false, hentTurmålID = null, token = nul
 
       setTurmål(data);
     } catch (err) {
-        setError(err.message);
+      setError(err.message);
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   }, []);
 
-
   //Henter en turmål basert på ID
   const hentTurmålFraId = useCallback(async (id) => {
-    try{
+    try {
       setLoading(true);
       setError(null);
 
@@ -39,95 +41,102 @@ export function useTurmål({autoFetch = false, hentTurmålID = null, token = nul
       if (!response.ok) throw new Error("Kunne ikke hente turen");
 
       return await response.json();
-    } catch (err){
-        setError(err.message);
-        throw err;
+    } catch (err) {
+      setError(err.message);
+      throw err;
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   }, []);
 
   //Lager en ny turmål
-  const opprettTurmål = useCallback(async (data) => {
-    try{
-      setLoading(true);
-      setError(null);
+  const opprettTurmål = useCallback(
+    async (data) => {
+      try {
+        setLoading(true);
+        setError(null);
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/turmaal`, {
-        method: 'POST',
-        headers: authHeaders,
-        body: JSON.stringify(data)
-      });
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/turmaal`, {
+          method: "POST",
+          headers: authHeaders,
+          body: JSON.stringify(data),
+        });
 
-      if (!response.ok) throw new Error("Kunne ikke lagre turmålet");
+        if (!response.ok) throw new Error("Kunne ikke lagre turmålet");
 
-      return await response.json();
-    } catch (err){
+        return await response.json();
+      } catch (err) {
         setError("er: " + err.message);
         throw err;
-    } finally {
+      } finally {
         setLoading(false);
-    }
-  }, [authHeaders]);
+      }
+    },
+    [authHeaders],
+  );
 
   //Opptaterer en turmål
-  const redigerTurmål = useCallback(async (id, data) => {
-    try{
-      setLoading(true);
-      setError(null);
+  const redigerTurmål = useCallback(
+    async (id, data) => {
+      try {
+        setLoading(true);
+        setError(null);
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/turmaal/${id}`, {
-        method: 'PUT',
-        headers: authHeaders,
-        body: JSON.stringify(data)
-      });
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/turmaal/${id}`, {
+          method: "PUT",
+          headers: authHeaders,
+          body: JSON.stringify(data),
+        });
 
-      if (!response.ok) throw new Error("Kunne ikke oppdatere turen");
+        if (!response.ok) throw new Error("Kunne ikke oppdatere turen");
 
-      return await response.json();
-    } catch (err){
+        return await response.json();
+      } catch (err) {
         setError(err.message);
         throw err;
-    } finally {
+      } finally {
         setLoading(false);
-    }
-  }, [authHeaders]);
-
+      }
+    },
+    [authHeaders],
+  );
 
   //Sletter en turmål
-  const slettTurmål = useCallback(async (id) => {
-    try{
-      setLoading(true);
-      setError(null);
+  const slettTurmål = useCallback(
+    async (id) => {
+      try {
+        setLoading(true);
+        setError(null);
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/turmaal/${id}`, {
-        method: 'DELETE',
-        headers: authHeaders
-      });
-      if (!response.ok) throw new Error("Kunne ikke slette turmålet");
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/turmaal/${id}`, {
+          method: "DELETE",
+          headers: authHeaders,
+        });
+        if (!response.ok) throw new Error("Kunne ikke slette turmålet");
 
-      setTurmål(prev => prev.filter(m => m.turmål !== id));
-    } catch (err){
+        setTurmål((prev) => prev.filter((m) => m.turmål !== id));
+      } catch (err) {
         setError(err.message);
         throw err;
-    } finally {
+      } finally {
         setLoading(false);
-    }
-  }, [authHeaders]);
-
+      }
+    },
+    [authHeaders],
+  );
 
   useEffect(() => {
     if (autoFetch) fetchTurmål();
     if (hentTurmålID) hentTurmålFraId(hentTurmålID);
   }, [autoFetch, hentTurmålID, fetchTurmål, hentTurmålFraId]);
-  
-  return { 
-    turmål: turmål, 
-    loading, 
-    error, 
-    opprettTurmål, 
-    redigerTurmål, 
-    hentTurmålFraId, 
-    slettTurmål 
+
+  return {
+    turmål: turmål,
+    loading,
+    error,
+    opprettTurmål,
+    redigerTurmål,
+    hentTurmålFraId,
+    slettTurmål,
   };
 }

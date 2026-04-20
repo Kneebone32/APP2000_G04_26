@@ -22,13 +22,7 @@ export default function AnnonseKort({ annonse }) {
   return (
     <div className="Annonsekort" onClick={handleKlikk}>
       <div className="AnnonseHovedkort">
-        {annonse.bilde_url && (
-          <img
-            src={annonse.bilde_url}
-            alt=""
-            className="Annonsebilde"
-          />
-        )}
+        {annonse.bilde_url && <img src={annonse.bilde_url} alt="" className="Annonsebilde" />}
 
         <div className="AnnonsekortBody">
           <h3 className="AnnonsekortTitle">{annonse.tittel || "Uten tittel"}</h3>
@@ -43,8 +37,10 @@ export default function AnnonseKort({ annonse }) {
           )}
           {annonse.sokeord?.length > 0 && (
             <div className="AnnonsekortSøkeord">
-              {annonse.sokeord.map(ord => (
-                <span key={ord} className="AnnonsekortTag">{ord}</span>
+              {annonse.sokeord.map((ord) => (
+                <span key={ord} className="AnnonsekortTag">
+                  {ord}
+                </span>
               ))}
             </div>
           )}

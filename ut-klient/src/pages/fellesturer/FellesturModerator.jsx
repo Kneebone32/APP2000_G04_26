@@ -6,28 +6,28 @@ import LåsFellestur from "../../components/fellesturer/lås-fellestur/LåsFelle
 //import { useFellesturer } from "../hooks/useFellesturer";
 import PageWrapper from "../../components/PageWrapper";
 import { useTranslation } from "react-i18next";
-import './FellesturModerator.css';
+import "./FellesturModerator.css";
 
 //Basert på HytteModerator.jsx. Laget av Kay og Olai
-export default function FellesturModerator({fellesturer} = {}) {
-    //const { refetch } = useFellesturer(true);
-    const { t } = useTranslation();
+export default function FellesturModerator({ fellesturer } = {}) {
+  //const { refetch } = useFellesturer(true);
+  const { t } = useTranslation();
 
-    return (
-        <PageWrapper>
-        <div className="FellesturModeratorPanel">
-            <h1>{t("fellesturer.moderator")}</h1>
-            <hr />
-            <LeggTilFellestur />
-            <hr />
-            <RedigerFellestur fellesturer={fellesturer} />
-            <hr />
-            <LåsDato fellesturer={fellesturer} />
-            <hr />
-            <LåsFellestur fellesturer={fellesturer} />
-            <hr />
-            <SlettFellestur fellesturer={fellesturer} />
-        </div>
-        </PageWrapper>
-    );
+  return (
+    <PageWrapper>
+      <div className="FellesturModeratorPanel">
+        <h1>{t("fellesturer.moderator")}</h1>
+        <hr />
+        <LeggTilFellestur />
+        <hr />
+        <RedigerFellestur fellesturer={fellesturer} />
+        <hr />
+        <LåsDato fellesturer={fellesturer} />
+        <hr />
+        <LåsFellestur fellesturer={fellesturer} />
+        <hr />
+        <SlettFellestur fellesturer={fellesturer} />
+      </div>
+    </PageWrapper>
+  );
 }

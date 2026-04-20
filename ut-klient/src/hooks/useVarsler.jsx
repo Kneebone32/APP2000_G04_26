@@ -1,175 +1,191 @@
-import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
+import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 
 //Hook til varslingssystemet. Laget av Kay
-export function useVarsler({token, pollIntervall = 10000, autoPoll = false} = {}) {
+export function useVarsler({ token, pollIntervall = 10000, autoPoll = false } = {}) {
+  const [varsler, setVarsler] = useState([]);
+  const [valgtVarsel, setValgtVarsel] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const intervallRef = useRef(null);
 
-    const [varsler, setVarsler] = useState([]);
-    const [valgtVarsel, setValgtVarsel] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const intervallRef = useRef(null);
+  const authHeaders = useMemo(
+    () => ({
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    }),
+    [token],
+  );
 
-    const authHeaders = useMemo(() => ({
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-    }), [token]);
+  //Henter alle varsler for innlogget bruker
+  const hentVarsler = useCallback(async () => {
+    if (!token) return;
+    try {
+      setError(null);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/varsler`, {
+        headers: authHeaders,
+      });
+      if (!response.ok) throw new Error(`HTTP feil: ${response.status}`);
+      const data = await response.json();
+      setVarsler(data);
+    } catch (err) {
+      setError(err.message);
+    }
+  }, [authHeaders, token]);
 
-    //Henter alle varsler for innlogget bruker
-    const hentVarsler = useCallback(async () => {
-        if (!token) return;
-        try {
-            setError(null);
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/varsler`, {
-                headers: authHeaders
-            });
-            if (!response.ok) throw new Error(`HTTP feil: ${response.status}`);
-            const data = await response.json();
-            setVarsler(data);
-        } catch (err) {
-            setError(err.message);
+  //Henter ett varsel ut fra varselId
+  const hentVarsel = useCallback(
+    async (varselId) => {
+      if (!token) return;
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/varsler/${varselId}`, {
+          headers: authHeaders,
+        });
+        if (!response.ok) throw new Error("Kunne ikke hente varselet");
+        const data = await response.json();
+        setValgtVarsel(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [authHeaders, token],
+  );
+
+  //Merker et varsel som lest
+  const merkSomLest = useCallback(
+    async (varselId) => {
+      if (!token) return;
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/varsler/${varselId}/lest`, {
+          method: "PATCH",
+          headers: authHeaders,
+        });
+        if (!response.ok) throw new Error("Kunne ikke merke varsel som lest");
+        setVarsler((forrige) => forrige.map((varsel) => (varsel.varsel_id === varselId ? { ...varsel, status: "lest" } : varsel)));
+      } catch (err) {
+        setError(err.message);
+      }
+    },
+    [authHeaders, token],
+  );
+
+  //Oppretter et info-varsel
+  const sendInfoVarsel = useCallback(
+    async ({ mottaker_id, type_navn, tittel, innhold, referanse_type, referanse_id }) => {
+      if (!token) return;
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/varsler/info`, {
+          method: "POST",
+          headers: authHeaders,
+          body: JSON.stringify({ mottaker_id, type_navn, tittel, innhold, referanse_type, referanse_id }),
+        });
+        if (!response.ok) {
+          const feil = await response.json().catch(() => ({}));
+          throw new Error(feil.error ?? "Kunne ikke sende varsel");
         }
-    }, [authHeaders, token]);
+        return await response.json();
+      } catch (err) {
+        setError(err.message);
+        throw err;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [authHeaders, token],
+  );
 
-    //Henter ett varsel ut fra varselId
-    const hentVarsel = useCallback(async (varselId) => {
-        if (!token) return;
-        try {
-            setLoading(true);
-            setError(null);
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/varsler/${varselId}`, {
-                headers: authHeaders
-            });
-            if (!response.ok) throw new Error('Kunne ikke hente varselet');
-            const data = await response.json();
-            setValgtVarsel(data);
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
-    }, [authHeaders, token]);
+  //Sletter et varsel
+  const slettVarsel = useCallback(
+    async (varselId) => {
+      if (!token) return;
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/varsler/${varselId}`, {
+          method: "DELETE",
+          headers: authHeaders,
+        });
+        if (!response.ok) throw new Error("Kunne ikke slette varsel");
+        setVarsler((forrige) => forrige.filter((v) => v.varsel_id !== varselId));
+        setValgtVarsel(null);
+      } catch (err) {
+        setError(err.message);
+        throw err;
+      }
+    },
+    [authHeaders, token],
+  );
 
-    //Merker et varsel som lest
-    const merkSomLest = useCallback(async (varselId) => {
-        if (!token) return;
-        try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/varsler/${varselId}/lest`, {
-                method: 'PATCH',
-                headers: authHeaders
-            });
-            if (!response.ok) throw new Error('Kunne ikke merke varsel som lest');
-            setVarsler((forrige) =>
-                forrige.map((varsel) => varsel.varsel_id === varselId ? { ...varsel, status: 'lest' } : varsel)
-            );
-        } catch (err) {
-            setError(err.message);
-        }
-    }, [authHeaders, token]);
+  //Behandler en oppgave. optimistisk oppdatering ble kaotisk. refactor hvis tid
+  const behandleOppgave = useCallback(
+    async (varselId, beslutning) => {
+      if (!token) return;
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/varsler/${varselId}/behandle`, {
+          method: "POST",
+          headers: authHeaders,
+          body: JSON.stringify({ beslutning }),
+        });
+        if (!response.ok) throw new Error("Kunne ikke behandle oppgaven");
+        const nyForespørselStatus = beslutning ? "godkjent" : "avslatt";
+        setVarsler((forrige) =>
+          forrige.map((varsel) =>
+            varsel.varsel_id === varselId ? { ...varsel, status: "behandlet", foresporsel_status: nyForespørselStatus } : varsel,
+          ),
+        );
+        setValgtVarsel((forrige) => (forrige ? { ...forrige, status: "behandlet", foresporsel_status: nyForespørselStatus } : null));
+      } catch (err) {
+        setError(err.message);
+        throw err;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [authHeaders, token],
+  );
 
-    //Oppretter et info-varsel
-    const sendInfoVarsel = useCallback(async ({mottaker_id, type_navn, tittel, innhold, referanse_type, referanse_id}) => {
-        if (!token) return;
-        try {
-            setLoading(true);
-            setError(null);
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/varsler/info`, {
-                method: 'POST',
-                headers: authHeaders,
-                body: JSON.stringify({ mottaker_id, type_navn, tittel, innhold, referanse_type, referanse_id })
-            });
-            if (!response.ok) {
-                const feil = await response.json().catch(() => ({}));
-                throw new Error(feil.error ?? 'Kunne ikke sende varsel');
-            }
-            return await response.json();
-        } catch (err) {
-            setError(err.message);
-            throw err;
-        } finally {
-            setLoading(false);
-        }
-    }, [authHeaders, token]);
+  const stopPoll = useCallback(() => {
+    if (intervallRef.current) {
+      clearInterval(intervallRef.current);
+      intervallRef.current = null;
+    }
+  }, []);
 
-    //Sletter et varsel
-    const slettVarsel = useCallback(async (varselId) => {
-        if (!token) return;
-        try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/varsler/${varselId}`, {
-                method: 'DELETE',
-                headers: authHeaders
-            });
-            if (!response.ok) throw new Error('Kunne ikke slette varsel');
-            setVarsler((forrige) => forrige.filter((v) => v.varsel_id !== varselId));
-            setValgtVarsel(null);
-        } catch (err) {
-            setError(err.message);
-            throw err;
-        }
-    }, [authHeaders, token]);
+  //Starter polling for å holde varsler oppdatert. Laget med mye hjelp fra internett + AI
+  const startPoll = useCallback(
+    (pollFunc) => {
+      stopPoll();
+      pollFunc();
+      intervallRef.current = setInterval(pollFunc, pollIntervall);
+    },
+    [pollIntervall, stopPoll],
+  );
 
-    //Behandler en oppgave. optimistisk oppdatering ble kaotisk. refactor hvis tid
-    const behandleOppgave = useCallback(async (varselId, beslutning) => {
-        if (!token) return;
-        try {
-            setLoading(true);
-            setError(null);
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/varsler/${varselId}/behandle`, {
-                method: 'POST',
-                headers: authHeaders,
-                body: JSON.stringify({beslutning})
-            });
-            if (!response.ok) throw new Error('Kunne ikke behandle oppgaven');
-            const nyForespørselStatus = beslutning ? 'godkjent' : 'avslatt';
-            setVarsler((forrige) =>
-                forrige.map((varsel) => varsel.varsel_id === varselId
-                    ? {...varsel, status: 'behandlet', foresporsel_status: nyForespørselStatus}
-                    : varsel)
-            );
-            setValgtVarsel((forrige) => forrige
-                ? {...forrige, status: 'behandlet', foresporsel_status: nyForespørselStatus}
-                : null);
-        } catch (err) {
-            setError(err.message);
-            throw err;
-        } finally {
-            setLoading(false);
-        }
-    }, [authHeaders, token]);
+  useEffect(() => {
+    if (autoPoll && token) {
+      startPoll(hentVarsler);
+    }
+    return () => stopPoll();
+  }, [autoPoll, token, hentVarsler, startPoll, stopPoll]);
 
-    const stopPoll = useCallback(() => {
-        if (intervallRef.current) {
-            clearInterval(intervallRef.current);
-            intervallRef.current = null;
-        }
-    }, []);
-
-    //Starter polling for å holde varsler oppdatert. Laget med mye hjelp fra internett + AI
-    const startPoll = useCallback((pollFunc) => {
-        stopPoll();
-        pollFunc();
-        intervallRef.current = setInterval(pollFunc, pollIntervall);
-    }, [pollIntervall, stopPoll]);
-
-    useEffect(() => {
-        if (autoPoll && token) {
-            startPoll(hentVarsler);
-        }
-        return () => stopPoll();
-    }, [autoPoll, token, hentVarsler, startPoll, stopPoll]);
-
-    return {
-        varsler,
-        valgtVarsel,
-        setValgtVarsel,
-        loading,
-        error,
-        hentVarsler,
-        hentVarsel,
-        merkSomLest,
-        sendInfoVarsel,
-        slettVarsel,
-        behandleOppgave,
-        startPoll,
-        stopPoll
-    };
+  return {
+    varsler,
+    valgtVarsel,
+    setValgtVarsel,
+    loading,
+    error,
+    hentVarsler,
+    hentVarsel,
+    merkSomLest,
+    sendInfoVarsel,
+    slettVarsel,
+    behandleOppgave,
+    startPoll,
+    stopPoll,
+  };
 }

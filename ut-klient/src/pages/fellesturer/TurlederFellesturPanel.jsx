@@ -4,8 +4,8 @@ import FellesturModerator from "./FellesturModerator";
 
 //Wrapper som gir turleder tilgang til kun side egne Fellesturer. Laget av Kay
 export default function TurlederFellesturPanel() {
-    const { token } = useAutentisering({autoFetch: true});
-    const { mineFellesturerTurleder } = useMineFellesturer({token});
+  const { token } = useAutentisering({ autoFetch: true });
+  const { mineFellesturerTurleder } = useMineFellesturer({ token });
 
-    return <FellesturModerator fellesturer={mineFellesturerTurleder} />;
+  return <FellesturModerator fellesturer={mineFellesturerTurleder} />;
 }

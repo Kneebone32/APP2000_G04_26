@@ -5,9 +5,7 @@ export default function AnnouncementBar() {
   const { t } = useTranslation();
   return (
     <div className="announcement-bar">
-      <p className="announcement-text">
-        {t("varsling.skoleprosjekt")}
-      </p>
+      <p className="announcement-text">{t("varsling.skoleprosjekt")}</p>
     </div>
   );
 }
