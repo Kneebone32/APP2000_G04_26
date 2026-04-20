@@ -74,7 +74,7 @@ export default function SlettHytte({onSuccess, hytter: hytter_prop}) {
                     />
                     <datalist id="hytter-list">
                         {filteredHytter.map((hytte) => (
-                            <option key={hytte.hytte_id} value={`ID: ${hytte.id} - ${hytte.navn}`} />
+                            <option key={hytte.hytte_id} value={`ID: ${hytte.hytte_id} - ${hytte.navn}`} />
                         ))}
                     </datalist>
             </div>

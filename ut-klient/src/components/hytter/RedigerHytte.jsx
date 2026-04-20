@@ -19,9 +19,10 @@ export default function RedigerHytte({ onSuccess, hytter: hytter_prop }) {
 
     // Filtrerer søkeresultat på hytte-ID eller navn.
     const filteredHytter = hytter.filter(hytte =>
-        hytte.id?.toString().includes(searchTerm) ||
+        hytte.hytte_id?.toString().includes(searchTerm) ||
         hytte.navn?.toLowerCase().includes(searchTerm.toLowerCase())
     );
+    
 
     useEffect(() => {
         if (!selectedId) {
