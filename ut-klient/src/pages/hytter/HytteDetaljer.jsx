@@ -1,5 +1,4 @@
 import PageWrapper from "../../components/PageWrapper";
-import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAutentisering } from '../../hooks/useAutentisering';
@@ -15,13 +14,10 @@ import  './HytteDetaljer.css';
 export default function HytteDetaljer() {
   const { bruker, token, erAutentisert } = useAutentisering({autoFetch: true});
   const { hytteId } = useParams();
-  const {hytteAnmeldelser, hytteGjennomsnittsrating, leggTilHytteAnmeldelse, slettHytteAnmeldelse} = useAnmeldelser({token, hytteId});
+  const { hytteAnmeldelser, hytteGjennomsnittsrating, leggTilHytteAnmeldelse, slettHytteAnmeldelse } = useAnmeldelser({token, hytteId});
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { hentHytteFraId } = useFetchHytter(false);
-  const [hytte, setHytte] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { hytteDetaljer: hytte, loading, error } = useFetchHytter({ hentHytteID: hytteId });
   const kanSkriveAnmeldelse = erAutentisert && !hytteAnmeldelser.some((a) => a.bruker_id === bruker?.bruker_id);
 
 
@@ -38,27 +34,11 @@ export default function HytteDetaljer() {
         .filter(Boolean)
     : [];
 
-  useEffect(() => {
-    // Henter hyttedata når ID i URL endres.
-    const hentHytte = async () => {
-      try {
-        const data = await hentHytteFraId(hytteId);
-        setHytte(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    hentHytte();
-  }, [hytteId]);
-
   return (
     <PageWrapper>
       <div className="Hytter HytteDetaljerSide">
-        <button 
-          className="TilbakeKnapp" 
+        <button
+          className="TilbakeKnapp"
           onClick={() => navigate("/hytter")}
         >
           {t("hytter.tilbake_til_hytter")}
@@ -119,12 +99,11 @@ export default function HytteDetaljer() {
                 </div>
               )}
             </div>
-
           </div>
         )}
 
         <hr />
-        
+
         <AnmeldelseListe
           anmeldelser={hytteAnmeldelser}
           gjennomsnittsrating={hytteGjennomsnittsrating}

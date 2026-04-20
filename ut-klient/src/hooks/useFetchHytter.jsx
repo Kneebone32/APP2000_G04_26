@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 // Hook for hytteendepunkter: liste, kort, enkelthytte og sletting. Laget av Olai med mindre annet er spesifisert.
 export function useFetchHytter({autoFetch = false, hentHytteID = null, hytteKort = false, token = null} = {}) {
   const [hytter, setHytter] = useState([]);
+  const [hytteDetaljer, setHytteDetaljer] = useState(null);
 
   const authHeaders = useMemo(() => ({
     'Authorization': `Bearer ${token}`,
@@ -58,10 +59,12 @@ export function useFetchHytter({autoFetch = false, hentHytteID = null, hytteKort
     try{
       const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/${id}`);
       if (!response.ok) throw new Error("Kunne ikke hente hytten");
-      return await response.json();
-
+      const data = await response.json();
+      setHytteDetaljer(data);
+      return data;
     } catch (err){
         setError(err.message);
+        throw new Error(err.message);
     } finally {
         setLoading(false);
     }
@@ -158,6 +161,7 @@ export function useFetchHytter({autoFetch = false, hentHytteID = null, hytteKort
 
   return {
     hytter,
+    hytteDetaljer,
     loading,
     error,
     refetch: fetchHytter,
