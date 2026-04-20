@@ -1,9 +1,12 @@
 // Bland inn annonser i en liste med items (feks turer eller hytter). Laget av Olai
-export function blandInnAnnonser(items, annonser, type) {
-  const liste = items.map(item => ({ type, data: item }));
-  annonser.forEach(a => {
-    const pos = Math.floor(Math.random() * (liste.length + 1));
-    liste.splice(pos, 0, { type: 'annonse', data: a });
+export function blandInnAnnonser(items, annonser, type, intervall = 3) {
+  const liste = [];
+  let annonseIndex = 0;
+  items.forEach((item, i) => {
+    liste.push({ type, data: item });
+    if ((i + 1) % intervall === 0 && annonseIndex < annonser.length) {
+      liste.push({ type: 'annonse', data: annonser[annonseIndex++] });
+    }
   });
   return liste;
 }
