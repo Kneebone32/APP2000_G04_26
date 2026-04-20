@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { BRUKER_ROLLE } from "../../constants/konstanter";
 
+
 const ROLLE_LENKER = {
     [BRUKER_ROLLE.ADMIN]:         { link_til: "/admin",                label: "Admin panel" },
     [BRUKER_ROLLE.ANNONSØR]:      { link_til: "/annonser",             label: "Mine annonser" },
@@ -10,6 +11,7 @@ const ROLLE_LENKER = {
 
 //rollespesifikke lenker i navbar-dropdown. Laget av Kay
 export default function NavbarRoller({mineRoller = [], onClick}) {
+    
     const lenker = mineRoller
         .map((rolle) => ROLLE_LENKER[rolle.rolle_navn])
         .filter(Boolean);

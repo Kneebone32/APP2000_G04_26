@@ -3,9 +3,11 @@ import FellesturKort from "../../../components/fellesturer/FellesturKort";
 import { useMineFellesturer } from "../../../hooks/useMineFellesturer";
 import { useAutentisering } from "../../../hooks/useAutentisering";
 import { PÅMELDING_STATUS } from "../../../constants/konstanter";
+import { useTranslation } from "react-i18next";
 
 //Viser fellesturer der bruker er interessert eller har en bindende påmelding. Laget av Kay
 export default function MineFellesturer() {
+    const { t } = useTranslation();
     const { token } = useAutentisering({ autoFetch: true });
     const { mineFellesturer, mineFellesturerTurleder, loading, error } = useMineFellesturer({token});
 
@@ -20,8 +22,8 @@ export default function MineFellesturer() {
                 <>  
                     {/*Fellesturer som innlogget bruker har meldt en bindende påmelding for*/}
                     <section>
-                        <h2>Påmeldt</h2>
-                        {bindende.length === 0 && <p>Du er ikke påmeldt noen fellesturer.</p>}
+                        <h2>{t("mine_fellesturer.påmeldt")}</h2>
+                        {bindende.length === 0 && <p>{t("mine_fellesturer.ingen_påmeldt")}</p>}
                         <div className="FellesturKortContainer">
                             {bindende.map((fellestur) => (
                                 <FellesturKort
@@ -41,7 +43,7 @@ export default function MineFellesturer() {
                     <>
                     <hr />
                     <section>
-                        <h2>Interessert</h2>
+                        <h2>{t("mine_fellesturer.interessert")}</h2>
                         <div className="FellesturKortContainer">
                             {interessert.map((fellestur) => (
                                 <FellesturKort
@@ -63,7 +65,7 @@ export default function MineFellesturer() {
                     <>
                     <hr />
                     <section>
-                        <h2>Fellesturene mine</h2>
+                        <h2>{t("mine_fellesturer.mine_turer")}</h2>
                         <div className="FellesturKortContainer">
                             {mineFellesturerTurleder.map((fellestur) => (
                                 <FellesturKort

@@ -1,11 +1,13 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { formatMeldingTid } from '../../utils/datoUtils';
 import { useFileUpload } from '../../hooks/useFileUpload';
 import './MeldingsBoks.css';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 //Chat-box for en samtale (PM eller gruppe). Laget av Kay
 export default function MeldingsBoks({meldinger, loading, error, brukerId, onSend, tittel, antallMedlemmer, onForlatSamtale, bildesamtykke}) {
+    const { t } = useTranslation();
     const [innhold, setInnhold] = useState('');
     const [bildeUrl, setBildeUrlRaw] = useState(null);
     const [visOpplasting, setVisOpplasting] = useState(false);
@@ -25,10 +27,7 @@ export default function MeldingsBoks({meldinger, loading, error, brukerId, onSen
 
     useFileUpload(setBildeUrl, visOpplasting);
 
-    //scroller automatisk til bunn når nye meldinger kommer inn
-    useEffect(() => {
-        bunnRef.current?.scrollIntoView({behavior: 'smooth'});
-    }, [meldinger]);
+    
 
     const handleSend = async (e) => {
         e.preventDefault();
@@ -38,7 +37,7 @@ export default function MeldingsBoks({meldinger, loading, error, brukerId, onSen
             setInnhold('');
             setBildeUrlRaw(null);
         } catch {
-            toast.error("Noe gikk galt ved sending av melding");
+            toast.error(t("meldinger.feil_sending"));
         }
     };
 
@@ -49,7 +48,7 @@ export default function MeldingsBoks({meldinger, loading, error, brukerId, onSen
                 <h3>{tittel}</h3>
                 {antallMedlemmer > 2 && (
                     <button className="forlat-gruppe-btn" onClick={onForlatSamtale}>
-                        Forlat gruppe
+                        {t("meldinger.forlat_gruppe")}
                     </button>
                 )}
             </div>
@@ -59,7 +58,7 @@ export default function MeldingsBoks({meldinger, loading, error, brukerId, onSen
             <div className="meldingsboks-liste">
                 {error && <p className="meldingsboks-feil">{error}</p>}
                 {!loading && meldinger.length === 0 && (
-                    <p className="meldingsboks-status">Ingen meldinger</p>
+                    <p className="meldingsboks-status">{t("meldinger.ingen_meldinger")}</p>
                 )}
 
                 {/*individuell meldingsboble*/}
@@ -79,7 +78,7 @@ export default function MeldingsBoks({meldinger, loading, error, brukerId, onSen
                             {melding.bilde_url && (
                                 <img
                                     src={melding.bilde_url}
-                                    alt="Vedlagt bilde"
+                                    alt={t("meldinger.bilde")}
                                     className="melding-bilde"
                                 />
                             )}
@@ -106,12 +105,12 @@ export default function MeldingsBoks({meldinger, loading, error, brukerId, onSen
                     <div className="melding-url-input">
                         <input
                             type="text"
-                            placeholder="bilde-URL"
+                            placeholder={t("meldinger.bilde_url")}
                             value={tempUrl}
                             onChange={(e) => setTempUrl(e.target.value)}
                             disabled={!bildedeling}
                         />
-                        
+
                         <button
                             type="button"
                             onClick={() => {
@@ -123,7 +122,7 @@ export default function MeldingsBoks({meldinger, loading, error, brukerId, onSen
                             }}
                             disabled={!bildedeling}
                         >
-                            Legg til
+                            {t("meldinger.legg_til")}
                         </button>
                     </div>
                 </div>
@@ -143,21 +142,21 @@ export default function MeldingsBoks({meldinger, loading, error, brukerId, onSen
                     type="text"
                     value={innhold}
                     onChange={(e) => setInnhold(e.target.value)}
-                    placeholder="Skriv en melding"
-                    aria-label='Skriv en melding'
+                    placeholder={t("meldinger.skriv_melding")}
+                    aria-label={t("meldinger.skriv_melding")}
                 />
-                
+
                 <button
                     type="button"
                     className="bilde-btn"
                     onClick={() => setVisOpplasting(vis => !vis)}
-                    title={bildedeling ? "Last opp bilde" : "Bildedeling er deaktivert i denne gruppen"}
+                    title={bildedeling ? t("meldinger.last_opp_bilde") : t("meldinger.bildedeling_deaktivert")}
                     disabled={!bildedeling}
                 >
-                    Bilde
+                    {t("meldinger.bilde")}
                 </button>
                 <button type="submit" disabled={!innhold.trim() && !bildeUrl}>
-                    Send
+                    {t("meldinger.send")}
                 </button>
             </form>
         </div>

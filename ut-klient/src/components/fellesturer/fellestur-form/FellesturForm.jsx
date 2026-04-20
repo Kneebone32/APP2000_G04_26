@@ -130,18 +130,18 @@ export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTe
             return toast.error(t("fellestur_form.feil_minst_en_dato"));
         }
         if (pris < 1) {
-            return toast.error("Pris må være større enn 0");
+            return toast.error(t("fellestur_form.pris_feil"));
         }
         if (rabattPris !== null && rabattPris >= pris) {
-            return toast.error("Rabatt pris må være lavere enn ordinær pris");
+            return toast.error(t("fellestur_form.rabatt_pris_feil"));
         }
         if (rabattFrist && rabattPris === null) {
-            return toast.error("Sett en rabatt pris før du setter rabattfrist");
+            return toast.error(t("fellestur_form.rabattfrist_feil"));
         }
         if (rabattFrist && valgteDatoer.length > 0) {
             const sisteDato = new Date(Math.max(...valgteDatoer.map(d => d.getTime())));
             if (rabattFrist >= sisteDato) {
-                return toast.error("Rabatt frist må være før siste valgte dato");
+                return toast.error(t("fellestur_form.rabattfrist_dato_feil"));
             }
         }
 
@@ -194,7 +194,7 @@ export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTe
                 {rutePunkter?.length > 1 && gpxKoords?.length > 1 && (
                 <div className="input-container">
                 <button className="input" type="button" onClick={åpneLagTur}>
-                    Legg til Hytter eller Turmål
+                    {t("fellestur_form.legg_til_hytter")}
                 </button>
                 </div>
                 )}
@@ -213,7 +213,7 @@ export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTe
                 <>
             {/*Tittel på fellestur*/}
             <div className="input-container">
-                <label className="input">Rute lagret</label>
+                <label className="input">{t("fellestur_form.rute_lagret")}</label>
                 <label className="input">{t("fellestur_form.tittel")}
                     <input type="text" value={tittel} onChange={(e) => setTittel(e.target.value)} required />
                 </label>
@@ -268,7 +268,7 @@ export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTe
             {/*Avbestillingsfrist dager*/}
             <div className="input-container">
                 <label className="input">
-                    Avbestillingsfrist for påmeldte (antall dager)
+                    {t("fellestur_form.avbestillingsfrist")}
                     <input
                         type="number"
                         value={avbestillingsfrist}
@@ -283,7 +283,7 @@ export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTe
             {/*Pris*/}
             <div className="input-container">
                 <label className="input">
-                    Pris (kr)
+                    {t("fellestur_form.pris")}
                     <input
                         type="number"
                         value={pris}
@@ -297,7 +297,7 @@ export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTe
             {/*Rabatt pris*/}
             <div className="input-container">
                 <label className="input">
-                    Rabatt pris (kr) – valgfri
+                    {t("fellestur_form.rabatt_pris")}
                     <input
                         type="number"
                         value={rabattPris}
@@ -311,7 +311,7 @@ export default function FellesturForm({lagretData = {}, onSubmitAction, buttonTe
             {rabattPris !== null && (
             <div className="input-container">
                 <label className="input">
-                    Rabattfrist
+                    {t("fellestur_form.rabattfrist")}
                     <DatePicker
                         selected={rabattFrist}
                         onChange={(dato) => setRabattFrist(dato)}

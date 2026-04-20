@@ -5,11 +5,13 @@ import { useMeldinger } from '../hooks/useMeldinger';
 import SamtaleListe from '../components/meldinger/SamtaleListe';
 import MeldingsBoks from '../components/meldinger/MeldingsBoks';
 import PageWrapper from '../components/PageWrapper';
+import { useTranslation } from 'react-i18next';
 import './Meldinger.css';
 
 
 //Meldingsside. Viser meldinger og lar bruken chatte. Laget av Kay
 export default function Meldinger() {
+    const { t } = useTranslation();
     const { bruker, token, erAutentisert } = useAutentisering({ autoFetch: true });
     const location = useLocation();
     const [valgtSamtale, setValgtSamtale] = useState(location.state?.samtale ?? null);
@@ -17,8 +19,6 @@ export default function Meldinger() {
         meldinger, samtaler, loading, error,
         hentMeldinger, sendMelding, forlatSamtale, markerSamtaleLest
     } = useMeldinger({ token, autoFetch: erAutentisert, valgtSamtaleId: valgtSamtale?.samtale_id });
-
-    console.log(samtaler)
 
     const handleVelgSamtale = (samtale) => {
         setValgtSamtale(samtale);
@@ -62,7 +62,7 @@ export default function Meldinger() {
                         />
                     ) : (
                         <div className="meldinger-ingen-valgt">
-                            <p>Velg en samtale</p>
+                            <p>{t("meldinger.velg_samtale")}</p>
                         </div>
                     )}
                 </div>

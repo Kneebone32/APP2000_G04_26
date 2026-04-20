@@ -2,9 +2,11 @@ import { useState } from 'react';
 import Modal from '../../modal/Modal';
 import { toast } from 'react-toastify';
 import './Autentisering.css';
+import { useTranslation } from 'react-i18next';
 
 //Registrerer en ny bruker med Modal. Laget av Kay
 export default function RegisterBruker({ show, onClose, onByttTilLogginn, registrer, loading, error }) {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     bruker_navn: '',
     bruker_etternavn: '',
@@ -20,7 +22,7 @@ export default function RegisterBruker({ show, onClose, onByttTilLogginn, regist
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.bruker_passord !== formData.bruker_passord_bekreft) {
-        toast.error("Passordene er ikke like");
+        toast.error(t("autentisering.passordene_ikke_like"));
         return;
     }
 
@@ -55,11 +57,11 @@ export default function RegisterBruker({ show, onClose, onByttTilLogginn, regist
   };
 
   return (
-    <Modal show={show} onClose={onClose} title="Registrer ny bruker" size="sm">
+    <Modal show={show} onClose={onClose} title={t("autentisering.registrer_tittel")} size="sm">
       <div className="custom-modal-body">
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="input-container">
-            <label className='input'>Fornavn</label>
+            <label className='input'>{t("autentisering.fornavn")}</label>
               <input
                 type="text"
                 name="bruker_navn"
@@ -71,7 +73,7 @@ export default function RegisterBruker({ show, onClose, onByttTilLogginn, regist
           </div>
 
           <div className="input-container">
-            <label className='input'>Etternavn</label>
+            <label className='input'>{t("autentisering.etternavn")}</label>
               <input
                 type="text"
                 name="bruker_etternavn"
@@ -83,7 +85,7 @@ export default function RegisterBruker({ show, onClose, onByttTilLogginn, regist
           </div>
 
           <div className="input-container">
-            <label className='input'> E-post</label>
+            <label className='input'>{t("autentisering.epost")}</label>
               <input
                 type="email"
                 name="bruker_epost"
@@ -95,7 +97,7 @@ export default function RegisterBruker({ show, onClose, onByttTilLogginn, regist
           </div>
 
           <div className="input-container">
-            <label className='input'>Passord</label>
+            <label className='input'>{t("autentisering.passord")}</label>
               <input
                 type="password"
                 name="bruker_passord"
@@ -108,7 +110,7 @@ export default function RegisterBruker({ show, onClose, onByttTilLogginn, regist
           </div>
 
           <div className="input-container">
-            <label className='input'>Bekreft passord</label>
+            <label className='input'>{t("autentisering.bekreft_passord")}</label>
               <input
                 type="password"
                 name="bruker_passord_bekreft"
@@ -123,15 +125,15 @@ export default function RegisterBruker({ show, onClose, onByttTilLogginn, regist
           {error && <p className="error-melding">{error}</p>}
 
           <button type="submit" className="auth-submit-btn" disabled={loading}>
-            {loading ? "Registrerer" : "Registrer"}
+            {loading ? t("autentisering.registrerer") : t("autentisering.registrer_knapp")}
           </button>
         </form>
 
         <div className="modal-footer">
           <p>
-            Har allerede konto?{' '}
+            {t("autentisering.har_konto")}{' '}
             <button type="button" onClick={handleBytt} className="auth-link-btn">
-              Logg inn
+              {t("autentisering.logg_inn_link")}
             </button>
           </p>
         </div>

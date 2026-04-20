@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import '../fellesturer/fellestur-form/FellesturForm.css';
 
 //Søker etter eksisterende artikler. Lik som FellesturSøk. Laget av Kay
 export default function ArtikkelSøk({artikler, onSelect, lagretTittel = ''}) {
+    const { t } = useTranslation();
     const [søk, setSøk] = useState(lagretTittel);
     const [visDropdown, setVisDropdown] = useState(false);
     const dropdownRef = useRef(null);
@@ -25,10 +27,10 @@ export default function ArtikkelSøk({artikler, onSelect, lagretTittel = ''}) {
     return (
         <div className="input-container søk" ref={dropdownRef}>
             <label className="input">
-                Søk etter artikkel
+                {t("artikkel.søk_etter")}
                 <input
                     type="text"
-                    placeholder="søk"
+                    placeholder={t("artikkel.søk_placeholder")}
                     value={søk}
                     onChange={e => {
                         setSøk(e.target.value);
@@ -55,7 +57,7 @@ export default function ArtikkelSøk({artikler, onSelect, lagretTittel = ''}) {
                             </li>
                         ))
                     ) : (
-                        <li className="ingen-resultater">Ingen artikler funnet</li>
+                        <li className="ingen-resultater">{t("artikkel.ingen_funnet")}</li>
                     )}
                 </ul>
             )}

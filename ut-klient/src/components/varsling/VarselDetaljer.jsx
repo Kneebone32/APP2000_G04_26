@@ -5,6 +5,7 @@ import OppgaveHytteeierNyFellestur from './oppgaver/OppgaveHytteeierNyFellestur'
 import OppgaveHytteeierBooking from './oppgaver/OppgaveHytteeierBooking';
 import OppgaveAnnonseForespørsel from './oppgaver/OppgaveAnnonseForespørsel';
 import './VarselDetaljer.css';
+import { useTranslation } from 'react-i18next';
 
 const oppgaveTyper = {
     rolle_foresporsel: OppgaveRolleEndring,
@@ -16,10 +17,12 @@ const oppgaveTyper = {
 
 //Viser innhold og eventuelle handlinger for et varsel. Laget av Kay
 export default function VarselDetaljer({ varsel, loading, onBehandle, onSlett }) {
+    const { t } = useTranslation();
+
     if (!varsel) {
         return (
             <div className="varsel-detaljer varsel-detaljer-tom">
-                <p>Velg et varsel</p>
+                <p>{t("varsling.velg_varsel")}</p>
             </div>
         );
     }
@@ -29,9 +32,9 @@ export default function VarselDetaljer({ varsel, loading, onBehandle, onSlett })
     const handleBeslutning = async (beslutning, { melding } = {}) => {
         try {
             await onBehandle(varsel.varsel_id, beslutning);
-            toast.success(melding ?? (beslutning ? 'Godtatt' : 'Avvist'));
+            toast.success(melding ?? (beslutning ? t("varsling.godtatt") : t("varsling.avvist")));
         } catch {
-            toast.error('Noe gikk galt');
+            toast.error(t("varsling.noe_gikk_galt"));
         }
     };
 
@@ -58,7 +61,7 @@ export default function VarselDetaljer({ varsel, loading, onBehandle, onSlett })
                 onClick={() => onSlett(varsel.varsel_id)}
                 disabled={loading}
             >
-                Slett varsel
+                {t("varsling.slett_varsel")}
             </button>
         </div>
     );

@@ -1,15 +1,17 @@
 import './AnmeldelseListe.css';
 import { formatNorskdato } from '../../utils/datoUtils';
+import { useTranslation } from 'react-i18next';
 
 //Viser liste over anmeldelser med stjerner og kommentar. Laget av Kay
 export default function AnmeldelseListe({anmeldelser, gjennomsnittsrating, rating, kommentar, tid, loading, error, brukerId, onSlett}) {
+    const { t } = useTranslation();
     const tegnStjerner = (antall) => '★'.repeat(antall) + '☆'.repeat(5 - antall);
     //if (loading || error) return;
 
     return (
         <div className="anmeldelse-liste">
             <div className="anmeldelse-liste-header">
-                <h3>Anmeldelser</h3>
+                <h3>{t("anmeldelse.tittel")}</h3>
                 {gjennomsnittsrating && (
                     <span className="anmeldelse-gjennomsnitt">
                         <span className="anmeldelse-stjerner">★</span> {gjennomsnittsrating} / 5 ({anmeldelser.length})
@@ -35,7 +37,7 @@ export default function AnmeldelseListe({anmeldelser, gjennomsnittsrating, ratin
                                     className="anmeldelse-slett-btn"
                                     onClick={() => onSlett(anmeldelse.bruker_id)}
                                 >
-                                    Slett
+                                    {t("felles.slett")}
                                 </button>
                             )}
                         </div>

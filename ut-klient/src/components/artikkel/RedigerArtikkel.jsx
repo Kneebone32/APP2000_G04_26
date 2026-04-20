@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAutentisering } from '../../hooks/useAutentisering';
 import { useArtikkel } from '../../hooks/useArtikkel';
 import ArtikkelSøk from './ArtikkelSøk';
@@ -8,6 +9,7 @@ import '../fellesturer/fellestur-form/FellesturForm.css';
 
 //Redigerer en eksisterende artikkel. Laget av Kay
 export default function RedigerArtikkel() {
+    const { t } = useTranslation();
     const { token } = useAutentisering({ autoFetch: false });
     const { artikler, loading, redigerArtikkel } = useArtikkel({ autoFetch: true, token });
 
@@ -30,15 +32,15 @@ export default function RedigerArtikkel() {
         if (!valgtId) return;
         try {
             await redigerArtikkel(valgtId, { artikkel_tittel: tittel, artikkel_innhold: innhold, artikkel_slug: slug });
-            toast.success('Artikkel lagret');
+            toast.success(t('artikkel.lagret'));
         } catch {
-            toast.error('Kunne ikke lagre artikkelen');
+            toast.error(t('artikkel.feil_lagring'));
         }
     };
 
     return (
         <div className="fellestur-form-container">
-            <h2>Rediger artikkel</h2>
+            <h2>{t("artikkel.rediger_tittel")}</h2>
 
             <ArtikkelSøk
                 artikler={artikler}
@@ -54,7 +56,7 @@ export default function RedigerArtikkel() {
                     onInnholdChange={setInnhold}
                     onLagre={handleLagre}
                     loading={loading}
-                    buttonTekst="Lagre"
+                    buttonTekst={t("artikkel.lagre_knapp")}
                 />
             )}
         </div>

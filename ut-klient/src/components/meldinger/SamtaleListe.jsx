@@ -1,13 +1,15 @@
 import './SamtaleListe.css';
+import { useTranslation } from 'react-i18next';
 
 //Liste over alle samtalene til bruker. Laget av Kay
 export default function SamtaleListe({samtaler, valgtId, onVelg}) {
+    const { t } = useTranslation();
     return (
         <div className="samtale-liste">
-            <h3 className="samtale-liste-tittel">Meldinger</h3>
+            <h3 className="samtale-liste-tittel">{t("meldinger.tittel")}</h3>
 
             {samtaler.length === 0 && (
-                <p className="samtale-liste-tom">Ingen samtaler</p>
+                <p className="samtale-liste-tom">{t("meldinger.ingen_samtaler")}</p>
             )}
 
             {/*liste over alle samtaler*/}

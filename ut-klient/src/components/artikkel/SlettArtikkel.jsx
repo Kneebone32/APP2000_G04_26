@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAutentisering } from '../../hooks/useAutentisering';
 import { useArtikkel } from '../../hooks/useArtikkel';
 import { useModal } from '../../hooks/useModal';
@@ -10,6 +11,7 @@ import './Artikkel.css';
 
 //Sletter en artikkel. Laget av Kay
 export default function SlettArtikkel() {
+    const { t } = useTranslation();
     const { token } = useAutentisering({autoFetch: false});
     const { artikler, slettArtikkel } = useArtikkel({autoFetch: true, token});
     const { isOpen, open, close } = useModal();
@@ -20,9 +22,9 @@ export default function SlettArtikkel() {
             await slettArtikkel(valgtId);
             setValgtId(null);
             close();
-            toast.success('Artikkel slettet');
+            toast.success(t('artikkel.slettet'));
         } catch {
-            toast.error('Kunne ikke slette artikkelen');
+            toast.error(t('artikkel.feil_sletting'));
         }
     };
 
@@ -30,7 +32,7 @@ export default function SlettArtikkel() {
 
     return (
         <div className="fellestur-form-container">
-            <h2>Slett artikkel</h2>
+            <h2>{t("artikkel.slett_tittel")}</h2>
 
             <ArtikkelSøk
                 artikler={artikler}
@@ -40,7 +42,7 @@ export default function SlettArtikkel() {
 
             <div className="input-container">
                 <button className="artikkel-lagre-btn" onClick={open} disabled={!valgtId}>
-                    Slett artikkel
+                    {t("artikkel.slett_tittel")}
                 </button>
             </div>
 
@@ -48,9 +50,9 @@ export default function SlettArtikkel() {
                 show={isOpen}
                 onClose={close}
                 onConfirm={handleSlett}
-                tittel="slett artikkel"
-                melding={`Er du sikker på at du vil slette "${valgtTittel}"?`}
-                confirmText="Slett"
+                tittel={t("artikkel.slett_tittel")}
+                melding={t("artikkel.bekreft_sletting", { tittel: valgtTittel })}
+                confirmText={t("felles.slett")}
             />
         </div>
     );

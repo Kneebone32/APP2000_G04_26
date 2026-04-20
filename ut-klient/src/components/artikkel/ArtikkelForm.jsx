@@ -1,4 +1,5 @@
 import ReactMarkdown from 'react-markdown';
+import { useTranslation } from 'react-i18next';
 import { useModal } from '../../hooks/useModal';
 import Modal from '../../modal/Modal';
 import './Artikkel.css';
@@ -6,12 +7,13 @@ import './modal/ArtikkelModal.css';
 import '../fellesturer/fellestur-form/FellesturForm.css';
 
 //Gjenbrukbart form til Artikkel. Laget av Kay
-export default function ArtikkelForm({ tittel, onTittelChange, innhold, onInnholdChange, onLagre, loading, buttonTekst = 'Lagre' }) {
+export default function ArtikkelForm({ tittel, onTittelChange, innhold, onInnholdChange, onLagre, loading, buttonTekst }) {
+    const { t } = useTranslation();
     const { isOpen, open, close } = useModal();
     return (
         <>
             <div className="input-container">
-                <label className="input">Tittel
+                <label className="input">{t("felles.tittel")}
                     <input
                         type="text"
                         value={tittel}
@@ -23,7 +25,7 @@ export default function ArtikkelForm({ tittel, onTittelChange, innhold, onInnhol
             <div className="input-container">
                 <div className="artikkel-editor-faner">
                     <button type="button" onClick={open}>
-                        Forhåndsvisning
+                        {t("artikkel.forhåndsvisning")}
                     </button>
                 </div>
 
@@ -31,7 +33,7 @@ export default function ArtikkelForm({ tittel, onTittelChange, innhold, onInnhol
                     className="artikkel-textarea"
                     value={innhold}
                     onChange={e => onInnholdChange(e.target.value)}
-                    placeholder="Skriv innhold i Markdown"
+                    placeholder={t("artikkel.innhold_placeholder")}
                     rows={20}
                 />
             </div>
@@ -43,7 +45,7 @@ export default function ArtikkelForm({ tittel, onTittelChange, innhold, onInnhol
             </Modal>
 
             <button className="artikkel-lagre-btn" onClick={onLagre} disabled={loading}>
-                {loading ? `${buttonTekst}` : buttonTekst}
+                {buttonTekst || t("artikkel.lagre_knapp")}
             </button>
         </>
     );

@@ -9,7 +9,16 @@
     "fellesturer": "Fellesturer",
     "annonser": "Annonser",
     "profil": "Profil",
-    "bytt_språk": "Bytt til engelsk"
+    "bytt_språk": "Bytt til engelsk",
+    "meldinger": "Meldinger",
+    "varsler": "Varsler",
+    "favoritter": "Favoritter",
+    "mine_fellesturer": "Mine Fellesturer",
+    "logg_ut": "Logg ut",
+    "logg_inn": "Logg inn",
+    "logget_ut": "Du har blitt logget ut",
+    "lukk": "Lukk navigasjon",
+    "vis": "Vis navigasjon"
   },
 
   "felles": {
@@ -31,7 +40,15 @@
     "slett": "Slett",
     "avbryt": "Avbryt",
     "fylke": "Fylke",
-    "kommune": "Kommune"
+    "kommune": "Kommune",
+    "legg_til_favoritter": "Legg til i favoritter",
+    "fjern_fra_favoritter": "Fjern fra favoritter",
+    "tittel": "Tittel",
+    "legg_til": "Legg til",
+    "rediger": "Rediger",
+    "lagre_endringer": "Lagre endringer",
+    "lagrer": "Lagrer...",
+    "lagre": "Lagre"
   },
 
   "sider": {
@@ -90,7 +107,23 @@
   },
 
   "profil": {
-    "gå_til_admin": "Gå til Admin Panel"
+    "gå_til_admin": "Gå til Admin Panel",
+    "rediger_tittel": "Rediger profil",
+    "lagre_endringer": "Lagre Endringer",
+    "oppdatert": "Profil oppdatert!",
+    "bytt_passord_tittel": "Bytt passord",
+    "navarende_passord": "Nåværende passord",
+    "nytt_passord": "Nytt passord",
+    "bekreft_nytt_passord": "Bekreft nytt passord",
+    "bytt_passord_knapp": "Bytt passord",
+    "passord_oppdatert": "Passord oppdatert!",
+    "endre_rolle_tittel": "Endre brukerrolle",
+    "nye_roller_info": "Nye roller må bli godkjent av en administrator. En søknad vil automatisk bli sendt",
+    "dine_roller": "Dine roller:",
+    "søk_ny_rolle": "Søk om ny rolle",
+    "velg_rolle": "Velg rolle",
+    "send_søknad": "Send søknad",
+    "søknad_sendt": "Søknad sendt! En administrator vil behandle forespørselen din."
   },
 
   "admin": {
@@ -99,14 +132,18 @@
     "bilde_lastet_opp": "Bilde lastet opp!",
     "gå_til_hytte": "Gå til Admin Hytter",
     "gå_til_tur": "Gå til Admin Turer",
-    "gå_til_annonser": "Gå til Admin Annonser"
+    "gå_til_annonser": "Gå til Admin Annonser",
+    "gå_til_artikler": "Gå til Admin Artikler"
   },
 
   "kart": {
     "laster": "Laster kart",
     "feil_lasting": "Feil ved lasting",
     "tur_til_meny": "Tur til Meny",
-    "varmdisk": "Hva har de i varmdisken i dag?"
+    "varmdisk": "Hva har de i varmdisken i dag?",
+    "se_detaljer": "Se detaljer",
+    "høyde": "Høyde:",
+    "moh": "moh."
   },
 
   "filter": {
@@ -146,7 +183,43 @@
   },
 
   "varsling": {
-    "skoleprosjekt": "Dette er et skoleprosjekt!"
+    "skoleprosjekt": "Dette er et skoleprosjekt!",
+    "tittel": "Varsler",
+    "ingen_varsler": "Ingen varsler",
+    "oppgave": "Oppgave",
+    "info": "Info",
+    "velg_varsel": "Velg et varsel",
+    "slett_varsel": "Slett varsel",
+    "godtatt": "Godtatt",
+    "avvist": "Avvist",
+    "noe_gikk_galt": "Noe gikk galt",
+    "bekreftet_plass": "Du bekreftet at du har plass",
+    "meldt_ikke_plass": "Du meldte at du ikke har plass",
+    "trekk_bekreftelse": "Trekk bekreftelse",
+    "avslatt_hyttebestilling": "Avslått. hyttebestillinger vil ikke forekomme",
+    "jeg_har_plass": "Jeg har plass",
+    "jeg_har_ikke_plass": "Jeg har ikke plass",
+    "bekreftet_hyttebestilling": "Bekreftet. Hyttebestillinger kan forekomme",
+    "godtok_forespørsel": "Du godtok denne forespørselen",
+    "avslo_forespørsel": "Du avslo denne forespørselen",
+    "godta_rolleendring": "Godta rolleendring",
+    "avvis": "Avvis",
+    "rolleendring_godtatt": "Rolleendring godtatt",
+    "rolleendring_avvist": "Rolleendring avvist",
+    "bekreftet_booking": "Du bekreftet bookingen",
+    "avslo_booking": "Du avslo bookingen",
+    "bekreft_booking": "Bekreft booking",
+    "avslå_booking": "Avslå booking",
+    "booking_bekreftet": "Booking bekreftet",
+    "booking_avslatt": "Booking avslått",
+    "laster": "Laster",
+    "annonsor": "Annonsør:",
+    "periode": "Periode:",
+    "annonsen_godkjent": "Annonsen ble godkjent",
+    "annonsen_avvist": "Annonsen ble avvist",
+    "godkjenn": "Godkjenn",
+    "annonse_godkjent_toast": "Annonse godkjent",
+    "annonse_avvist_toast": "Annonse avvist"
   },
   
   "tur": {
@@ -254,7 +327,17 @@
     "værvarsel": "Værvarsel",
     "min_deltakere": "Min deltakere",
     "maks_deltakere": "Maks deltakere",
-    "feil_minst_en_dato": "Vennligst velg minst en dato"
+    "feil_minst_en_dato": "Vennligst velg minst en dato",
+    "avbestillingsfrist": "Avbestillingsfrist for påmeldte (antall dager)",
+    "pris": "Pris (kr)",
+    "rabatt_pris": "Rabatt pris (kr) – valgfri",
+    "rabattfrist": "Rabattfrist",
+    "pris_feil": "Pris må være større enn 0",
+    "rabatt_pris_feil": "Rabatt pris må være lavere enn ordinær pris",
+    "rabattfrist_feil": "Sett en rabatt pris før du setter rabattfrist",
+    "rabattfrist_dato_feil": "Rabatt frist må være før siste valgte dato",
+    "legg_til_hytter": "Legg til Hytter eller Turmål",
+    "rute_lagret": "Rute lagret"
   },
 
   "fellestur_kobling": {
@@ -370,6 +453,167 @@
 
   "page_wrapper": {
     "prototype_innhold": "Prototypeinnhold kommer her..."
+  },
+
+  "footer": {
+    "kontakt_oss": "Kontakt oss",
+    "om_oss": "Om oss",
+    "kontakt": "Kontakt",
+    "snarveier": "Snarveier",
+    "følg_oss": "Følg oss"
+  },
+
+  "autentisering": {
+    "logg_inn_tittel": "Logg inn",
+    "registrer_tittel": "Registrer ny bruker",
+    "epost": "E-post",
+    "passord": "Passord",
+    "bekreft_passord": "Bekreft passord",
+    "fornavn": "Fornavn",
+    "etternavn": "Etternavn",
+    "logger_inn": "Logger inn",
+    "logg_inn_knapp": "Logg inn",
+    "ingen_konto": "Ingen konto?",
+    "registrer": "Registrer",
+    "har_konto": "Har allerede konto?",
+    "logg_inn_link": "Logg inn",
+    "registrerer": "Registrerer",
+    "registrer_knapp": "Registrer",
+    "passordene_ikke_like": "Passordene er ikke like",
+    "velkommen_tilbake": "Velkommen tilbake, {{navn}}!"
+  },
+
+  "anmeldelse": {
+    "tittel": "Anmeldelser",
+    "skriv": "Skriv en anmeldelse",
+    "kommentar_placeholder": "Skriv en kommentar (valgfritt)",
+    "send": "Send anmeldelse",
+    "velg_stjerner": "Velg antall stjerner",
+    "sendt": "Anmeldelse sendt!",
+    "feil_innsending": "Noe gikk galt ved innsending av anmeldelse"
+  },
+
+  "meldinger": {
+    "tittel": "Meldinger",
+    "ingen_meldinger": "Ingen meldinger",
+    "ingen_samtaler": "Ingen samtaler",
+    "velg_samtale": "Velg en samtale",
+    "forlat_gruppe": "Forlat gruppe",
+    "feil_sending": "Noe gikk galt ved sending av melding",
+    "bilde_url": "bilde-URL",
+    "legg_til": "Legg til",
+    "bilde": "Bilde",
+    "send": "Send",
+    "skriv_melding": "Skriv en melding",
+    "last_opp_bilde": "Last opp bilde",
+    "bildedeling_deaktivert": "Bildedeling er deaktivert i denne gruppen"
+  },
+
+  "favoritter": {
+    "tittel": "Favoritter",
+    "laster_hytter": "Laster hytter",
+    "laster_turer": "Laster turer"
+  },
+
+  "mine_fellesturer": {
+    "påmeldt": "Påmeldt",
+    "ingen_påmeldt": "Du er ikke påmeldt noen fellesturer.",
+    "interessert": "Interessert",
+    "mine_turer": "Fellesturene mine"
+  },
+
+  "påmelding": {
+    "velg_dato": "Velg en dato for å melde deg på",
+    "ledig_plass": "{{antall}} ledige plasser",
+    "fullt": "Fullt",
+    "interesserte": "{{antall}} interessert",
+    "jeg_er_interessert": "Jeg er interessert",
+    "meld_meg_på": "Meld meg på",
+    "du_er_interessert": "Du er markert som interessert",
+    "fjern_interesse": "Fjern interesse",
+    "du_er_påmeldt": "Du er påmeldt",
+    "meld_meg_av": "Meld meg av",
+    "du_er_fristilt": "Du er fristilt fra denne turen",
+    "bildesamtykke_tittel": "Bildesamtykke",
+    "bildesamtykke_tekst": "Som deltaker på denne fellesturen kan bilder tatt underveis deles i gruppechatten for turen. Vennligst velg om du samtykker til at bilder du er med på kan deles med de andre deltakerne i gruppechatten.",
+    "jeg_samtykker": "Jeg samtykker. Meld meg på",
+    "meld_på_uten_samtykke": "Meld på uten samtykke",
+    "er_nå_påmeldt": "Du er nå påmeldt!",
+    "er_interessert_toast": "Du er markert som interessert!",
+    "er_meldt_av": "Du er meldt av.",
+    "noe_gikk_galt": "Noe gikk galt. Prøv igjen."
+  },
+
+  "låsdato": {
+    "tittel": "Lås dato",
+    "dato_allerede_valgt": "Dato er allerede valgt for denne Fellesturen",
+    "lås_dato": "Lås Dato",
+    "velg_fellestur": "Velg en fellestur for å låse dato.",
+    "dato_låst": "Dato låst",
+    "feil_hente": "Kunne ikke hente fellestur: ",
+    "feil_lås_dato": "Kunne ikke låse dato: "
+  },
+
+  "låsfellestur": {
+    "tittel": "Lås fellestur",
+    "lås_dato_først": "Du må låse en startdato før du kan låse påmelding.",
+    "påmelding_stengt": "Påmelding stengt",
+    "steng_påmelding": "Steng påmelding",
+    "velg_fellestur": "Velg en fellestur for å låse påmelding",
+    "bekreft_melding": "Er du sikker på at du vil stenge påmelding for \"{{tittel}}\"?",
+    "steng": "Steng",
+    "feil_hente": "Kunne ikke hente fellestur: ",
+    "påmelding_låst": "Påmelding låst",
+    "feil_lås": "Kunne ikke låse: ",
+    "status_fellestur": "Fellestur:",
+    "status_stengt": "Påmelding stengt"
+  },
+
+  "annonse": {
+    "legg_til_tittel": "Legg til annonse",
+    "rediger_tittel": "Rediger annonse",
+    "slett_tittel": "Slett annonse",
+    "søk_og_velg": "Søk og velg annonse:",
+    "søk_placeholder": "Søk på tittel eller ID...",
+    "laster": "Laster annonser...",
+    "laster_data": "Laster annonsedata...",
+    "ingen_funnet": "Ingen annonser funnet.",
+    "opprettet": "Annonse opprettet!",
+    "oppdatert": "Annonse oppdatert!",
+    "slettet": "\"{{tittel}}\" ble slettet.",
+    "bekreft_sletting": "Er du sikker på at du vil slette \"{{tittel}}\"?",
+    "feil_opprettelse": "Kunne ikke opprette annonsen",
+    "feil_oppdatering": "Kunne ikke oppdatere annonsen",
+    "feil_sletting": "Kunne ikke slette annonsen",
+    "feil_henting": "Kunne ikke hente annonsedata",
+    "oppdater": "Oppdater annonse",
+    "søkeord": "Søkeord",
+    "startdato": "Startdato:",
+    "sluttdato": "Sluttdato:",
+    "fyll_ut_felt": "Vennligst fyll ut alle påkrevde felt",
+    "sluttdato_feil": "Sluttdato kan ikke være før startdato"
+  },
+
+  "artikkel": {
+    "legg_til_tittel": "Legg til artikkel",
+    "rediger_tittel": "Rediger artikkel",
+    "slett_tittel": "Slett artikkel",
+    "forhåndsvisning": "Forhåndsvisning",
+    "innhold_placeholder": "Skriv innhold i Markdown",
+    "søk_etter": "Søk etter artikkel",
+    "søk_placeholder": "søk",
+    "ingen_funnet": "Ingen artikler funnet",
+    "slug": "Slug",
+    "opprettet": "Artikkel opprettet",
+    "lagret": "Artikkel lagret",
+    "slettet": "Artikkel slettet",
+    "feil_opprettelse": "Kunne ikke opprette artikkelen",
+    "feil_lagring": "Kunne ikke lagre artikkelen",
+    "feil_sletting": "Kunne ikke slette artikkelen",
+    "bekreft_sletting": "Er du sikker på at du vil slette \"{{tittel}}\"?",
+    "opprett_knapp": "Opprett artikkel",
+    "moderator_tittel": "Artikler",
+    "lagre_knapp": "Lagre"
   },
 
   "enums": {

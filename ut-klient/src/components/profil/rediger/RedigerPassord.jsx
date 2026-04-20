@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useAutentisering } from "../../../hooks/useAutentisering";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 //Lar innlogget bruker bytte passord. Laget av Kay
 export default function RedigerPassord() {
+    const { t } = useTranslation();
     const { byttPassord } = useAutentisering({ autoFetch: false });
     const [gammeltPassord, setGammeltPassord] = useState("");
     const [nyttPassord, setNyttPassord] = useState("");
@@ -13,13 +15,13 @@ export default function RedigerPassord() {
         e.preventDefault();
 
         if (nyttPassord !== bekreftPassord) {
-            toast.error("Passordene er ikke like");
+            toast.error(t("autentisering.passordene_ikke_like"));
             return;
         }
 
         try {
             await byttPassord(gammeltPassord, nyttPassord);
-            toast.success("Passord oppdatert!");
+            toast.success(t("profil.passord_oppdatert"));
             setGammeltPassord("");
             setNyttPassord("");
             setBekreftPassord("");
@@ -30,10 +32,10 @@ export default function RedigerPassord() {
 
     return (
         <div className="rediger-passord">
-            <h2>Bytt passord</h2>
+            <h2>{t("profil.bytt_passord_tittel")}</h2>
             <form onSubmit={handleSubmit}>
                 <div className="input-container">
-                    <label className="input">Nåværende passord
+                    <label className="input">{t("profil.navarende_passord")}
                         <input
                             type="password"
                             value={gammeltPassord}
@@ -43,7 +45,7 @@ export default function RedigerPassord() {
                     </label>
                 </div>
                 <div className="input-container">
-                    <label className="input">Nytt passord
+                    <label className="input">{t("profil.nytt_passord")}
                         <input
                             type="password"
                             value={nyttPassord}
@@ -53,7 +55,7 @@ export default function RedigerPassord() {
                     </label>
                 </div>
                 <div className="input-container">
-                    <label className="input">Bekreft nytt passord
+                    <label className="input">{t("profil.bekreft_nytt_passord")}
                         <input
                             type="password"
                             value={bekreftPassord}
@@ -63,7 +65,7 @@ export default function RedigerPassord() {
                     </label>
                 </div>
                 <div className="input-container">
-                    <button type="submit" className="lagre-btn">Bytt passord</button>
+                    <button type="submit" className="lagre-btn">{t("profil.bytt_passord_knapp")}</button>
                 </div>
             </form>
         </div>

@@ -60,7 +60,7 @@ export default function RedigerFellestur({fellesturer: fellesturer_prop} = {}) {
                     lagretData={valgtData}
                     onSubmitAction={handleOppdatering}
                     editModus={true}
-                    buttonTekst="Lagre endringer"
+                    buttonTekst={t("felles.lagre_endringer")}
                 />
             ) : (
                 <p style={{color: "#888"}}>{t("fellesturer.velg_fellestur")}</p>

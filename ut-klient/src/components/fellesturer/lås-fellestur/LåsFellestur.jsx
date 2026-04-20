@@ -8,10 +8,12 @@ import ConfirmModal from "../../ConfirmModal";
 import { DATO_STATUS } from "../../../constants/konstanter";
 import { toast } from 'react-toastify';
 import '../lås-dato/LåsDato.css';
+import { useTranslation } from 'react-i18next';
 
 //Låser påmelding for en fellestur. Laget av Kay
 //fellesturer-prop brukes av turleder for å begrense søk til egne turer
 export default function LåsFellestur({fellesturer: fellesturer_prop} = {}) {
+    const { t } = useTranslation();
     const { token } = useAutentisering({ autoFetch: false });
     const { fellesturer: fellesturer_alle, hentFellesturFraId } = useFellestur({ autoFetch: !fellesturer_prop });
     const { låsPåmelding } = usePåmelding({ token });
@@ -35,7 +37,7 @@ export default function LåsFellestur({fellesturer: fellesturer_prop} = {}) {
             setValgtData(data);
             setErLåst(data?.datoer[0]?.er_last_for_pamelding ?? false);
         } catch (err) {
-            toast.error('Kunne ikke hente fellestur: ' + err.message);
+            toast.error(t("låsfellestur.feil_hente") + err.message);
             setValgtData(null);
         } finally {
             setLasterFellestur(false);
@@ -48,9 +50,9 @@ export default function LåsFellestur({fellesturer: fellesturer_prop} = {}) {
         try {
             await låsPåmelding(valgtData.aktivitet_id, true);
             setErLåst(true);
-            toast.success('Påmelding låst');
+            toast.success(t("låsfellestur.påmelding_låst"));
         } catch (err) {
-            toast.error('Kunne ikke låse: ' + err.message);
+            toast.error(t("låsfellestur.feil_lås") + err.message);
         } finally {
             setLaster(false);
         }
@@ -58,7 +60,7 @@ export default function LåsFellestur({fellesturer: fellesturer_prop} = {}) {
 
     return (
         <div className="fellestur-form-container">
-            <h2>Lås fellestur</h2>
+            <h2>{t("låsfellestur.tittel")}</h2>
 
             <FellesturSøk
                 fellesturer={fellesturer}
@@ -70,35 +72,35 @@ export default function LåsFellestur({fellesturer: fellesturer_prop} = {}) {
             {!lasterFellestur && valgtData && (
                 <>
                     <p>
-                        <strong>Fellestur:</strong> {valgtData.aktivitet_tittel}
+                        <strong>{t("låsfellestur.status_fellestur")}</strong> {valgtData.aktivitet_tittel}
                     </p>
                     {valgtData.datoer?.some(d => d.aktivitet_dato_status === DATO_STATUS.FORESLATT) ? (
-                        <p>Du må låse en startdato før du kan låse påmelding.</p>
+                        <p>{t("låsfellestur.lås_dato_først")}</p>
                     ) : erLåst ? (
-                        <p><strong>Status:</strong> Påmelding stengt</p>
+                        <p><strong>{t("låsfellestur.status_fellestur")}</strong> {t("låsfellestur.påmelding_stengt")}</p>
                     ) : (
                         <button
                             type="button"
                             onClick={åpneBekreft}
                             disabled={laster}
                         >
-                            Steng påmelding
+                            {t("låsfellestur.steng_påmelding")}
                         </button>
                     )}
                 </>
             )}
 
             {!lasterFellestur && !valgtData && (
-                <p>Velg en fellestur for å låse påmelding</p>
+                <p>{t("låsfellestur.velg_fellestur")}</p>
             )}
 
             <ConfirmModal
                 show={visBekreft}
                 onClose={lukkBekreft}
                 onConfirm={() => { lukkBekreft(); handleLåsFellestur(); }}
-                tittel="Steng påmelding"
-                melding={`Er du sikker på at du vil stenge påmelding for "${valgtData?.aktivitet_tittel}"?`}
-                confirmTekst="Steng"
+                tittel={t("låsfellestur.steng_påmelding")}
+                melding={t("låsfellestur.bekreft_melding", { tittel: valgtData?.aktivitet_tittel })}
+                confirmTekst={t("låsfellestur.steng")}
                 knappFarge="blå"
             />
         </div>

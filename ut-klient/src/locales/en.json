@@ -7,9 +7,18 @@
     "hytter": "Cabins",
     "kart": "Map",
     "fellesturer": "Group Trips",
-    "annonser": "Announcements",
+    "annonser": "Advertisements",
     "profil": "Profile",
-    "bytt_språk": "Switch to Norwegian"
+    "bytt_språk": "Switch to Norwegian",
+    "meldinger": "Messages",
+    "varsler": "Notifications",
+    "favoritter": "Favorites",
+    "mine_fellesturer": "My Group Trips",
+    "logg_ut": "Log out",
+    "logg_inn": "Log in",
+    "logget_ut": "You have been logged out",
+    "lukk": "Close navigation",
+    "vis": "Show navigation"
   },
 
   "felles": {
@@ -31,14 +40,22 @@
     "slett": "Delete",
     "avbryt": "Cancel",
     "fylke": "County",
-    "kommune": "Municipality"
+    "kommune": "Municipality",
+    "legg_til_favoritter": "Add to favorites",
+    "fjern_fra_favoritter": "Remove from favorites",
+    "tittel": "Title",
+    "legg_til": "Add",
+    "rediger": "Edit",
+    "lagre_endringer": "Save changes",
+    "lagrer": "Saving...",
+    "lagre": "Save"
   },
 
   "sider": {
     "turer": "Website for trips",
     "fellesturer": "Website for group trips",
     "profil": "Profile",
-    "annonser": "Website for announcements",
+    "annonser": "Website for advertisements",
     "admin": "Admin Website"
   },
 
@@ -90,7 +107,23 @@
   },
 
   "profil": {
-    "gå_til_admin": "Go to Admin Panel"
+    "gå_til_admin": "Go to Admin Panel",
+    "rediger_tittel": "Edit profile",
+    "lagre_endringer": "Save Changes",
+    "oppdatert": "Profile updated!",
+    "bytt_passord_tittel": "Change password",
+    "navarende_passord": "Current password",
+    "nytt_passord": "New password",
+    "bekreft_nytt_passord": "Confirm new password",
+    "bytt_passord_knapp": "Change password",
+    "passord_oppdatert": "Password updated!",
+    "endre_rolle_tittel": "Change user role",
+    "nye_roller_info": "New roles must be approved by an administrator. An application will automatically be sent.",
+    "dine_roller": "Your roles:",
+    "søk_ny_rolle": "Apply for new role",
+    "velg_rolle": "Select role",
+    "send_søknad": "Submit application",
+    "søknad_sendt": "Application sent! An administrator will process your request."
   },
 
   "admin": {
@@ -99,14 +132,18 @@
     "bilde_lastet_opp": "Image uploaded!",
     "gå_til_hytte": "Go to Admin Cabins",
     "gå_til_tur": "Go to Admin Trips",
-    "gå_til_annonser": "Go to Admin Announcements"
+    "gå_til_annonser": "Go to Admin Advertisements",
+    "gå_til_artikler": "Go to Admin Articles"
   },
 
   "kart": {
     "laster": "Loading map",
     "feil_lasting": "Error loading",
     "tur_til_meny": "Trip to Meny",
-    "varmdisk": "What's in the hot food section today?"
+    "varmdisk": "What's in the hot food section today?",
+    "se_detaljer": "See details",
+    "høyde": "Altitude:",
+    "moh": "masl."
   },
 
   "filter": {
@@ -146,7 +183,43 @@
   },
 
   "varsling": {
-    "skoleprosjekt": "This is a school project!"
+    "skoleprosjekt": "This is a school project!",
+    "tittel": "Notifications",
+    "ingen_varsler": "No notifications",
+    "oppgave": "Task",
+    "info": "Info",
+    "velg_varsel": "Select a notification",
+    "slett_varsel": "Delete notification",
+    "godtatt": "Accepted",
+    "avvist": "Rejected",
+    "noe_gikk_galt": "Something went wrong",
+    "bekreftet_plass": "You confirmed you have availability",
+    "meldt_ikke_plass": "You reported you don't have availability",
+    "trekk_bekreftelse": "Withdraw confirmation",
+    "avslatt_hyttebestilling": "Declined. Cabin bookings will not occur",
+    "jeg_har_plass": "I have availability",
+    "jeg_har_ikke_plass": "I don't have availability",
+    "bekreftet_hyttebestilling": "Confirmed. Cabin bookings may occur",
+    "godtok_forespørsel": "You accepted this request",
+    "avslo_forespørsel": "You rejected this request",
+    "godta_rolleendring": "Accept role change",
+    "avvis": "Reject",
+    "rolleendring_godtatt": "Role change accepted",
+    "rolleendring_avvist": "Role change rejected",
+    "bekreftet_booking": "You confirmed the booking",
+    "avslo_booking": "You rejected the booking",
+    "bekreft_booking": "Confirm booking",
+    "avslå_booking": "Reject booking",
+    "booking_bekreftet": "Booking confirmed",
+    "booking_avslatt": "Booking rejected",
+    "laster": "Loading",
+    "annonsor": "Advertiser:",
+    "periode": "Period:",
+    "annonsen_godkjent": "The advertisement was approved",
+    "annonsen_avvist": "The advertisement was rejected",
+    "godkjenn": "Approve",
+    "annonse_godkjent_toast": "Advertisement approved",
+    "annonse_avvist_toast": "Advertisement rejected"
   },
 
   "tur": {
@@ -254,7 +327,17 @@
     "værvarsel": "Weather Forecast",
     "min_deltakere": "Min participants",
     "maks_deltakere": "Max participants",
-    "feil_minst_en_dato": "Please select at least one date"
+    "feil_minst_en_dato": "Please select at least one date",
+    "avbestillingsfrist": "Cancellation deadline for registered (number of days)",
+    "pris": "Price (NOK)",
+    "rabatt_pris": "Discount price (NOK) – optional",
+    "rabattfrist": "Discount deadline",
+    "pris_feil": "Price must be greater than 0",
+    "rabatt_pris_feil": "Discount price must be lower than regular price",
+    "rabattfrist_feil": "Set a discount price before setting the discount deadline",
+    "rabattfrist_dato_feil": "Discount deadline must be before the last selected date",
+    "legg_til_hytter": "Add Cabins or Destinations",
+    "rute_lagret": "Route saved"
   },
 
   "fellestur_kobling": {
@@ -370,6 +453,167 @@
 
   "page_wrapper": {
     "prototype_innhold": "Prototype content coming here..."
+  },
+
+  "footer": {
+    "kontakt_oss": "Contact us",
+    "om_oss": "About us",
+    "kontakt": "Contact",
+    "snarveier": "Quick links",
+    "følg_oss": "Follow us"
+  },
+
+  "autentisering": {
+    "logg_inn_tittel": "Log in",
+    "registrer_tittel": "Register new user",
+    "epost": "Email",
+    "passord": "Password",
+    "bekreft_passord": "Confirm password",
+    "fornavn": "First name",
+    "etternavn": "Last name",
+    "logger_inn": "Logging in",
+    "logg_inn_knapp": "Log in",
+    "ingen_konto": "No account?",
+    "registrer": "Register",
+    "har_konto": "Already have an account?",
+    "logg_inn_link": "Log in",
+    "registrerer": "Registering",
+    "registrer_knapp": "Register",
+    "passordene_ikke_like": "Passwords do not match",
+    "velkommen_tilbake": "Welcome back, {{navn}}!"
+  },
+
+  "anmeldelse": {
+    "tittel": "Reviews",
+    "skriv": "Write a review",
+    "kommentar_placeholder": "Write a comment (optional)",
+    "send": "Submit review",
+    "velg_stjerner": "Select number of stars",
+    "sendt": "Review submitted!",
+    "feil_innsending": "Something went wrong while submitting the review"
+  },
+
+  "meldinger": {
+    "tittel": "Messages",
+    "ingen_meldinger": "No messages",
+    "ingen_samtaler": "No conversations",
+    "velg_samtale": "Select a conversation",
+    "forlat_gruppe": "Leave group",
+    "feil_sending": "Something went wrong while sending message",
+    "bilde_url": "image-URL",
+    "legg_til": "Add",
+    "bilde": "Image",
+    "send": "Send",
+    "skriv_melding": "Write a message",
+    "last_opp_bilde": "Upload image",
+    "bildedeling_deaktivert": "Image sharing is disabled in this group"
+  },
+
+  "favoritter": {
+    "tittel": "Favorites",
+    "laster_hytter": "Loading cabins",
+    "laster_turer": "Loading trips"
+  },
+
+  "mine_fellesturer": {
+    "påmeldt": "Registered",
+    "ingen_påmeldt": "You are not registered for any group trips.",
+    "interessert": "Interested",
+    "mine_turer": "My group trips"
+  },
+
+  "påmelding": {
+    "velg_dato": "Select a date to register",
+    "ledig_plass": "{{antall}} available spots",
+    "fullt": "Full",
+    "interesserte": "{{antall}} interested",
+    "jeg_er_interessert": "I am interested",
+    "meld_meg_på": "Register me",
+    "du_er_interessert": "You are marked as interested",
+    "fjern_interesse": "Remove interest",
+    "du_er_påmeldt": "You are registered",
+    "meld_meg_av": "Unregister me",
+    "du_er_fristilt": "You have been released from this trip",
+    "bildesamtykke_tittel": "Image consent",
+    "bildesamtykke_tekst": "As a participant on this group trip, photos taken along the way may be shared in the group chat for the trip. Please choose whether you consent to photos you are in being shared with the other participants in the group chat.",
+    "jeg_samtykker": "I consent. Register me",
+    "meld_på_uten_samtykke": "Register without consent",
+    "er_nå_påmeldt": "You are now registered!",
+    "er_interessert_toast": "You are marked as interested!",
+    "er_meldt_av": "You have been unregistered.",
+    "noe_gikk_galt": "Something went wrong. Try again."
+  },
+
+  "låsdato": {
+    "tittel": "Lock date",
+    "dato_allerede_valgt": "Date is already selected for this group trip",
+    "lås_dato": "Lock Date",
+    "velg_fellestur": "Select a group trip to lock a date.",
+    "dato_låst": "Date locked",
+    "feil_hente": "Could not fetch group trip: ",
+    "feil_lås_dato": "Could not lock date: "
+  },
+
+  "låsfellestur": {
+    "tittel": "Lock group trip",
+    "lås_dato_først": "You must lock a start date before locking registration.",
+    "påmelding_stengt": "Registration closed",
+    "steng_påmelding": "Close registration",
+    "velg_fellestur": "Select a group trip to lock registration",
+    "bekreft_melding": "Are you sure you want to close registration for \"{{tittel}}\"?",
+    "steng": "Close",
+    "feil_hente": "Could not fetch group trip: ",
+    "påmelding_låst": "Registration locked",
+    "feil_lås": "Could not lock: ",
+    "status_fellestur": "Group trip:",
+    "status_stengt": "Registration closed"
+  },
+
+  "annonse": {
+    "legg_til_tittel": "Add advertisement",
+    "rediger_tittel": "Edit advertisement",
+    "slett_tittel": "Delete advertisement",
+    "søk_og_velg": "Search and select advertisement:",
+    "søk_placeholder": "Search by title or ID...",
+    "laster": "Loading advertisements...",
+    "laster_data": "Loading advertisement data...",
+    "ingen_funnet": "No advertisements found.",
+    "opprettet": "Advertisement created!",
+    "oppdatert": "Advertisement updated!",
+    "slettet": "\"{{tittel}}\" was deleted.",
+    "bekreft_sletting": "Are you sure you want to delete \"{{tittel}}\"?",
+    "feil_opprettelse": "Could not create the advertisement",
+    "feil_oppdatering": "Could not update the advertisement",
+    "feil_sletting": "Could not delete the advertisement",
+    "feil_henting": "Could not fetch advertisement data",
+    "oppdater": "Update advertisement",
+    "søkeord": "Keywords",
+    "startdato": "Start date:",
+    "sluttdato": "End date:",
+    "fyll_ut_felt": "Please fill out all required fields",
+    "sluttdato_feil": "End date cannot be before start date"
+  },
+
+  "artikkel": {
+    "legg_til_tittel": "Add article",
+    "rediger_tittel": "Edit article",
+    "slett_tittel": "Delete article",
+    "forhåndsvisning": "Preview",
+    "innhold_placeholder": "Write content in Markdown",
+    "søk_etter": "Search for article",
+    "søk_placeholder": "search",
+    "ingen_funnet": "No articles found",
+    "slug": "Slug",
+    "opprettet": "Article created",
+    "lagret": "Article saved",
+    "slettet": "Article deleted",
+    "feil_opprettelse": "Could not create the article",
+    "feil_lagring": "Could not save the article",
+    "feil_sletting": "Could not delete the article",
+    "bekreft_sletting": "Are you sure you want to delete \"{{tittel}}\"?",
+    "opprett_knapp": "Create article",
+    "moderator_tittel": "Articles",
+    "lagre_knapp": "Save"
   },
 
   "enums": {

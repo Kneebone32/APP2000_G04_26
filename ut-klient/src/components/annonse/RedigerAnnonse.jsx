@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 import { useAutentisering } from "../../hooks/useAutentisering";
 import { useFetchAnnonser } from "../../hooks/useFetchAnnonser";
 import AnnonseForm from "./annonse-form/AnnonseForm";
 
 // Lar bruker søke opp en annonse, hente eksisterende data og oppdatere den. Laget av Olai.
 export default function RedigerAnnonse({ onSuccess }) {
+    const { t } = useTranslation();
     const { token } = useAutentisering({ autoFetch: true });
     const { annonser, loadingAnnonser, errorAnnonser, hentAnnonseFraId, oppdaterAnnonse } = useFetchAnnonser({ autoFetch: true, token });
 
@@ -45,7 +47,7 @@ export default function RedigerAnnonse({ onSuccess }) {
                     sokeord: annonse.sokeord || [],
                 });
             } catch (err) {
-                setError("Kunne ikke hente annonsedata");
+                setError(t("annonse.feil_henting"));
                 console.error(err);
             } finally {
                 setLoading(false);
@@ -63,7 +65,7 @@ export default function RedigerAnnonse({ onSuccess }) {
 
             await oppdaterAnnonse(selectedId, formData);
 
-            toast.success("Annonse oppdatert!");
+            toast.success(t("annonse.oppdatert"));
             setLagretData(null);
             setSelectedId(null);
             setSearchTerm("");
@@ -71,7 +73,7 @@ export default function RedigerAnnonse({ onSuccess }) {
             if (onSuccess) onSuccess();
         } catch (err) {
             console.error("Error: ", err);
-            toast.error("Kunne ikke oppdatere annonsen: " + err.message);
+            toast.error(t("annonse.feil_oppdatering") + ": " + err.message);
         } finally {
             setLoading(false);
         }
@@ -79,10 +81,10 @@ export default function RedigerAnnonse({ onSuccess }) {
 
     return (
         <div>
-            <h2>Rediger annonse</h2>
+            <h2>{t("annonse.rediger_tittel")}</h2>
 
             <div>
-                <label htmlFor="annonse-search">Søk og velg annonse:</label>
+                <label htmlFor="annonse-search">{t("annonse.søk_og_velg")}</label>
                 <input
                     type="text"
                     id="annonse-search"
@@ -102,7 +104,7 @@ export default function RedigerAnnonse({ onSuccess }) {
                             setSelectedId(null);
                         }
                     }}
-                    placeholder="Søk på tittel eller ID..."
+                    placeholder={t("annonse.søk_placeholder")}
                 />
                 <datalist id="annonser-rediger-list">
                     {filteredAnnonser.map((a) => (
@@ -111,8 +113,8 @@ export default function RedigerAnnonse({ onSuccess }) {
                 </datalist>
             </div>
 
-            {loadingAnnonser && <p>Laster annonser...</p>}
-            {loading && <p>Laster annonsedata...</p>}
+            {loadingAnnonser && <p>{t("annonse.laster")}</p>}
+            {loading && <p>{t("annonse.laster_data")}</p>}
             {(error || errorAnnonser) && <p style={{ color: 'red' }}>{error || errorAnnonser}</p>}
 
             {selectedId && !loading && lagretData && (
@@ -120,7 +122,7 @@ export default function RedigerAnnonse({ onSuccess }) {
                     key={selectedId}
                     lagretData={lagretData}
                     onSubmitAction={handleOppdater}
-                    buttonTekst={loading ? "Lagrer..." : "Oppdater annonse"}
+                    buttonTekst={loading ? t("felles.lagrer") : t("annonse.oppdater")}
                 />
             )}
         </div>

@@ -73,7 +73,7 @@ export default function Navbar() {
     loggut();
     setVisBrukerMeny(false);
     closeNavbar();
-    toast.success("Du har blitt logget ut");
+    toast.success(t("nav.logget_ut"));
     navigate('/');
   };
 
@@ -133,23 +133,23 @@ export default function Navbar() {
               {visBrukerMeny && (
                 <div className="bruker-dropdown-meny">
                   <Link to="/profil" onClick={handleProfilKlikk} className="dropdown-valg">
-                    Profil
+                    {t("nav.profil")}
                   </Link>
                   <Link to="/meldinger" onClick={handleProfilKlikk} className="dropdown-valg">
-                    Meldinger {ulesteMeldinger > 0 && <span className="varsler-badge">{ulesteMeldinger}</span>}
+                    {t("nav.meldinger")} {ulesteMeldinger > 0 && <span className="varsler-badge">{ulesteMeldinger}</span>}
                   </Link>
                   <Link to="/varsler" onClick={handleProfilKlikk} className="dropdown-valg">
-                    Varsler {ulestVarsler > 0 && <span className="varsler-badge">{ulestVarsler}</span>}
+                    {t("nav.varsler")} {ulestVarsler > 0 && <span className="varsler-badge">{ulestVarsler}</span>}
                   </Link>
                   <Link to="/favoritter" onClick={handleProfilKlikk} className="dropdown-valg">
-                    Favoritter
+                    {t("nav.favoritter")}
                   </Link>
                   <Link to="/minefellesturer" onClick={handleProfilKlikk} className="dropdown-valg">
-                    Mine Fellesturer
+                    {t("nav.mine_fellesturer")}
                   </Link>
                   <NavbarRoller mineRoller={mineRoller} onClick={handleProfilKlikk} />
                   <button onClick={handleLoggUt} className="dropdown-valg">
-                    Logg ut
+                    {t("nav.logg_ut")}
                   </button>
 
                 </div>
@@ -158,21 +158,21 @@ export default function Navbar() {
           ) : (
             <div className = "LogginnKnapp">
               <button onClick={handleLogginnKlikk} className="auth-nav-btn">
-                Logg inn
+                {t("nav.logg_inn")}
               </button>
             </div>
           )}
-            <button onClick={toggleSpråk} className="språk-toggle" title="Bytt språk">
+            <button onClick={toggleSpråk} className="språk-toggle" title={t("nav.bytt_språk")}>
                 <span className={`fi fi-${i18n.language === "en" ? "no" : "gb"}`}></span>
             </button>
-            <button className="nav-btn nav-close-btn" onClick={showNavbar} title="lukk navbar" aria-label="lukk navbar">
+            <button className="nav-btn nav-close-btn" onClick={showNavbar} title={t("nav.lukk")} aria-label={t("nav.lukk")}>
               <FaTimes/>
             </button>
 
 
 
           </nav>
-          <button className="nav-btn" onClick={showNavbar} title="Vis navbar" aria-label="Vis navbar">
+          <button className="nav-btn" onClick={showNavbar} title={t("nav.vis")} aria-label={t("nav.vis")}>
             <FaBars/>
           </button>
       </div>

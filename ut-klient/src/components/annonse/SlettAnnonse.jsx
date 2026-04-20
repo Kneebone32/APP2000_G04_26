@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 import { useAutentisering } from "../../hooks/useAutentisering";
 import { useFetchAnnonser } from "../../hooks/useFetchAnnonser";
 import { useModal } from "../../hooks/useModal";
@@ -7,6 +8,7 @@ import ConfirmModal from "../ConfirmModal";
 
 // Lar bruker søke opp en annonse og slette den etter bekreftelse. Laget av Olai.
 export default function SlettAnnonse({ onSuccess }) {
+    const { t } = useTranslation();
     const { token } = useAutentisering({ autoFetch: true });
     const { annonser, loadingAnnonser, slettAnnonse } = useFetchAnnonser({ autoFetch: true, token });
     const { isOpen, open, close } = useModal();
@@ -20,14 +22,14 @@ export default function SlettAnnonse({ onSuccess }) {
 
         try {
             await slettAnnonse(selectedId);
-            toast.success(`"${valgtAnnonse?.tittel}" ble slettet.`);
+            toast.success(t("annonse.slettet", { tittel: valgtAnnonse?.tittel }));
             close();
             setSelectedId(null);
             setSearchTerm("");
 
             if (onSuccess) onSuccess();
         } catch (err) {
-            toast.error("Kunne ikke slette annonsen: " + err.message);
+            toast.error(t("annonse.feil_sletting") + ": " + err.message);
         }
     };
 
@@ -39,9 +41,9 @@ export default function SlettAnnonse({ onSuccess }) {
 
     return (
         <div>
-            <h2>Slett annonse</h2>
+            <h2>{t("annonse.slett_tittel")}</h2>
             <div>
-                <label htmlFor="annonse-slett-search">Søk og velg annonse:</label>
+                <label htmlFor="annonse-slett-search">{t("annonse.søk_og_velg")}</label>
                 <input
                     type="text"
                     id="annonse-slett-search"
@@ -57,7 +59,7 @@ export default function SlettAnnonse({ onSuccess }) {
                         );
                         setSelectedId(matchedAnnonse ? matchedAnnonse.annonse_id.toString() : null);
                     }}
-                    placeholder="Søk på tittel eller ID..."
+                    placeholder={t("annonse.søk_placeholder")}
                 />
                 <datalist id="annonser-slett-list">
                     {filteredAnnonser.map((a) => (
@@ -66,19 +68,19 @@ export default function SlettAnnonse({ onSuccess }) {
                 </datalist>
             </div>
 
-            {loadingAnnonser && <p>Laster annonser...</p>}
+            {loadingAnnonser && <p>{t("annonse.laster")}</p>}
 
             <button onClick={open} disabled={!selectedId}>
-                Slett annonse
+                {t("annonse.slett_tittel")}
             </button>
 
             <ConfirmModal
                 show={isOpen}
                 onClose={close}
                 onConfirm={handleSlett}
-                tittel="Slett annonse"
-                melding={`Er du sikker på at du vil slette "${valgtAnnonse?.tittel}"?`}
-                confirmTekst="Slett"
+                tittel={t("annonse.slett_tittel")}
+                melding={t("annonse.bekreft_sletting", { tittel: valgtAnnonse?.tittel })}
+                confirmTekst={t("felles.slett")}
             />
         </div>
     );

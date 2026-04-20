@@ -2,9 +2,11 @@ import { useState } from 'react';
 import Modal from '../../modal/Modal';
 import './Autentisering.css';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 //Håndterer brukerinnlogging med Modal. Laget av Kay
 export default function Logginn({ show, onClose, onByttTilRegistrer, logginn, loading, error }) {
+  const { t } = useTranslation();
   const [epost, setEpost] = useState('');
   const [passord, setPassord] = useState('');
 
@@ -15,7 +17,7 @@ export default function Logginn({ show, onClose, onByttTilRegistrer, logginn, lo
       onClose();
       setEpost('');
       setPassord('');
-      toast.success(`Velkommen tilbake, ${innloggetBruker.bruker.bruker_navn}!`)
+      toast.success(t("autentisering.velkommen_tilbake", { navn: innloggetBruker.bruker.bruker_navn }));
     } catch (err) {
       console.log(err);
     }
@@ -28,11 +30,11 @@ export default function Logginn({ show, onClose, onByttTilRegistrer, logginn, lo
   };
 
   return (
-    <Modal show={show} onClose={onClose} title="Logg inn" size="sm">
+    <Modal show={show} onClose={onClose} title={t("autentisering.logg_inn_tittel")} size="sm">
       <div className="custom-modal-body">
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="input-container">
-            <label className='input'>E-post</label>
+            <label className='input'>{t("autentisering.epost")}</label>
               <input
                 className='input'
                 type="email"
@@ -41,12 +43,12 @@ export default function Logginn({ show, onClose, onByttTilRegistrer, logginn, lo
                 required
                 disabled={loading}
               />
-            
+
           </div>
 
           <div className="input-container">
-            <label className='input'>Passord</label>
-              
+            <label className='input'>{t("autentisering.passord")}</label>
+
               <input
                 type="password"
                 value={passord}
@@ -54,21 +56,21 @@ export default function Logginn({ show, onClose, onByttTilRegistrer, logginn, lo
                 required
                 disabled={loading}
               />
-            
+
           </div>
 
           {error && <p className="error-melding">{error}</p>}
 
           <button type="submit" className="auth-submit-btn" disabled={loading}>
-            {loading ? "Logger inn" : "Logg inn"}
+            {loading ? t("autentisering.logger_inn") : t("autentisering.logg_inn_knapp")}
           </button>
         </form>
 
         <div className="modal-footer">
           <p>
-            Ingen konto? {' '}
+            {t("autentisering.ingen_konto")} {' '}
             <button type="button" onClick={handleBytt} className="auth-link-btn">
-              Registrer
+              {t("autentisering.registrer")}
             </button>
           </p>
         </div>

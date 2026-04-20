@@ -12,12 +12,12 @@ export default function Annonser() {
   return (
     <PageWrapper title={t("sider.annonser")}>
       <div className="mt-3">
-        {loadingAnnonser && <p>Laster annonser...</p>}
+        {loadingAnnonser && <p>{t("annonse.laster")}</p>}
 
         {errorAnnonser && console.log(`Error: ${errorAnnonser}`)}
 
         {!loadingAnnonser && !errorAnnonser && annonser.length === 0 && (
-          <p>Ingen annonser funnet.</p>
+          <p>{t("annonse.ingen_funnet")}</p>
         )}
 
         {!loadingAnnonser && !errorAnnonser && annonser.length > 0 && (

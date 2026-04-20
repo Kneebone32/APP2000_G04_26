@@ -39,7 +39,7 @@ export default function RedigerHytte({ onSuccess, hytter: hytter_prop }) {
                 const hytte = await hentHytteFraId(selectedId);
 
                 setLagretData({
-                    navn: hytte.hytte_navn || "",
+                    navn: hytte.navn || "",
                     beskrivelse: hytte.beskrivelse || "",
                     sengeplasser: hytte.hytte_sengeplasser ?? hytte.sengeplasser ?? "",
                     pris: hytte.hytte_pris ?? hytte.pris ?? "",
@@ -120,11 +120,11 @@ export default function RedigerHytte({ onSuccess, hytter: hytter_prop }) {
                         // Velger hytte fra datalist og lagrer ID for videre henting/redigering.
                         setSearchTerm(e.target.value);
                         const matchedHytte = filteredHytter.find(
-                            h => `ID: ${h.id} - ${h.navn}` === e.target.value ||
-                                h.id?.toString() === e.target.value
+                            h => `ID: ${h.hytte_id} - ${h.navn}` === e.target.value ||
+                                h.hytte_id?.toString() === e.target.value
                         );
                         if (matchedHytte) {
-                            setSelectedId(matchedHytte.id.toString());
+                            setSelectedId(matchedHytte.hytte_id.toString());
                         } else {
                             setSelectedId(null);
                         }

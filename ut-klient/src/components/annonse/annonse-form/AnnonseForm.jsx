@@ -47,12 +47,12 @@ export default function AnnonseForm({ lagretData = {}, onSubmitAction, buttonTek
     e.preventDefault();
 
     if (!annonserNavn.trim() || !tittel.trim() || !beskrivelse.trim()) {
-      alert("Vennligst fyll ut alle påkrevde felt");
+      alert(t("annonse.fyll_ut_felt"));
       return;
     }
 
     if (startDato && sluttDato && new Date(sluttDato) < new Date(startDato)) {
-      alert("Sluttdato kan ikke være før startdato");
+      alert(t("annonse.sluttdato_feil"));
       return;
     }
 
@@ -110,7 +110,7 @@ export default function AnnonseForm({ lagretData = {}, onSubmitAction, buttonTek
 
       <div>
         <SøkeordDropdown
-          overskrift="Søkeord"
+          overskrift={t("annonse.søkeord")}
           alleValg={søkeordValg}
           valgteOrd={søkeord}
           onToggle={handleToggleSøkeord}
@@ -118,7 +118,7 @@ export default function AnnonseForm({ lagretData = {}, onSubmitAction, buttonTek
       </div>
 
       <div>
-        <label htmlFor="annonse-start">Startdato:</label>
+        <label htmlFor="annonse-start">{t("annonse.startdato")}</label>
         <input
           type="date"
           id="annonse-start"
@@ -129,7 +129,7 @@ export default function AnnonseForm({ lagretData = {}, onSubmitAction, buttonTek
       </div>
 
       <div>
-        <label htmlFor="annonse-slutt">Sluttdato:</label>
+        <label htmlFor="annonse-slutt">{t("annonse.sluttdato")}</label>
         <input
           type="date"
           id="annonse-slutt"

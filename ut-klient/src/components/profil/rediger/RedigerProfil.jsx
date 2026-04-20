@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAutentisering } from "../../../hooks/useAutentisering";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 //Redigerer profil for innlogget bruker. Laget av Kay
 export default function RedigerProfil() {
@@ -11,6 +12,7 @@ export default function RedigerProfil() {
 }
 
 function ProfilForm({bruker, redigerProfil}) {
+    const { t } = useTranslation();
     const [navn, setNavn] = useState(bruker?.bruker_navn || "");
     const [etternavn, setEtternavn] = useState(bruker?.bruker_etternavn || "");
 
@@ -18,7 +20,7 @@ function ProfilForm({bruker, redigerProfil}) {
         e.preventDefault();
         try {
             await redigerProfil(navn, etternavn);
-            toast.success("Profil oppdatert!");
+            toast.success(t("profil.oppdatert"));
         } catch (err) {
             toast.error(err.message);
         }
@@ -26,10 +28,10 @@ function ProfilForm({bruker, redigerProfil}) {
 
     return (
         <div className="rediger-profil">
-            <h2>Rediger profil</h2>
+            <h2>{t("profil.rediger_tittel")}</h2>
             <form onSubmit={handleSubmit}>
                 <div className="input-container">
-                    <label className="input">Navn
+                    <label className="input">{t("felles.navn")}
                         <input
                             type="text"
                             value={navn}
@@ -39,7 +41,7 @@ function ProfilForm({bruker, redigerProfil}) {
                     </label>
                 </div>
                 <div className="input-container">
-                    <label className="input">Etternavn
+                    <label className="input">{t("autentisering.etternavn")}
                         <input
                             type="text"
                             value={etternavn}
@@ -49,12 +51,12 @@ function ProfilForm({bruker, redigerProfil}) {
                     </label>
                 </div>
                 <div className="input-container">
-                    <label className="input">E-post
+                    <label className="input">{t("autentisering.epost")}
                         <input type="text" value={bruker?.bruker_epost || ""} disabled={true} />
                     </label>
                 </div>
                 <div className="input-container">
-                    <button type="submit" className="lagre-btn">Lagre Endringer</button>
+                    <button type="submit" className="lagre-btn">{t("profil.lagre_endringer")}</button>
                 </div>
             </form>
         </div>

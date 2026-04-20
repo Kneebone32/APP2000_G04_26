@@ -3,9 +3,11 @@ import { FORESPØRSEL_STATUS } from '../../../constants/konstanter';
 import { useFetchAnnonser } from '../../../hooks/useFetchAnnonser';
 import { formatNorskdato } from '../../../utils/datoUtils';
 import './OppgaveAnnonseForespørsel.css';
+import { useTranslation } from 'react-i18next';
 
 //Håndterer admin-varsler for annonseforespørsler. Laget av Kay
 export default function OppgaveAnnonseForespørsel({ varsel, loading, onBeslutning }) {
+    const { t } = useTranslation();
     const erBehandlet = varsel.status === 'behandlet';
     const { hentAnnonseFraId, loadingAnnonser } = useFetchAnnonser();
     const [annonse, setAnnonse] = useState(null);
@@ -18,7 +20,7 @@ export default function OppgaveAnnonseForespørsel({ varsel, loading, onBeslutni
     }, [varsel.relatert_id, hentAnnonseFraId]);
 
     const annonseVisning = () => {
-        if (loadingAnnonser) return <p className="varsel-detaljer-behandlet">Laster</p>;
+        if (loadingAnnonser) return <p className="varsel-detaljer-behandlet">{t("varsling.laster")}</p>;
         if (!annonse) return null;
 
         return (
@@ -31,11 +33,11 @@ export default function OppgaveAnnonseForespørsel({ varsel, loading, onBeslutni
 
                     {annonse.beskrivelse && <p>{annonse.beskrivelse}</p>}
 
-                    <span className="oppgave-annonse-meta">Annonsør: {annonse.annonse_navn}</span>
+                    <span className="oppgave-annonse-meta">{t("varsling.annonsor")} {annonse.annonse_navn}</span>
 
                     {annonse.start_dato && (
                         <span className="oppgave-annonse-meta">
-                            Periode: {formatNorskdato(new Date(annonse.start_dato))} – {formatNorskdato(new Date(annonse.slutt_dato))}
+                            {t("varsling.periode")} {formatNorskdato(new Date(annonse.start_dato))} – {formatNorskdato(new Date(annonse.slutt_dato))}
                         </span>
                     )}
 
@@ -57,8 +59,8 @@ export default function OppgaveAnnonseForespørsel({ varsel, loading, onBeslutni
                 {annonseVisning()}
                 <div className="varsel-detaljer-behandlet">
                     {varsel.foresporsel_status === FORESPØRSEL_STATUS.GODKJENT
-                        ? 'Annonsen ble godkjent'
-                        : 'Annonsen ble avvist'}
+                        ? t("varsling.annonsen_godkjent")
+                        : t("varsling.annonsen_avvist")}
                 </div>
             </>
         );
@@ -70,17 +72,17 @@ export default function OppgaveAnnonseForespørsel({ varsel, loading, onBeslutni
             <div className="varsel-detaljer-handlinger">
                 <button
                     className="varsel-knapp varsel-knapp-godta"
-                    onClick={() => onBeslutning(true, { melding: 'Annonse godkjent' })}
+                    onClick={() => onBeslutning(true, { melding: t("varsling.annonse_godkjent_toast") })}
                     disabled={loading}
                 >
-                    Godkjenn
+                    {t("varsling.godkjenn")}
                 </button>
                 <button
                     className="varsel-knapp varsel-knapp-avvis"
-                    onClick={() => onBeslutning(false, { melding: 'Annonse avvist' })}
+                    onClick={() => onBeslutning(false, { melding: t("varsling.annonse_avvist_toast") })}
                     disabled={loading}
                 >
-                    Avvis
+                    {t("varsling.avvis")}
                 </button>
             </div>
         </>

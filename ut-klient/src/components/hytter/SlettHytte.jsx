@@ -41,7 +41,7 @@ export default function SlettHytte({onSuccess, hytter: hytter_prop}) {
 
     // Filtrerer forslagene i datalisten basert på ID eller navn.
     const filteredHytter = hytter.filter(hytte => 
-        hytte.id?.toString().includes(searchTerm) ||
+        hytte.hytte_id?.toString().includes(searchTerm) ||
         hytte.navn?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -65,7 +65,7 @@ export default function SlettHytte({onSuccess, hytter: hytter_prop}) {
                                 h.id?.toString() === e.target.value
                             );
                             if (matchedHytte) {
-                                setSelectedId(matchedHytte.id.toString());
+                                setSelectedId(matchedHytte.hytte_id.toString());
                             } else {
                                 setSelectedId("");
                             }

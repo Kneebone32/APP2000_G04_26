@@ -5,9 +5,11 @@ import { useFavoritter } from "../../hooks/useFavoritter";
 import { useFetchHytter } from "../../hooks/useFetchHytter";
 import { useFetchTurer } from "../../hooks/useFetchTurer";
 import { useAutentisering } from "../../hooks/useAutentisering";
+import { useTranslation } from "react-i18next";
 
 //Viser brukerens favoritthytter og favorittturer. Laget av Kay
 export default function Favoritter() {
+    const { t } = useTranslation();
     const { token } = useAutentisering({ autoFetch: true });
     const { erHytteFavoritt, erTurFavoritt, toggleHytteFavoritt, toggleTurFavoritt } = useFavoritter({ token });
     const { hytter, loadingHytter } = useFetchHytter({ hytteKort: true });
@@ -17,9 +19,9 @@ export default function Favoritter() {
     const favorittTurer = turer.filter(t => erTurFavoritt(t.tur_id));
 
     return (
-        <PageWrapper title="Favoritter">
+        <PageWrapper title={t("favoritter.tittel")}>
             <section>
-                {loadingHytter && <p>Laster hytter</p>}
+                {loadingHytter && <p>{t("favoritter.laster_hytter")}</p>}
                 {!loadingHytter && favorittHytter.length > 0 && (
                 <div className="HyttekortContainer">
                     {favorittHytter.map((hytte) => (
@@ -40,7 +42,7 @@ export default function Favoritter() {
                 )}
             </section>
             <section>
-                {loadingTurer && <p>Laster turer</p>}
+                {loadingTurer && <p>{t("favoritter.laster_turer")}</p>}
                 {!loadingTurer && favorittTurer.length > 0 && (
                 <div className="TurKortContainer">
                     {favorittTurer.map((tur) => (

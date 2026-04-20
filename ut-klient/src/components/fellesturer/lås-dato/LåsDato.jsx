@@ -9,10 +9,12 @@ import { VærvarselDagDetaljert, VærvarslingUke } from "../../Værvarsling";
 import Modal from "../../../modal/Modal";
 import { toast } from 'react-toastify';
 import './LåsDato.css';
+import { useTranslation } from 'react-i18next';
 
 //Låser en dato for en fellestur. Laget av Kay
 //fellesturer-prop brukes av turleder for å begrense søk til egne turer
 export default function LåsDato({fellesturer: fellesturer_prop} = {}) {
+    const { t } = useTranslation();
     const { token } = useAutentisering({ autoFetch: false });
     const { fellesturer: fellesturer_alle, hentFellesturFraId } = useFellestur({autoFetch: !fellesturer_prop});
     const { velgFastDato } = usePåmelding({ token });
@@ -37,7 +39,7 @@ export default function LåsDato({fellesturer: fellesturer_prop} = {}) {
             setValgtData(data);
             setValgtDato(null);
         } catch (err) {
-            toast.error('Kunne ikke hente fellestur: ' + err.message);
+            toast.error(t("låsdato.feil_hente") + err.message);
             setValgtData(null);
         } finally {
             setLasterFellestur(false);
@@ -49,11 +51,11 @@ export default function LåsDato({fellesturer: fellesturer_prop} = {}) {
         setLaster(true);
         try {
             await velgFastDato(valgtDato.aktivitet_dato_id);
-            toast.success(`Dato låst: ${formatNorskdato(new Date(valgtDato.aktivitet_slutt_dato))}`);
+            toast.success(`${t("låsdato.dato_låst")}: ${formatNorskdato(new Date(valgtDato.aktivitet_slutt_dato))}`);
             setValgtData(null);
             setValgtDato(null);
         } catch (err) {
-            toast.error('Kunne ikke låse dato: ' + err.message);
+            toast.error(t("låsdato.feil_lås_dato") + err.message);
         } finally {
             setLaster(false);
         }
@@ -65,7 +67,7 @@ export default function LåsDato({fellesturer: fellesturer_prop} = {}) {
 
     return (
         <div className="fellestur-form-container">
-            <h2>Lås dato</h2>
+            <h2>{t("låsdato.tittel")}</h2>
 
             {/*Søkefelt til fellestur*/}
             <FellesturSøk
@@ -77,14 +79,14 @@ export default function LåsDato({fellesturer: fellesturer_prop} = {}) {
             {!lasterFellestur && valgtData && datoer.length > 0 && (
                 <>
                     {datoer.length === 1 ? (
-                        <p>Dato er allerede valgt for denne Fellesturen</p>
+                        <p>{t("låsdato.dato_allerede_valgt")}</p>
                     ) : (
                     <>
 
                     {/*8 dagers værvarsel*/}
                     {breddegrad && lengdegrad && (
                         <button type="button" className="værvarsel-langtids" onClick={åpneVærvarsel}>
-                            Værvarsel 8 dager
+                            {t("fellestur_form.værvarsel_8_dager")}
                         </button>
                     )}
                         {/*Datoliste med alle startdatoer*/}
@@ -122,17 +124,17 @@ export default function LåsDato({fellesturer: fellesturer_prop} = {}) {
                     {/*Låsdato-knapp*/}
                     {valgtDato && (
                         <button type="button" onClick={handleLåsDato} disabled={laster}>
-                            Lås Dato
+                            {t("låsdato.lås_dato")}
                         </button>
                     )}
                 </>
             )}
 
             {!lasterFellestur && !valgtData && (
-                <p>Velg en fellestur for å låse dato.</p>
+                <p>{t("låsdato.velg_fellestur")}</p>
             )}
 
-            <Modal show={værvarselÅpen} onClose={lukkVærvarsel} title="Værvarsel" size="lg">
+            <Modal show={værvarselÅpen} onClose={lukkVærvarsel} title={t("fellestur_form.værvarsel")} size="lg">
                 <div className="modal-weather-container">
                     {breddegrad && lengdegrad && <VærvarslingUke latitude={breddegrad} longitude={lengdegrad} />}
                 </div>

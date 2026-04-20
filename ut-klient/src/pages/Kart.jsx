@@ -61,7 +61,7 @@ export default function Kart() {
     <div>
       <KartFilter onFilterChange={setFilter} fellesturer={fellesturer} />
 
-      <Kart_basic center={[59.412533435582255, 9.067389041659744]} zoom={13}>
+      <Kart_basic center={[59.412533435582255, 9.067389041659744]} zoom={12}>
         <ZoomLevel onZoomChange={setZoom} />
 
         {/*Fellesturer*/}
@@ -90,7 +90,7 @@ export default function Kart() {
                       <br />
                       {t("kart_detaljer.vanskelighetsgrad")}{t(`enums.vanskelighetsgrad.${fellestur.vanskelighetsgrad}`)}
                       <br />
-                      <Link to={`/fellesturer/${fellestur.aktivitet_id}`}>Se detaljer</Link>
+                      <Link to={`/fellesturer/${fellestur.aktivitet_id}`}>{t("kart.se_detaljer")}</Link>
                     </Popup>
                   </Marker>
                 )}
@@ -125,7 +125,7 @@ export default function Kart() {
                       <br />
                       {t("kart_detaljer.vanskelighetsgrad")}{t(`enums.vanskelighetsgrad.${tur.vanskelighetsgrad}`)}
                       <br />
-                      <Link to={`/turer/${tur.tur_id}`}>Se detaljer</Link>
+                      <Link to={`/turer/${tur.tur_id}`}>{t("kart.se_detaljer")}</Link>
                     </Popup>
                   </Marker>
                 )}
@@ -149,7 +149,7 @@ export default function Kart() {
                 <br />
                 {t(`enums.betjeningsgrad.${hytte.betjeningsgrad}`)}
                 <br />
-                <Link to={`/hytter/${hytte.hytte_id}`}>Se detaljer</Link>
+                <Link to={`/hytter/${hytte.hytte_id}`}>{t("kart.se_detaljer")}</Link>
               </Popup>
             </Marker>
           ))}
@@ -164,7 +164,7 @@ export default function Kart() {
             >
               <Popup maxWidth={260} minWidth={260}>
                 <h3>{mål.navn}</h3>
-                <strong>Høyde: </strong> {mål.moh} moh.
+                <strong>{t("kart.høyde")}</strong> {mål.moh} {t("kart.moh")}
                 <br/>
                   <img
                     className="popup-bilde"

@@ -54,7 +54,7 @@ export default function Admin() {
         className="AdminKnapp"
         onClick={() => navigate('/admin/artikler')}
         >
-        Gå til Admin Artikler
+        {t("admin.gå_til_artikler")}
         </button>
     </div>
   );

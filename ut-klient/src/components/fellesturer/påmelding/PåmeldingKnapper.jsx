@@ -2,24 +2,25 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { PÅMELDING_STATUS } from '../../../constants/konstanter';
 import './PåmeldingKnapper.css';
+import { useTranslation } from 'react-i18next';
 
 //Viser påmeldingsknapper basert på brukerens påmeldings-status. Laget av Kay
 export default function PåmeldingKnapper({aktivitetDatoId, minPåmelding, ledigePlasser, antallInteresserteDeltakere, loading, meldPå, meldAv, registrerBildesamtykke, erLastForPamelding = false}) {
-
+    const { t } = useTranslation();
     const [visModal, setVisModal] = useState(false);
-    
+
     const status = minPåmelding?.pamelding_status ?? null;
     const fullBooket = ledigePlasser !== null && ledigePlasser <= 0;
-    
 
-    if (!aktivitetDatoId) return <p className="påmelding-ingen-dato">Velg en dato for å melde deg på</p>;
+
+    if (!aktivitetDatoId) return <p className="påmelding-ingen-dato">{t("påmelding.velg_dato")}</p>;
 
     const handleMeldPå = async (nyStatus) => {
         try {
             await meldPå(aktivitetDatoId, nyStatus);
-            toast.success(nyStatus === PÅMELDING_STATUS.BINDENDE ? 'Du er nå påmeldt!' : 'Du er markert som interessert!');
+            toast.success(nyStatus === PÅMELDING_STATUS.BINDENDE ? t("påmelding.er_nå_påmeldt") : t("påmelding.er_interessert_toast"));
         } catch (err) {
-            toast.error(err.message ?? 'Noe gikk galt. Prøv igjen.');
+            toast.error(err.message ?? t("påmelding.noe_gikk_galt"));
         }
     };
 
@@ -32,9 +33,9 @@ export default function PåmeldingKnapper({aktivitetDatoId, minPåmelding, ledig
     const handleMeldAv = async () => {
         try {
             await meldAv(aktivitetDatoId);
-            toast.success('Du er meldt av.');
+            toast.success(t("påmelding.er_meldt_av"));
         } catch {
-            toast.error('Noe gikk galt. Prøv igjen.');
+            toast.error(t("påmelding.noe_gikk_galt"));
         }
     };
 
@@ -43,11 +44,11 @@ export default function PåmeldingKnapper({aktivitetDatoId, minPåmelding, ledig
 
             {ledigePlasser !== null && !erLastForPamelding && (
                 <p className="ledige-plasser">
-                    {ledigePlasser > 0 ? `${ledigePlasser} ledige plasser` : 'Fullt'}
+                    {ledigePlasser > 0 ? t("påmelding.ledig_plass", { antall: ledigePlasser }) : t("påmelding.fullt")}
                 </p>
             )}
             {antallInteresserteDeltakere > 0 && (
-                <p className="interesserte-deltakere">{antallInteresserteDeltakere} interessert</p>
+                <p className="interesserte-deltakere">{t("påmelding.interesserte", { antall: antallInteresserteDeltakere })}</p>
             )}
 
             {/*Ingen påmelding eller avmeldt*/}
@@ -58,14 +59,14 @@ export default function PåmeldingKnapper({aktivitetDatoId, minPåmelding, ledig
                         onClick={() => handleMeldPå(PÅMELDING_STATUS.INTERESSERT)}
                         disabled={loading || fullBooket || erLastForPamelding}
                     >
-                        Jeg er interessert
+                        {t("påmelding.jeg_er_interessert")}
                     </button>
                     <button
                         className="påmelding-btn bindende"
                         onClick={() => setVisModal(true)}
                         disabled={fullBooket || erLastForPamelding}
                     >
-                        Meld meg på
+                        {t("påmelding.meld_meg_på")}
                     </button>
                 </>
             )}
@@ -73,20 +74,20 @@ export default function PåmeldingKnapper({aktivitetDatoId, minPåmelding, ledig
             {/*Interessert*/}
             {status === PÅMELDING_STATUS.INTERESSERT && (
                 <>
-                    <p className="påmelding-status interessert">Du er markert som interessert</p>
+                    <p className="påmelding-status interessert">{t("påmelding.du_er_interessert")}</p>
                     <button
                         className="påmelding-btn bindende"
                         onClick={() => setVisModal(true)}
                         disabled={fullBooket}
                     >
-                        Meld meg på
+                        {t("påmelding.meld_meg_på")}
                     </button>
                     <button
                         className="påmelding-btn avmeld"
                         onClick={handleMeldAv}
                         disabled={loading}
                     >
-                        Fjern interesse
+                        {t("påmelding.fjern_interesse")}
                     </button>
                 </>
             )}
@@ -94,14 +95,14 @@ export default function PåmeldingKnapper({aktivitetDatoId, minPåmelding, ledig
             {/*Bindende*/}
             {status === PÅMELDING_STATUS.BINDENDE && (
                 <>
-                    <p className="påmelding-status bindende">Du er påmeldt</p>
+                    <p className="påmelding-status bindende">{t("påmelding.du_er_påmeldt")}</p>
                     {!erLastForPamelding && (
                         <button
                             className="påmelding-btn avmeld"
                             onClick={handleMeldAv}
                             disabled={loading}
                         >
-                            Meld meg av
+                            {t("påmelding.meld_meg_av")}
                         </button>
                     )}
                 </>
@@ -110,7 +111,7 @@ export default function PåmeldingKnapper({aktivitetDatoId, minPåmelding, ledig
             {/*Fristilt*/}
             {status === PÅMELDING_STATUS.FRISTILT && (
                 <>
-                    <p className="påmelding-status fristilt">Du er fristilt fra denne turen</p>
+                    <p className="påmelding-status fristilt">{t("påmelding.du_er_fristilt")}</p>
                 </>
             )}
 
@@ -118,22 +119,21 @@ export default function PåmeldingKnapper({aktivitetDatoId, minPåmelding, ledig
             {visModal && (
                 <div className="samtykke-overlay" onClick={() => setVisModal(false)}>
                     <div className="samtykke-modal" onClick={(e) => e.stopPropagation()}>
-                        <h3 className="samtykke-tittel">Bildesamtykke</h3>
+                        <h3 className="samtykke-tittel">{t("påmelding.bildesamtykke_tittel")}</h3>
                         <p className="samtykke-tekst">
-                            Som deltaker på denne fellesturen kan bilder tatt underveis deles i gruppechatten for turen.
-                            Vennligst velg om du samtykker til at bilder du er med på kan deles med de andre deltakerne i gruppechatten.
+                            {t("påmelding.bildesamtykke_tekst")}
                         </p>
                         <div className="samtykke-knapper">
                             <button className="samtykke-btn bekreft" onClick={() => handleBindendeMeldPå(true)} disabled={loading}>
-                                Jeg samtykker. Meld meg på
+                                {t("påmelding.jeg_samtykker")}
                             </button>
 
                             <button className="samtykke-btn uten-samtykke" onClick={() => handleBindendeMeldPå(false)} disabled={loading}>
-                                Meld på uten samtykke
+                                {t("påmelding.meld_på_uten_samtykke")}
                             </button>
 
                             <button className="samtykke-btn avbryt" onClick={() => setVisModal(false)}>
-                                Avbryt
+                                {t("felles.avbryt")}
                             </button>
                         </div>
                     </div>

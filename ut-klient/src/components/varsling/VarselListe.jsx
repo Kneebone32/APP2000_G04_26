@@ -1,13 +1,15 @@
 import './VarselListe.css';
+import { useTranslation } from 'react-i18next';
 
 //viser alle varsler for innlogget bruker. Laget av Kay
 export default function VarselListe({varsler, valgtId, onVelg}) {
+    const { t } = useTranslation();
     return (
         <div className="varsel-liste">
-            <h3 className="varsel-liste-tittel">Varsler</h3>
+            <h3 className="varsel-liste-tittel">{t("varsling.tittel")}</h3>
 
             {varsler.length === 0 && (
-                <p className="varsel-liste-tom">Ingen varsler</p>
+                <p className="varsel-liste-tom">{t("varsling.ingen_varsler")}</p>
             )}
 
             {/*liste over alle varsler*/}
@@ -22,7 +24,7 @@ export default function VarselListe({varsler, valgtId, onVelg}) {
                     >
                         <div className="varsel-rad-info">
                             <span className="varsel-tittel">{varsel.tittel}</span>
-                            <span className="varsel-kategori">{varsel.varsel_kategori === 'oppgave' ? 'Oppgave' : 'Info'}</span>
+                            <span className="varsel-kategori">{varsel.varsel_kategori === 'oppgave' ? t("varsling.oppgave") : t("varsling.info")}</span>
                         </div>
                         {erUlest && <span className="varsel-ulest-indikator" />}
                     </button>
