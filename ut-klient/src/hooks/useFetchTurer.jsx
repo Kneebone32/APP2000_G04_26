@@ -34,6 +34,22 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
   }, []);
 
 
+  // Henter populære turer sortert etter kombinasjon av snittrating og antall anmeldelser
+  const fetchPopulaereTurer = useCallback(async (grense = 4) => {
+    try {
+      setLoadingTurer(true);
+      setErrorTurer(null);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/tur/populaere?grense=${grense}`);
+      if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+      return await response.json();
+    } catch (err) {
+      setErrorTurer(err.message);
+      return [];
+    } finally {
+      setLoadingTurer(false);
+    }
+  }, []);
+
     // Henter en kortversjon av turruter til kortvisning/lister.
     const fetchTurKort = useCallback (async () => {
     try {
@@ -154,6 +170,7 @@ export function useFetchTurer({autoFetch = false, hentTurID = null, hentTurRuteI
     errorTurer,
     refetch: fetchTurer,
     fetchTurKort,
+    fetchPopulaereTurer,
     opprettTur,
     deleteTur,
     oppdaterTur,

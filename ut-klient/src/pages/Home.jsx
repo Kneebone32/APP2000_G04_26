@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaMap, FaArrowRight, FaCamera } from 'react-icons/fa';
 import norddalsfjorden from '../assets/norddalsfjorden.jpg';
@@ -37,10 +37,14 @@ function tilfeldigBilde() {
 export default function Home() {
   const heroBilde = useMemo(() => tilfeldigBilde(), []);
 
-  const { turer, loadingTurer } = useFetchTurer({ autoFetch: true });
+  const { fetchPopulaereTurer, loadingTurer } = useFetchTurer();
   const { fellesturer, loadingFellesturer } = useFellestur({ autoFetch: true });
 
-  const populæreTurer = turer.slice(0, 4);
+  const [populæreTurer, setPopulaereTurer] = useState([]);
+
+  useEffect(() => {
+    fetchPopulaereTurer(3).then(setPopulaereTurer);
+  }, [fetchPopulaereTurer]);
 
   const kommendeFellesturer = fellesturer
     .filter((f) => {
@@ -51,6 +55,14 @@ export default function Home() {
       const bruk = valgt ?? aktive[0];
       if (!bruk) return false;
       return new Date(bruk.aktivitet_start_dato) >= new Date();
+    })
+    .sort((a, b) => {
+      const hentDato = (f) => {
+        const aktive = (f.datoer ?? []).filter(d => d.aktivitet_dato_status !== DATO_STATUS.AVLYST);
+        const bruk = aktive.find(d => d.aktivitet_dato_status === DATO_STATUS.VALGT) ?? aktive[0];
+        return new Date(bruk.aktivitet_start_dato);
+      };
+      return hentDato(a) - hentDato(b);
     })
     .slice(0, 3);
 
@@ -101,6 +113,8 @@ export default function Home() {
                 varighet={tur.varighet}
                 lat={tur.punkter?.[0]?.[0]}
                 lon={tur.punkter?.[0]?.[1]}
+                snittrating={tur.snittrating}
+                antallAnmeldelser={tur.antall_anmeldelser}
               />
             ))}
           </div>

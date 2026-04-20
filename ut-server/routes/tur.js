@@ -82,6 +82,47 @@ router.get('/', async (req, res) => {
 });
 
 
+// Henter populære turer sortert etter kombinasjon av snittrating og antall anmeldelser - Laget av AI
+router.get('/populaere', async (req, res) => {
+  try {
+    const grense = parseInt(req.query.grense) || 3;
+
+    const [turer, ratings] = await Promise.all([
+      pool.query('SELECT * FROM tur_hent_kart()'),
+      pool.query(`
+        SELECT tur_id,
+               ROUND(AVG(rating)::numeric, 1) AS snittrating,
+               COUNT(*)::integer              AS antall_anmeldelser
+        FROM anmeldelse_tur
+        GROUP BY tur_id
+      `)
+    ]);
+
+    const ratingMap = Object.fromEntries(
+      ratings.rows.map(r => [r.tur_id, r])
+    );
+
+    const resultat = turer.rows
+      .map(t => ({
+        ...t,
+        snittrating: ratingMap[t.tur_id]?.snittrating ?? null,
+        antall_anmeldelser: ratingMap[t.tur_id]?.antall_anmeldelser ?? 0
+      }))
+      .sort((a, b) => {
+        const score = (t) => t.snittrating
+          ? t.snittrating * (t.antall_anmeldelser / (t.antall_anmeldelser + 5))
+          : -1;
+        return score(b) - score(a);
+      })
+      .slice(0, grense);
+
+    res.json(resultat);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke hente populære turer' });
+  }
+});
+
 // Henter tur med gitt id
 router.get('/:id', async (req, res) => {
   try {

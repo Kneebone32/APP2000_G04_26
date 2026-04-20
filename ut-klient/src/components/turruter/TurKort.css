@@ -110,3 +110,14 @@ Laget av Eivind
     text-decoration: none;
     color: black;
 }
+
+.turkort-stjerne {
+    color: rgb(230, 160, 0);
+    margin-right: 4px;
+}
+
+.turkort-antall-anmeldelser {
+    font-size: 12px;
+    color: rgb(110, 110, 110);
+    margin-left: 4px;
+}

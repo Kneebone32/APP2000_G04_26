@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { hentKommuneData } from "../../utils/geoUtils";
 import { useAutentisering } from "../../hooks/useAutentisering";
-import { FaClock, FaHiking, FaBicycle, FaSkiing, FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaClock, FaHiking, FaBicycle, FaSkiing, FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
 import Logginn from '../autentisering/Logginn';
 import { handleFavoritt } from '../Favoritt';
 import './TurKort.css';
 
 // Viser et klikkbart turkort med bilde, sted, vanskelighetsgrad og varighet. Laget av Olai og Eivind.
-export default function TurKort({turId, turNavn, vanskelighetsgrad, bildeUrl, turtype, varighet, lat, lon, erFavoritt, onToggleFavoritt}) {
+export default function TurKort({turId, turNavn, vanskelighetsgrad, bildeUrl, turtype, varighet, lat, lon, erFavoritt, onToggleFavoritt, snittrating, antallAnmeldelser}) {
     const { t } = useTranslation();
     const { logginn, loading, error } = useAutentisering({ autoFetch: false });
     const [kommunenavn, setKommunenavn] = useState("");
@@ -68,6 +68,12 @@ export default function TurKort({turId, turNavn, vanskelighetsgrad, bildeUrl, tu
                         {fylkesnavn && <p className="fylke">{t("felles.fylke")}: {fylkesnavn}</p>}
                         <p className="korttext">{getTurtypeIcon()} {t(`enums.vanskelighetsgrad.${vanskelighetsgrad}`)}</p>
                         <p className="korttext"><FaClock className="kortklokke" /> {t(`enums.varighet.${varighet}`)}</p>
+                        {snittrating && (
+                            <p className="korttext turkort-rating">
+                                <FaStar className="turkort-stjerne" /> {snittrating} / 5
+                                {antallAnmeldelser > 0 && <span className="turkort-antall-anmeldelser">({antallAnmeldelser})</span>}
+                            </p>
+                        )}
                     </div>
                 </div>
             </Link>
