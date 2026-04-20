@@ -38,11 +38,11 @@ export default function HytteModerator() {
             )}
 
             {aktivFane === "Rediger" && (
-                <RedigerHytte onSuccess={refetch} />
+                <RedigerHytte hytter={mineHytter} onSuccess={refetch} />
             )}
 
             {aktivFane === "Slett" && (
-                <SlettHytte onSuccess={refetch} />
+                <SlettHytte hytter={mineHytter} onSuccess={refetch} />
             )}
         </div>
         </PageWrapper>

@@ -8,7 +8,7 @@ import HytteForm from "./hytte-form/HytteForm";
 export default function RedigerHytte({ onSuccess, hytter: hytter_prop }) {
     const { t } = useTranslation();
     const { token } = useAutentisering({ autoFetch: true });
-    const { hytter: hytter_alle, hentHytteFraId, oppdaterHytte } = useFetchHytter({ hytteKort: !hytter_prop, token });
+    const { hytter: hytter_alle, hentHytteFraId, oppdaterHytte } = useFetchHytter({ autoFetch: !hytter_prop, token });
     const hytter = hytter_prop ?? hytter_alle;
 
     const [searchTerm, setSearchTerm] = useState("");
