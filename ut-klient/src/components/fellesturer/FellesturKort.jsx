@@ -22,7 +22,7 @@ export default function FellesturKort({ fellesturId, fellesturNavn, bildeUrl, da
             {fleksibel ? (
               <>
                 <strong>
-                  <u>Fleksibel startdato:</u>
+                  <u>{t("fellesturkort.fleksibel_startdato")}</u>
                 </strong>
                 {aktive.map((d) => (
                   <p key={d.aktivitet_dato_id} className="startdato">
@@ -34,12 +34,12 @@ export default function FellesturKort({ fellesturId, fellesturNavn, bildeUrl, da
               <>
                 {valgtDato && (
                   <strong>
-                    <u>Dato valgt:</u>
+                    <u>{t("fellesturkort.dato_valgt")}</u>
                   </strong>
                 )}
-                <p className="startdato">Start: {formatFellesturDato(enkeltDato?.aktivitet_start_dato)}</p>
+                <p className="startdato">{t("fellesturkort.start")} {formatFellesturDato(enkeltDato?.aktivitet_start_dato)}</p>
                 {enkeltDato?.aktivitet_slutt_dato && enkeltDato.aktivitet_slutt_dato != enkeltDato.aktivitet_start_dato && (
-                  <p className="sluttdato">Slutt: {formatFellesturDato(enkeltDato.aktivitet_slutt_dato)}</p>
+                  <p className="sluttdato">{t("fellesturkort.slutt")} {formatFellesturDato(enkeltDato.aktivitet_slutt_dato)}</p>
                 )}
               </>
             )}

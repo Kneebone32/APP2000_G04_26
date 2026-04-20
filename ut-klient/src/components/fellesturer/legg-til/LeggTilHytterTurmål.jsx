@@ -1,16 +1,18 @@
 import KartLeggTilHytterTurmål from "../../kart/KartLeggTilHytterTurmål";
+import { useTranslation } from "react-i18next";
 
 //Velger hytter og turmål for en fellestur ved GPX opplastning. Laget av Kay
 export default function LeggTilHytterTurmål({ gpxKoords, hytterITuren, setHytterITuren, turmålITuren, setTurmålITuren, onLagre }) {
+  const { t } = useTranslation();
   return (
     <div>
       <div className="rute-kontroller">
         <div className="rute-kontroller-punkter">
           <div className="rute-kontroller-tur">
-            <strong>Antall hytter:</strong> {hytterITuren.length}
+            <strong>{t("fellestur_form.antall_hytter")}</strong> {hytterITuren.length}
           </div>
           <div className="rute-kontroller-tur">
-            <strong>Antall turmål:</strong> {turmålITuren.length}
+            <strong>{t("fellestur_form.antall_turmål")}</strong> {turmålITuren.length}
           </div>
         </div>
         <div className="rute-kontroller-knapp-container">
@@ -21,11 +23,11 @@ export default function LeggTilHytterTurmål({ gpxKoords, hytterITuren, setHytte
             }}
             className="rute-knapp rute-knapp-tøm"
           >
-            Tøm valg
+            {t("fellestur_form.tøm_valg")}
           </button>
           {(hytterITuren.length > 0 || turmålITuren.length > 0) && (
             <button onClick={onLagre} className="rute-knapp rute-knapp-log">
-              Lagre valg
+              {t("fellestur_form.lagre_valg")}
             </button>
           )}
         </div>

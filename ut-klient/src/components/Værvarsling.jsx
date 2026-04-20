@@ -1,14 +1,16 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useVærvarsel } from "../hooks/useVærvarsel";
 import "./Værvarsling.css";
 
 //Funksjon som henter værvarsel for det neste døgnet fra Yr. Laget av Kay
 export function VærvarslingDag({ latitude, longitude }) {
+  const { t } = useTranslation();
   const yrUrlDag = `https://www.yr.no/nb/innhold/${latitude},${longitude}/card.html?mode=light`;
   const [laster, setLaster] = useState(true);
   return (
     <div className="yr-widget-container">
-      {laster && <p style={{ textAlign: "center", color: "#888" }}>Laster værvarsel</p>}
+      {laster && <p style={{ textAlign: "center", color: "#888" }}>{t("værvarsel.laster")}</p>}
       <iframe
         src={yrUrlDag}
         width="100%"
@@ -22,12 +24,13 @@ export function VærvarslingDag({ latitude, longitude }) {
 
 //Funksjon som henter værvarsel for den neste uken fra Yr. Laget av Kay
 export function VærvarslingUke({ latitude, longitude }) {
+  const { t } = useTranslation();
   const [laster, setLaster] = useState(true);
   const yrUrlUke = `https://www.yr.no/nb/innhold/${latitude},${longitude}/table.html?mode=light`;
 
   return (
     <div className="yr-widget-container">
-      {laster && <p style={{ textAlign: "center", color: "#888" }}>Laster værvarsel</p>}
+      {laster && <p style={{ textAlign: "center", color: "#888" }}>{t("værvarsel.laster")}</p>}
       <iframe
         src={yrUrlUke}
         width="100%"

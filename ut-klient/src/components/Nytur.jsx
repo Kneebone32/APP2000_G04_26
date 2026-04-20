@@ -30,16 +30,16 @@ export default function Nytur({
       <div className="rute-kontroller">
         <div className="rute-kontroller-punkter">
           <div className="rute-kontroller-tur">
-            <strong> Antall stier: </strong> {stierITuren.length}
+            <strong>{t("nytur.antall_stier")}</strong> {stierITuren.length}
           </div>
           <div className="rute-kontroller-tur">
-            <strong> Antall hytter: </strong> {hytterITuren.length}
+            <strong>{t("nytur.antall_hytter")}</strong> {hytterITuren.length}
           </div>
           <div className="rute-kontroller-tur">
-            <strong> Antall turmål: </strong> {turmålITuren.length}
+            <strong>{t("nytur.antall_turmål")}</strong> {turmålITuren.length}
           </div>
           <div className="rute-kontroller-tur">
-            <strong> Antall nye stier: </strong> {nyeStier.length}
+            <strong>{t("nytur.antall_nye_stier")}</strong> {nyeStier.length}
           </div>
         </div>
         <div className="rute-kontroller-knapp-container">

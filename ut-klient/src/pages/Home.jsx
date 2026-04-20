@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { FaMap, FaArrowRight, FaCamera } from "react-icons/fa";
 import norddalsfjorden from "../assets/norddalsfjorden.jpg";
 import graddiselva from "../assets/graddiselva.jpg";
@@ -35,6 +36,7 @@ function tilfeldigBilde() {
 }
 
 export default function Home() {
+  const { t } = useTranslation();
   const heroBilde = useMemo(() => tilfeldigBilde(), []);
 
   const { fetchPopulaereTurer, loadingTurer } = useFetchTurer();
@@ -70,8 +72,8 @@ export default function Home() {
       <section className="home-hero" style={{ backgroundImage: `url(${heroBilde.src})` }}>
         <div className="home-hero-overlay" />
         <div className="home-hero-innhold">
-          <h1 className="home-hero-tittel">Finn din neste tur</h1>
-          <p className="home-hero-undertittel">Søk blant turer, hytter og turmål i hele Utopia</p>
+          <h1 className="home-hero-tittel">{t("home.hero_tittel")}</h1>
+          <p className="home-hero-undertittel">{t("home.hero_undertittel")}</p>
           <div className="home-hero-sok">
             <Sokefelt />
           </div>
@@ -84,15 +86,15 @@ export default function Home() {
       {/* Populære turer */}
       <section className="home-seksjon">
         <div className="home-seksjon-header">
-          <h2 className="home-seksjon-tittel">Populære turer</h2>
+          <h2 className="home-seksjon-tittel">{t("home.populære_turer")}</h2>
           <Link to="/turer" className="home-se-alle">
-            Se alle <FaArrowRight />
+            {t("home.se_alle")} <FaArrowRight />
           </Link>
         </div>
         {loadingTurer ? (
-          <p className="home-laster">Laster turer...</p>
+          <p className="home-laster">{t("home.laster_turer")}</p>
         ) : populæreTurer.length === 0 ? (
-          <p className="home-ingen">Ingen turer funnet</p>
+          <p className="home-ingen">{t("home.ingen_turer")}</p>
         ) : (
           <div className="home-kort-grid">
             {populæreTurer.map((tur) => (
@@ -119,11 +121,11 @@ export default function Home() {
         <div className="home-kart-innhold">
           <FaMap className="home-kart-ikon" />
           <div className="home-kart-tekst">
-            <h2>Utforsk på kartet</h2>
-            <p>Se turer, hytter og turmål på interaktivt kart</p>
+            <h2>{t("home.utforsk_kart")}</h2>
+            <p>{t("home.kart_beskrivelse")}</p>
           </div>
           <Link to="/kart" className="home-kart-knapp">
-            Åpne kart <FaArrowRight />
+            {t("home.åpne_kart")} <FaArrowRight />
           </Link>
         </div>
       </section>
@@ -131,15 +133,15 @@ export default function Home() {
       {/* Kommende fellesturer */}
       <section className="home-seksjon">
         <div className="home-seksjon-header">
-          <h2 className="home-seksjon-tittel">Kommende fellesturer</h2>
+          <h2 className="home-seksjon-tittel">{t("home.kommende_fellesturer")}</h2>
           <Link to="/fellesturer" className="home-se-alle">
-            Se alle <FaArrowRight />
+            {t("home.se_alle")} <FaArrowRight />
           </Link>
         </div>
         {loadingFellesturer ? (
-          <p className="home-laster">Laster fellesturer...</p>
+          <p className="home-laster">{t("home.laster_fellesturer")}</p>
         ) : kommendeFellesturer.length === 0 ? (
-          <p className="home-ingen">Ingen kommende fellesturer</p>
+          <p className="home-ingen">{t("home.ingen_fellesturer")}</p>
         ) : (
           <div className="home-kort-grid">
             {kommendeFellesturer.map((f) => (

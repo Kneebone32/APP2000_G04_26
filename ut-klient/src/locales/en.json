@@ -337,7 +337,11 @@
     "rabattfrist_feil": "Set a discount price before setting the discount deadline",
     "rabattfrist_dato_feil": "Discount deadline must be before the last selected date",
     "legg_til_hytter": "Add Cabins or Destinations",
-    "rute_lagret": "Route saved"
+    "rute_lagret": "Route saved",
+    "antall_hytter": "Number of cabins:",
+    "antall_turmål": "Number of destinations:",
+    "tøm_valg": "Clear selection",
+    "lagre_valg": "Save selection"
   },
 
   "fellestur_kobling": {
@@ -408,7 +412,11 @@
     "antall_punkter": "Number of points:",
     "tøm_rute": "Clear route",
     "fjern_siste": "Remove last point",
-    "lagre_koordinater": "Save coordinates"
+    "lagre_koordinater": "Save coordinates",
+    "antall_stier": "Number of paths:",
+    "antall_hytter": "Number of cabins:",
+    "antall_turmål": "Number of destinations:",
+    "antall_nye_stier": "Number of new paths:"
   },
 
   "nytt_koordinat": {
@@ -614,6 +622,32 @@
     "opprett_knapp": "Create article",
     "moderator_tittel": "Articles",
     "lagre_knapp": "Save"
+  },
+
+  "fellesturkort": {
+    "fleksibel_startdato": "Flexible start date:",
+    "dato_valgt": "Date selected:",
+    "start": "Start:",
+    "slutt": "End:"
+  },
+
+  "værvarsel": {
+    "laster": "Loading weather forecast"
+  },
+
+  "home": {
+    "hero_tittel": "Find your next trip",
+    "hero_undertittel": "Search among trips, cabins and destinations in all of Utopia",
+    "populære_turer": "Popular trips",
+    "se_alle": "See all",
+    "laster_turer": "Loading trips...",
+    "ingen_turer": "No trips found",
+    "utforsk_kart": "Explore on the map",
+    "kart_beskrivelse": "See trips, cabins and destinations on an interactive map",
+    "åpne_kart": "Open map",
+    "kommende_fellesturer": "Upcoming group trips",
+    "laster_fellesturer": "Loading group trips...",
+    "ingen_fellesturer": "No upcoming group trips"
   },
 
   "enums": {

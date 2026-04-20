@@ -337,7 +337,11 @@
     "rabattfrist_feil": "Sett en rabatt pris før du setter rabattfrist",
     "rabattfrist_dato_feil": "Rabatt frist må være før siste valgte dato",
     "legg_til_hytter": "Legg til Hytter eller Turmål",
-    "rute_lagret": "Rute lagret"
+    "rute_lagret": "Rute lagret",
+    "antall_hytter": "Antall hytter:",
+    "antall_turmål": "Antall turmål:",
+    "tøm_valg": "Tøm valg",
+    "lagre_valg": "Lagre valg"
   },
 
   "fellestur_kobling": {
@@ -408,7 +412,11 @@
     "antall_punkter": "Antall punkter:",
     "tøm_rute": "Tøm rute",
     "fjern_siste": "Fjern siste punkt",
-    "lagre_koordinater": "Lagre koordinater"
+    "lagre_koordinater": "Lagre koordinater",
+    "antall_stier": "Antall stier:",
+    "antall_hytter": "Antall hytter:",
+    "antall_turmål": "Antall turmål:",
+    "antall_nye_stier": "Antall nye stier:"
   },
 
   "nytt_koordinat": {
@@ -614,6 +622,32 @@
     "opprett_knapp": "Opprett artikkel",
     "moderator_tittel": "Artikler",
     "lagre_knapp": "Lagre"
+  },
+
+  "fellesturkort": {
+    "fleksibel_startdato": "Fleksibel startdato:",
+    "dato_valgt": "Dato valgt:",
+    "start": "Start:",
+    "slutt": "Slutt:"
+  },
+
+  "værvarsel": {
+    "laster": "Laster værvarsel"
+  },
+
+  "home": {
+    "hero_tittel": "Finn din neste tur",
+    "hero_undertittel": "Søk blant turer, hytter og turmål i hele Utopia",
+    "populære_turer": "Populære turer",
+    "se_alle": "Se alle",
+    "laster_turer": "Laster turer...",
+    "ingen_turer": "Ingen turer funnet",
+    "utforsk_kart": "Utforsk på kartet",
+    "kart_beskrivelse": "Se turer, hytter og turmål på interaktivt kart",
+    "åpne_kart": "Åpne kart",
+    "kommende_fellesturer": "Kommende fellesturer",
+    "laster_fellesturer": "Laster fellesturer...",
+    "ingen_fellesturer": "Ingen kommende fellesturer"
   },
 
   "enums": {
