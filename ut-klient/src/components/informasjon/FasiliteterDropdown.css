@@ -2,6 +2,7 @@
 /* Container for hele komponenten */
 .multi-select-filter {
     margin-bottom: 20px;
+    max-width: 400px;
 }
 
 .filter-label-overskrift {

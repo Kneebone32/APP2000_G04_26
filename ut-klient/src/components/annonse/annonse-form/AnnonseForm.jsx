@@ -66,29 +66,33 @@ export default function AnnonseForm({ lagretData = {}, onSubmitAction, buttonTek
   };
 
   return (
-    <form onSubmit={handleSubmit} className="d-grid gap-2">
-      <div>
-        <label htmlFor="annonse-navn">{t("felles.navn")}:</label>
-        <input
-          type="text"
-          id="annonse-navn"
-          value={annonserNavn}
-          onChange={(e) => setAnnonserNavn(e.target.value)}
-          pattern="^[A-Za-zØÆÅøæå\s]{3,20}$"
-          required
-        />
+    <form onSubmit={handleSubmit} className="annonse-form">
+      <div className="input-container">
+        <label className="input" htmlFor="annonse-navn">
+          {t("felles.navn")}:
+          <input
+            type="text"
+            id="annonse-navn"
+            value={annonserNavn}
+            onChange={(e) => setAnnonserNavn(e.target.value)}
+            pattern="^[A-Za-zØÆÅøæå\s]{3,20}$"
+            required
+          />
+        </label>
       </div>
 
-      <div>
-        <label htmlFor="annonse-tittel">{t("felles.tittel")}:</label>
-        <input
-          type="text"
-          id="annonse-tittel"
-          value={tittel}
-          onChange={(e) => setTittel(e.target.value)}
-          pattern="^[A-Za-zØÆÅøæå\s]{3,20}$"
-          required
-        />
+      <div className="input-container">
+        <label className="input" htmlFor="annonse-tittel">
+          {t("felles.tittel")}:
+          <input
+            type="text"
+            id="annonse-tittel"
+            value={tittel}
+            onChange={(e) => setTittel(e.target.value)}
+            pattern="^[A-Za-zØÆÅøæå\s]{3,20}$"
+            required
+          />
+        </label>
       </div>
 
       <div className="input-container">
@@ -109,22 +113,26 @@ export default function AnnonseForm({ lagretData = {}, onSubmitAction, buttonTek
         </label>
       </div>
 
-      <div>
+      <div className="input-container">
         <SøkeordDropdown overskrift={t("annonse.søkeord")} alleValg={søkeordValg} valgteOrd={søkeord} onToggle={handleToggleSøkeord} />
       </div>
 
-      <div>
-        <label htmlFor="annonse-start">{t("annonse.startdato")}</label>
-        <input type="date" id="annonse-start" value={startDato} onChange={(e) => setStartDato(e.target.value)} required />
+      <div className="input-container">
+        <label className="input" htmlFor="annonse-start">
+          {t("annonse.startdato")}
+          <input type="date" id="annonse-start" value={startDato} onChange={(e) => setStartDato(e.target.value)} required />
+        </label>
       </div>
 
-      <div>
-        <label htmlFor="annonse-slutt">{t("annonse.sluttdato")}</label>
-        <input type="date" id="annonse-slutt" value={sluttDato} onChange={(e) => setSluttDato(e.target.value)} required />
+      <div className="input-container">
+        <label className="input" htmlFor="annonse-slutt">
+          {t("annonse.sluttdato")}
+          <input type="date" id="annonse-slutt" value={sluttDato} onChange={(e) => setSluttDato(e.target.value)} required />
+        </label>
       </div>
 
-      <div>
-        <label>{t("hytter.last_opp_bilde")}:</label>
+      <div className="input-container">
+        <label className="input">{t("hytter.last_opp_bilde")}:</label>
         <simple-file-upload
           accept="image/*"
           max-file-size="5242880"
@@ -145,7 +153,7 @@ export default function AnnonseForm({ lagretData = {}, onSubmitAction, buttonTek
         <TempBilde tempUrl={tempUrl} setTempUrl={setTempUrl} onLeggTil={handleLeggTilBilde} />
       </div>
 
-      <button type="submit" className="btn btn-primary">
+      <button type="submit" className="lagre-btn btn btn-primary">
         {buttonTekst || "Lagre"}
       </button>
     </form>

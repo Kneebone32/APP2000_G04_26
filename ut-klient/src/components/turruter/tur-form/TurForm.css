@@ -1,32 +1,37 @@
-.hytte-form .input-container {
+.tur-form .input-container {
   padding-bottom: 5px;
 }
 
-.hytte-form .input-container .input {
+.tur-form .input-container .input {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.hytte-form .lagre-btn {
+.tur-form .lagre-btn {
   margin-top: 20px;
 }
 
-.hytte-form-textarea {
+.tur-form-textarea {
   resize: none;
   width: 100%;
   max-width: 400px;
 }
 
-.hytte-form-koordinat-bekreftelse {
-  margin-top: 6px;
+.tur-form-rute-knapper {
+  gap: 8px;
+  margin-top: 4px;
 }
 
-.hytte-form-bilder {
+.tur-form-rute-bekreftelse {
+  margin-top: 8px;
+}
+
+.tur-form-bilder {
   margin-top: 10px;
 }
 
-.hytte-form-bilde {
+.tur-form-bilde {
   margin-right: 10px;
   max-width: 200px;
   max-height: 200px;

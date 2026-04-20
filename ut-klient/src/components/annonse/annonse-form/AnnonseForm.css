@@ -1,4 +1,18 @@
 /* Laget av AI */
+.annonse-form .input-container {
+  padding-bottom: 5px;
+}
+
+.annonse-form .input-container .input {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.annonse-form .lagre-btn {
+  margin-top: 20px;
+}
+
 .AnnonseFormTekstomrade {
     resize: none;
     width: 100%;

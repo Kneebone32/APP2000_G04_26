@@ -10,6 +10,7 @@ import FasiliteterDropdown from "../../informasjon/FasiliteterDropdown";
 import Modal from "../../../modal/Modal";
 import NyttKoordinat from "../../NyttKoordinat";
 import TempBilde from "../../TempBilde";
+import "./HytteForm.css";
 
 // Delt skjema for LeggTilHytte og RedigerHytte. Laget av Olai.
 export default function HytteForm({ lagretData = {}, onSubmitAction, buttonTekst }) {
@@ -110,72 +111,89 @@ export default function HytteForm({ lagretData = {}, onSubmitAction, buttonTekst
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="hytte-navn">{t("felles.navn")}:</label>
-          <input
-            type="text"
-            id="hytte-navn"
-            value={navn}
-            onChange={(e) => setNavn(e.target.value)}
-            pattern="^[A-Za-zØÆÅøæå\s]{3,20}$"
-            required
-          />
+      <form onSubmit={handleSubmit} className="hytte-form">
+        <div className="input-container">
+          <label className="input">
+            {t("felles.navn")}:
+            <input
+              type="text"
+              id="hytte-navn"
+              value={navn}
+              onChange={(e) => setNavn(e.target.value)}
+              pattern="^[A-Za-zØÆÅøæå\s]{3,20}$"
+              required
+            />
+          </label>
         </div>
-        <div>
-          <label htmlFor="hytte-sengeplasser">{t("felles.antall_sengeplasser")}:</label>
-          <input
-            type="number"
-            id="hytte-sengeplasser"
-            value={sengeplasser}
-            onChange={(e) => setSengeplasser(e.target.value)}
-            min="1"
-            max="25"
-            required
-          />
+
+        <div className="input-container">
+          <label className="input">
+            {t("felles.antall_sengeplasser")}:
+            <input
+              type="number"
+              id="hytte-sengeplasser"
+              value={sengeplasser}
+              onChange={(e) => setSengeplasser(e.target.value)}
+              min="1"
+              max="25"
+              required
+            />
+          </label>
         </div>
-        <div>
-          <label htmlFor="hytte-pris">{t("hytter.pris")}:</label>
-          <input type="number" id="hytte-pris" value={pris} onChange={(e) => setPris(e.target.value)} min="0" step="100" required />
+
+        <div className="input-container">
+          <label className="input">
+            {t("hytter.pris")}:
+            <input type="number" id="hytte-pris" value={pris} onChange={(e) => setPris(e.target.value)} min="0" step="100" required />
+          </label>
         </div>
-        <div>
-          <label htmlFor="hytte-betjeningsgrad">{t("hytter.betjeningsgrad")}:</label>
-          <select
-            id="hytte-betjeningsgrad"
-            value={selectedBetjeningsgrad}
-            onChange={(e) => setSelectedBetjeningsgrad(e.target.value)}
-            required
-          >
-            <option value="" disabled hidden></option>
-            {betjeningsgradValg.map((valg) => (
-              <option key={valg} value={valg}>
-                {valg}
-              </option>
-            ))}
-          </select>
+
+        <div className="input-container">
+          <label className="input">
+            {t("hytter.betjeningsgrad")}:
+            <select
+              id="hytte-betjeningsgrad"
+              value={selectedBetjeningsgrad}
+              onChange={(e) => setSelectedBetjeningsgrad(e.target.value)}
+              required
+            >
+              <option value="" disabled hidden></option>
+              {betjeningsgradValg.map((valg) => (
+                <option key={valg} value={valg}>
+                  {valg}
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
-        <div>
-          <label>{t("hytter.koordinater")}:</label>
-          <div>
-            <button type="button" onClick={open}>
-              {koordinat ? t("hytter.endre_koordinater") : t("hytter.velg_koordinater")}
-            </button>
-          </div>
+
+        <div className="input-container">
+          <label className="input-label">{t("hytter.koordinater")}:</label>
+          <button type="button" onClick={open}>
+            {koordinat ? t("hytter.endre_koordinater") : t("hytter.velg_koordinater")}
+          </button>
           {koordinat && (
-            <div style={{ marginTop: "10px" }}>
+            <p className="hytte-form-koordinat-bekreftelse">
               ✓ {t("hytter.koordinater_valgt")}: {koordinat[0].toFixed(5)}, {koordinat[1].toFixed(5)}
-            </div>
+            </p>
           )}
         </div>
-        <div>
-          <label htmlFor="hytte-fylke">{t("felles.fylke")}:</label>
-          <input type="text" id="hytte-fylke" value={fylke} readOnly placeholder={t("hytter.fylke_automatisk")} />
+
+        <div className="input-container">
+          <label className="input">
+            {t("felles.fylke")}:
+            <input type="text" id="hytte-fylke" value={fylke} readOnly placeholder={t("hytter.fylke_automatisk")} />
+          </label>
         </div>
-        <div>
-          <label htmlFor="hytte-kommune">{t("felles.kommune")}:</label>
-          <input type="text" id="hytte-kommune" value={kommune} readOnly placeholder={t("hytter.kommune_automatisk")} />
+
+        <div className="input-container">
+          <label className="input">
+            {t("felles.kommune")}:
+            <input type="text" id="hytte-kommune" value={kommune} readOnly placeholder={t("hytter.kommune_automatisk")} />
+          </label>
         </div>
-        <div>
+
+        <div className="input-container">
           <FasiliteterDropdown
             overskrift={t("hytter.fasiliteter")}
             alleValg={kategorier.fasilitet || []}
@@ -183,11 +201,12 @@ export default function HytteForm({ lagretData = {}, onSubmitAction, buttonTekst
             onToggle={handleToggleFasilitet}
           />
         </div>
+
         <div className="input-container">
           <label className="input">
             {t("fellestur_form.beskrivelse")}
             <textarea
-              style={{ resize: "none", width: "100%", maxWidth: "400px" }}
+              className="hytte-form-textarea"
               rows="5"
               minLength="20"
               maxLength="1000"
@@ -198,17 +217,20 @@ export default function HytteForm({ lagretData = {}, onSubmitAction, buttonTekst
             <small style={{ color: beskrivelse.length > 950 ? "red" : "#666" }}>{beskrivelse.length} / 1000</small>
           </label>
         </div>
-        <div>
-          <label>{t("hytter.last_opp_bilde")}:</label>
-          <simple-file-upload
-            accept="image/*"
-            max-file-size="5242880"
-            max-files="5"
-            ref={uploaderRef}
-            public-key={import.meta.env.VITE_SFU_PUBLIC_KEY}
-          ></simple-file-upload>
+
+        <div className="input-container">
+          <label className="input">
+            {t("hytter.last_opp_bilde")}:
+            <simple-file-upload
+              accept="image/*"
+              max-file-size="5242880"
+              max-files="5"
+              ref={uploaderRef}
+              public-key={import.meta.env.VITE_SFU_PUBLIC_KEY}
+            ></simple-file-upload>
+          </label>
           {bildeUrl.length > 0 && (
-            <div style={{ marginTop: "10px" }}>
+            <div className="hytte-form-bilder">
               <p>
                 {t("hytter.bilde_lastet_opp")} ({bildeUrl.length})
               </p>
@@ -217,14 +239,17 @@ export default function HytteForm({ lagretData = {}, onSubmitAction, buttonTekst
                   key={index}
                   src={url.includes("simplefileupload") ? `${url}?w=200&h=200&fit=fit` : url}
                   alt={`Preview ${index + 1}`}
-                  style={{ marginRight: "10px", maxWidth: "200px", maxHeight: "200px" }}
+                  className="hytte-form-bilde"
                 />
               ))}
             </div>
           )}
           <TempBilde tempUrl={tempUrl} setTempUrl={setTempUrl} onLeggTil={handleLeggTilBilde} />
         </div>
-        <button type="submit">{buttonTekst}</button>
+
+        <button type="submit" className="lagre-btn">
+          {buttonTekst}
+        </button>
       </form>
 
       <Modal show={isOpen} onClose={close} size="lg">

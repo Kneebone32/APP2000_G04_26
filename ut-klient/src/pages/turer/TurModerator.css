@@ -1,10 +1,6 @@
-.TurModeratorPanel {
-    margin-top: 130px;
-}
-
 .TurFaneContainer {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
 }
