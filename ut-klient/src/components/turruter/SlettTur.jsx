@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useFetchTurer } from "../../hooks/useFetchTurer";
 import { useTranslation } from "react-i18next";
 
+// Komponent for å slette en tur. Laget av Olai.
 export default function SlettTur({ onSuccess }) {
     const { t } = useTranslation();
     const { turer, deleteTur } = useFetchTurer({ autoFetch: true });

@@ -121,8 +121,6 @@ export default function Navbar() {
             <Link to="/kart" className="Kart" onClick={closeNavbar}>{t("nav.kart")}</Link>
             <Link to="/fellesturer" className="Fellesturer" onClick={closeNavbar}>{t("nav.fellesturer")}</Link>
             <Link to="/annonser" className="Annonser" onClick={closeNavbar}>{t("nav.annonser")}</Link>
-            <ArtikkelModal slug={ARTIKKEL_SLUG.OM_OSS} lenkeTekst="Om oss" lenkeKlasseNavn="" />
-            <ArtikkelModal slug={ARTIKKEL_SLUG.KONTAKT} lenkeTekst="Kontakt" lenkeKlasseNavn="" />
 
           {/*Bruker på navbar*/}
           {erAutentisert ? (

@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 // Hook for hytteendepunkter: liste, kort, enkelthytte og sletting. Laget av Olai med mindre annet er spesifisert.
 export function useFetchHytter({autoFetch = false, hentHytteID = null, hytteKort = false, token = null} = {}) {
   const [hytter, setHytter] = useState([]);
+  const [hytteDetaljer, setHytteDetaljer] = useState(null);
 
   const authHeaders = useMemo(() => ({
     'Authorization': `Bearer ${token}`,
@@ -58,10 +59,12 @@ export function useFetchHytter({autoFetch = false, hentHytteID = null, hytteKort
     try{
       const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/${id}`);
       if (!response.ok) throw new Error("Kunne ikke hente hytten");
-      return await response.json();
-
+      const data = await response.json();
+      setHytteDetaljer(data);
+      return data;
     } catch (err){
         setError(err.message);
+        throw new Error(err.message);
     } finally {
         setLoading(false);
     }
@@ -85,6 +88,48 @@ export function useFetchHytter({autoFetch = false, hentHytteID = null, hytteKort
       setLoading(false);
     }
   }, [token]);
+
+  // Oppretter en ny hytte på backend.
+  const opprettHytte = useCallback(async (data) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter`, {
+        method: 'POST',
+        headers: authHeaders,
+        body: JSON.stringify(data)
+      });
+      if (!response.ok) throw new Error(`Feil ved opprettelse: ${response.status}`);
+      return await response.json();
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, [authHeaders]);
+
+  // Oppdaterer en eksisterende hytte på backend.
+  const oppdaterHytte = useCallback(async (id, data) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/hytter/${id}`, {
+        method: 'PUT',
+        headers: authHeaders,
+        body: JSON.stringify(data)
+      });
+      if (!response.ok) throw new Error(`Feil ved oppdatering: ${response.status}`);
+      const result = await response.json();
+      setHytter(prev => prev.map(h => h.id === parseInt(id) ? { ...h, ...data } : h));
+      return result;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, [authHeaders]);
 
   // Sletter hytte på backend og oppdaterer lokal state.
   const deleteHytte = useCallback (async (id) => {
@@ -114,11 +159,14 @@ export function useFetchHytter({autoFetch = false, hentHytteID = null, hytteKort
     if (token) hentMineHytter();
   }, [autoFetch, hentHytteID, hytteKort, token, fetchHytter, hentHytteFraId, fetchHytteKort, hentMineHytter]);
 
-  return { 
-    hytter, 
-    loading, 
-    error, 
+  return {
+    hytter,
+    hytteDetaljer,
+    loading,
+    error,
     refetch: fetchHytter,
+    opprettHytte,
+    oppdaterHytte,
     deleteHytte,
     hentHytteFraId,
     fetchHytteKort,

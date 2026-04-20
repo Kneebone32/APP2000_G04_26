@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 
 // Hook for annonseendepunkter: liste, kort, enkelannonse og CRUD. Laget av Olai
-export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, annonseKort = false, token = null } = {}) {
+export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, token = null } = {}) {
   const [annonser, setAnnonser] = useState([]);
   const [loadingAnnonser, setLoadingAnnonser] = useState(false);
   const [errorAnnonser, setErrorAnnonser] = useState(null);
@@ -30,26 +30,6 @@ export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, anno
     }
   }, []);
 
-  // Henter en komprimert liste av annonser for kortvisning.
-  const fetchAnnonseKort = useCallback(async () => {
-    try {
-      setLoadingAnnonser(true);
-      setErrorAnnonser(null);
-
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/annonser/kort`);
-      if (!response.ok) {
-        throw new Error(`HTTP error: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setAnnonser(Array.isArray(data) ? data : []);
-    } catch (err) {
-      setErrorAnnonser(err.message);
-    } finally {
-      setLoadingAnnonser(false);
-    }
-  }, []);
-
   // Henter en annonse basert på ID.
   const hentAnnonseFraId = useCallback(async (id) => {
     try {
@@ -62,6 +42,26 @@ export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, anno
       setLoadingAnnonser(false);
     }
   }, []);
+
+  // Oppretter en ny annonse på backend.
+  const opprettAnnonse = useCallback(async (data) => {
+    try {
+      setLoadingAnnonser(true);
+      setErrorAnnonser(null);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/annonser`, {
+        method: "POST",
+        headers: authHeaders,
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) throw new Error(`Feil ved opprettelse: ${response.status}`);
+      return await response.json();
+    } catch (err) {
+      setErrorAnnonser(err.message);
+      throw err;
+    } finally {
+      setLoadingAnnonser(false);
+    }
+  }, [authHeaders]);
 
   // Oppdaterer en annonse med PUT og oppdaterer lokal state.
   const oppdaterAnnonse = useCallback(async (id, data) => {
@@ -97,38 +97,6 @@ export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, anno
     return await response.json();
   }, [authHeaders]);
 
-  // Godkjenner en ventende annonse og oppdaterer lokal state.
-  const godkjennAnnonse = useCallback(async (id) => {
-
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/annonser/${id}/godkjenn`, {
-      method: "PUT",
-      headers: authHeaders,
-    });
-
-    if (!response.ok) {
-      throw new Error(`Feil ved godkjenning: ${response.status}`);
-    }
-
-    setAnnonser(prev => prev.map(a => a.annonse_id === parseInt(id) ? { ...a, status: "godkjent" } : a));
-    return await response.json();
-  }, [authHeaders]);
-
-  // Avviser en ventende annonse og oppdaterer lokal state.
-  const avvisAnnonse = useCallback(async (id) => {
-
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/annonser/${id}/avvis`, {
-      method: "PUT",
-      headers: authHeaders,
-    });
-
-    if (!response.ok) {
-      throw new Error(`Feil ved avvisning: ${response.status}`);
-    }
-
-    setAnnonser(prev => prev.map(a => a.annonse_id === parseInt(id) ? { ...a, status: "avvist" } : a));
-    return await response.json();
-  }, [authHeaders]);
-
   // Henter visnings- og klikkstatistikk for en annonse.
   const hentStatistikk = useCallback(async (id) => {
 
@@ -142,21 +110,18 @@ export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, anno
   // Kjører automatisk henting basert på valgte flagg.
   useEffect(() => {
     if (autoFetch) fetchAnnonser();
-    if (annonseKort) fetchAnnonseKort();
     if (hentAnnonseID) hentAnnonseFraId(hentAnnonseID);
-  }, [autoFetch, hentAnnonseID, annonseKort, fetchAnnonser, fetchAnnonseKort, hentAnnonseFraId]);
+  }, [autoFetch, hentAnnonseID, fetchAnnonser, hentAnnonseFraId]);
 
   return {
     annonser,
     loadingAnnonser,
     errorAnnonser,
     refetch: fetchAnnonser,
-    fetchAnnonseKort,
+    opprettAnnonse,
     hentAnnonseFraId,
     oppdaterAnnonse,
     slettAnnonse,
-    godkjennAnnonse,
-    avvisAnnonse,
     hentStatistikk,
   };
 }

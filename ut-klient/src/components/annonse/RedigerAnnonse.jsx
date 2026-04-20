@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { useAutentisering } from "../../hooks/useAutentisering";
 import { useFetchAnnonser } from "../../hooks/useFetchAnnonser";
 import AnnonseForm from "./annonse-form/AnnonseForm";
 
 // Lar bruker søke opp en annonse, hente eksisterende data og oppdatere den. Laget av Olai.
 export default function RedigerAnnonse({ onSuccess }) {
-    const token = localStorage.getItem("token");
+    const { token } = useAutentisering({ autoFetch: true });
     const { annonser, loadingAnnonser, errorAnnonser, hentAnnonseFraId, oppdaterAnnonse } = useFetchAnnonser({ autoFetch: true, token });
 
     const [searchTerm, setSearchTerm] = useState("");

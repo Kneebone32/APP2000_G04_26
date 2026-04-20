@@ -1,7 +1,3 @@
-/* 
-Laget av Eivind
-*/
-
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -12,6 +8,7 @@ import Logginn from '../autentisering/Logginn';
 import { handleFavoritt } from '../Favoritt';
 import './TurKort.css';
 
+// Viser et klikkbart turkort med bilde, sted, vanskelighetsgrad og varighet. Laget av Olai og Eivind.
 export default function TurKort({turId, turNavn, vanskelighetsgrad, bildeUrl, turtype, varighet, lat, lon, erFavoritt, onToggleFavoritt}) {
     const { t } = useTranslation();
     const { logginn, loading, error } = useAutentisering({ autoFetch: false });

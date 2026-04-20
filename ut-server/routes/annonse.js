@@ -6,26 +6,6 @@ const router = express.Router();
 const auth = passport.authenticate('jwt', { session: false });
 
 
-// Hent alle annonser Laget av AI
-router.get('/', async (_req, res) => {
-    try {
-        const result = await pool.query(
-            `SELECT a.annonse_id, a.bruker_id, a.annonse_navn, a.tittel, a.beskrivelse, a.bilde_url,
-                    a.start_dato, a.slutt_dato, a.status, a.opprettet_dato,
-                    COALESCE(ARRAY_AGG(s.navn) FILTER (WHERE s.navn IS NOT NULL), '{}') AS sokeord
-             FROM annonse a
-             LEFT JOIN annonse_sokeord_kobling k ON a.annonse_id = k.annonse_id
-             LEFT JOIN annonse_sokeord s ON k.sokeord_id = s.sokeord_id
-             GROUP BY a.annonse_id
-             ORDER BY a.opprettet_dato DESC`
-        );
-        res.json(result.rows);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Kunne ikke hente annonser' });
-    }
-});
-
 // Hent alle annonser
 router.get('/', async (req, res) => {
   try {

@@ -1,16 +1,16 @@
 import { useState } from "react";
-import LeggTilTur from "../components/turruter/LeggTilTur";
-import SlettTur from "../components/turruter/SlettTur";
-import RedigerTur from "../components/turruter/RedigerTur";
-import { useFetchTurer } from "../hooks/useFetchTurer";
+import LeggTilTur from "../../components/turruter/LeggTilTur";
+import SlettTur from "../../components/turruter/SlettTur";
+import RedigerTur from "../../components/turruter/RedigerTur";
+import { useFetchTurer } from "../../hooks/useFetchTurer";
 import { useTranslation } from "react-i18next";
-import { TUR_FANER } from "../constants/konstanter";
+import { TUR_FANER } from "../../constants/konstanter";
 import './TurModerator.css';
 
 // Administrasjonsside for å legge til, redigere og slette turruter. Laget av Olai
 export default function TurModerator() {
     const [aktivFane, setAktivFane] = useState("Legg til");
-    const { refetch } = useFetchTurer(true);
+    const { refetch } = useFetchTurer({});
     const { t } = useTranslation();
     return (
         <div className="TurModeratorPanel">

@@ -144,7 +144,7 @@ export default function AnnonseForm({ lagretData = {}, onSubmitAction, buttonTek
         <simple-file-upload
           accept="image/*"
           max-file-size="5242880"
-          max-files="5"
+          max-files="1"
           ref={uploaderRef}
           public-key={import.meta.env.VITE_SFU_PUBLIC_KEY}
         ></simple-file-upload>

@@ -4,11 +4,12 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from "./components/navbar/Navbar";
 import AnnouncementBar from "./components/AnnouncementBar";
+import Footer from "./components/Footer";
 //import "./components/AnnouncementBar.css";
 
 import Home from "./pages/Home";
-import Turer from "./pages/Turer";
-import TurDetaljer from "./pages/TurDetaljer";
+import Turer from "./pages/turer/Turer";
+import TurDetaljer from "./pages/turer/TurDetaljer";
 import Hytter from "./pages/hytter/Hytter";
 import HytteDetaljer from "./pages/hytter/HytteDetaljer";
 import Kart from "./pages/Kart";
@@ -18,7 +19,7 @@ import Annonser from "./pages/Annonser";
 import Profil from "./pages/Profil";
 import Admin from "./pages/Admin";
 import HytteModerator from "./pages/hytter/HytteModerator";
-import TurModerator from "./pages/TurModerator";
+import TurModerator from "./pages/turer/TurModerator";
 import AnnonseModerator from "./pages/AnnonseModerator";
 import FellesturModerator from "./pages/fellesturer/FellesturModerator";
 import TurlederFellesturPanel from "./pages/fellesturer/TurlederFellesturPanel";
@@ -92,6 +93,7 @@ export default function App() {
             <Route path="*" element={<Feilside />} />
           </Routes>
         </main>
+        <Footer />
       </div>
     </Router>
   );

@@ -1,16 +1,16 @@
-import PageWrapper from "../components/PageWrapper";
+import PageWrapper from "../../components/PageWrapper";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useFetchTurer } from "../hooks/useFetchTurer";
-import { useAutentisering } from "../hooks/useAutentisering";
-import { useAnmeldelser } from "../hooks/useAnmeldelser";
+import { useFetchTurer } from "../../hooks/useFetchTurer";
+import { useAutentisering } from "../../hooks/useAutentisering";
+import { useAnmeldelser } from "../../hooks/useAnmeldelser";
 import { toast } from "react-toastify";
-import AnmeldelseListe from "../components/anmeldelser/AnmeldelseListe";
-import AnmeldelseSkjema from "../components/anmeldelser/AnmeldelseSkjema";
-import EmblaCarousel from "../components/EmblaCarousel";
+import AnmeldelseListe from "../../components/anmeldelser/AnmeldelseListe";
+import AnmeldelseSkjema from "../../components/anmeldelser/AnmeldelseSkjema";
+import EmblaCarousel from "../../components/EmblaCarousel";
 import './TurDetaljer.css';
 
-
+// Viser detaljside for én valgt tur basert på ID fra URL. Laget av Olai
 export default function TurDetaljer() {
   const { bruker, token, erAutentisert } = useAutentisering({autoFetch: true});
   const { turId } = useParams();
@@ -24,8 +24,8 @@ export default function TurDetaljer() {
   return (
     <PageWrapper>
       <div className="Turer TurDetaljerSide">
-        <button 
-          className="TilbakeKnapp" 
+        <button
+          className="TilbakeKnapp"
           onClick={() => navigate("/turer")}
         >
           {t("turer.tilbake_til_turer")}

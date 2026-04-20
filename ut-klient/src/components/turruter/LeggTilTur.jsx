@@ -1,49 +1,35 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useAutentisering } from "../../hooks/useAutentisering";
+import { useFetchTurer } from "../../hooks/useFetchTurer";
 import TurForm from "./tur-form/TurForm";
 
 // Oppretter en ny tur. Laget av Olai.
 export default function LeggTilTur({ onSuccess }) {
     const { t } = useTranslation();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const { token } = useAutentisering({ autoFetch: true });
+    const { opprettTur, loadingTurer: loading, errorTurer: error } = useFetchTurer({ token });
 
     const handleOpprett = async (formData) => {
         try {
-            setLoading(true);
-            setError(null);
-
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/tur`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    tur_navn: formData.navn,
-                    tur_beskrivelse: formData.beskrivelse,
-                    vanskelighetsgrad: formData.vanskelighetsgrad || null,
-                    varighet: formData.varighet || null,
-                    turtype: formData.turtype || null,
-                    fylke_id: formData.fylkeId,
-                    kommune_id: formData.kommuneId,
-                    punkter: formData.punkter || null,
-                    info_array: null,
-                    bilder: formData.bilder.length > 0 ? formData.bilder : null,
-                    hytter: formData.hytter?.map(h => h.hytte_id),
-                    turmaal: formData.turmaal?.map(t => t.turmaal_id),
-                    stier: formData.stier,
-                }),
+            await opprettTur({
+                tur_navn: formData.navn,
+                tur_beskrivelse: formData.beskrivelse,
+                vanskelighetsgrad: formData.vanskelighetsgrad || null,
+                varighet: formData.varighet || null,
+                turtype: formData.turtype || null,
+                fylke_id: formData.fylkeId,
+                kommune_id: formData.kommuneId,
+                punkter: formData.punkter || null,
+                info_array: null,
+                bilder: formData.bilder.length > 0 ? formData.bilder : null,
+                hytter: formData.hytter?.map(h => h.hytte_id),
+                turmaal: formData.turmaal?.map(t => t.turmaal_id),
+                stier: formData.stier,
             });
-
-            if (!response.ok) {
-                throw new Error(`${t("tur.feil_opprettelse")}: ${response.status}`);
-            }
-
             alert(t("tur.tur_lagt_til"));
             if (onSuccess) onSuccess();
         } catch (err) {
             console.error('Error: ', err);
-            setError(err.message);
-        } finally {
-            setLoading(false);
         }
     };
 

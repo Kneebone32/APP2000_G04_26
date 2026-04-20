@@ -25,7 +25,7 @@ export default function AnnonseKort({ annonse }) {
         {annonse.bilde_url && (
           <img
             src={annonse.bilde_url}
-            alt={annonse.tittel || "Annonsebilde"}
+            alt=""
             className="Annonsebilde"
           />
         )}
