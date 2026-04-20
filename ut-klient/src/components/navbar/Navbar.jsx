@@ -11,6 +11,7 @@ import Logginn from "../autentisering/Logginn";
 import { toast } from "react-toastify";
 import RegisterBruker from "../autentisering/RegistrerBruker";
 import NavbarRoller from "./NavbarRoller";
+import Sokefelt from "./Sokefelt";
 import ArtikkelModal from "../artikkel/modal/ArtikkelModal";
 import { ARTIKKEL_SLUG } from "../../constants/konstanter";
 import { useVarsler } from "../../hooks/useVarsler";
@@ -114,6 +115,7 @@ export default function Navbar() {
         
         
           <nav className="navbar" ref={navRef}>
+            <Sokefelt onNavigate={closeNavbar} />
             <Link to="/turer" className="Turer" onClick={closeNavbar}>{t("nav.turer")}</Link>
             <Link to="/hytter" className="Hytter" onClick={closeNavbar}>{t("nav.hytter")}</Link>
             <Link to="/kart" className="Kart" onClick={closeNavbar}>{t("nav.kart")}</Link>

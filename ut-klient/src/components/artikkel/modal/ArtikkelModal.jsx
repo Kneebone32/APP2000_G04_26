@@ -6,7 +6,7 @@ import Modal from '../../../modal/Modal';
 import './ArtikkelModal.css';
 
 //Modal som viser en artikkel. Laget av Kay
-export default function ArtikkelModal({slug, lenkeTekst, lenkeKlasseNavn}) {
+export default function ArtikkelModal({slug, lenkeTekst, lenkeKlasseNavn, children, onOpen}) {
     const { isOpen, open, close } = useModal();
     const { loading, error, hentArtikkel } = useArtikkel();
     const [artikkel, setArtikkel] = useState(null);
@@ -18,10 +18,15 @@ export default function ArtikkelModal({slug, lenkeTekst, lenkeKlasseNavn}) {
         });
     }, [isOpen, slug, hentArtikkel]);
 
+    const handleOpen = () => {
+        onOpen?.();
+        open();
+    };
+
     return (
         <>
-            <button className={lenkeKlasseNavn} onClick={open}>
-                {lenkeTekst}
+            <button className={lenkeKlasseNavn} onClick={handleOpen}>
+                {children ?? lenkeTekst}
             </button>
 
             <Modal show={isOpen} onClose={close} title={artikkel?.artikkel_tittel ?? ''} size="lg">
