@@ -133,7 +133,7 @@ export default function RedigerHytte({ onSuccess, hytter: hytter_prop }) {
                 />
                 <datalist id="hytter-rediger-list">
                     {filteredHytter.map((hytte) => (
-                        <option key={hytte.id} value={`ID: ${hytte.id} - ${hytte.navn}`} />
+                        <option key={hytte.id} value={`ID: ${hytte.hytte_id} - ${hytte.navn}`} />
                     ))}
                 </datalist>
             </div>
