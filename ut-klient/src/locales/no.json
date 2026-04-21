@@ -268,7 +268,8 @@
     "feil_henting_melding": "Noe gikk galt ved henting av tur.",
     "oppdaterer": "Oppdaterer...",
     "oppdater_knapp": "Oppdater tur",
-    "laster_turdata": "Laster turdata..."
+    "laster_turdata": "Laster turdata...",
+    "rutelengde": "Rutelengde KM:"
   },
 
   "turer": {

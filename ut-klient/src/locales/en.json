@@ -268,7 +268,8 @@
     "feil_henting_melding": "Something went wrong while fetching the trip.",
     "oppdaterer": "Updating...",
     "oppdater_knapp": "Update trip",
-    "laster_turdata": "Loading trip data..."
+    "laster_turdata": "Loading trip data...",
+    "rutelengde": "Route length KM:"
   },
 
   "turer": {
