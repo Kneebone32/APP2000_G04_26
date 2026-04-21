@@ -1,124 +1,120 @@
 // Skrevet av Kristoffer med mindre annet er spesifisert
 
-import express from 'express';
-import passport from 'passport';
-import pool from '../config/db.js';
+import express from "express";
+import passport from "passport";
+import pool from "../config/db.js";
 
 const router = express.Router();
-const auth = passport.authenticate('jwt', { session: false });
-
+const auth = passport.authenticate("jwt", { session: false });
 
 // Henter hytte_id-er for innlogget hytteeier
-router.get('/mine', auth, async (req, res) => {
+router.get("/mine", auth, async (req, res) => {
   try {
     const brukerId = req.user.bruker_id;
-    const result = await pool.query(
-      'SELECT * FROM public.hytte_hent_for_eier($1)', 
-      [brukerId]
-    );
-    res.json(result.rows.map(r => r.hytte_id)); 
+    const result = await pool.query("SELECT * FROM public.hytte_hent_for_eier($1)", [brukerId]);
+    res.json(result.rows.map((r) => r.hytte_id));
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Kunne ikke hente hytter' });
+    res.status(500).json({ error: "Kunne ikke hente hytter" });
   }
 });
 
-
 // Henter alle hytter til kartet
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM hytte_hent_kart()');
+    const result = await pool.query("SELECT * FROM hytte_hent_kart()");
     res.json(result.rows);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Database connection failed' });
+    res.status(500).json({ error: "Database connection failed" });
   }
 });
 
 // Henter hytter til kortoversikt
-router.get('/kort', async (req, res) => {
+router.get("/kort", async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM hytte_hent_kort()');
+    const result = await pool.query("SELECT * FROM hytte_hent_kort()");
     res.json(result.rows);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Database connection failed' });
+    res.status(500).json({ error: "Database connection failed" });
   }
 });
 
 // Henter anmeldelser for en hytte
-router.get('/:id/anmeldelser', async (req, res) => {
+router.get("/:id/anmeldelser", async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await pool.query('SELECT anmeldelse_hytte_hent_for_hytte($1) AS anmeldelser', [id]);
+    const result = await pool.query("SELECT anmeldelse_hytte_hent_for_hytte($1) AS anmeldelser", [id]);
     res.json(result.rows[0].anmeldelser);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Kunne ikke hente anmeldelser' });
+    res.status(500).json({ error: "Kunne ikke hente anmeldelser" });
   }
 });
 
 // Oppretter anmeldelse for en hytte
-router.post('/:id/anmeldelser', auth, async (req, res) => {
+router.post("/:id/anmeldelser", auth, async (req, res) => {
   try {
     const brukerId = req.user.bruker_id;
     const hytteId = req.params.id;
     const { rating, anmeldelse } = req.body;
-    await pool.query('SELECT anmeldelse_hytte_opprett($1, $2, $3, $4)', [brukerId, hytteId, rating, anmeldelse]);
-    res.status(201).json({ message: 'Anmeldelse opprettet' });
+    await pool.query("SELECT anmeldelse_hytte_opprett($1, $2, $3, $4)", [brukerId, hytteId, rating, anmeldelse]);
+    res.status(201).json({ message: "Anmeldelse opprettet" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Kunne ikke opprette anmeldelse' });
+    res.status(500).json({ error: "Kunne ikke opprette anmeldelse" });
   }
 });
 
 // Oppdaterer anmeldelse for en hytte
-router.put('/:id/anmeldelser', auth, async (req, res) => {
+router.put("/:id/anmeldelser", auth, async (req, res) => {
   try {
     const brukerId = req.user.bruker_id;
     const hytteId = req.params.id;
     const { rating, anmeldelse } = req.body;
-    await pool.query('SELECT anmeldelse_hytte_oppdater($1, $2, $3, $4)', [brukerId, hytteId, rating, anmeldelse]);
-    res.json({ message: 'Anmeldelse oppdatert' });
+    await pool.query("SELECT anmeldelse_hytte_oppdater($1, $2, $3, $4)", [brukerId, hytteId, rating, anmeldelse]);
+    res.json({ message: "Anmeldelse oppdatert" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Kunne ikke oppdatere anmeldelse' });
+    res.status(500).json({ error: "Kunne ikke oppdatere anmeldelse" });
   }
 });
 
 // Sletter anmeldelse for en hytte
-router.delete('/:id/anmeldelser', auth, async (req, res) => {
+router.delete("/:id/anmeldelser", auth, async (req, res) => {
   try {
     const brukerId = req.user.bruker_id;
     const hytteId = req.params.id;
-    await pool.query('SELECT anmeldelse_hytte_slett($1, $2)', [brukerId, hytteId]);
-    res.json({ message: 'Anmeldelse slettet' });
+    await pool.query("SELECT anmeldelse_hytte_slett($1, $2)", [brukerId, hytteId]);
+    res.json({ message: "Anmeldelse slettet" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Kunne ikke slette anmeldelse' });
+    res.status(500).json({ error: "Kunne ikke slette anmeldelse" });
   }
 });
 
 // Henter hytte med gitt id (detaljvisning)
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
-    const result = await pool.query('SELECT hytte_hent_detalj($1) AS hytte', [id]);
+    const result = await pool.query("SELECT hytte_hent_detalj($1) AS hytte", [id]);
 
     if (!result.rows[0].hytte) {
-      return res.status(404).json({ error: 'Hytte ikke funnet' });
+      return res.status(404).json({ error: "Hytte ikke funnet" });
     }
 
     res.json(result.rows[0].hytte);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Database connection failed' });
+    res.status(500).json({ error: "Database connection failed" });
   }
 });
 
 // Legger til ny hytte
-router.post('/', async (req, res) => {
+router.post("/", auth, async (req, res) => {
+  const bruker_id = req.user.bruker_id;
   try {
     const {
       hytte_navn,
@@ -133,12 +129,12 @@ router.post('/', async (req, res) => {
       hytte_betjeningsgrad,
       hytte_omrade,
       info_tab,
-      bilder
+      bilder,
     } = req.body;
 
     // Oppretter ny hytte i databasen
     const result = await pool.query(
-      `SELECT hytte_opprett_hel($1, $2, $3, $4, $5, $6, $7, $8, $9, $10::betjeningsgrad_enum, $11, $12, $13) AS ny_hytte_id`,
+      `SELECT hytte_opprett_hel($1, $2, $3, $4, $5, $6, $7, $8, $9, $10::betjeningsgrad_enum, $11, $12, $13 $14) AS ny_hytte_id`,
       [
         fylke_nummer,
         kommune_nummer,
@@ -152,26 +148,27 @@ router.post('/', async (req, res) => {
         hytte_betjeningsgrad,
         hytte_moh,
         info_tab ? JSON.stringify(info_tab) : null,
-        bilder ? JSON.stringify(bilder) : null
-      ]
+        bilder ? JSON.stringify(bilder) : null,
+        bruker_id,
+      ],
     );
 
     const nyHytteId = result.rows[0].ny_hytte_id;
 
     res.status(201).json({
       hytte_id: nyHytteId,
-      message: 'Hytte opprettet'
+      message: "Hytte opprettet",
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Kunne ikke legge til hytte' });
+    res.status(500).json({ error: "Kunne ikke legge til hytte" });
   }
 });
 
 // Oppdaterer hytte med gitt id
-router.put('/:id', async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
     const {
       hytte_navn,
       hytte_beskrivelse,
@@ -184,58 +181,52 @@ router.put('/:id', async (req, res) => {
       hytte_moh,
       hytte_betjeningsgrad,
       info_tab,
-      bilder
+      bilder,
     } = req.body;
 
     // Oppdaterer hytte i databasen med hytte_oppdater funksjonen
-    await pool.query(
-      'SELECT hytte_oppdater($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11::betjeningsgrad_enum, $12, $13)',
-      [
-        id,
-        hytte_navn,
-        hytte_beskrivelse,
-        hytte_sengeplasser,
-        hytte_pris,
-        fylke_nummer,
-        kommune_nummer,
-        hytte_breddegrad,
-        hytte_lengdegrad,
-        hytte_moh,
-        hytte_betjeningsgrad,
-        info_tab ? JSON.stringify(info_tab) : '[]',
-        bilder ? JSON.stringify(bilder) : '[]'
-      ]
-    );
+    await pool.query("SELECT hytte_oppdater($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11::betjeningsgrad_enum, $12, $13)", [
+      id,
+      hytte_navn,
+      hytte_beskrivelse,
+      hytte_sengeplasser,
+      hytte_pris,
+      fylke_nummer,
+      kommune_nummer,
+      hytte_breddegrad,
+      hytte_lengdegrad,
+      hytte_moh,
+      hytte_betjeningsgrad,
+      info_tab ? JSON.stringify(info_tab) : "[]",
+      bilder ? JSON.stringify(bilder) : "[]",
+    ]);
 
     res.json({
       hytte_id: id,
-      message: 'Hytte oppdatert'
+      message: "Hytte oppdatert",
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Kunne ikke oppdatere hytte' });
+    res.status(500).json({ error: "Kunne ikke oppdatere hytte" });
   }
 });
 
-// Sletter hytte med gitt id 
-router.delete('/:id', async (req, res) => {
+// Sletter hytte med gitt id
+router.delete("/:id", async (req, res) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
 
     // Sletter hytte med hytte_slett funksjonen
-    await pool.query('SELECT hytte_slett($1)', [id]);
+    await pool.query("SELECT hytte_slett($1)", [id]);
 
     res.json({
       hytte_id: id,
-      message: 'Hytte slettet'
+      message: "Hytte slettet",
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Kunne ikke slette hytte' });
+    res.status(500).json({ error: "Kunne ikke slette hytte" });
   }
 });
-
-
-
 
 export default router;
