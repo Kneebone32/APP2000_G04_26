@@ -1,26 +1,12 @@
-import { useEffect } from "react";
+import { useFetchAnnonser } from "../../hooks/useFetchAnnonser";
 import "./Annonse.css";
 
 // Viser et annonsekort og registrerer visning og klikk. Laget av Olai.
 export default function AnnonseKort({ annonse }) {
-  // Registrerer en visning når kortet monteres.
-  useEffect(() => {
-    if (!annonse?.annonse_id) return;
-    fetch(`${import.meta.env.VITE_API_URL}/annonser/${annonse.annonse_id}/visning`, {
-      method: "POST",
-    }).catch(() => {});
-  }, [annonse?.annonse_id]);
-
-  // Registrerer et klikk når bruker trykker på annonsen.
-  const handleKlikk = () => {
-    if (!annonse?.annonse_id) return;
-    fetch(`${import.meta.env.VITE_API_URL}/annonser/${annonse.annonse_id}/klikk`, {
-      method: "POST",
-    }).catch(() => {});
-  };
+  const { registrerKlikk } = useFetchAnnonser({ registrerVisningId: annonse?.annonse_id });
 
   return (
-    <div className="Annonsekort" onClick={handleKlikk}>
+    <div className="Annonsekort" onClick={() => registrerKlikk(annonse?.annonse_id)}>
       <div className="AnnonseHovedkort">
         {annonse.bilde_url && <img src={annonse.bilde_url} alt="" className="Annonsebilde" />}
 

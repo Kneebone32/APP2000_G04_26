@@ -7,7 +7,7 @@ import TurForm from "./tur-form/TurForm";
 // Lar bruker søke opp en tur, hente eksisterende data og oppdatere den. Laget av Olai.
 export default function RedigerTur({ onSuccess }) {
   const { t } = useTranslation();
-  const { turer, hentTurFraId, oppdaterTur } = useFetchTurer({
+  const { turer, hentTurFraId, hentPunkterFraId, oppdaterTur } = useFetchTurer({
     autoFetch: true,
   });
 
@@ -34,7 +34,7 @@ export default function RedigerTur({ onSuccess }) {
 
         const [tur, punkterRes] = await Promise.all([
           hentTurFraId(selectedId),
-          fetch(`${import.meta.env.VITE_API_URL}/turruter/${selectedId}/punkter`).then((r) => (r.ok ? r.json() : [])),
+          hentPunkterFraId(selectedId)
         ]);
 
         let fylke = "";

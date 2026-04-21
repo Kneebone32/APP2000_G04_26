@@ -163,6 +163,12 @@ export function useFetchTurer({ autoFetch = false, hentTurID = null, hentTurRute
     }
   }, []);
 
+  // Henter rutepunkter for en tur basert på ID
+  const hentPunkterFraId = useCallback(async (id) => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/turruter/${id}/punkter`);
+    return response.ok ? response.json() : [];
+  }, []);
+
   // Kjører valgte hentefunksjoner automatisk ut fra hook-innstillingene.
   useEffect(() => {
     if (autoFetch) fetchTurer();
@@ -182,5 +188,6 @@ export function useFetchTurer({ autoFetch = false, hentTurID = null, hentTurRute
     deleteTur,
     oppdaterTur,
     hentTurFraId,
+    hentPunkterFraId,
   };
 }

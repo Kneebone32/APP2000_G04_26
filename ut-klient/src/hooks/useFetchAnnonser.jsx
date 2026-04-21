@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 
 // Hook for annonseendepunkter: liste, kort, enkelannonse og CRUD. Laget av Olai
-export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, token = null } = {}) {
+export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, token = null, registrerVisningId = null } = {}) {
   const [annonser, setAnnonser] = useState([]);
   const [loadingAnnonser, setLoadingAnnonser] = useState(false);
   const [errorAnnonser, setErrorAnnonser] = useState(null);
@@ -107,6 +107,16 @@ export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, toke
     [authHeaders],
   );
 
+  const registrerVisning = useCallback((id) => {
+    if (!id) return;
+    fetch(`${import.meta.env.VITE_API_URL}/annonser/${id}/visning`, { method: "POST" }).catch(() => {});
+  }, []);
+
+  const registrerKlikk = useCallback((id) => {
+    if (!id) return;
+    fetch(`${import.meta.env.VITE_API_URL}/annonser/${id}/klikk`, { method: "POST" }).catch(() => {});
+  }, []);
+
   // Henter visnings- og klikkstatistikk for en annonse.
   const hentStatistikk = useCallback(async (id) => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/annonser/${id}/statistikk`);
@@ -122,6 +132,10 @@ export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, toke
     if (hentAnnonseID) hentAnnonseFraId(hentAnnonseID);
   }, [autoFetch, hentAnnonseID, fetchAnnonser, hentAnnonseFraId]);
 
+  useEffect(() => {
+    registrerVisning(registrerVisningId);
+  }, [registrerVisningId, registrerVisning]);
+
   return {
     annonser,
     loadingAnnonser,
@@ -132,5 +146,7 @@ export function useFetchAnnonser({ autoFetch = false, hentAnnonseID = null, toke
     oppdaterAnnonse,
     slettAnnonse,
     hentStatistikk,
+    registrerVisning,
+    registrerKlikk,
   };
 }
