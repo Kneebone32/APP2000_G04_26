@@ -28,10 +28,10 @@ export default function Modal({ show, onClose, title, children, size = "md" }) {
   return (
     <>
       {/*Backdrop til Modal*/}
-      <div className="custom-modal-backdrop" onClick={onClose}></div>
+      <div className="custom-modal-backdrop"></div>
 
       {/*Selve Modal*/}
-      <div className="custom-modal-container" onClick={onClose} ref={containerRef}>
+      <div className="custom-modal-container" ref={containerRef}>
         <div className={`custom-modal-dialog custom-modal-${size}`} onClick={(e) => e.stopPropagation()}>
           <div className="custom-modal-content">
             <div className="custom-modal-header">
