@@ -212,7 +212,7 @@ export default function TurForm({ lagretData = {}, onSubmitAction, buttonTekst, 
               </p>
               {totalRuteLengde !== null && (
                 <p>
-                  {t("tur.rutelengde") || "Rutelengde"}: {totalRuteLengde.toFixed(3)} km
+                  {t("test.rutelengde") || "Rutelengde"}: {totalRuteLengde.toFixed(3)} km
                 </p>
               )}
             </div>

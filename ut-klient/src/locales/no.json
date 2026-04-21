@@ -1,6 +1,6 @@
 {
   "velkommen": "Velkommen til UT.ut",
-  
+
   "nav": {
     "hjem": "Hjem",
     "turer": "Turer",
@@ -157,13 +157,13 @@
     "betjent": "Betjent",
     "fasiliteter": "Fasiliteter",
     "wifi": "WIFI",
-    
+
     "fellesturer": "Fellesturer",
     "vis_fellesturer": "Vis fellesturer",
-    
+
     "turmål": "Turmål",
     "vis_turmål": "Vis turmål",
-    
+
     "turer": "Turer",
     "vis_turer": "Vis turer",
     "vanskelighetsgrad": "Vanskelighetsgrad",
@@ -221,7 +221,7 @@
     "annonse_godkjent_toast": "Annonse godkjent",
     "annonse_avvist_toast": "Annonse avvist"
   },
-  
+
   "tur": {
     "tittel": "Turer",
     "legg_til_tur": "Legg til ny tur",
@@ -448,7 +448,7 @@
     "vis_tur": "Vis Tur",
     "lag_tur": "Lag Tur",
     "koordinater_hentet": "✓ Koordinater hentet",
-    "rutelengde": "Rutelengde: ",
+    "rutelengde": "Rutelengde",
     "høyde": "Høyde: ",
     "hyttekoordinater": "Hyttekoordinater",
     "kart_knapp": "Kart",
@@ -681,5 +681,4 @@
       "Langtur (5+ dager)": "Langtur (5+ dager)"
     }
   }
-
 }
