@@ -6,10 +6,11 @@ import { useFetchAnnonser } from "../../hooks/useFetchAnnonser";
 import AnnonseForm from "./annonse-form/AnnonseForm";
 
 // Lar bruker søke opp en annonse, hente eksisterende data og oppdatere den. Laget av Olai.
-export default function RedigerAnnonse({ onSuccess }) {
+export default function RedigerAnnonse({ onSuccess, annonser: annonser_prop }) {
   const { t } = useTranslation();
   const { token } = useAutentisering({ autoFetch: true });
-  const { annonser, loadingAnnonser, errorAnnonser, hentAnnonseFraId, oppdaterAnnonse } = useFetchAnnonser({ autoFetch: true, token });
+  const { annonser: annonser_alle, loadingAnnonser, errorAnnonser, hentAnnonseFraId, oppdaterAnnonse } = useFetchAnnonser({ autoFetch: !annonser_prop, token });
+  const annonser = annonser_prop ?? annonser_alle;
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedId, setSelectedId] = useState(null);

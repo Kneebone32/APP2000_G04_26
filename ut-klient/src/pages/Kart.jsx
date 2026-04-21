@@ -66,7 +66,7 @@ export default function Kart() {
     <div>
       <KartFilter onFilterChange={setFilter} fellesturer={fellesturer} />
 
-      <Kart_basic center={[59.412533435582255, 9.067389041659744]} zoom={12}>
+      <Kart_basic center={[59.412533435582255, 9.067389041659744]} zoom={11}>
         <ZoomLevel onZoomChange={setZoom} />
 
         {/*Fellesturer*/}

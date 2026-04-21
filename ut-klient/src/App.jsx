@@ -24,6 +24,7 @@ import AnnonseModerator from "./pages/AnnonseModerator";
 import FellesturModerator from "./pages/fellesturer/FellesturModerator";
 import TurlederFellesturPanel from "./pages/fellesturer/TurlederFellesturPanel";
 import HytteeierHytterPanel from "./pages/hytter/HytteeierHytterPanel";
+import AnnonsørAnnonsePanel from "./pages/AnnonsørAnnonsePanel";
 import TurmålModerator from "./pages/turmål/TurmålModerator";
 import ArtikkelModerator from "./pages/ArtikkelModerator";
 import Feilside from "./pages/Feilside";
@@ -83,6 +84,10 @@ export default function App() {
 
             <Route element={<ProtectedRoute rolle={BRUKER_ROLLE.HYTTEEIER} />}>
               <Route path="/hytteeier/hytter" element={<HytteeierHytterPanel />} />
+            </Route>
+
+            <Route element={<ProtectedRoute rolle={BRUKER_ROLLE.ANNONSØR} />}>
+              <Route path="/annonsor/annonser" element={<AnnonsørAnnonsePanel />} />
             </Route>
 
             <Route path="/test" element={<Test />} />

@@ -7,10 +7,11 @@ import { useModal } from "../../hooks/useModal";
 import ConfirmModal from "../ConfirmModal";
 
 // Lar bruker søke opp en annonse og slette den etter bekreftelse. Laget av Olai.
-export default function SlettAnnonse({ onSuccess }) {
+export default function SlettAnnonse({ onSuccess, annonser: annonser_prop }) {
   const { t } = useTranslation();
   const { token } = useAutentisering({ autoFetch: true });
-  const { annonser, loadingAnnonser, slettAnnonse } = useFetchAnnonser({ autoFetch: true, token });
+  const { annonser: annonser_alle, loadingAnnonser, slettAnnonse } = useFetchAnnonser({ autoFetch: !annonser_prop, token });
+  const annonser = annonser_prop ?? annonser_alle;
   const { isOpen, open, close } = useModal();
   const [selectedId, setSelectedId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");

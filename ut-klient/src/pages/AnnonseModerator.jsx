@@ -9,7 +9,7 @@ import { ANNONSE_FANER } from "../constants/konstanter";
 import "./AnnonseModerator.css";
 
 // Administrasjonsside for annonser. Laget av Olai.
-export default function AnnonseModerator() {
+export default function AnnonseModerator({ annonser } = {}) {
   const [aktivFane, setAktivFane] = useState("Legg til");
   const { refetch } = useFetchAnnonser({ autoFetch: false });
 
@@ -32,9 +32,9 @@ export default function AnnonseModerator() {
 
         {aktivFane === "Legg til" && <LeggTilAnnonse onSuccess={refetch} />}
 
-        {aktivFane === "Rediger" && <RedigerAnnonse onSuccess={refetch} />}
+        {aktivFane === "Rediger" && <RedigerAnnonse annonser={annonser} onSuccess={refetch} />}
 
-        {aktivFane === "Slett" && <SlettAnnonse onSuccess={refetch} />}
+        {aktivFane === "Slett" && <SlettAnnonse annonser={annonser} onSuccess={refetch} />}
 
         {aktivFane === "Statistikk" && <AnnonseStatistikk />}
       </div>
