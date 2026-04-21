@@ -134,8 +134,9 @@ router.post("/", auth, async (req, res) => {
 
     // Oppretter ny hytte i databasen
     const result = await pool.query(
-      `SELECT hytte_opprett_hel($1, $2, $3, $4, $5, $6, $7, $8, $9, $10::betjeningsgrad_enum, $11, $12, $13 $14) AS ny_hytte_id`,
+      `SELECT hytte_opprett_hel($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11::betjeningsgrad_enum, $12, $13, $14) AS ny_hytte_id`,
       [
+        bruker_id,
         fylke_nummer,
         kommune_nummer,
         hytte_navn,
@@ -149,7 +150,6 @@ router.post("/", auth, async (req, res) => {
         hytte_moh,
         info_tab ? JSON.stringify(info_tab) : null,
         bilder ? JSON.stringify(bilder) : null,
-        bruker_id,
       ],
     );
 
