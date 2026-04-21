@@ -2,6 +2,7 @@
 import { useTranslation } from "react-i18next";
 import { useAutentisering } from "../../hooks/useAutentisering";
 import { useFetchHytter } from "../../hooks/useFetchHytter";
+import { hentKommuneData } from "../../utils/geoUtils";
 import HytteForm from "./hytte-form/HytteForm";
 
 // Lar bruker søke opp en hytte, hente eksisterende data og oppdatere den. Laget av Olai.
@@ -36,6 +37,18 @@ export default function RedigerHytte({ onSuccess, hytter: hytter_prop }) {
 
         const hytte = await hentHytteFraId(selectedId);
 
+        const koordinat = hytte.koordinater ? [hytte.koordinater.breddegrad, hytte.koordinater.lengdegrad] : null;
+
+        let fylkeId = "";
+        let kommuneId = "";
+        if (koordinat) {
+          const kommuneData = await hentKommuneData(koordinat[0], koordinat[1]);
+          if (kommuneData) {
+            fylkeId = kommuneData.fylkesnummer || "";
+            kommuneId = kommuneData.kommunenummer || "";
+          }
+        }
+
         setLagretData({
           navn: hytte.navn || "",
           beskrivelse: hytte.beskrivelse || "",
@@ -43,10 +56,10 @@ export default function RedigerHytte({ onSuccess, hytter: hytter_prop }) {
           pris: hytte.hytte_pris ?? hytte.pris ?? "",
           betjeningsgrad: hytte.betjeningsgrad || "",
           fylke: hytte.fylke || "",
-          fylkeId: hytte.fylke_nummer ?? "",
+          fylkeId,
           kommune: hytte.kommune || "",
-          kommuneId: hytte.kommune_nummer ?? "",
-          koordinat: hytte.koordinater ? [hytte.koordinater.breddegrad, hytte.koordinater.lengdegrad] : null,
+          kommuneId,
+          koordinat,
           moh: hytte.koordinater?.moh ?? 0,
           fasiliteter: hytte.info_tab && hytte.info_tab.length > 0 ? hytte.info_tab : [],
           bilder: hytte.bilder && hytte.bilder.length > 0 ? hytte.bilder.map((b) => b.url || b) : [],
