@@ -1,12 +1,31 @@
 import PageWrapper from "../components/PageWrapper";
+import ConfirmModal from "../components/ConfirmModal";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useModal } from "../hooks/useModal";
+import { useAdmin } from "../hooks/useAdmin";
+import { useAutentisering } from "../hooks/useAutentisering";
+import { toast } from "react-toastify";
 import "./Admin.css";
 
 // Hovedside for administrator med navigasjonsknapper til ulike adminseksjoner. Laget av Olai og Kay.
 export default function Admin() {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { token } = useAutentisering();
+  const { tilbakestillDB, loading } = useAdmin({ token });
+  const { isOpen, open, close } = useModal();
+
+  const handleTilbakestill = async () => {
+    try {
+      await tilbakestillDB();
+      close();
+      toast.success("Databasen ble tilbakestilt.");
+    } catch {
+      close();
+      toast.error("Tilbakestilling feilet.");
+    }
+  };
 
   return (
     <div className="admin-container">
@@ -38,6 +57,20 @@ export default function Admin() {
       <button className="AdminKnapp" onClick={() => navigate("/admin/artikler")}>
         {t("admin.gå_til_artikler")}
       </button>
+
+      {/*Tilbakestill DB*/}
+      <button className="AdminKnapp Tilbakestill" onClick={open} disabled={loading}>
+        Tilbakestill database
+      </button>
+
+      <ConfirmModal
+        show={isOpen}
+        onClose={close}
+        onConfirm={handleTilbakestill}
+        tittel="Tilbakestill database"
+        melding="Er du sikker? Dette vil tilbakestille hele databasen til backup. Handlingen kan ikke angres."
+        confirmTekst={loading ? "Tilbakestiller" : "Tilbakestill"}
+      />
     </div>
   );
 }
