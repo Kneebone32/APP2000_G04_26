@@ -114,7 +114,7 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
       return toast.error(t("fellestur_form.feil_minst_en_dato"));
     }
 
-    if (tittel.length < 1 || beskrivelse.length < 20) {
+    if (!tittel || !beskrivelse || tittel.length < 1 || beskrivelse.length < 20) {
       return toast.error("Vennligst fyll ut alle feltene");
     }
 
