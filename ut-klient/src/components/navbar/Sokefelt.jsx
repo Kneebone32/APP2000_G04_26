@@ -1,3 +1,7 @@
+/*
+ Skrevet av Kristoffer med mindre annet er spesifisert
+*/
+
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";

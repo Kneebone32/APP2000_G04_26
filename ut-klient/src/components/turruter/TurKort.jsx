@@ -9,6 +9,7 @@ import { handleFavoritt } from "../Favoritt";
 import "./TurKort.css";
 
 // Viser et klikkbart turkort med bilde, sted, vanskelighetsgrad og varighet. Laget av Olai og Eivind.
+// Det som har med snittrating og antallAnmeldelser å gjøre er laget av AI.
 export default function TurKort({
   turId,
   turNavn,

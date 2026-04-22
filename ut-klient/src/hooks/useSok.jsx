@@ -1,5 +1,8 @@
+// Skrevet av Kristoffer med mindre annet er spesifisert
+
 import { useState, useEffect, useRef } from "react";
 
+// Hook for global søk
 export function useSok(q, { debounceMs = 300, minLengde = 2 } = {}) {
   const [resultater, setResultater] = useState([]);
   const [loading, setLoading] = useState(false);

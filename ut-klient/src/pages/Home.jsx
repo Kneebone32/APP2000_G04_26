@@ -1,3 +1,5 @@
+// Skrevet av Kristoffer med mindre annet er spesifisert
+
 import { useMemo, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -13,7 +15,6 @@ import { useFellestur } from "../hooks/useFellesturer";
 import { DATO_STATUS } from "../constants/konstanter";
 import "./Home.css";
 
-// Legg til flere bilder her — hvert objekt har bildefil og kreditering
 const HERO_BILDER = [
   {
     src: norddalsfjorden,
@@ -31,6 +32,7 @@ const HERO_BILDER = [
   },
 ];
 
+// Metode som gjør at hero-bilde er tilfeldig
 function tilfeldigBilde() {
   return HERO_BILDER[Math.floor(Math.random() * HERO_BILDER.length)];
 }
@@ -48,6 +50,7 @@ export default function Home() {
     fetchPopulaereTurer(3).then(setPopulaereTurer);
   }, [fetchPopulaereTurer]);
 
+  // Filtrerer og sorterer fellesturer som ikke er avlyst og starter i fremtiden - Laget av AI
   const kommendeFellesturer = fellesturer
     .filter((f) => {
       const aktive = (f.datoer ?? []).filter((d) => d.aktivitet_dato_status !== DATO_STATUS.AVLYST);

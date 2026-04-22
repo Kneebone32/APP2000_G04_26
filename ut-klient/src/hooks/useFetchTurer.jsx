@@ -36,7 +36,7 @@ export function useFetchTurer({ autoFetch = false, hentTurID = null, hentTurRute
     }
   }, []);
 
-  // Henter populære turer sortert etter kombinasjon av snittrating og antall anmeldelser
+  // Henter populære turer sortert etter kombinasjon av snittrating og antall anmeldelser - Laget av AI
   const fetchPopulaereTurer = useCallback(async (grense = 4) => {
     try {
       setLoadingTurer(true);
