@@ -262,6 +262,7 @@
     "feil_turtype": "Please select a trip type.",
     "feil_varighet": "Please select a duration.",
     "feil_rute": "Please add a route with at least 2 points.",
+    "feil_beskrivelse": "Description must be at least 20 characters.",
     "feil_opprettelse": "Error with creation",
     "tur_lagt_til": "Trip has been added.",
     "legger_til": "Adding...",

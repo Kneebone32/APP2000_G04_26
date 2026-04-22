@@ -262,6 +262,7 @@
     "feil_turtype": "Vennligst velg en turtype.",
     "feil_varighet": "Vennligst velg en varighet.",
     "feil_rute": "Vennligst legg til en rute med minst 2 punkter.",
+    "feil_beskrivelse": "Beskrivelse må være minst 20 tegn.",
     "feil_opprettelse": "Feil med opprettelse",
     "tur_lagt_til": "Tur er blitt lagt til.",
     "legger_til": "Legger til...",

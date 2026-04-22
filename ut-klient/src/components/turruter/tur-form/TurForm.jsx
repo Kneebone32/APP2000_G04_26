@@ -89,6 +89,7 @@ export default function TurForm({ lagretData = {}, onSubmitAction, buttonTekst, 
     if (!selectedTurtype) { toast.error(t("tur.feil_turtype")); return; }
     if (!selectedVarighet) { toast.error(t("tur.feil_varighet")); return; }
     if (!lagredeKoordinater) { toast.error(t("tur.feil_rute")); return; }
+    if (!beskrivelse.trim() || beskrivelse.trim().length < 20) { toast.error(t("tur.feil_beskrivelse")); return; }
 
     const nyeStierMedMoh = await Promise.all(nyeStierITuren.map((rute) => byggPunkterMedMoh(rute)));
 
