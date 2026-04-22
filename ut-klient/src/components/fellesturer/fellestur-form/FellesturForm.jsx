@@ -113,6 +113,11 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
     if (!editModus && valgteDatoer.length === 0) {
       return toast.error(t("fellestur_form.feil_minst_en_dato"));
     }
+
+    if (tittel.length < 1 || beskrivelse.length < 20) {
+      return toast.error("Vennligst fyll ut alle feltene");
+    }
+
     if (pris < 1) {
       return toast.error(t("fellestur_form.pris_feil"));
     }

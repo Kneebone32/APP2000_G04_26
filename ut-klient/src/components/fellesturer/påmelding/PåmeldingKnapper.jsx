@@ -90,11 +90,6 @@ export default function PåmeldingKnapper({
       {status === PÅMELDING_STATUS.BINDENDE && (
         <>
           <p className="påmelding-status bindende">{t("påmelding.du_er_påmeldt")}</p>
-          {!erLastForPamelding && (
-            <button className="påmelding-btn avmeld" onClick={handleMeldAv} disabled={loading}>
-              {t("påmelding.meld_meg_av")}
-            </button>
-          )}
         </>
       )}
 
