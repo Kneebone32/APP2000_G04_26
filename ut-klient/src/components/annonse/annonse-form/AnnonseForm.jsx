@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import { useFileUpload } from "../../../hooks/useFileUpload";
 import TempBilde from "../../TempBilde";
 import SøkeordDropdown from "../SøkeordDropdown";
@@ -44,13 +45,14 @@ export default function AnnonseForm({ lagretData = {}, onSubmitAction, buttonTek
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!annonserNavn.trim() || !tittel.trim() || !beskrivelse.trim()) {
-      alert(t("annonse.fyll_ut_felt"));
-      return;
-    }
+    if (!annonserNavn.trim() || !/^[A-Za-zØÆÅøæå\s]{3,20}$/.test(annonserNavn.trim())) { toast.error(t("annonse.feil_navn")); return; }
+    if (!tittel.trim() || !/^[A-Za-zØÆÅøæå\s]{3,40}$/.test(tittel.trim())) { toast.error(t("annonse.feil_tittel")); return; }
+    if (!beskrivelse.trim() || beskrivelse.trim().length < 20) { toast.error(t("annonse.feil_beskrivelse")); return; }
+    if (!startDato) { toast.error(t("annonse.feil_startdato")); return; }
+    if (!sluttDato) { toast.error(t("annonse.feil_sluttdato")); return; }
 
-    if (startDato && sluttDato && new Date(sluttDato) < new Date(startDato)) {
-      alert(t("annonse.sluttdato_feil"));
+    if (new Date(sluttDato) < new Date(startDato)) {
+      toast.error(t("annonse.sluttdato_feil"));
       return;
     }
 
@@ -66,7 +68,7 @@ export default function AnnonseForm({ lagretData = {}, onSubmitAction, buttonTek
   };
 
   return (
-    <form onSubmit={handleSubmit} className="annonse-form">
+    <form onSubmit={handleSubmit} className="annonse-form" noValidate>
       <div className="input-container">
         <label className="input" htmlFor="annonse-navn">
           {t("felles.navn")}:
@@ -89,7 +91,7 @@ export default function AnnonseForm({ lagretData = {}, onSubmitAction, buttonTek
             id="annonse-tittel"
             value={tittel}
             onChange={(e) => setTittel(e.target.value)}
-            pattern="^[A-Za-zØÆÅøæå\s]{3,20}$"
+            pattern="^[A-Za-zØÆÅøæå\s]{3,40}$"
             required
           />
         </label>

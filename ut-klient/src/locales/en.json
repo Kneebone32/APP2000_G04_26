@@ -69,6 +69,12 @@
     "legg_til": "Add new cabin",
     "slett_tittel": "Delete cabin",
     "fyll_ut_felt": "Please fill out all fields.",
+    "feil_navn": "Name must be between 3 and 20 letters (only letters and spaces).",
+    "feil_sengeplasser": "Beds must be a whole number between 1 and 25.",
+    "feil_beskrivelse": "Description must be at least 20 characters.",
+    "feil_betjeningsgrad": "Please select a service level.",
+    "feil_koordinat": "Please select coordinates on the map.",
+    "feil_pris": "Price cannot be negative.",
     "lagt_til": "Cabin has been added.",
     "slettet": "Cabin has been deleted.",
     "feil_opprettelse_melding": "Something went wrong while creating the cabin.",
@@ -251,6 +257,11 @@
     "gpx_utenfor_norge": "Coordinates from the GPX file are outside Norway. Please select coordinates within Norway.",
     "gpx_ett_punkt": "The GPX file contains only one point. Trips need at least 2 points (start and end).",
     "fyll_ut_felt": "Please fill out all fields.",
+    "feil_navn": "Name must be between 3 and 20 letters (only letters and spaces).",
+    "feil_vanskelighetsgrad": "Please select a difficulty level.",
+    "feil_turtype": "Please select a trip type.",
+    "feil_varighet": "Please select a duration.",
+    "feil_rute": "Please add a route with at least 2 points.",
     "feil_opprettelse": "Error with creation",
     "tur_lagt_til": "Trip has been added.",
     "legger_til": "Adding...",
@@ -268,7 +279,8 @@
     "feil_henting_melding": "Something went wrong while fetching the trip.",
     "oppdaterer": "Updating...",
     "oppdater_knapp": "Update trip",
-    "laster_turdata": "Loading trip data..."
+    "laster_turdata": "Loading trip data...",
+    "rutelengde": "Route length KM:"
   },
 
   "turer": {
@@ -599,6 +611,11 @@
     "startdato": "Start date:",
     "sluttdato": "End date:",
     "fyll_ut_felt": "Please fill out all required fields",
+    "feil_navn": "Name must be between 3 and 20 letters (only letters and spaces).",
+    "feil_tittel": "Title must be between 3 and 40 letters (only letters and spaces).",
+    "feil_beskrivelse": "Description must be at least 20 characters.",
+    "feil_startdato": "Please select a start date.",
+    "feil_sluttdato": "Please select an end date.",
     "sluttdato_feil": "End date cannot be before start date"
   },
 

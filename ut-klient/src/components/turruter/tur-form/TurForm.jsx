@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import { useModal } from "../../../hooks/useModal";
 import { useEnums } from "../../../hooks/useEnums";
 import { useFileUpload } from "../../../hooks/useFileUpload";
@@ -63,7 +64,7 @@ export default function TurForm({ lagretData = {}, onSubmitAction, buttonTekst, 
       await oppdaterKommuneData(koords);
       close();
     } else {
-      alert(t("tur.velg_minst_to_punkter"));
+      toast.error(t("tur.velg_minst_to_punkter"));
     }
   };
 
@@ -76,17 +77,18 @@ export default function TurForm({ lagretData = {}, onSubmitAction, buttonTekst, 
       setGpxKoords(punkter);
       await oppdaterKommuneData(koords);
     } else if (koords && koords.length === 1) {
-      alert(t("tur.gpx_ett_punkt"));
+      toast.error(t("tur.gpx_ett_punkt"));
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!navn.trim() || !selectedVanskelighetsgrad || !selectedTurtype || !selectedVarighet || !lagredeKoordinater) {
-      alert(t("tur.fyll_ut_felt"));
-      return;
-    }
+    if (!navn.trim() || !/^[A-Za-zØÆÅøæå\s]{3,20}$/.test(navn.trim())) { toast.error(t("tur.feil_navn")); return; }
+    if (!selectedVanskelighetsgrad) { toast.error(t("tur.feil_vanskelighetsgrad")); return; }
+    if (!selectedTurtype) { toast.error(t("tur.feil_turtype")); return; }
+    if (!selectedVarighet) { toast.error(t("tur.feil_varighet")); return; }
+    if (!lagredeKoordinater) { toast.error(t("tur.feil_rute")); return; }
 
     onSubmitAction({
       navn,
@@ -109,7 +111,7 @@ export default function TurForm({ lagretData = {}, onSubmitAction, buttonTekst, 
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="tur-form">
+      <form onSubmit={handleSubmit} className="tur-form" noValidate>
         <div className="input-container">
           <label className="input">
             {t("felles.navn")}:
