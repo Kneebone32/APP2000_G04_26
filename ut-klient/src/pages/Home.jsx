@@ -1,41 +1,17 @@
 // Skrevet av Kristoffer med mindre annet er spesifisert
 
 import { useMemo, useState, useEffect } from "react";
+import { FaMap, FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { FaMap, FaArrowRight, FaCamera } from "react-icons/fa";
-import norddalsfjorden from "../assets/norddalsfjorden.jpg";
-import graddiselva from "../assets/graddiselva.jpg";
-import lyngenfjorden from "../assets/lyngenfjorden.jpg";
-import Sokefelt from "../components/navbar/Sokefelt";
-import TurKort from "../components/turruter/TurKort";
-import FellesturKort from "../components/fellesturer/FellesturKort";
 import { useFetchTurer } from "../hooks/useFetchTurer";
 import { useFellestur } from "../hooks/useFellesturer";
-import { DATO_STATUS } from "../constants/konstanter";
+import { tilfeldigBilde } from "../constants/heroBilder";
+import { hentKommendeFellesturer } from "../utils/fellesturUtils";
+import HomeHero from "../components/home/HomeHero";
+import PopulaereTurer from "../components/home/PopulaereTurer";
+import KommendeFellesturer from "../components/home/KommendeFellesturer";
 import "./Home.css";
-
-const HERO_BILDER = [
-  {
-    src: norddalsfjorden,
-    kreditering: "By Ximonic (Simo Räsänen) - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=48042325",
-  },
-
-  {
-    src: graddiselva,
-    kreditering: "By Ximonic (Simo Räsänen) - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=114190112",
-  },
-
-  {
-    src: lyngenfjorden,
-    kreditering: "By Ximonic, Simo Räsänen - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=15528145",
-  },
-];
-
-// Metode som gjør at hero-bilde er tilfeldig
-function tilfeldigBilde() {
-  return HERO_BILDER[Math.floor(Math.random() * HERO_BILDER.length)];
-}
 
 export default function Home() {
   const { t } = useTranslation();
@@ -50,74 +26,13 @@ export default function Home() {
     fetchPopulaereTurer(3).then(setPopulaereTurer);
   }, [fetchPopulaereTurer]);
 
-  // Filtrerer og sorterer fellesturer som ikke er avlyst og starter i fremtiden - Laget av AI
-  const kommendeFellesturer = fellesturer
-    .filter((f) => {
-      const aktive = (f.datoer ?? []).filter((d) => d.aktivitet_dato_status !== DATO_STATUS.AVLYST);
-      const valgt = aktive.find((d) => d.aktivitet_dato_status === DATO_STATUS.VALGT);
-      const bruk = valgt ?? aktive[0];
-      if (!bruk) return false;
-      return new Date(bruk.aktivitet_start_dato) >= new Date();
-    })
-    .sort((a, b) => {
-      const hentDato = (f) => {
-        const aktive = (f.datoer ?? []).filter((d) => d.aktivitet_dato_status !== DATO_STATUS.AVLYST);
-        const bruk = aktive.find((d) => d.aktivitet_dato_status === DATO_STATUS.VALGT) ?? aktive[0];
-        return new Date(bruk.aktivitet_start_dato);
-      };
-      return hentDato(a) - hentDato(b);
-    })
-    .slice(0, 3);
+  const kommendeFellesturer = hentKommendeFellesturer(fellesturer);
 
   return (
     <div className="home">
-      {/* Hero-seksjon */}
-      <section className="home-hero" style={{ backgroundImage: `url(${heroBilde.src})` }}>
-        <div className="home-hero-overlay" />
-        <div className="home-hero-innhold">
-          <h1 className="home-hero-tittel">{t("home.hero_tittel")}</h1>
-          <p className="home-hero-undertittel">{t("home.hero_undertittel")}</p>
-          <div className="home-hero-sok">
-            <Sokefelt />
-          </div>
-        </div>
-        <p className="home-hero-kreditering">
-          <FaCamera aria-hidden="true" /> {heroBilde.kreditering}
-        </p>
-      </section>
+      <HomeHero bilde={heroBilde} />
 
-      {/* Populære turer */}
-      <section className="home-seksjon">
-        <div className="home-seksjon-header">
-          <h2 className="home-seksjon-tittel">{t("home.populære_turer")}</h2>
-          <Link to="/turer" className="home-se-alle">
-            {t("home.se_alle")} <FaArrowRight />
-          </Link>
-        </div>
-        {loadingTurer ? (
-          <p className="home-laster">{t("home.laster_turer")}</p>
-        ) : populæreTurer.length === 0 ? (
-          <p className="home-ingen">{t("home.ingen_turer")}</p>
-        ) : (
-          <div className="home-kort-grid">
-            {populæreTurer.map((tur) => (
-              <TurKort
-                key={tur.tur_id}
-                turId={tur.tur_id}
-                turNavn={tur.tur_navn}
-                vanskelighetsgrad={tur.vanskelighetsgrad}
-                bildeUrl={tur.bilder?.[0]?.tur_url}
-                turtype={tur.turtype}
-                varighet={tur.varighet}
-                lat={tur.punkter?.[0]?.[0]}
-                lon={tur.punkter?.[0]?.[1]}
-                snittrating={tur.snittrating}
-                antallAnmeldelser={tur.antall_anmeldelser}
-              />
-            ))}
-          </div>
-        )}
-      </section>
+      <PopulaereTurer turer={populæreTurer} loading={loadingTurer} />
 
       {/* Utforsk på kartet */}
       <section className="home-kart-banner">
@@ -133,32 +48,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Kommende fellesturer */}
-      <section className="home-seksjon">
-        <div className="home-seksjon-header">
-          <h2 className="home-seksjon-tittel">{t("home.kommende_fellesturer")}</h2>
-          <Link to="/fellesturer" className="home-se-alle">
-            {t("home.se_alle")} <FaArrowRight />
-          </Link>
-        </div>
-        {loadingFellesturer ? (
-          <p className="home-laster">{t("home.laster_fellesturer")}</p>
-        ) : kommendeFellesturer.length === 0 ? (
-          <p className="home-ingen">{t("home.ingen_fellesturer")}</p>
-        ) : (
-          <div className="home-kort-grid">
-            {kommendeFellesturer.map((f) => (
-              <FellesturKort
-                key={f.aktivitet_id}
-                fellesturId={f.aktivitet_id}
-                fellesturNavn={f.aktivitet_tittel}
-                dato={f.datoer}
-                bildeUrl={f.bilder?.[0]?.aktivitet_url}
-              />
-            ))}
-          </div>
-        )}
-      </section>
+      <KommendeFellesturer fellesturer={kommendeFellesturer} loading={loadingFellesturer} />
     </div>
   );
 }

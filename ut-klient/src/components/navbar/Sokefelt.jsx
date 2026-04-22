@@ -87,7 +87,7 @@ export default function Sokefelt({ onNavigate }) {
 
       {visDropdown && (
         <div className="sokefelt-dropdown" role="listbox">
-          {loading && <div className="sokefelt-melding">Søker...</div>}
+          {loading && <div className="sokefelt-melding">Søker</div>}
           {error && <div className="sokefelt-melding sokefelt-feil">{error}</div>}
           {!loading && !error && !harTreff && <div className="sokefelt-melding">Ingen treff</div>}
 
