@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { useSok } from "../../hooks/useSok";
 import ArtikkelModal from "../artikkel/modal/ArtikkelModal";
+import { useTranslation } from "react-i18next";
 import "./Sokefelt.css";
 
 const TYPE_ETIKETT = {
@@ -35,6 +36,7 @@ export default function Sokefelt({ onNavigate }) {
   const { resultater, loading, error } = useSok(q);
   const navigate = useNavigate();
   const containerRef = useRef(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleClickUtenfor = (e) => {
@@ -74,7 +76,7 @@ export default function Sokefelt({ onNavigate }) {
         <input
           type="search"
           className="sokefelt-input"
-          placeholder="Søk..."
+          placeholder={t("artikkel.søk_placeholder")}
           value={q}
           onChange={(e) => {
             setQ(e.target.value);
