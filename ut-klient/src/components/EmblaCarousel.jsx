@@ -1,3 +1,8 @@
+/*
+Eivind og emblaCarousel
+*/
+
+
 import React, { useState, useEffect, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { Thumb } from "./EmblaCarouselThumbsButton";

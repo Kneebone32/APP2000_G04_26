@@ -1,3 +1,6 @@
+/*
+Laget av Kay og Eivind
+*/
 import { useState, useEffect } from "react";
 import PageWrapper from "../../components/PageWrapper";
 import { useParams, useNavigate, Link } from "react-router-dom";
@@ -53,6 +56,7 @@ export default function FellesturerDetaljer() {
     if (samtale) navigate("/meldinger", { state: { samtale } });
   };
 
+//Endret for å passe stil, av Eivind 
   return (
     <PageWrapper>
       <div className="fellesturer FellesturerDetaljerSide">

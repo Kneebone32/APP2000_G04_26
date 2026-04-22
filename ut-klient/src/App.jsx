@@ -37,7 +37,7 @@ import Test from "./pages/Test";
 import Sti from "./pages/Sti";
 import Navigasjon from "./pages/Navigasjon";
 
-// Hovedkomponent som setter opp routing for hele applikasjonen. Laget av Olai og Kay.
+// Hovedkomponent som setter opp routing for hele applikasjonen. Laget av Olai, Kay og Eivind.
 export default function App() {
   return (
     <Router>

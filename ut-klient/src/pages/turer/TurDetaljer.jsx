@@ -1,3 +1,6 @@
+/*
+Laget av Eivind og Olai
+*/
 import PageWrapper from "../../components/PageWrapper";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -20,6 +23,7 @@ export default function TurDetaljer() {
   const { turDetaljer: tur, loadingTurer: loading, errorTurer: error } = useFetchTurer({ hentTurID: turId, hentTurRuteID: turId });
   const kanSkriveAnmeldelse = erAutentisert && !turAnmeldelser.some((a) => a.bruker_id === bruker?.bruker_id);
 
+//Redigert av Eivind for å passe styling  
   return (
     <PageWrapper>
       <div className="Turer TurDetaljerSide">

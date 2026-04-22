@@ -1,3 +1,6 @@
+/*
+Laget av Eivind og Olai
+*/
 import PageWrapper from "../../components/PageWrapper";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
