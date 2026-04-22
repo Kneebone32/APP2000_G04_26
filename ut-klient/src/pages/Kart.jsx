@@ -75,15 +75,28 @@ export default function Kart() {
           filter.visFellesturer &&
           filteredFellesturer.map((fellestur) => {
             const key = `fellestur-${fellestur.aktivitet_id}`;
+            const harStier = fellestur.stier?.length > 0;
+            const gpxPunkter = fellestur.gpx?.[0]?.sti_punkter;
+            const gpxMidt = gpxPunkter?.length ? gpxPunkter[Math.floor(gpxPunkter.length / 2)] : null;
+            const markerPos = harStier
+              ? midtpunkt(fellestur.stier[0].sti_punkter)
+              : gpxMidt
+                ? [gpxMidt.breddegrad, gpxMidt.lengdegrad]
+                : null;
+
             return (
               <Fragment key={fellestur.aktivitet_id}>
                 {valgt === key &&
-                  fellestur.stier?.map((sti, index) => (
+                  harStier &&
+                  fellestur.stier.map((sti, index) => (
                     <HoverPolyline key={index} punkter={sti.sti_punkter.map((p) => [p.breddegrad, p.lengdegrad])} />
                   ))}
-                {midtpunkt(fellestur.stier?.[0]?.sti_punkter) && (
+                {valgt === key && !harStier && gpxPunkter?.length > 0 && (
+                  <HoverPolyline punkter={gpxPunkter.map((p) => [p.breddegrad, p.lengdegrad])} />
+                )}
+                {markerPos && (
                   <Marker
-                    position={midtpunkt(fellestur.stier[0].sti_punkter)}
+                    position={markerPos}
                     icon={
                       fellestur.datoer?.some((d) => d.er_last_for_pamelding)
                         ? fellesTurIconFull
@@ -115,14 +128,23 @@ export default function Kart() {
           filter.visTurer &&
           filteredTurer.map((tur) => {
             const visTurID = `tur-${tur.tur_id}`;
+            const harStier = tur.stier?.length > 0;
+            const gpxPunkter = tur.gpx?.[0]?.sti_punkter;
+            const gpxMidt = gpxPunkter?.length ? gpxPunkter[Math.floor(gpxPunkter.length / 2)] : null;
+            const markerPos = harStier ? midtpunkt(tur.stier[0].punkter) : gpxMidt ? [gpxMidt.breddegrad, gpxMidt.lengdegrad] : null;
+
             return (
               <Fragment key={tur.tur_id}>
                 {valgt === visTurID &&
-                  tur.stier?.map((sti, index) => (
-                    <HoverPolyline visTurID={sti.sti_id ?? index} punkter={sti.punkter.map((p) => [p.breddegrad, p.lengdegrad])} />
+                  harStier &&
+                  tur.stier.map((sti, index) => (
+                    <HoverPolyline key={sti.sti_id ?? index} punkter={sti.punkter.map((p) => [p.breddegrad, p.lengdegrad])} />
                   ))}
-                {midtpunkt(tur.stier?.[0]?.punkter) && (
-                  <Marker position={midtpunkt(tur.stier[0].punkter)} icon={turIcon} eventHandlers={{ click: () => toggleValgt(visTurID) }}>
+                {valgt === visTurID && !harStier && gpxPunkter?.length > 0 && (
+                  <HoverPolyline punkter={gpxPunkter.map((p) => [p.breddegrad, p.lengdegrad])} />
+                )}
+                {markerPos && (
+                  <Marker position={markerPos} icon={turIcon} eventHandlers={{ click: () => toggleValgt(visTurID) }}>
                     <Popup>
                       <strong>{tur.tur_navn}</strong>
                       <br />

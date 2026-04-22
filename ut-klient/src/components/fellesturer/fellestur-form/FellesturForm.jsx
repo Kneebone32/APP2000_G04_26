@@ -53,9 +53,7 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
   const [rabattFrist, setRabattFrist] = useState(lagretData.rabatt_frist ? new Date(lagretData.rabatt_frist) : null);
 
   const { isOpen: kalenderÅpen, open: åpneKalender, close: lukkKalender } = useModal();
-
   const { isOpen: værvarselÅpen, open: åpneVærvarsel, close: lukkVærvarsel } = useModal();
-
   const { isOpen: lagTurÅpen, open: åpneLagTur, close: lukkLagTur } = useModal();
 
   const handleDatoChange = (dato) => {

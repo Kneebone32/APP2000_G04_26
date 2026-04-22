@@ -43,6 +43,8 @@ export default function KartLagTur({
   setTurmålITuren,
   setStierITuren,
   setNyeStier,
+  pendingNyStiPunkter,
+  setPendingNyStiPunkter,
 }) {
   const { hytter } = useFetchHytter({ autoFetch: true });
   const { turmål } = useTurmål({ autoFetch: true });
@@ -51,8 +53,6 @@ export default function KartLagTur({
   const [forrigeObjekt, setForrigeObjekt] = useState(null);
   const [objektRekkefølge, setObjektRekkefølge] = useState([]);
   const [stierRekkefølge, setStierRekkefølge] = useState([]);
-  const [pendingNyStiPunkter, setPendingNyStiPunkter] = useState([]);
-
   //Ser om det finnes en Sti mellom to punkter
   const finnRuteMellomPunkter = (objektA, objektB) => {
     const objektAKoord = [objektA.breddegrad, objektA.lengdegrad];

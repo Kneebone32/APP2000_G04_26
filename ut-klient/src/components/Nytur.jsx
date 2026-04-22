@@ -19,8 +19,13 @@ export default function Nytur({
 }) {
   const { t } = useTranslation();
   const [resetRute, setResetRute] = useState(0);
+  const [pendingNyStiPunkter, setPendingNyStiPunkter] = useState([]);
 
   const handleLagre = () => {
+    if (pendingNyStiPunkter.length > 0) {
+      setNyeStier((prev) => [...prev, pendingNyStiPunkter]);
+      setPendingNyStiPunkter([]);
+    }
     onLagreKoordinater?.(rutePunkter);
   };
 
@@ -51,6 +56,7 @@ export default function Nytur({
               setTurmålITuren([]);
               setStierITuren([]);
               setNyeStier([]);
+              setPendingNyStiPunkter([]);
               setResetRute((k) => k + 1);
             }}
             className="rute-knapp rute-knapp-tøm"
@@ -84,6 +90,8 @@ export default function Nytur({
         setTurmålITuren={setTurmålITuren}
         setStierITuren={setStierITuren}
         setNyeStier={setNyeStier}
+        pendingNyStiPunkter={pendingNyStiPunkter}
+        setPendingNyStiPunkter={setPendingNyStiPunkter}
       />
     </div>
   );
