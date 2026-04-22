@@ -131,14 +131,14 @@ export default function Kart() {
             const harStier = tur.stier?.length > 0;
             const gpxPunkter = tur.gpx?.[0]?.sti_punkter;
             const gpxMidt = gpxPunkter?.length ? gpxPunkter[Math.floor(gpxPunkter.length / 2)] : null;
-            const markerPos = harStier ? midtpunkt(tur.stier[0].punkter) : gpxMidt ? [gpxMidt.breddegrad, gpxMidt.lengdegrad] : null;
+            const markerPos = harStier ? midtpunkt(tur.stier[0].sti_punkter) : gpxMidt ? [gpxMidt.breddegrad, gpxMidt.lengdegrad] : null;
 
             return (
               <Fragment key={tur.tur_id}>
                 {valgt === visTurID &&
                   harStier &&
                   tur.stier.map((sti, index) => (
-                    <HoverPolyline key={sti.sti_id ?? index} punkter={sti.punkter.map((p) => [p.breddegrad, p.lengdegrad])} />
+                    <HoverPolyline key={sti.sti_id ?? index} punkter={sti.sti_punkter.map((p) => [p.breddegrad, p.lengdegrad])} />
                   ))}
                 {valgt === visTurID && !harStier && gpxPunkter?.length > 0 && (
                   <HoverPolyline punkter={gpxPunkter.map((p) => [p.breddegrad, p.lengdegrad])} />
