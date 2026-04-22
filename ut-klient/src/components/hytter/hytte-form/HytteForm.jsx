@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import { useEnums } from "../../../hooks/useEnums";
 import { useKategorier } from "../../../hooks/useKategorier";
 import { useFileUpload } from "../../../hooks/useFileUpload";
@@ -70,7 +71,7 @@ export default function HytteForm({ lagretData = {}, onSubmitAction, buttonTekst
       setKoordinat(koord);
       close();
     } else {
-      alert(`Terrengtypen til koordinatene er ${lokalHøydeData.terreng}. Vennligst velg gyldige koordinater`);
+      toast.error(`Terrengtypen til koordinatene er ${lokalHøydeData.terreng}. Vennligst velg gyldige koordinater`);
     }
   };
 
@@ -78,19 +79,13 @@ export default function HytteForm({ lagretData = {}, onSubmitAction, buttonTekst
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (
-      !navn.trim() ||
-      !sengeplasser ||
-      sengeplasser < 1 ||
-      sengeplasser > 25 ||
-      !beskrivelse.trim() ||
-      !selectedBetjeningsgrad ||
-      !koordinat ||
-      Number(pris) < 0
-    ) {
-      alert(t("hytter.fyll_ut_felt"));
-      return;
-    }
+    if (!navn.trim() || !/^[A-Za-zØÆÅøæå\s]{3,20}$/.test(navn.trim())) { toast.error(t("hytter.feil_navn")); return; }
+    if (!sengeplasser || !Number.isInteger(Number(sengeplasser)) || Number(sengeplasser) < 1 || Number(sengeplasser) > 25) { toast.error(t("hytter.feil_sengeplasser")); return; }
+    if (Number(pris) < 0) { toast.error(t("hytter.feil_pris")); return; }
+    if (!beskrivelse.trim() || beskrivelse.trim().length < 20) { toast.error(t("hytter.feil_beskrivelse")); return; }
+    if (!selectedBetjeningsgrad) { toast.error(t("hytter.feil_betjeningsgrad")); return; }
+    if (!koordinat) { toast.error(t("hytter.feil_koordinat")); return; }
+
 
     onSubmitAction({
       navn,
@@ -111,7 +106,7 @@ export default function HytteForm({ lagretData = {}, onSubmitAction, buttonTekst
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="hytte-form">
+      <form onSubmit={handleSubmit} className="hytte-form" noValidate>
         <div className="input-container">
           <label className="input">
             {t("felles.navn")}:
