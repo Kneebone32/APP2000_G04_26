@@ -1,6 +1,13 @@
 {
   "velkommen": "Velkommen til UT.ut",
 
+  "sokefelt": {
+    "placeholder": "Søk",
+    "laster": "Søker",
+    "ingen_treff": "Ingen treff",
+    "aria_label": "Globalt søk"
+  },
+
   "nav": {
     "hjem": "Hjem",
     "turer": "Turer",

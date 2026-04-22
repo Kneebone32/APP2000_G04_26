@@ -1,6 +1,13 @@
 {
   "velkommen": "Welcome to UT.ut",
   
+  "sokefelt": {
+    "placeholder": "Search",
+    "laster": "Searching",
+    "ingen_treff": "No results",
+    "aria_label": "Global search"
+  },
+
   "nav": {
     "hjem": "Home",
     "turer": "Trips",

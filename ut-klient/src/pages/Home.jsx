@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useFetchTurer } from "../hooks/useFetchTurer";
 import { useFellestur } from "../hooks/useFellesturer";
 import { tilfeldigBilde } from "../constants/heroBilder";
-import { hentKommendeFellesturer } from "../utils/fellesturUtils";
+import { hentKommendeFellesturer } from "../utils/fellesturUtils.jsx";
 import HomeHero from "../components/home/HomeHero";
 import PopulaereTurer from "../components/home/PopulaereTurer";
 import KommendeFellesturer from "../components/home/KommendeFellesturer";

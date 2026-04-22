@@ -11,7 +11,7 @@ import Logginn from "../autentisering/Logginn";
 import { toast } from "react-toastify";
 import RegisterBruker from "../autentisering/RegistrerBruker";
 import NavbarRoller from "./NavbarRoller";
-import Sokefelt from "./Sokefelt";
+import Sokefelt from "../sok/Sokefelt";
 import ArtikkelModal from "../artikkel/modal/ArtikkelModal";
 import { ARTIKKEL_SLUG } from "../../constants/konstanter";
 import { useVarsler } from "../../hooks/useVarsler";

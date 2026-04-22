@@ -2,7 +2,7 @@
 
 import { FaCamera } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
-import Sokefelt from "../navbar/Sokefelt";
+import Sokefelt from "../sok/Sokefelt";
 
 export default function HomeHero({ bilde }) {
   const { t } = useTranslation();
