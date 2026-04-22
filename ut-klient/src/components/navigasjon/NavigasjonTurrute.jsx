@@ -32,8 +32,9 @@ export default function TurNavigasjon({ turId, fellesturId }) {
   const turPunkter = useMemo(() => {
     if (turId) {
       const tur = turer.find((t) => t.tur_id === Number(turId));
+      console.log(tur);
       if (!tur?.stier) return [];
-      return tur.stier.flatMap((sti) => (sti.punkter || []).map((p) => [p.breddegrad, p.lengdegrad]));
+      return tur.stier.flatMap((sti) => (sti.sti_punkter || []).map((p) => [p.breddegrad, p.lengdegrad]));
     }
     if (fellesturId && fellestur?.stier) {
       return fellestur.stier.flatMap((sti) => (sti.sti_punkter || []).map((p) => [p.breddegrad, p.lengdegrad]));
