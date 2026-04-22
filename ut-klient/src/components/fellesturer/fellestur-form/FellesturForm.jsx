@@ -167,7 +167,7 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
 
   return (
     <>
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handleFormSubmit} noValidate>
         {/*Rute/GPX. Vises ikke i editModus*/}
         {!editModus && (
           <>
