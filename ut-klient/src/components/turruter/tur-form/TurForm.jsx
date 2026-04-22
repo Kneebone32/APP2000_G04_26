@@ -81,7 +81,7 @@ export default function TurForm({ lagretData = {}, onSubmitAction, buttonTekst, 
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!navn.trim() || !/^[A-Za-zØÆÅøæå\s]{3,20}$/.test(navn.trim())) { toast.error(t("tur.feil_navn")); return; }
@@ -89,6 +89,8 @@ export default function TurForm({ lagretData = {}, onSubmitAction, buttonTekst, 
     if (!selectedTurtype) { toast.error(t("tur.feil_turtype")); return; }
     if (!selectedVarighet) { toast.error(t("tur.feil_varighet")); return; }
     if (!lagredeKoordinater) { toast.error(t("tur.feil_rute")); return; }
+
+    const nyeStierMedMoh = await Promise.all(nyeStierITuren.map((rute) => byggPunkterMedMoh(rute)));
 
     onSubmitAction({
       navn,
@@ -105,6 +107,8 @@ export default function TurForm({ lagretData = {}, onSubmitAction, buttonTekst, 
       hytter: hytterITuren,
       turmaal: turmålITuren,
       stier: stierITuren,
+      nyeStier: nyeStierMedMoh,
+      gpx: gpxKoords,
       ruteLengde: totalRuteLengde,
     });
   };

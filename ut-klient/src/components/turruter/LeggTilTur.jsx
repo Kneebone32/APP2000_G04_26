@@ -25,6 +25,9 @@ export default function LeggTilTur({ onSuccess }) {
                 hytter: formData.hytter?.map(h => h.hytte_id),
                 turmaal: formData.turmaal?.map(t => t.turmaal_id),
                 stier: formData.stier,
+                nyeStier: formData.nyeStier,
+                gpx: formData.gpx,
+                ruteLengde: formData.ruteLengde,
             });
             alert(t("tur.tur_lagt_til"));
             if (onSuccess) onSuccess();
