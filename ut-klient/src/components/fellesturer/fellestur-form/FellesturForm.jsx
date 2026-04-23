@@ -114,8 +114,14 @@ export default function FellesturForm({ lagretData = {}, onSubmitAction, buttonT
       return toast.error(t("fellestur_form.feil_minst_en_dato"));
     }
 
-    if (!tittel || !beskrivelse || tittel.length < 1 || beskrivelse.length < 20) {
-      return toast.error("Vennligst fyll ut alle feltene");
+    const tittelRegex = /^[A-Za-zØÆÅøæå0-9\s,.!?-]{3,100}$/;
+    const beskrivelseRegex = /^[\s\S]{20,1000}$/;
+
+    if (!tittelRegex.test(tittel)) {
+      return toast.error("Tittel må være mellom 3 og 100 tegn og kan bare inneholde bokstaver, tall og enkel tegnsetting");
+    }
+    if (!beskrivelseRegex.test(beskrivelse)) {
+      return toast.error("Beskrivelse må være mellom 20 og 1000 tegn");
     }
 
     if (pris < 1) {

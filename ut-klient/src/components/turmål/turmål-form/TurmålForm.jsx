@@ -7,6 +7,7 @@ import { hentHøydeMåling, hentKommuneData } from "../../../utils/geoUtils";
 import TempBilde from "../../TempBilde";
 import BildeOpplasting from "../../BildeOpplasting";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import "./TurmålForm.css";
 
 //Bygger opp alt som skal være med for å opprette ett Turmål. Laget av Kay
@@ -52,6 +53,12 @@ export default function TurmålForm({ lagretData = {}, onSubmitAction, buttonTek
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
+    const tittelRegex = /^[A-Za-zØÆÅøæå0-9\s,.!?-]{3,100}$/;
+    if (!tittelRegex.test(tittel)) {
+      toast.error(t("turmål.tittel_feil"));
+      return;
+    }
+
     const turmåldata = {
       turmaal_navn: tittel,
       koordinater: lagretKoordinat,
@@ -68,7 +75,7 @@ export default function TurmålForm({ lagretData = {}, onSubmitAction, buttonTek
   };
 
   return (
-    <form onSubmit={handleFormSubmit}>
+    <form onSubmit={handleFormSubmit} noValidate>
       <div className="input-container">
         <label className="input">
           {t("turmål.navn")}
