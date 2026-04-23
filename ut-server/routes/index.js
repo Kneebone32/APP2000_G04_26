@@ -17,6 +17,7 @@ import annonseRoutes from './annonse.js';
 import favorittRoutes from './favoritter.js';
 import artikkelRoutes from './artikkel.js'
 import sokRoutes from './sok.js';
+import adminRoutes from './admin.js';
 
 const router = express.Router();
 
@@ -36,5 +37,6 @@ router.use('/annonser', annonseRoutes);
 router.use('/favoritter', favorittRoutes);
 router.use('/artikkel', artikkelRoutes);
 router.use('/sok', sokRoutes);
+router.use('/admin', adminRoutes);
 
 export default router;
