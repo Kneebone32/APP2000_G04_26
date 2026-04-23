@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import TurNavigasjon from "../components/navigasjon/NavigasjonTurrute";
 import Kart_basic from "../components/kart/KartBasic";
 
+//Navigasjonsside. Laget av Kay
 export default function Navigasjon() {
   const { turId, fellesturId } = useParams();
 

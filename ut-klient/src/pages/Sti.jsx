@@ -9,6 +9,7 @@ import { useStier } from "../hooks/useStier";
 import { toast } from "react-toastify";
 import { byggPunkterMedMoh, hentKommuneData } from "../utils/geoUtils";
 
+//Enkel side for å opprette Stier. Laget av Kay
 export default function Test2() {
   const { hytter } = useFetchHytter({ autoFetch: true });
   const { turmål } = useTurmål({ autoFetch: true });

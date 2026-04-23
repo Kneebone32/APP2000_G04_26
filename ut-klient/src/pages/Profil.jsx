@@ -5,6 +5,7 @@ import RedigerRolle from "../components/profil/rediger/RedigerRolle";
 import { useTranslation } from "react-i18next";
 import "./Profil.css";
 
+//Profilside. Laget av Kay
 export default function Profil() {
   const { t } = useTranslation();
 

@@ -3,14 +3,12 @@ import RedigerFellestur from "../../components/fellesturer/rediger/RedigerFelles
 import SlettFellestur from "../../components/fellesturer/slett/SlettFellestur";
 import LåsDato from "../../components/fellesturer/lås-dato/LåsDato";
 import LåsFellestur from "../../components/fellesturer/lås-fellestur/LåsFellestur";
-//import { useFellesturer } from "../hooks/useFellesturer";
 import PageWrapper from "../../components/PageWrapper";
 import { useTranslation } from "react-i18next";
 import "./FellesturModerator.css";
 
 //Basert på HytteModerator.jsx. Laget av Kay og Olai
 export default function FellesturModerator({ fellesturer } = {}) {
-  //const { refetch } = useFellesturer(true);
   const { t } = useTranslation();
 
   return (

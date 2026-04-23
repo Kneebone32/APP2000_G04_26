@@ -9,6 +9,7 @@ import { regnUtTotalLengde, hentHøydeMåling } from "../utils/geoUtils";
 import BildeOpplasting from "../components/BildeOpplasting";
 import TempBilde from "../components/TempBilde";
 
+//Testside for å teste forskjellige komponenter og funksjoner. Laget av Kay
 export default function Test() {
   const { isOpen, open, close } = useModal();
   const [rutePunkter, setRutePunkter] = useState([]);

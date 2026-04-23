@@ -4,6 +4,7 @@ import { formatFellesturDato } from "../../utils/datoUtils";
 import { DATO_STATUS } from "../../constants/konstanter";
 import "./FellesturKort.css";
 
+//Laget av Kay. Basert på HytteKort.jsx
 export default function FellesturKort({ fellesturId, fellesturNavn, bildeUrl, dato, startDato, sluttDato }) {
   const { t } = useTranslation();
 
@@ -37,9 +38,13 @@ export default function FellesturKort({ fellesturId, fellesturNavn, bildeUrl, da
                     <u>{t("fellesturkort.dato_valgt")}</u>
                   </strong>
                 )}
-                <p className="startdato">{t("fellesturkort.start")} {formatFellesturDato(enkeltDato?.aktivitet_start_dato)}</p>
+                <p className="startdato">
+                  {t("fellesturkort.start")} {formatFellesturDato(enkeltDato?.aktivitet_start_dato)}
+                </p>
                 {enkeltDato?.aktivitet_slutt_dato && enkeltDato.aktivitet_slutt_dato != enkeltDato.aktivitet_start_dato && (
-                  <p className="sluttdato">{t("fellesturkort.slutt")} {formatFellesturDato(enkeltDato.aktivitet_slutt_dato)}</p>
+                  <p className="sluttdato">
+                    {t("fellesturkort.slutt")} {formatFellesturDato(enkeltDato.aktivitet_slutt_dato)}
+                  </p>
                 )}
               </>
             )}
