@@ -1,3 +1,5 @@
+// Laget av Sander
+
 import express from 'express';
 import passport from 'passport';
 import pool from '../config/db.js';
